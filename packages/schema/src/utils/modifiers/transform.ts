@@ -34,7 +34,9 @@ export const transform = <I, O, T>(
 			const result = schema.parse(input);
 			if (!result.success) {
 				// Forward errors
-				result.issues.forEach(issue => addIssue(ctx, issue));
+				result.issues.forEach((issue) => {
+					addIssue(ctx, issue);
+				});
 				return;
 			}
 			try {
@@ -43,15 +45,18 @@ export const transform = <I, O, T>(
 			} catch (error) {
 				addIssue(ctx, {
 					code: "transformation_error",
-					message: options.message
-						|| `Transformation failed: ${error instanceof Error ? error.message : String(error)}`,
+					message:
+						options.message ||
+						`Transformation failed: ${error instanceof Error ? error.message : String(error)}`,
 				});
 			}
 			return { success: true, data: ctx.data };
 		},
 		{
 			...(options.name !== undefined ? { name: options.name } : {}),
-			...(schema._metadata.name !== undefined ? { name: schema._metadata.name } : {}),
+			...(schema._metadata.name !== undefined
+				? { name: schema._metadata.name }
+				: {}),
 		},
 	) as unknown as Schema<I, T>;
 };
@@ -73,24 +78,26 @@ export const withDefault = <I, O>(
 	schema: Schema<I, O>,
 	defaultValue: O | (() => O),
 ): Schema<I | undefined, O> => {
-	return createSchema<I | undefined, O>(
-		(input, ctx) => {
-			if (input === undefined) {
-				const value = typeof defaultValue === "function" ? (defaultValue as () => O)() : defaultValue;
-				ctx.data = value;
-				return;
-			}
+	return createSchema<I | undefined, O>((input, ctx) => {
+		if (input === undefined) {
+			const value =
+				typeof defaultValue === "function"
+					? (defaultValue as () => O)()
+					: defaultValue;
+			ctx.data = value;
+			return;
+		}
 
-			const result = schema.parse(input);
-			if (!result.success) {
-				// Forward errors
-				result.issues.forEach(issue => addIssue(ctx, issue));
-				return;
-			}
-			ctx.data = result.data;
-		},
-		schema._metadata,
-	) as unknown as Schema<I | undefined, O>;
+		const result = schema.parse(input);
+		if (!result.success) {
+			// Forward errors
+			result.issues.forEach((issue) => {
+				addIssue(ctx, issue);
+			});
+			return;
+		}
+		ctx.data = result.data;
+	}, schema._metadata) as unknown as Schema<I | undefined, O>;
 };
 
 /**
@@ -110,28 +117,30 @@ export const optional = <I, O>(
 	schema: Schema<I, O>,
 	options?: { default?: O | (() => O) },
 ): Schema<I | undefined, O | undefined> => {
-	return createSchema<I | undefined, O | undefined>(
-		(input, ctx) => {
-			if (input === undefined) {
-				if (options?.default !== undefined) {
-					const value = typeof options.default === "function" ? (options.default as () => O)() : options.default;
-					ctx.data = value;
-					return;
-				}
-				ctx.data = undefined;
+	return createSchema<I | undefined, O | undefined>((input, ctx) => {
+		if (input === undefined) {
+			if (options?.default !== undefined) {
+				const value =
+					typeof options.default === "function"
+						? (options.default as () => O)()
+						: options.default;
+				ctx.data = value;
 				return;
 			}
+			ctx.data = undefined;
+			return;
+		}
 
-			const result = schema.parse(input);
-			if (!result.success) {
-				// Forward errors
-				result.issues.forEach(issue => addIssue(ctx, issue));
-				return;
-			}
-			ctx.data = result.data;
-		},
-		schema._metadata,
-	) as unknown as Schema<I | undefined, O | undefined>;
+		const result = schema.parse(input);
+		if (!result.success) {
+			// Forward errors
+			result.issues.forEach((issue) => {
+				addIssue(ctx, issue);
+			});
+			return;
+		}
+		ctx.data = result.data;
+	}, schema._metadata) as unknown as Schema<I | undefined, O | undefined>;
 };
 
 /**
@@ -151,26 +160,28 @@ export const nullable = <I, O>(
 	schema: Schema<I, O>,
 	options?: { default?: O | (() => O) },
 ): Schema<I | null, O | null> => {
-	return createSchema<I | null, O | null>(
-		(input, ctx) => {
-			if (input === null) {
-				if (options?.default !== undefined) {
-					const value = typeof options.default === "function" ? (options.default as () => O)() : options.default;
-					ctx.data = value;
-					return;
-				}
-				ctx.data = null;
+	return createSchema<I | null, O | null>((input, ctx) => {
+		if (input === null) {
+			if (options?.default !== undefined) {
+				const value =
+					typeof options.default === "function"
+						? (options.default as () => O)()
+						: options.default;
+				ctx.data = value;
 				return;
 			}
+			ctx.data = null;
+			return;
+		}
 
-			const result = schema.parse(input);
-			if (!result.success) {
-				// Forward errors
-				result.issues.forEach(issue => addIssue(ctx, issue));
-				return;
-			}
-			ctx.data = result.data;
-		},
-		schema._metadata,
-	) as Schema<I | null, O | null>;
+		const result = schema.parse(input);
+		if (!result.success) {
+			// Forward errors
+			result.issues.forEach((issue) => {
+				addIssue(ctx, issue);
+			});
+			return;
+		}
+		ctx.data = result.data;
+	}, schema._metadata) as Schema<I | null, O | null>;
 };

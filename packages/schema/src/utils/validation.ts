@@ -5,7 +5,7 @@
 export interface Issue {
 	code: string;
 	expected?: string;
-	received?: any;
+	received?: unknown;
 	message?: string;
 	path?: string[];
 	minimum?: number;

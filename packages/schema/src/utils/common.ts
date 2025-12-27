@@ -36,5 +36,5 @@ export const prefixErrorPath = (error: any, prefix: string) => ({
 	path: [prefix, ...(error.path || [])],
 });
 
-export const isArray = (value: unknown): value is unknown[] => 
+export const isArray = (value: unknown): value is unknown[] =>
 	Array.isArray(value);

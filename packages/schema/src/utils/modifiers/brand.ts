@@ -31,7 +31,9 @@ export const brand = <Output, Brand extends string>(
 			const result = schema.parse(input);
 			if (!result.success) {
 				// Forward errors from base schema
-				result.issues.forEach((issue: any) => addIssue(ctx, { message: issue.message }));
+				result.issues.forEach((issue) => {
+					addIssue(ctx, { message: issue.message });
+				});
 				return;
 			}
 
@@ -56,12 +58,14 @@ export const brand = <Output, Brand extends string>(
  * const unbranded: string = unbrand(email);
  * ```
  */
-export const unbrand = <T>(value: T): T extends { __brand: string } ? Omit<T, "__brand"> : T => {
+export const unbrand = <T>(
+	value: T,
+): T extends { __brand: string } ? Omit<T, "__brand"> : T => {
 	if (typeof value === "object" && value !== null && "__brand" in value) {
-		const { __brand: _, ...rest } = value as any;
-		return rest as any;
+		const { __brand: _, ...rest } = value as { __brand: string };
+		return rest as T extends { __brand: string } ? Omit<T, "__brand"> : T;
 	}
-	return value as any;
+	return value as T extends { __brand: string } ? Omit<T, "__brand"> : T;
 };
 
 /**
@@ -82,10 +86,10 @@ export const hasBrand = <T, Brand extends string>(
 	brand: Brand,
 ): value is T & { __brand: Brand } => {
 	return (
-		typeof value === "object"
-		&& value !== null
-		&& "__brand" in value
-		&& (value as any).__brand === brand
+		typeof value === "object" &&
+		value !== null &&
+		"__brand" in value &&
+		(value as { __brand: string }).__brand === brand
 	);
 };
 
@@ -102,7 +106,11 @@ export type Timestamp = number & { __brand: "Timestamp" };
 export const uuidBrand = (schema: Schema<string>) => brand(schema, "UUID");
 export const emailBrand = (schema: Schema<string>) => brand(schema, "Email");
 export const urlBrand = (schema: Schema<string>) => brand(schema, "URL");
-export const positiveNumberBrand = (schema: Schema<number>) => brand(schema, "PositiveNumber");
-export const integerBrand = (schema: Schema<number>) => brand(schema, "Integer");
-export const nonEmptyStringBrand = (schema: Schema<string>) => brand(schema, "NonEmptyString");
-export const timestampBrand = (schema: Schema<number>) => brand(schema, "Timestamp");
+export const positiveNumberBrand = (schema: Schema<number>) =>
+	brand(schema, "PositiveNumber");
+export const integerBrand = (schema: Schema<number>) =>
+	brand(schema, "Integer");
+export const nonEmptyStringBrand = (schema: Schema<string>) =>
+	brand(schema, "NonEmptyString");
+export const timestampBrand = (schema: Schema<number>) =>
+	brand(schema, "Timestamp");

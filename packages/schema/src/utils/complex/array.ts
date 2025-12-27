@@ -4,7 +4,7 @@
  * Type-safe array validation with element schemas
  */
 
-import { type Infer, Schema, SchemaOptions } from "../../types";
+import type { Infer, Schema, SchemaOptions } from "../../types";
 import { createSchema, addIssue } from "../../utils";
 
 /**
@@ -17,7 +17,7 @@ export interface ArrayOptions extends SchemaOptions {
 	readonly nonempty?: boolean;
 	readonly unique?: boolean;
 	readonly sorted?: boolean;
-	readonly distinctBy?: (a: any, b: any) => boolean;
+	readonly distinctBy?: (a: unknown, b: unknown) => boolean;
 }
 
 /**
@@ -33,7 +33,7 @@ export interface ArrayOptions extends SchemaOptions {
  * const names = array(string({ min: 1 }), { nonempty: true });
  * ```
  */
-export const array = <S extends Schema<any, any>>(
+export const array = <S extends Schema<unknown, unknown>>(
 	elementSchema: S,
 	options: ArrayOptions = {},
 ): Schema<Infer<S>[], Infer<S>[]> => {
@@ -100,13 +100,14 @@ export const array = <S extends Schema<any, any>>(
 						});
 					}
 				} else {
-					validatedElements.push(result.data);
+					validatedElements.push(result.data as Infer<S>);
 				}
 			}
 
 			// Additional validations
 			if (options.unique || options.distinctBy) {
-				const distinctFn = options.distinctBy || ((a: any, b: any) => a === b);
+				const distinctFn =
+					options.distinctBy || ((a: unknown, b: unknown) => a === b);
 
 				for (let i = 0; i < validatedElements.length; i++) {
 					const current = validatedElements[i];
@@ -158,7 +159,7 @@ export const array = <S extends Schema<any, any>>(
 /**
  * Non-empty array schema (shorthand)
  */
-export const nonempty = <S extends Schema<any, any>>(
+export const nonempty = <S extends Schema<unknown, unknown>>(
 	elementSchema: S,
 	options: Omit<ArrayOptions, "nonempty"> = {},
 ) => array(elementSchema, { ...options, nonempty: true });

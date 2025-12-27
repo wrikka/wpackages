@@ -11,6 +11,17 @@
 		"functional",
 		"typescript"
 	],
+	"author": "wrikka",
+	"license": "MIT",
+	"homepage": "https://github.com/wrikka/wpackages/tree/main/packages/schema#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wrikka/wpackages.git",
+		"directory": "packages/schema"
+	},
+	"bugs": {
+		"url": "https://github.com/wrikka/wpackages/issues"
+	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
@@ -22,16 +33,18 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsdown --exports --dts --minify",
 		"dev": "tsdown --watch",
+		"format": "biome format --write",
+		"lint": "tsc --noEmit && biome lint --write",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
-		"lint": "tsc --noEmit && oxlint --fix",
-		"review": "bun run format && bun run lint && bun run test && bun run build"
+		"build": "tsdown --exports --dts --minify",
+		"verify": "bun run format && bun run lint && bun run test && bun run build"
 	},
 	"dependencies": {},
 	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
 		"@types/bun": "^1.3.5",
 		"tsconfig-paths": "^4.2.0",
 		"tsdown": "^0.15.12",

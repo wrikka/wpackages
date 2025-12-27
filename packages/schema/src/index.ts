@@ -19,10 +19,8 @@
 // Types
 export type {} from "./types/index.js";
 
-
 // Utils
 export {} from "./utils/index.js";
-
 
 // Constants
 export {} from "./constant/index.js";
