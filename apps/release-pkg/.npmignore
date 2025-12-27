@@ -1,0 +1,41 @@
+# Source files
+src/
+*.test.ts
+*.spec.ts
+vitest.config.ts
+
+# Development files
+.turbo/
+tsconfig.json
+biome.json
+
+# Documentation (keep README.md)
+docs/
+examples/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.tsbuildinfo
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

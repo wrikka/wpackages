@@ -1,0 +1,46 @@
+{
+	"name": "{{PACKAGE_NAME}}",
+	"version": "1.0.0",
+	"description": "{{DESCRIPTION}}",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"bin": {
+		"{{BIN_NAME}}": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "bun run src/index.ts",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"typecheck": "tsc --noEmit",
+		"check": "bun run lint && bun run typecheck && bun run build",
+		"prepublishOnly": "bun run check",
+		"update-deps": "taze -w"
+	},
+	"keywords": [
+		"{{KEYWORDS}}"
+	],
+	"author": "{{AUTHOR}}",
+	"license": "MIT",
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"devDependencies": {
+		"bun-types": "latest",
+		"lefthook": "^1.13.6",
+		"taze": "^0.16.9",
+		"tsdown": "^0.2.17",
+		"typescript": "^5.9.3"
+	},
+	"tsdown": {
+		"entry": [
+			"src/index.ts"
+		],
+		"format": [
+			"esm"
+		],
+		"target": "node18",
+		"clean": true
+	}
+}

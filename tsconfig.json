@@ -1,0 +1,279 @@
+{
+	"compilerOptions": {
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		// Path Aliases for Monorepo
+		"baseUrl": ".",
+		"composite": false,
+		"downlevelIteration": true,
+		// Emit
+		"declaration": true,
+		"declarationMap": true,
+		// Interop Constraints
+		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": false,
+		"isolatedModules": true,
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"noEmit": false,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		// Unused Code
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"paths": {
+			"effect": [
+				"packages/primitives/effect/src"
+			],
+			"models": [
+				"packages/framework/ai/models/src"
+			],
+			"ai-agents": [
+				"packages/framework/ai/agents/src"
+			],
+			"ai-metrics": [
+				"packages/framework/observability/ai-metrics/src"
+			],
+			"ai-models": [
+				"packages/framework/ai/ai-models/src"
+			],
+			// AI
+			"ai-runtime": [
+				"packages/framework/ai/ai-runtime/src"
+			],
+			"auth": [
+				"packages/framework/security/auth/src"
+			],
+			"browser-use": [
+				"packages/adapters/browser-use/src"
+			],
+			"caching": [
+				"packages/caching/src"
+			],
+			"computer-use": [
+				"packages/framework/ai/computer-use/src"
+			],
+			// Config
+			"config-manager": [
+				"packages/lib/config-manager/src"
+			],
+			"data-types": [
+				"packages/utils/src/data-types"
+			],
+			// Infrastructure
+			"database": [
+				"packages/lib/database/src"
+			],
+			"diagram-viz": [
+				"packages/tools/diagram-viz/src"
+			],
+			"email": [
+				"packages/framework/messaging/email/src"
+			],
+			"env-manager": [
+				"packages/lib/env-manager/src"
+			],
+			"error-handling": [
+				"packages/primitives/error-handling/src"
+			],
+			"event-bus": [
+				"packages/framework/messaging/event-bus/src"
+			],
+			"fetch-api": [
+				"packages/lib/fetch-api/src"
+			],
+			"file-system": [
+				"packages/lib/file-system/src"
+			],
+			"functional": [
+				"packages/primitives/functional/src"
+			],
+			"program": [
+				"framework/program/src"
+			],
+			"dns": [
+				"packages/lib/dns/src"
+			],
+			"function": [
+				"packages/primitives/function/src"
+			],
+			"utils": [
+				"packages/utils/src"
+			],
+			"package-manager": [
+				"packages/package-manager/src"
+			],
+			"health-checks": [
+				"packages/framework/observability/health-checks/src"
+			],
+			"loader": [
+				"packages/services/loader/src"
+			],
+			"loader-manager": [
+				"packages/lib/loader-manager/src"
+			],
+			"logger": [
+				"packages/framework/observability/logger/src"
+			],
+			"metrics": [
+				"packages/framework/observability/metrics/src"
+			],
+			"notification": [
+				"packages/framework/messaging/notification/src"
+			],
+			"operators": [
+				"packages/primitives/operators/src"
+			],
+			"parallel": [
+				"packages/lib/parallel/src"
+			],
+			// Extensions
+			"plugins-manager": [
+				"packages/runtime/plugins/src"
+			],
+			"query-date": [
+				"packages/adapters/query-date/src"
+			],
+			// Messaging
+			"queue": [
+				"packages/framework/messaging/queue/src"
+			],
+			"rag": [
+				"packages/framework/ai/rag/src"
+			],
+			"signals-state": [
+				"packages/lib/reactive-state/src"
+			],
+			"retry": [
+				"packages/framework/resilience/retry/src"
+			],
+			"serverless": [
+				"packages/adapters/serverless/src"
+			],
+			// I/O - removed services (package not found)
+			"sms": [
+				"packages/framework/messaging/sms/src"
+			],
+			"stream": [
+				"packages/stream/src"
+			],
+			"watch": [
+				"packages/lib/watch/src"
+			],
+			// Data & State
+			"sync-engine": [
+				"packages/lib/sync-engine/src"
+			],
+			// Dev Tools
+			"tui": [
+				"framework/tui/src"
+			],
+			"tui-command": [
+				"framework/cli-command/src"
+			],
+			"tui-components": [
+				"framework/cli-components/src"
+			],
+			"tui-prompt": [
+				"framework/cli-prompt/src"
+			],
+			// Observability
+			"tracing": [
+				"packages/framework/observability/tracing/src"
+			],
+			"transaction": [
+				"packages/lib/transaction/src"
+			],
+			// Tools
+			"ts-analyzer": [
+				"packages/tools/ts-analyzer/src"
+			],
+			"pure.types": [
+				"packages/pure/types/src"
+			],
+			"schema": [
+				"packages/lib/schema/src"
+			],
+			"pure.analyzer": [
+				"packages/pure/analyzer/src"
+			],
+			"pure.explainer": [
+				"packages/api-integrations/base/src"
+			],
+			"stripe": [
+				"packages/api-integrations/stripe/src"
+			],
+			"sendgrid": [
+				"packages/api-integrations/sendgrid/src"
+			],
+			// Frontend - Vitext Framework
+			"canvas": [
+				"packages/canvas/src"
+			],
+			"vitext-router": [
+				"packages/vitext/plugins/router/src"
+			],
+			"vitext-ssr": [
+				"packages/vitext/vitext-ssr/src"
+			],
+			"vitext-store": [
+				"packages/vitext/plugins/store/src"
+			],
+			"vitext": [
+				"packages/vitext/vitext/src"
+			],
+			"vitext-plugin-gen-usage": [
+				"packages/vitext/plugins/usage/src"
+			],
+			// Runtime
+			"webcontainer": [
+				"packages/runtime/webcontainer/src"
+			],
+			// Adapters
+			"webserver": [
+				"packages/adapters/webserver/src"
+			],
+			"websocket-server": [
+				"packages/server/websocket-server/src"
+			],
+			// Orchestration
+			"workflows": [
+				"packages/orchestration/workflows/src"
+			]
+		},
+		"resolveJsonModule": true,
+		// Performance
+		"skipLibCheck": true,
+		"sourceMap": true,
+		// Type Checking - Strict Mode
+		"strict": true,
+		// Language and Environment
+		"target": "ESNext",
+		"types": [
+			"@types/bun"
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"dist",
+		"build",
+		".turbo",
+		"coverage",
+		"**/*.test.ts",
+		"**/*.spec.ts",
+		"packages/webcontainer",
+		"packages/monorepo",
+		"packages/markdown",
+		"apps/cli/check",
+		"apps/cli/dotfiles-manager",
+		"apps/cli/git"
+	]
+}

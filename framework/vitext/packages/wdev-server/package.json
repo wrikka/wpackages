@@ -1,0 +1,47 @@
+{
+	"name": "dev-server",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"description": "Advanced development server with hot module replacement, built to be better than Vite's dev server",
+	"keywords": [
+		"dev-server",
+		"hot-reload",
+		"development",
+		"server",
+		"typescript"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsdown --dts --minify",
+		"dev": "tsc --noEmit --watch",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"review": "bun run lint && bun run test && bun run build"
+	},
+	"dependencies": {
+		"observability": "workspace:*",
+		"web-server": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.3.5",
+		"@types/node": "^24.10.4",
+		"tsdown": "^0.15.12",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
+}

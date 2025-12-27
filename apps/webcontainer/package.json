@@ -1,0 +1,40 @@
+{
+	"dependencies": {
+		"monorepo": "workspace:*",
+		"effect": "latest"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/node": "^24.10.4",
+		"tsdown": "^0.15.12",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"keywords": [
+		"webcontainer",
+		"container",
+		"sandbox",
+		"isolation",
+		"runtime",
+		"development",
+		"typescript"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"name": "webcontainer",
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "tsdown --watch",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"review": "bun format && bun lint && bun test",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest"
+	},
+	"type": "module",
+	"types": "./dist/index.d.ts",
+	"version": "0.0.1"
+}

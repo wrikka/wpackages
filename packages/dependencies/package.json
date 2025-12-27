@@ -1,0 +1,51 @@
+{
+	"name": "dependencies",
+	"version": "0.0.1",
+	"description": "Universal package manager CLI - Better than ni and taze combined",
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"bin": {
+		"wdep": "./dist/app.js",
+		"wi": "./dist/app.js",
+		"wr": "./dist/app.js",
+		"wx": "./dist/app.js",
+		"wu": "./dist/app.js",
+		"wun": "./dist/app.js"
+	},
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"keywords": [
+		"package-manager",
+		"npm",
+		"yarn",
+		"pnpm",
+		"bun",
+		"deno",
+		"dependencies",
+		"cli",
+		"monorepo",
+		"workspace"
+	],
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "tsdown --watch",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"review": "bun format && bun lint && bun test",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"effect": "^3.19.13",
+		"picocolors": "^1.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^24.10.4",
+		"tsdown": "^0.16.8",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"module": "./dist/index.mjs"
+}

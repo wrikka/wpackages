@@ -1,0 +1,58 @@
+# Dependency directories
+node_modules/
+
+# Build directories
+/dist
+/.output
+dist
+dist-ssr
+**/unpublish
+**/ungit
+**/.vitepress/dist
+**/.vitepress/cache
+**/.vitepress/.temp
+docs/.vitepress/dist
+docs/.vitepress/cache
+docs/.vitepress/.temp
+
+# Environment variables
+.env
+.env.local
+*.local
+
+# Editor directories and files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*storybook.log
+
+# Cache
+.cache/
+.temp/
+.vite/
+
+# Turbo and Obsidian directories
+.turbo/
+.obsidian
+.obsidian/
+
+# Testing
+playwright-report/
+test-results/
+
+# Other
+.trash
+.vercel
+.wrangler
+.continueignore
+*.timestamp-*

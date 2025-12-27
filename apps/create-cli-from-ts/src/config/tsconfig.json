@@ -1,0 +1,74 @@
+{
+	"compilerOptions": {
+		// Modern ESNext configuration for CLI
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["ESNext"],
+
+		// Modern module features
+		"allowImportingTsExtensions": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": false,
+		"resolveJsonModule": true,
+
+		// File handling - TypeScript only
+		"allowJs": false,
+		"checkJs": false,
+
+		// Output configuration
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"removeComments": false,
+		"preserveConstEnums": true,
+
+		// Strict type checking for productivity
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+
+		// Additional productivity checks
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": false,
+
+		// Performance and compatibility
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"tsBuildInfoFile": "./dist/.tsbuildinfo",
+
+		// Bun runtime support
+		"types": ["bun-types"],
+		"moduleDetection": "force"
+	},
+
+	"include": [
+		"src/**/*"
+	],
+
+	"exclude": [
+		"node_modules",
+		"dist",
+		"packages",
+		"**/*.test.ts",
+		"**/*.spec.ts"
+	],
+
+	"ts-node": {
+		"esm": true
+	}
+}

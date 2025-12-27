@@ -1,0 +1,34 @@
+{
+  "name": "wdevtools",
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "node --max-old-space-size=8192 node_modules/nuxt/bin/nuxt.mjs dev --open",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "biome lint --write .",
+    "format": "biome format --write .",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@nuxt/icon": "^2.1.1",
+    "@nuxt/kit": "^4.2.2",
+    "@nuxtjs/color-mode": "^4.0.0",
+    "@pinia/nuxt": "^0.11.3",
+    "@unocss/nuxt": "^66.5.11",
+    "@vue-macros/nuxt": "^3.1.1",
+    "@vueuse/nuxt": "^14.1.0",
+    "nuxt": "^4.2.2",
+    "nuxt-mcp-dev": "^0.3.1",
+    "oxlint": "^1.35.0",
+    "typescript": "^5.9.3",
+    "vite-plugin-checker": "^0.12.0",
+    "vue-tsc": "^3.2.1"
+  },
+  "dependencies": {
+    "isomorphic-git": "^1.36.1",
+    "pathe": "^2.0.3",
+    "unocss": "^66.5.11",
+    "wdev": "workspace:*"
+  }
+}

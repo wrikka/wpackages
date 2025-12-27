@@ -1,0 +1,35 @@
+{
+  "include": [
+    "src/**/*",
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "declaration": true,
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "vitest/globals"
+    ]
+  }
+}

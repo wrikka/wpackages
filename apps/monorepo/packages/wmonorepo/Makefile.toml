@@ -1,0 +1,99 @@
+[tasks.add-targets]
+description = "Add all Rust targets"
+script = [
+    "rustup target add x86_64-unknown-linux-gnu",
+    "rustup target add x86_64-apple-darwin",
+    "rustup target add x86_64-pc-windows-msvc",
+    "rustup target add wasm32-unknown-unknown"
+]
+
+# Build tasks
+[tasks.build]
+description = "Build current platform in debug mode"
+command = "cargo"
+args = ["build"]
+
+[tasks.build-release]
+description = "Build current platform in release mode"
+command = "cargo"
+args = ["build", "--release"]
+
+[tasks.build-wasm]
+description = "Build WASM target"
+command = "cargo"
+args = ["build", "--target", "wasm32-unknown-unknown"]
+
+[tasks.build-win]
+description = "Build Windows target"
+command = "cargo"
+args = ["build", "--target", "x86_64-pc-windows-msvc"]
+
+[tasks.build-all]
+description = "Build all targets (Linux, macOS, Windows, WASM) release"
+dependencies = ["add-targets"]
+script = [
+    "cargo build --target x86_64-unknown-linux-gnu --release",
+    "cargo build --target x86_64-apple-darwin --release",
+    "cargo build --target x86_64-pc-windows-msvc --release",
+    "cargo build --target wasm32-unknown-unknown --release"
+]
+
+# Dev tasks
+[tasks.dev]
+description = "Run project with watch"
+command = "cargo"
+args = ["watch", "-x", "run"]
+
+[tasks.check]
+description = "Check project with watch"
+command = "cargo"
+args = ["watch", "-x", "check"]
+
+# Lint & format
+[tasks.fmt]
+description = "Format project"
+command = "cargo"
+args = ["fmt"]
+
+[tasks.lint]
+description = "Run clippy for all targets"
+command = "cargo"
+args = ["clippy", "--all-targets", "--all-features"]
+
+[tasks.lint-fast]
+description = "Fast lint (oxlint)"
+command = "oxlint"
+
+# Test
+[tasks.test]
+description = "Run tests using nextest"
+command = "nextest"
+args = ["run"]
+
+# Docs
+[tasks.docs]
+description = "Generate docs and open browser"
+command = "cargo"
+args = ["doc", "--open"]
+
+# Cleanup
+[tasks.clean]
+description = "Clean project"
+command = "cargo"
+args = ["clean"]
+
+# Security
+[tasks.audit]
+description = "Run cargo audit"
+command = "cargo"
+args = ["audit"]
+
+# Combined CI task
+[tasks.ci]
+description = "Run CI checks (format, lint, test, audit)"
+script = [
+    "cargo fmt -- --check",
+    "cargo clippy --all-targets --all-features",
+    "nextest run",
+    "cargo audit"
+]

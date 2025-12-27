@@ -1,0 +1,33 @@
+{
+  "name": "formatter",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "wformat": "./dist/cli.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown src/bin/cli.ts --exports --dts --minify",
+    "dev": "tsdown --watch",
+    "lint": "tsc --noEmit && oxlint --fix",
+    "test": "vitest run",
+    "review": "bun lint && bun test && bun build"
+  },
+  "dependencies": {
+    "dprint": "^0.50.2",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.4",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "main": "./dist/cli.js",
+  "module": "./dist/cli.js",
+  "types": "./dist/cli.d.ts",
+  "exports": {
+    ".": "./dist/cli.js",
+    "./package.json": "./package.json"
+  }
+}

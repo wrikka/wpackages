@@ -1,0 +1,50 @@
+{
+	"dependencies": {
+		"@clack/prompts": "^0.7.0",
+		"openai": "^4.104.0"
+	},
+	"description": "Complete CLI toolkit - Commands, Components, and Prompts",
+	"devDependencies": {
+		"@types/bun": "^1.3.5",
+		"@types/node": "^24.10.4",
+		"tsdown": "^0.15.12",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"keywords": [
+		"cli",
+		"command",
+		"prompt",
+		"components",
+		"terminal",
+		"tui",
+		"typescript"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"name": "@wrikka/build-cli",
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"build:all": "bun bin/cli-build.ts all build",
+		"clean:all": "bun bin/cli-build.ts all clean",
+		"dev": "bun --watch src/index.ts",
+		"example:basic": "bun examples/basic.ts",
+		"example:combined": "bun examples/combined.ts",
+		"example:command": "bun examples/command-parser.ts",
+		"example:interactive": "bun examples/interactive.ts",
+		"format:all": "bun bin/cli-build.ts all format",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"lint:all": "bun bin/cli-build.ts all lint",
+		"review": "bun format && bun lint && bun test && bun update:deps",
+		"test": "vitest",
+		"test:all": "bun bin/cli-build.ts all test",
+		"update:deps": "bunx taze -r -w && ni"
+	},
+	"type": "module",
+	"types": "./dist/index.d.ts",
+	"version": "0.0.1"
+}

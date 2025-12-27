@@ -1,0 +1,59 @@
+{
+	"name": "program",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Production-grade functional programming framework with unique focus on resilience patterns and workspace integration",
+	"keywords": [
+		"program",
+		"functional-programming",
+		"fp",
+		"monad",
+		"result",
+		"option",
+		"fiber",
+		"stream",
+		"layer",
+		"di",
+		"concurrency",
+		"resource",
+		"type-safe",
+		"typescript"
+	],
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "tsdown --watch",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"clean": "rm -rf dist *.tsbuildinfo .turbo",
+		"review": "bun format && bun lint && bun test && bun build"
+	},
+	"dependencies": {
+		"config-manager": "workspace:*",
+		"design-pattern": "workspace:*",
+		"error": "workspace:*",
+		"functional": "workspace:*",
+		"reactivity": "workspace:*",
+		"task": "workspace:*",
+		"utils": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^24.10.4",
+		"knip": "^5.77.4",
+		"oxlint": "^1.35.0",
+		"tsdown": "^0.16.8",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"module": "./dist/index.mjs"
+}

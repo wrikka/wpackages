@@ -1,0 +1,21 @@
+{
+	"dependencies": {
+		"webcontainer": "workspace:*",
+		"nuxt": "4.2.1",
+		"vue": "^3.5.26"
+	},
+	"devDependencies": {
+		"nitropack": "^2.12.9",
+		"typescript": "^5.9.3"
+	},
+	"name": "app-webcontainer",
+	"private": true,
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview"
+	},
+	"type": "module",
+	"version": "1.0.0"
+}

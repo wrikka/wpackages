@@ -1,0 +1,89 @@
+import type { Logger } from "../utils/logger";
+
+export type PerformanceStats = {
+	readonly startTime: number;
+	readonly totalReloads: number;
+	readonly totalFileEvents: number;
+	readonly averageReloadTime: number;
+	readonly maxReloadTime: number;
+	readonly minReloadTime: number;
+	readonly watchedFiles: number;
+};
+
+export type PerformanceMonitor = {
+	readonly start: () => void;
+	readonly recordReload: (duration: number) => void;
+	readonly recordFileEvent: () => void;
+	readonly getStats: () => PerformanceStats;
+	readonly getRecommendations: () => string[];
+};
+
+export const createPerformanceMonitor = (
+	logger: Logger,
+): PerformanceMonitor => {
+	const startTime = Date.now();
+	let totalReloads = 0;
+	let totalFileEvents = 0;
+	let totalReloadTime = 0;
+	let maxReloadTime = 0;
+	let minReloadTime = Infinity;
+	let watchedFiles = 0;
+
+	const start = (): void => {
+		logger.info("Performance monitoring started");
+	};
+
+	const recordReload = (duration: number): void => {
+		totalReloads++;
+		totalReloadTime += duration;
+		maxReloadTime = Math.max(maxReloadTime, duration);
+		minReloadTime = Math.min(minReloadTime, duration);
+	};
+
+	const recordFileEvent = (): void => {
+		totalFileEvents++;
+	};
+
+	const getStats = (): PerformanceStats => ({
+		startTime,
+		totalReloads,
+		totalFileEvents,
+		averageReloadTime: totalReloads > 0 ? totalReloadTime / totalReloads : 0,
+		maxReloadTime,
+		minReloadTime: minReloadTime === Infinity ? 0 : minReloadTime,
+		watchedFiles,
+	});
+
+	const getRecommendations = (): string[] => {
+		const recommendations: string[] = [];
+		const stats = getStats();
+
+		if (stats.totalFileEvents > 1000) {
+			recommendations.push(
+				"Consider adding more ignore patterns to reduce file watching overhead",
+			);
+		}
+
+		if (stats.averageReloadTime > 1000) {
+			recommendations.push(
+				"Average reload time is high, consider optimizing your build process",
+			);
+		}
+
+		if (stats.watchedFiles > 10000) {
+			recommendations.push(
+				"Watching too many files, consider reducing the scope of file watching",
+			);
+		}
+
+		return recommendations;
+	};
+
+	return {
+		start,
+		recordReload,
+		recordFileEvent,
+		getStats,
+		getRecommendations,
+	};
+};

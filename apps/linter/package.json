@@ -1,0 +1,35 @@
+{
+  "name": "linter",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "wlint": "./dist/cli.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown --exports --dts --minify",
+    "dev": "tsdown --watch",
+    "lint": "tsc --noEmit && oxlint --fix",
+    "test": "vitest run",
+    "review": "bun lint && bun test && bun build"
+  },
+  "dependencies": {
+    "parser": "workspace:*",
+    "effect": "^3.19.13",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.4",
+    "oxlint": "^1.35.0",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  }
+}

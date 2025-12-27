@@ -1,0 +1,41 @@
+{
+	"name": "concurrency",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Functional concurrency utilities for async operations and parallel processing",
+	"keywords": [
+		"concurrency",
+		"async",
+		"parallel",
+		"functional-programming",
+		"typescript"
+	],
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"dev": "tsdown --watch",
+		"build": "tsdown --exports --dts --minify",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit",
+		"lint": "tsc --noEmit && oxlint --fix",
+		"review": "knip && tsc --noEmit"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/node": "24.10.1",
+		"knip": "^5.77.4",
+		"oxlint": "1.28.0",
+		"tsdown": "^0.16.8",
+		"typescript": "^5.9.3",
+		"vitest": "4.0.8"
+	},
+	"module": "./dist/index.mjs"
+}

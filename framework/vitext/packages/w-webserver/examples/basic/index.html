@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wserver basic example</title>
+</head>
+<body>
+  <h1>wserver basic example</h1>
+  <p>Open the console to see the API response.</p>
+  <script type="module">
+    fetch('/api/hello')
+      .then(res => res.json())
+      .then(data => console.log(data));
+  </script>
+</body>
+</html>

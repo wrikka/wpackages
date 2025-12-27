@@ -1,0 +1,94 @@
+name: Preview Release
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - master
+      - dev
+      - develop
+
+# Automatically cancel previous runs if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Publish Preview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build package
+        run: bun run build
+        continue-on-error: true
+
+      - name: Publish preview
+        id: preview
+        run: |
+          bun x release preview \
+            --pr ${{ github.event.pull_request.number }} \
+            --commit ${{ github.sha }} \
+            --ttl 7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR
+        if: always() && steps.preview.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const commitHash = context.sha.substring(0, 7);
+            const packageName = 'YOUR_PACKAGE';
+            
+            const commentBody = [
+              '## 📦 Preview Package Published',
+              '',
+              `**Commit:** \`${commitHash}\``,
+              '',
+              '### 🚀 Install',
+              '```bash',
+              `npm install https://pkg.pr.new/${packageName}@${prNumber}`,
+              '```',
+              '',
+              '### 📖 Usage',
+              '```bash',
+              '# Using npm',
+              `npm install https://pkg.pr.new/${packageName}@${prNumber}`,
+              '',
+              '# Using bun',
+              `bun add https://pkg.pr.new/${packageName}@${prNumber}`,
+              '',
+              '# Using pnpm',
+              `pnpm add https://pkg.pr.new/${packageName}@${prNumber}`,
+              '```',
+              '',
+              '⏰ *This preview expires in 7 days*'
+            ].join('\n');
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });

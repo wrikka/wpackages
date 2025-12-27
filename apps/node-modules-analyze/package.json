@@ -1,0 +1,25 @@
+{
+  "name": "node-modules-analyze",
+  "module": "dist/index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsup",
+    "dev": "bun run src/index.ts",
+    "start": "bun dist/index.js",
+    "lint": "oxlint .",
+    "check": "bun run lint && bun test",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "cac": "^6.7.14",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.27",
+    "bun-types": "latest",
+    "oxlint": "^0.2.18",
+    "typescript": "^5.9.3"
+  }
+}

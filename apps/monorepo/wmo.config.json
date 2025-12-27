@@ -1,0 +1,12 @@
+{
+  "$schema": "https://wmo.vercel.app/schema.json",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**"]
+    }
+  }
+}

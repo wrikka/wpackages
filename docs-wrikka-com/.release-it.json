@@ -1,0 +1,81 @@
+{
+	"git": {
+		"requireCleanWorkingDir": true,
+		"requireUpstream": false,
+		"requireCommits": true,
+		"commitMessage": "chore(release): ${version} [skip ci]\n\n${changelog}",
+		"tagName": "v${version}",
+		"requireBranch": "main"
+	},
+	"github": {
+		"release": true,
+		"releaseName": "${version}",
+		"releaseNotes": "bunx auto-changelog --stdout --commit-limit false -u --template https://raw.githubusercontent.com/release-it/release-it/main/templates/changelog-compact.hbs"
+	},
+	"npm": {
+		"publish": true
+	},
+	"plugins": {
+		"@release-it/conventional-changelog": {
+			"infile": "CHANGELOG.md",
+			"header": "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## [Unreleased]\n\n## [1.0.0] - 2024-05-19",
+			"context": {
+				"linkCompare": true,
+				"linkReferences": true
+			},
+			"preset": {
+				"name": "conventionalcommits",
+				"types": [
+					{
+						"type": "feat",
+						"section": "✨ Features"
+					},
+					{
+						"type": "fix",
+						"section": "🐛 Bug Fixes"
+					},
+					{
+						"type": "perf",
+						"section": "⚡ Performance"
+					},
+					{
+						"type": "refactor",
+						"section": "♻️ Refactor"
+					},
+					{
+						"type": "docs",
+						"section": "📚 Documentation"
+					},
+					{
+						"type": "style",
+						"section": "💄 Styles"
+					},
+					{
+						"type": "refactor",
+						"section": "♻️ Code Refactoring"
+					},
+					{
+						"type": "test",
+						"section": "✅ Tests"
+					},
+					{
+						"type": "build",
+						"section": "👷 Build System"
+					},
+					{
+						"type": "ci",
+						"section": "🔧 Continuous Integration"
+					},
+					{
+						"type": "chore",
+						"section": "🧹 Chores"
+					}
+				]
+			}
+		}
+	},
+	"hooks": {
+		"before:init": ["bun run lint"],
+		"after:release": "echo 'Successfully released ${name} v${version} to ${repo.repository}.'"
+	}
+}

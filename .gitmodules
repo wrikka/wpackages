@@ -1,0 +1,6 @@
+[submodule "rules"]
+	path = rules
+	url = https://github.com/newkub/rules
+[submodule "docs-wrikka-com"]
+	path = docs-wrikka-com
+	url = https://github.com/newkub/docs-wrikka-com

@@ -1,0 +1,53 @@
+{
+	"$schema": "https://json-schema.org/draft-07/schema#",
+	"release": {
+		"tag": "v",
+		"message": "chore: release v{version}",
+		"changelog": true,
+		"git": true,
+		"publish": true
+	},
+	"preview": {
+		"enabled": true,
+		"registry": "https://pkg.pr.new",
+		"tag": "preview",
+		"ttl": 7,
+		"comment": true,
+		"analytics": true,
+		"playgrounds": [
+			{
+				"name": "React + TypeScript",
+				"framework": "react",
+				"template": "stackblitz/vite-react-ts-starter"
+			},
+			{
+				"name": "Vue 3 + TypeScript",
+				"framework": "vue",
+				"template": "stackblitz/vite-vue-ts-starter"
+			},
+			{
+				"name": "Svelte + TypeScript",
+				"framework": "svelte",
+				"template": "stackblitz/vite-svelte-ts-starter"
+			}
+		],
+		"monorepo": {
+			"autoDetect": true,
+			"changedOnly": true,
+			"ignorePrivate": true,
+			"packages": []
+		},
+		"registries": [
+			{
+				"type": "npm",
+				"url": "https://registry.npmjs.org"
+			}
+		]
+	},
+	"hooks": {
+		"preRelease": "",
+		"postRelease": "",
+		"prePublish": "",
+		"postPublish": ""
+	}
+}

@@ -1,0 +1,7 @@
+# See https://ast-grep.github.io/reference/config.html for more configuration
+ruleDirs:
+  - rules
+# testConfigs:
+#   - testDir: tests
+# utilDirs:
+#   - utils

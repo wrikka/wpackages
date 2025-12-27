@@ -1,0 +1,16 @@
+{
+	"$schema": "https://dprint.dev/schemas/v0.json",
+	"includes": ["**/*.{ts,tsx,js,jsx,json}"],
+	"useTabs": true,
+	"excludes": [
+		"**/node_modules",
+		"**/dist",
+		"**/.turbo",
+		"**/.nuxt",
+		"**/.obsidian"
+	],
+	"plugins": [
+		"https://plugins.dprint.dev/typescript-0.95.12.wasm",
+		"https://plugins.dprint.dev/json-0.21.0.wasm"
+	]
+}

@@ -1,0 +1,17 @@
+# Nitro
+.output
+.nitro
+
+# Nuxt
+.nuxt
+dist
+
+# Node
+node_modules
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local

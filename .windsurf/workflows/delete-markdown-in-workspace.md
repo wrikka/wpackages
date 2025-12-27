@@ -1,0 +1,1 @@
+ลบทุก .md ที่ root workspace/ ยกว้น README.md

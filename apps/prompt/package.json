@@ -1,0 +1,43 @@
+{
+  "name": "@wrikka/prompt",
+  "version": "0.0.1",
+  "private": true,
+  "description": "An elegant and feature-rich command-line prompt library, inspired by @clack/prompts but with 3x more components and a focus on superior UX/UI.",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "scripts": {
+    "build": "tsdown --exports --dts",
+    "dev": "bun --watch src/index.ts",
+    "lint": "oxlint .",
+    "check": "tsc --noEmit",
+    "review": "pnpm run lint && pnpm run check",
+    "example": "bun run examples/basic.tsx",
+    "showcase": "bun run examples/showcase.tsx"
+  },
+  "keywords": [
+    "cli",
+    "prompt",
+    "tui",
+    "terminal",
+    "clack"
+  ],
+  "author": "wrikka",
+  "license": "MIT",
+  "devDependencies": {
+    "oxlint": "^0.4.4",
+    "tsdown": "^0.18.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/react": "^19.2.7",
+    "ink": "^6.6.0",
+    "ink-spinner": "^5.0.0",
+    "picocolors": "^1.1.1",
+    "react": "^19.2.3"
+  },
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  }
+}

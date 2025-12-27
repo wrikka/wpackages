@@ -1,0 +1,40 @@
+{
+	"$schema": ".node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+
+	"assist": {
+		"actions": { "source": { "organizeImports": "on" } }
+	},
+	"files": {
+		"includes": ["**/*.ts", "**/*.vue", "**/*.html", "**/*.css"],
+		"ignoreUnknown": true
+	},
+	"formatter": {
+		"enabled": true
+	},
+	//"plugins": ["./vue.grit", "react.grit"],
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedVariables": "off",
+				"noUnusedFunctionParameters": "off",
+				"noUnusedImports": "off"
+			},
+			"style": {
+				"useNodejsImportProtocol": "off"
+			}
+		},
+		"domains": {
+			"react": "none",
+			"next": "none",
+			"project": "recommended",
+			"test": "recommended"
+		}
+	}
+}
