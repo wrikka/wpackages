@@ -1,5 +1,5 @@
 {
-	"name": "error",
+	"name": "@wts/error",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Type-safe error handling with Result<T, E> - Functional programming approach",
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@effect/schema": "^0.75.5",
 		"effect": "^3.19.13",
-		"functional": "workspace:*"
+		"@wts/functional": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",

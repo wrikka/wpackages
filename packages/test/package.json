@@ -1,5 +1,5 @@
 {
-	"name": "test",
+	"name": "@wts/test",
 	"version": "0.1.0",
 	"description": "Type-safe, functional testing framework with unified unit and E2E testing",
 	"type": "module",

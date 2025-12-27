@@ -25,15 +25,15 @@ export type Schema<TInput, TOutput = TInput> = {
 export type Infer<S extends Schema<any, any>> =
 	S extends Schema<any, infer O> ? O : never;
 export enum ErrorCode {
-	InvalidType,
-	InvalidLiteral,
-	InvalidEnumValue,
-	InvalidString,
-	InvalidNumber,
-	InvalidDate,
-	InvalidObject,
-	InvalidArray,
-	CustomError,
+	InvalidType = 0,
+	InvalidLiteral = 1,
+	InvalidEnumValue = 2,
+	InvalidString = 3,
+	InvalidNumber = 4,
+	InvalidDate = 5,
+	InvalidObject = 6,
+	InvalidArray = 7,
+	CustomError = 8,
 }
 export type StringOptions = {
 	min?: number;

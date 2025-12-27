@@ -143,7 +143,7 @@ export const usePackageFileCreator = () => {
 		}
 
 		// Replace template placeholders
-		let processedPackageJson = packageJsonTemplate
+		const processedPackageJson = packageJsonTemplate
 			.replace(/{{PACKAGE_NAME}}/g, packageStructure.name)
 			.replace(/{{DESCRIPTION}}/g, `Bundled package for ${packageStructure.name}`)
 			.replace(/{{BIN_NAME}}/g, packageStructure.name)

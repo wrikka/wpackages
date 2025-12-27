@@ -28,13 +28,13 @@
 	"dependencies": {
 		"design-pattern": "workspace:*",
 		"effect": "3.19.3",
-		"error": "workspace:*",
+		"@wts/error": "workspace:*",
 		"fp-ts": "^2.16.11",
-		"functional": "workspace:*",
+		"@wts/functional": "workspace:*",
 		"io-ts": "^2.2.22",
 		"picocolors": "^1.1.1",
 		"program": "workspace:*",
-		"utils": "workspace:*",
+		"@wts/utils": "workspace:*",
 		"zod": "4.1.12"
 	},
 	"description": "Terminal UI toolkit - Unified interface for CLI command, display, and prompts",

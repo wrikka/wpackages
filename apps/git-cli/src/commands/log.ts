@@ -100,17 +100,19 @@ async function showCommitActions(commit: GitLogEntry) {
 
 	try {
 		switch (action) {
-			case "diff":
+			case "diff": {
 				const { stdout: diff } = await execa("git", ["show", commit.hash, "--stat"]);
 				console.log(pc.cyan("Changes:"));
 				console.log(pc.dim(diff));
 				break;
+			}
 
-			case "details":
+			case "details": {
 				const { stdout: details } = await execa("git", ["show", commit.hash, "--no-patch", "--format=fuller"]);
 				console.log(pc.cyan("Full Details:"));
 				console.log(pc.dim(details));
 				break;
+			}
 
 			case "checkout":
 				await execa("git", ["checkout", commit.hash]);
@@ -127,7 +129,7 @@ async function showCommitActions(commit: GitLogEntry) {
 				console.log(pc.green(`✓ Cherry-picked commit: ${pc.cyan(commit.hash.substring(0, 7))}`));
 				break;
 
-			case "amend":
+			case "amend": {
 				// For amending, we need to check if this is the current HEAD
 				const { stdout: headHash } = await execa("git", ["rev-parse", "HEAD"]);
 				if (headHash.trim() === commit.hash) {
@@ -137,19 +139,21 @@ async function showCommitActions(commit: GitLogEntry) {
 					console.log(pc.yellow(`⚠️  Can only amend current HEAD commit`));
 				}
 				break;
+			}
 
 			case "rebase-interactive":
 				await execa("git", ["rebase", "-i", `${commit.hash}^`]);
 				console.log(pc.green(`✓ Started interactive rebase from: ${pc.cyan(commit.hash.substring(0, 7))}`));
 				break;
 
-			case "create-tag":
+			case "create-tag": {
 				const tagName = `v${Date.now()}`;
 				await execa("git", ["tag", tagName, commit.hash]);
 				console.log(
 					pc.green(`✓ Created tag ${pc.blue(`'${tagName}'`)} for commit: ${pc.cyan(commit.hash.substring(0, 7))}`),
 				);
 				break;
+			}
 
 			case "export-patch":
 				await execa("git", ["format-patch", "-1", commit.hash, "-o", "./patches"]);
@@ -162,7 +166,7 @@ async function showCommitActions(commit: GitLogEntry) {
 				console.log(pc.green(`✓ Copied hash: ${pc.cyan(commit.hash.substring(0, 7))}`));
 				break;
 
-			case "revert":
+			case "revert": {
 				const confirmRevert = await select({
 					message: `Revert commit "${commit.message}"?`,
 					options: [
@@ -176,8 +180,9 @@ async function showCommitActions(commit: GitLogEntry) {
 					console.log(pc.green(`✓ Reverted commit: ${pc.cyan(commit.hash.substring(0, 7))}`));
 				}
 				break;
+			}
 
-			case "reset":
+			case "reset": {
 				const resetMode = await select({
 					message: "Choose reset mode:",
 					options: [
@@ -193,6 +198,7 @@ async function showCommitActions(commit: GitLogEntry) {
 					console.log(pc.green(`✓ Reset to commit: ${pc.cyan(commit.hash.substring(0, 7))}`));
 				}
 				break;
+			}
 		}
 	} catch (error: any) {
 		console.log(pc.red(`✗ Action failed: ${error.message}`));

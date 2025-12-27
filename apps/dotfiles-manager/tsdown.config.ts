@@ -10,7 +10,7 @@ export default defineConfig({
 		hooks.hook("build:prepare", async () => {
 			try {
 				const { zodToJsonSchema } = await import("zod-to-json-schema");
-				const { configSchema } = await import("./src/types/config");
+				const { configSchema } = await import("./src/types/config.ts");
 
 				const schema = zodToJsonSchema(configSchema as any, {
 					name: "DotfilesConfig",

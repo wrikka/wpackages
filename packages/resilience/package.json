@@ -1,5 +1,5 @@
 {
-	"name": "resilience",
+	"name": "@wts/resilience",
 	"version": "0.1.0",
 	"description": "Resilience patterns and fault tolerance utilities built with functional programming",
 	"type": "module",

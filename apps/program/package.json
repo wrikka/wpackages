@@ -39,13 +39,14 @@
 		"review": "bun format && bun lint && bun test && bun build"
 	},
 	"dependencies": {
-		"config-manager": "workspace:*",
-		"design-pattern": "workspace:*",
-		"error": "workspace:*",
-		"functional": "workspace:*",
-		"signal": "workspace:*",
-		"task": "workspace:*",
-		"utils": "workspace:*"
+		"@wts/config-manager": "workspace:*",
+		"@wts/dependencies": "workspace:*",
+		"@wts/error": "workspace:*",
+		"@wts/functional": "workspace:*",
+		"@wts/resilience": "workspace:*",
+		"@w/signal": "workspace:*",
+		"@wts/test": "workspace:*",
+		"@wts/utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.4",

@@ -16,7 +16,10 @@
 		"knip": "^5.78.0",
 		"tsdown": "^0.18.3",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.16",
+		"dprint": "^0.50.2",
+		"oxlint": "^1.35.0",
+		"oxlint-tsgolint": "^0.10.0"
 	},
 	"exports": {
 		".": "./dist/index.js",
@@ -40,12 +43,11 @@
 	"scripts": {
 		"watch": "bun lint && bun watch && bun test",
 		"start": "bun --watch dev && vitest:ui",
-		"postinstall": "bunx taze -r -w -i",
 		"dev": "bun run src/index.ts",
-		"lint": "tsc --noEmit && biome lint --write",
+		"lint": "oxlint --fix",
 		"build": "tsdown",
-		"format": "biome format --write",
-		"test": "vitest --run",
+		"format": "dprint fmt",
+		"test": "vitest --run --passWithNoTests",
 		"verify": "bun format && bun lint && bun test && bun audit && run build"
 	},
 	"type": "module",

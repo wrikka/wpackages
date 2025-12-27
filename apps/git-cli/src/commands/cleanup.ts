@@ -146,7 +146,7 @@ export async function gitCleanupCommand(): Promise<void> {
 					console.log(pc.green("  ✓ Pruned stale branches"));
 					break;
 
-				case "untracked-files":
+				case "untracked-files": {
 					console.log(pc.cyan("Removing untracked files..."));
 					console.log(pc.yellow("  Files to delete:"));
 					untrackedFiles.slice(0, 10).forEach(file => {
@@ -171,6 +171,7 @@ export async function gitCleanupCommand(): Promise<void> {
 						console.log(pc.yellow("  ⚠ Skipped untracked files"));
 					}
 					break;
+				}
 
 				case "gc":
 					console.log(pc.cyan("Running garbage collection..."));

@@ -19,7 +19,7 @@
 			"dependsOn": ["^prepare"]
 		},
 		"lint": {
-			"dependsOn": ["^format"],
+			"dependsOn": ["^build"],
 			"cache": false
 		},
 		"test": {

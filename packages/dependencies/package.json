@@ -1,5 +1,5 @@
 {
-	"name": "dependencies",
+	"name": "@wts/dependencies",
 	"version": "0.0.1",
 	"description": "Universal package manager CLI - Better than ni and taze combined",
 	"type": "module",

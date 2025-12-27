@@ -78,7 +78,7 @@ export const parallelCollect = async <T>(
 	for (const result of results) {
 		if (result.success && result.value !== undefined) {
 			success.push(result.value);
-		} else if (result.error) {
+		} else if (!result.success) {
 			errors.push(result.error);
 		}
 	}

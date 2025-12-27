@@ -32,9 +32,9 @@
 		"review": "knip && tsc --noEmit"
 	},
 	"dependencies": {
-		"functional": "workspace:*",
-		"resilience": "workspace:*",
-		"utils": "workspace:*"
+		"@wts/functional": "workspace:*",
+		"@wts/resilience": "workspace:*",
+		"@wts/utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "24.10.1",

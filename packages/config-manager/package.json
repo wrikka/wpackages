@@ -1,5 +1,5 @@
 {
-  "name": "config-manager",
+  "name": "@wts/config-manager",
   "version": "0.0.1",
   "private": true,
   "main": "index.ts"

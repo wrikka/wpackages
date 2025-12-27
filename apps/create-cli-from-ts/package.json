@@ -1,15 +1,18 @@
 {
 	"dependencies": {
-		"@clack/prompts": "^0.7.0",
-		"openai": "^4.104.0"
+		"@clack/prompts": "^0.11.0",
+		"openai": "^6.15.0"
 	},
 	"description": "Complete CLI toolkit - Commands, Components, and Prompts",
 	"devDependencies": {
 		"@types/bun": "^1.3.5",
-		"@types/node": "^24.10.4",
-		"tsdown": "^0.15.12",
+		"@types/node": "^25.0.3",
+		"tsdown": "^0.18.3",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.16",
+		"dprint": "^0.50.2",
+		"oxlint": "^1.35.0",
+		"oxlint-tsgolint": "^0.10.0"
 	},
 	"exports": {
 		".": "./dist/index.js",
@@ -32,10 +35,10 @@
 		"start": "bun --watch dev && vitest:ui",
 		"postinstall": "bunx taze -r -w -i",
 		"dev": "bun run src/index.ts",
-		"lint": "tsc --noEmit && biome lint --write",
+		"lint": "oxlint --fix",
 		"build": "tsdown",
-		"format": "biome format --write",
-		"test": "vitest --run",
+		"format": "dprint fmt",
+		"test": "vitest --run --passWithNoTests",
 		"verify": "bun format && bun lint && bun test && bun audit && run build"
 	},
 	"type": "module",

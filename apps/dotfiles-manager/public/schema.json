@@ -1,9 +1,7 @@
 {
-	"$ref": "#/definitions/DotfilesConfig",
-	"definitions": {
-		"DotfilesConfig": {
-			"type": "string"
-		}
-	},
-	"$schema": "http://json-schema.org/draft-07/schema#"
+  "$ref": "#/definitions/DotfilesConfig",
+  "definitions": {
+    "DotfilesConfig": {}
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }
