@@ -2,6 +2,17 @@
   "name": "webserver",
   "packageManager": "bun@1.3.5",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./vite-plugin-wserver": {
+      "types": "./src/vite-plugin-wserver/index.ts",
+      "default": "./src/vite-plugin-wserver/index.ts"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "dev": "bun run src/index.ts",
     "bench": "bun benches/run.ts",

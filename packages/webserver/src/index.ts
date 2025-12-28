@@ -12,7 +12,7 @@ const searchStringifier = fastJson({
   }
 });
 
-const echoStringifier = fastJson({
+const _echoStringifier = fastJson({
   type: 'object',
   properties: {
     received: { type: 'object', additionalProperties: true }

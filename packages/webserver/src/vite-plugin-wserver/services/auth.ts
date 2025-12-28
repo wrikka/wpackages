@@ -17,7 +17,7 @@ export function createAuthMiddleware(options: WServerOptions) {
 			}
 			try {
 				await jwtVerify(token, secret);
-			} catch (_error) {
+			} catch {
 				setResponseStatus(event, 401);
 				return "Invalid token";
 			}
