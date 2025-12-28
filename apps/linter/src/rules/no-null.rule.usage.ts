@@ -93,4 +93,3 @@ console.log("- Simpler type checking (just check for undefined)");
 console.log("- null is a legacy feature from Java");
 console.log("- Functional programming prefers Option<T> = T | undefined");
 console.log("- Avoids null vs undefined confusion");
-

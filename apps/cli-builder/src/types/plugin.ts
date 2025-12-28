@@ -1,6 +1,6 @@
-import type { Command } from './index';
+import type { Command } from "./index";
 
 export interface Plugin {
-  name: string;
-  commands: Command[];
+	name: string;
+	commands: Command[];
 }

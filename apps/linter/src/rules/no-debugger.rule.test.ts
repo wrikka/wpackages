@@ -60,4 +60,3 @@ const debugMode = false;
 		expect(noDebugger.meta.fixable).toBe(true);
 	});
 });
-

@@ -76,7 +76,7 @@ export const makeDuplicatesCheckerService = () => {
 								existing.push(block);
 							}
 						}
-					// eslint-disable-next-line no-unused-vars
+						// eslint-disable-next-line no-unused-vars
 					} catch (_) {
 						// Ignore file parsing errors - some files might have syntax issues
 					}

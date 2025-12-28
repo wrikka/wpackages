@@ -11,11 +11,11 @@ import type { LintMessage, Rule } from "../types";
  */
 export const isValidRule = (rule: Rule): boolean => {
 	return (
-		typeof rule.meta === "object"
-		&& typeof rule.meta.name === "string"
-		&& rule.meta.name.trim() !== ""
-		&& typeof rule.meta.category === "string"
-		&& typeof rule.check === "function"
+		typeof rule.meta === "object" &&
+		typeof rule.meta.name === "string" &&
+		rule.meta.name.trim() !== "" &&
+		typeof rule.meta.category === "string" &&
+		typeof rule.check === "function"
 	);
 };
 
@@ -31,10 +31,10 @@ export const filterValidRules = (rules: Rule[]): Rule[] => {
  */
 export const isValidFilePath = (path: string): boolean => {
 	return (
-		typeof path === "string"
-		&& path.trim() !== ""
-		&& !path.includes("..")
-		&& !path.startsWith("/")
+		typeof path === "string" &&
+		path.trim() !== "" &&
+		!path.includes("..") &&
+		!path.startsWith("/")
 	);
 };
 

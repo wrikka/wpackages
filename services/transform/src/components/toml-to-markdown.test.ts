@@ -4,7 +4,7 @@ import { TomlToMarkdownTransformer } from "./toml-to-markdown";
 describe("TomlToMarkdownTransformer", () => {
 	describe("transform", () => {
 		it("should transform simple TOML to markdown list", () => {
-			const toml = 'name = "test"\nversion = "1.0.0"';
+			const toml = "name = \"test\"\nversion = \"1.0.0\"";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("- **name**:");
@@ -12,7 +12,7 @@ describe("TomlToMarkdownTransformer", () => {
 		});
 
 		it("should transform TOML sections to markdown headings", () => {
-			const toml = '[package]\nname = "my-app"\nversion = "0.1.0"';
+			const toml = "[package]\nname = \"my-app\"\nversion = \"0.1.0\"";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("### package");
@@ -20,14 +20,14 @@ describe("TomlToMarkdownTransformer", () => {
 		});
 
 		it("should handle nested sections", () => {
-			const toml = '[database]\n[database.connection]\nhost = "localhost"';
+			const toml = "[database]\n[database.connection]\nhost = \"localhost\"";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("###");
 		});
 
 		it("should format values correctly", () => {
-			const toml = '[config]\nport = 8080\nenabled = true';
+			const toml = "[config]\nport = 8080\nenabled = true";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("- **port**: 8080");
@@ -60,14 +60,14 @@ describe("TomlToMarkdownTransformer", () => {
 		});
 
 		it("should handle TOML with arrays", () => {
-			const toml = 'colors = ["red", "green", "blue"]';
+			const toml = "colors = [\"red\", \"green\", \"blue\"]";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("### colors");
 		});
 
 		it("should handle multiple sections", () => {
-			const toml = '[section1]\nkey1 = "value1"\n[section2]\nkey2 = "value2"';
+			const toml = "[section1]\nkey1 = \"value1\"\n[section2]\nkey2 = \"value2\"";
 			const result = TomlToMarkdownTransformer.transform(toml);
 
 			expect(result).toContain("### section1");

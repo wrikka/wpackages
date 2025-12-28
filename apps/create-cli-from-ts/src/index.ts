@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { confirm, intro, note, outro, spinner, text } from "@clack/prompts";
+import { type CliConfig, createCli } from "cli-builder";
 import * as path from "path";
 import { renderDependencies, renderFileTree } from "./components/file-tree-renderer";
 import { ERROR_MESSAGES, HELP_TEXT, SPINNER_MESSAGES, SUCCESS_MESSAGES } from "./constant";
@@ -117,17 +118,105 @@ const useBuildPackage = () => {
   };
 };
 
-async function main() {
+const normalizeArgvForBackwardCompatibility = () => {
   const args = process.argv.slice(2);
 
-  if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
-    console.log(HELP_TEXT);
+  if (args.length === 0) {
     return;
   }
 
-  const entryFile = args[0]!;
-  const buildPackage = useBuildPackage();
-  await buildPackage(entryFile);
+  if (args[0] === "build") {
+    return;
+  }
+
+  if (args[0]?.startsWith("-")) {
+    return;
+  }
+
+  if (
+    args[0]
+    && (args[0].endsWith(".ts") || args[0].endsWith(".tsx") || args[0].endsWith(".js") || args[0].endsWith(".jsx"))
+  ) {
+    process.argv = [process.argv[0]!, process.argv[1]!, "build", "--entry", args[0], ...args.slice(1)];
+  }
+};
+
+const config: CliConfig = {
+  name: "create-cli-from-ts",
+  version: "0.0.1",
+  commands: [
+    {
+      name: "build",
+      description: "Bundle a TypeScript entry file into a distributable package",
+      options: [
+        { name: "--entry", shorthand: "-e", description: "Path to entry .ts file", required: true },
+        { name: "--name", shorthand: "-n", description: "Output package name (default: entry basename)" },
+        { name: "--ai", description: "Enable AI enhancement", defaultValue: false },
+        { name: "--openaiKey", description: "OpenAI API key (implies --ai)" },
+      ],
+      action: async (args: Record<string, unknown>) => {
+        const entryFile = args.entry as string | undefined;
+        if (!entryFile) {
+          console.log(HELP_TEXT);
+          return;
+        }
+
+        const packageNameFromArgs = typeof args.name === "string" ? args.name : undefined;
+        const buildPackage = useBuildPackage();
+
+        if (packageNameFromArgs) {
+          const options: BuildPCOptions = {
+            aiMode: Boolean(args.ai) || Boolean(args.openaiKey),
+            openaiKey: typeof args.openaiKey === "string" ? args.openaiKey : undefined,
+          };
+
+          const s = spinner();
+          s.start(SPINNER_MESSAGES.ANALYZING);
+
+          try {
+            const result = await buildPackageLogic(entryFile, packageNameFromArgs, options);
+            const { state, packagesDir } = result;
+            s.stop(SPINNER_MESSAGES.ANALYSIS_COMPLETE);
+
+            note(renderFileTree(state.allFiles, process.cwd()), `Found ${state.allFiles.length} files`);
+
+            if (state.detectedDependencies.size > 0) {
+              note(
+                renderDependencies(state.detectedDependencies),
+                `Detected ${state.detectedDependencies.size} dependencies`,
+              );
+            }
+
+            note(
+              [
+                `${SUCCESS_MESSAGES.LOCATION} ${path.relative(process.cwd(), packagesDir)}`,
+                SUCCESS_MESSAGES.DEPENDENCIES,
+                SUCCESS_MESSAGES.BUILD_TOOL,
+                SUCCESS_MESSAGES.CODE_QUALITY,
+                SUCCESS_MESSAGES.GIT_HOOKS,
+              ].join("\n"),
+              SUCCESS_MESSAGES.PACKAGE_CREATED,
+            );
+
+            outro(SUCCESS_MESSAGES.COMPLETED);
+          } catch (error) {
+            s.stop(SPINNER_MESSAGES.ANALYSIS_COMPLETE);
+            console.error(`${ERROR_MESSAGES.BUNDLING_ERROR}`, error);
+            process.exit(1);
+          }
+
+          return;
+        }
+
+        await buildPackage(entryFile);
+      },
+    },
+  ],
+};
+
+async function main() {
+  normalizeArgvForBackwardCompatibility();
+  await createCli(config);
 }
 
 if (import.meta.main) {

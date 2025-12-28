@@ -1,4 +1,3 @@
-import pc from "picocolors";
 import React from "react";
 import {
 	ConfirmPrompt,
@@ -7,7 +6,6 @@ import {
 	MultiSelectPrompt,
 	Note,
 	NumberPrompt,
-	PasswordPrompt,
 	RatingPrompt,
 	SelectPrompt,
 	SliderPrompt,
@@ -35,7 +33,7 @@ async function main() {
 		return;
 	}
 
-	const favoriteFeature = await prompt(
+	await prompt(
 		SelectPrompt,
 		{
 			message: "What is your favorite feature so far?",
@@ -48,7 +46,7 @@ async function main() {
 		"text",
 	);
 
-	const featuresToImprove = await prompt(
+	await prompt(
 		MultiSelectPrompt,
 		{
 			message: "Which features would you like to see improved? (Space to select, Enter to submit)",
@@ -61,17 +59,17 @@ async function main() {
 		[],
 	);
 
-	const age = await prompt(NumberPrompt, { message: "How old are you?", min: 18, max: 99 }, 25);
+	await prompt(NumberPrompt, { message: "How old are you?", min: 18, max: 99 }, 25);
 
-	const satisfaction = await prompt(SliderPrompt, { message: "How satisfied are you?", max: 10 }, 5);
+	await prompt(SliderPrompt, { message: "How satisfied are you?", max: 10 }, 5);
 
-	const enableNotifications = await prompt(TogglePrompt, { message: "Enable notifications?" }, false);
+	await prompt(TogglePrompt, { message: "Enable notifications?" }, false);
 
-	const projectRating = await prompt(RatingPrompt, { message: "Rate this project (out of 5 stars)" }, 3);
+	await prompt(RatingPrompt, { message: "Rate this project (out of 5 stars)" }, 3);
 
-	const releaseDate = await prompt(DatePrompt, { message: "Pick a release date for your project" }, new Date());
+	await prompt(DatePrompt, { message: "Pick a release date for your project" }, new Date());
 
-	const meetingTime = await prompt(TimePrompt, { message: "Schedule a follow-up meeting" }, new Date());
+	await prompt(TimePrompt, { message: "Schedule a follow-up meeting" }, new Date());
 
 	await prompt(LoadingSpinner, { message: "Saving your preferences..." });
 

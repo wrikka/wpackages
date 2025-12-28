@@ -14,13 +14,27 @@ import { CustomError, type CustomErrorOptions } from '../../error';
 export function createErrorFactory<T extends Record<string, unknown>>(
   errorName: string,
 ) {
+  const reservedKeys = new Set<string>([
+    'name',
+    'message',
+    'cause',
+    'context',
+    'stack',
+  ]);
+
+  const assignExtraFields = (target: Record<string, unknown>, source: Record<string, unknown>) => {
+    for (const [key, value] of Object.entries(source)) {
+      if (reservedKeys.has(key)) continue;
+      target[key] = value;
+    }
+  };
+
   const NewError = class extends CustomError {
 
     constructor(options: CustomErrorOptions & T) {
       super(options);
       this.name = errorName;
-      // Assign all properties from options to this instance
-      Object.assign(this, options);
+      assignExtraFields(this as Record<string, unknown>, options);
     }
   };
 

@@ -5,10 +5,10 @@ export type ParallelOptions = {
 
 export type ParallelResult<T> =
 	| {
-			success: true;
-			value: T;
+		success: true;
+		value: T;
 	}
 	| {
-			success: false;
-			error: Error;
+		success: false;
+		error: Error;
 	};

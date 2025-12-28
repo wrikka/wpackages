@@ -42,13 +42,17 @@ describe("FileSystemService", () => {
 	it("should handle non-existent directory", async () => {
 		const program = service.readdir("/non/existent/path");
 
-		await expect(Effect.runPromise(program)).rejects.toThrow("Failed to read directory");
+		await expect(Effect.runPromise(program)).rejects.toThrow(
+			"Failed to read directory",
+		);
 	});
 
 	it("should handle non-existent file", async () => {
 		const program = service.readFile("/non/existent/file.ts");
 
-		await expect(Effect.runPromise(program)).rejects.toThrow("Failed to read file");
+		await expect(Effect.runPromise(program)).rejects.toThrow(
+			"Failed to read file",
+		);
 	});
 
 	it("should return Dirent objects with file types", async () => {

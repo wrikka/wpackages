@@ -7,7 +7,8 @@ try {
 	const pm = process.env.npm_execpath || "bun";
 	execSync(`${pm} run lint`, { stdio: "inherit" });
 	console.log("Lint check passed.");
-} catch (_error) {
+} catch (error) {
+	console.error(error);
 	console.error("Pre-commit hook failed: Lint check failed.");
 	process.exit(1);
 }

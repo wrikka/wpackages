@@ -69,4 +69,3 @@ setInterval(() => console.log('safe'), 1000);
 		expect(noUnsafeEval.meta.fixable).toBe(false);
 	});
 });
-

@@ -1,7 +1,7 @@
 import { Effect, Layer } from "@wts/functional";
 import { Console, Random } from "./services";
 
-export const program = Effect.gen(function* () {
+export const program = Effect.gen(function*() {
 	const random = yield Effect.get(Random);
 	const consoleSvc = yield Effect.get(Console);
 	const n = yield random.next();

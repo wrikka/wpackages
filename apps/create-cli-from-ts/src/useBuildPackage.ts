@@ -133,16 +133,31 @@ export const usePackageFileCreator = () => {
       }
     }
 
-    // Replace template placeholders
-    const processedPackageJson = packageJsonTemplate
-      .replace(/{{PACKAGE_NAME}}/g, packageStructure.name)
-      .replace(/{{DESCRIPTION}}/g, `Bundled package for ${packageStructure.name}`)
-      .replace(/{{BIN_NAME}}/g, packageStructure.name)
-      .replace(/{{KEYWORDS}}/g, "cli,typescript,bundler")
-      .replace(/{{AUTHOR}}/g, mainPackageJson.author || "Unknown")
-      .replace(/{{DEPENDENCIES}}/g, JSON.stringify(dependencies, null, 2));
+    // Create package.json from template (parse + mutate) to keep valid JSON
+    let templatePackageJson: MainPackageJson = {};
+    try {
+      templatePackageJson = JSON.parse(packageJsonTemplate) as MainPackageJson;
+    } catch (error) {
+      console.warn(
+        "⚠️ Could not parse package.json template, falling back to minimal package.json",
+        error instanceof Error ? error.message : String(error),
+      );
+      templatePackageJson = {};
+    }
 
-    fs.writeFileSync(path.join(packagesDir, "package.json"), processedPackageJson);
+    const finalPackageJson: MainPackageJson = {
+      ...templatePackageJson,
+      name: packageStructure.name,
+      description: `Bundled package for ${packageStructure.name}`,
+      author: mainPackageJson.author || (templatePackageJson.author as string | undefined) || "Unknown",
+      dependencies,
+      bin: {
+        ...(templatePackageJson as any).bin,
+        [packageStructure.name]: "./dist/index.js",
+      },
+    };
+
+    fs.writeFileSync(path.join(packagesDir, "package.json"), JSON.stringify(finalPackageJson, null, 2));
 
     // Copy config files
     const configFiles = ["tsconfig.json", "biome.jsonc", "lefthook.yml"];

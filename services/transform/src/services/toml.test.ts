@@ -4,7 +4,7 @@ import { TomlParser } from "./toml";
 describe("TomlParser", () => {
 	describe("parse", () => {
 		it("should parse simple key-value pairs", () => {
-			const toml = 'name = "test"\nversion = "1.0.0"';
+			const toml = "name = \"test\"\nversion = \"1.0.0\"";
 			const result = TomlParser.parse(toml) as { name: string; version: string };
 
 			expect(result.name).toBe("test");
@@ -12,7 +12,7 @@ describe("TomlParser", () => {
 		});
 
 		it("should parse sections", () => {
-			const toml = '[package]\nname = "my-app"\nversion = "0.1.0"';
+			const toml = "[package]\nname = \"my-app\"\nversion = \"0.1.0\"";
 			const result = TomlParser.parse(toml) as { package: { name: string; version: string } };
 
 			expect(result.package).toBeDefined();
@@ -21,7 +21,7 @@ describe("TomlParser", () => {
 		});
 
 		it("should parse nested sections", () => {
-			const toml = '[database]\n[database.connection]\nhost = "localhost"\nport = 5432';
+			const toml = "[database]\n[database.connection]\nhost = \"localhost\"\nport = 5432";
 			const result = TomlParser.parse(toml) as { database: { connection: { host: string; port: number } } };
 
 			expect(result.database.connection.host).toBe("localhost");
@@ -29,14 +29,14 @@ describe("TomlParser", () => {
 		});
 
 		it("should parse arrays", () => {
-			const toml = 'colors = ["red", "green", "blue"]';
+			const toml = "colors = [\"red\", \"green\", \"blue\"]";
 			const result = TomlParser.parse(toml) as { colors: string[] };
 
 			expect(result.colors).toEqual(["red", "green", "blue"]);
 		});
 
 		it("should parse numbers", () => {
-			const toml = 'integer = 42\nfloat = 3.14';
+			const toml = "integer = 42\nfloat = 3.14";
 			const result = TomlParser.parse(toml) as { integer: number; float: number };
 
 			expect(result.integer).toBe(42);
@@ -44,7 +44,7 @@ describe("TomlParser", () => {
 		});
 
 		it("should parse booleans", () => {
-			const toml = 'enabled = true\ndisabled = false';
+			const toml = "enabled = true\ndisabled = false";
 			const result = TomlParser.parse(toml) as { enabled: boolean; disabled: boolean };
 
 			expect(result.enabled).toBe(true);
@@ -52,7 +52,7 @@ describe("TomlParser", () => {
 		});
 
 		it("should throw error on invalid TOML", () => {
-			const toml = '[invalid\nkey = value';
+			const toml = "[invalid\nkey = value";
 
 			expect(() => TomlParser.parse(toml)).toThrow("Failed to parse TOML");
 		});
@@ -63,8 +63,8 @@ describe("TomlParser", () => {
 			const obj = { name: "test", version: "1.0.0" };
 			const result = TomlParser.stringify(obj);
 
-			expect(result).toContain('name = "test"');
-			expect(result).toContain('version = "1.0.0"');
+			expect(result).toContain("name = \"test\"");
+			expect(result).toContain("version = \"1.0.0\"");
 		});
 
 		it("should stringify nested objects as sections", () => {
@@ -72,7 +72,7 @@ describe("TomlParser", () => {
 			const result = TomlParser.stringify(obj);
 
 			expect(result).toContain("[package]");
-			expect(result).toContain('name = "my-app"');
+			expect(result).toContain("name = \"my-app\"");
 		});
 
 		it("should stringify arrays", () => {

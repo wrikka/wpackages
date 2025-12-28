@@ -40,3 +40,6 @@ pids
 # Coverage
 coverage
 .nyc_output
+
+# Examples output
+/example-generated-cli

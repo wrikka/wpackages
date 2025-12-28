@@ -15,37 +15,39 @@ import type { LintMessage, Rule, RuleContext } from "../types";
  * @param severity - The severity level
  * @returns A function that checks source code
  */
-export const createRegexRuleChecker = (
-	ruleId: string,
-	pattern: RegExp,
-	message: string,
-	severity: "error" | "warning" | "info" = "warning",
-) => (context: RuleContext): LintMessage[] => {
-	const { sourceCode } = context;
-	const messages: LintMessage[] = [];
-	const lines = sourceCode.split("\n");
+export const createRegexRuleChecker =
+	(
+		ruleId: string,
+		pattern: RegExp,
+		message: string,
+		severity: "error" | "warning" | "info" = "warning",
+	) =>
+	(context: RuleContext): LintMessage[] => {
+		const { sourceCode } = context;
+		const messages: LintMessage[] = [];
+		const lines = sourceCode.split("\n");
 
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i];
-		if (!line) continue;
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			if (!line) continue;
 
-		let match: RegExpExecArray | null;
-		const regex = new RegExp(pattern);
-		while (true) {
-			match = regex.exec(line);
-			if (match === null) break;
-			messages.push({
-				ruleId,
-				severity,
-				message,
-				line: i + 1,
-				column: match.index,
-			});
+			let match: RegExpExecArray | null;
+			const regex = new RegExp(pattern);
+			while (true) {
+				match = regex.exec(line);
+				if (match === null) break;
+				messages.push({
+					ruleId,
+					severity,
+					message,
+					line: i + 1,
+					column: match.index,
+				});
+			}
 		}
-	}
 
-	return messages;
-};
+		return messages;
+	};
 
 /**
  * Create a rule with metadata
@@ -54,10 +56,7 @@ export const createRegexRuleChecker = (
  * @param check - The check function
  * @returns A complete rule
  */
-export const createRule = (
-	meta: Rule["meta"],
-	check: Rule["check"],
-): Rule => ({
+export const createRule = (meta: Rule["meta"], check: Rule["check"]): Rule => ({
 	meta,
 	check,
 });

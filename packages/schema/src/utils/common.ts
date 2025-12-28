@@ -2,7 +2,7 @@
  * Common utilities
  */
 
-import type { Result, Schema, ValidationContext, Issue } from "../types";
+import type { Issue, Result, Schema, ValidationContext } from "../types";
 import { createSchema as createSchemaWithTransform } from "./create-schema";
 
 // The context object used during validation.
@@ -55,5 +55,4 @@ export const prefixErrorPath = (error: Issue, prefix: string): Issue => ({
 	path: [prefix, ...(error.path || [])],
 });
 
-export const isArray = (value: unknown): value is unknown[] =>
-	Array.isArray(value);
+export const isArray = (value: unknown): value is unknown[] => Array.isArray(value);

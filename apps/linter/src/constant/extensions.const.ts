@@ -28,4 +28,5 @@ export const isTypeScriptFile = (filename: string): boolean =>
 export const isJavaScriptFile = (filename: string): boolean =>
 	JAVASCRIPT_EXTENSIONS.some((ext) => filename.endsWith(ext));
 
-export const isJsxFile = (filename: string): boolean => filename.endsWith(".tsx") || filename.endsWith(".jsx");
+export const isJsxFile = (filename: string): boolean =>
+	filename.endsWith(".tsx") || filename.endsWith(".jsx");

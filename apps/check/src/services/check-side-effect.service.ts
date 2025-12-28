@@ -45,8 +45,7 @@ export const makeSideEffectCheckerService = () => {
 				// Check each file for side effects
 				for (const file of files) {
 					const content = yield* Effect.tryPromise({
-						catch: (error) =>
-							error instanceof Error ? error : new Error(`Failed to read ${file}`),
+						catch: (error) => error instanceof Error ? error : new Error(`Failed to read ${file}`),
 						try: () => readFile(file, "utf-8"),
 					});
 

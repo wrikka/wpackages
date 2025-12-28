@@ -19,15 +19,24 @@
     "esModuleInterop": true,
     "target": "ES2022",
     "forceConsistentCasingInFileNames": true,
-    "rootDir": "./src",
+    "rootDir": "../..",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@w/design-pattern": [
+        "../../packages/design-pattern/src"
+      ],
+      "@wts/*": [
+        "../../packages/*/src",
+        "../../services/*/src",
+        "../../apps/*/src"
       ]
     },
     "outDir": "./dist",
     "skipLibCheck": true,
     "types": [
+      "bun",
       "node",
       "vitest/globals"
     ]

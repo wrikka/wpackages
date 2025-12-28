@@ -27,7 +27,7 @@ describe("TypeScriptToMarkdownTransformer", () => {
 		});
 
 		it("should handle import statements", () => {
-			const code = 'import { x } from "module";';
+			const code = "import { x } from \"module\";";
 			const result = TypeScriptToMarkdownTransformer.transform(code);
 
 			expect(result).toContain("```typescript");

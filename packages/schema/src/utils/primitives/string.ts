@@ -7,19 +7,14 @@
 // Mocked utils for now
 const isString = (val: unknown): val is string => typeof val === "string";
 const isEmail = (val: string): boolean => /^\S+@\S+\.\S+$/.test(val);
-const isUrl = (val: string): boolean =>
-	/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(val);
-const isUuid = (val: string): boolean =>
-	/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val);
+const isUrl = (val: string): boolean => /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(val);
+const isUuid = (val: string): boolean => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val);
 
 const ERROR_MESSAGES = {
 	EXPECTED_STRING: "Expected a string",
-	STRING_TOO_SHORT: (min: number) =>
-		`String must be at least ${min} characters long`,
-	STRING_TOO_LONG: (max: number) =>
-		`String must be at most ${max} characters long`,
-	STRING_PATTERN_MISMATCH: (pattern: RegExp) =>
-		`String does not match pattern: ${pattern}`,
+	STRING_TOO_SHORT: (min: number) => `String must be at least ${min} characters long`,
+	STRING_TOO_LONG: (max: number) => `String must be at most ${max} characters long`,
+	STRING_PATTERN_MISMATCH: (pattern: RegExp) => `String does not match pattern: ${pattern}`,
 	INVALID_EMAIL: "Invalid email format",
 	INVALID_URL: "Invalid URL format",
 	INVALID_UUID: "Invalid UUID format",
@@ -189,17 +184,14 @@ export const string = (options: StringOptions = {}): Schema<string, string> => {
 /**
  * Email schema (shorthand)
  */
-export const email = (options: SchemaOptions = {}) =>
-	string({ ...options, email: true });
+export const email = (options: SchemaOptions = {}) => string({ ...options, email: true });
 
 /**
  * URL schema (shorthand)
  */
-export const url = (options: SchemaOptions = {}) =>
-	string({ ...options, url: true });
+export const url = (options: SchemaOptions = {}) => string({ ...options, url: true });
 
 /**
  * UUID schema (shorthand)
  */
-export const uuid = (options: SchemaOptions = {}) =>
-	string({ ...options, uuid: true });
+export const uuid = (options: SchemaOptions = {}) => string({ ...options, uuid: true });

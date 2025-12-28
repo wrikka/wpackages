@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { intro, outro, multiselect, spinner, isCancel } from "@clack/prompts";
+import { intro, isCancel, multiselect, outro, spinner } from "@clack/prompts";
 import { Effect } from "effect";
 import { runChecker } from "../app";
 import type { CheckType } from "../types/index";

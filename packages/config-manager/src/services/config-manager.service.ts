@@ -12,7 +12,7 @@ import type { ConfigLayer, ConfigOptions, LoadedConfig } from "../types/config";
 import type { EncryptionConfig, EnvSchema } from "../types/env";
 import { decryptValue } from "../utils/encryption.utils";
 import { expandEnv } from "../utils/expansion.utils";
-import { castValue, validateEnv } from "../utils/validate.utils";
+import { validateEnv } from "../utils/validate.utils";
 import { loadConfig } from "./loader.service";
 import { createWatcher } from "./watch.service";
 

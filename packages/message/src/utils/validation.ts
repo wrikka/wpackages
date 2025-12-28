@@ -1,51 +1,21 @@
 import { Effect } from "effect";
 import { type Notification, NotificationError } from "../types";
-
-/**
- * Email validation regex
- */
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/**
- * Phone number validation regex (basic international format)
- */
-const PHONE_REGEX = /^\+?[1-9]\d{1,14}$/;
+import { sanitizeContent, validateEmail, validatePhoneNumber } from "../components";
 
 /**
  * Validate email address
  */
-export const validateEmail = (
-	email: string,
-): Effect.Effect<boolean, NotificationError> =>
-	Effect.gen(function*() {
-		if (!EMAIL_REGEX.test(email)) {
-			return yield* Effect.fail(
-				new NotificationError({
-					reason: "InvalidRecipient",
-					message: `Invalid email address: ${email}`,
-				}),
-			);
-		}
-		return yield* Effect.succeed(true);
-	});
+export { validateEmail };
 
 /**
  * Validate phone number
  */
-export const validatePhoneNumber = (
-	phone: string,
-): Effect.Effect<boolean, NotificationError> =>
-	Effect.gen(function*() {
-		if (!PHONE_REGEX.test(phone)) {
-			return yield* Effect.fail(
-				new NotificationError({
-					reason: "InvalidRecipient",
-					message: `Invalid phone number: ${phone}`,
-				}),
-			);
-		}
-		return yield* Effect.succeed(true);
-	});
+export { validatePhoneNumber };
+
+/**
+ * Sanitize notification content (remove potential XSS, script tags, etc.)
+ */
+export { sanitizeContent };
 
 /**
  * Validate notification based on channel
@@ -144,17 +114,6 @@ export const validateNotification = (
 	});
 
 /**
- * Sanitize notification content (remove potential XSS, script tags, etc.)
- */
-export const sanitizeContent = (content: string): string => {
-	return content
-		.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-		.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "")
-		.replace(/javascript:/gi, "")
-		.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, "");
-};
-
-/**
  * Validate and sanitize notification
  */
 export const validateAndSanitize = (
@@ -163,11 +122,14 @@ export const validateAndSanitize = (
 	Effect.gen(function*() {
 		yield* validateNotification(notification);
 
+		const sanitizedBody = sanitizeContent(notification.body);
+		const sanitizedSubject = notification.subject
+			? sanitizeContent(notification.subject)
+			: undefined;
+
 		return yield* Effect.succeed({
 			...notification,
-			body: sanitizeContent(notification.body),
-			subject: notification.subject
-				? sanitizeContent(notification.subject)
-				: undefined,
-		} as Notification);
+			body: sanitizedBody,
+			...(sanitizedSubject ? { subject: sanitizedSubject } : {}),
+		});
 	});

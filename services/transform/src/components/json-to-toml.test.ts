@@ -4,23 +4,23 @@ import { JsonToTomlTransformer } from "./json-to-toml";
 describe("JsonToTomlTransformer", () => {
 	describe("transform", () => {
 		it("should transform simple JSON object to TOML", () => {
-			const json = '{"name": "test", "version": "1.0.0"}';
+			const json = "{\"name\": \"test\", \"version\": \"1.0.0\"}";
 			const result = JsonToTomlTransformer.transform(json);
 
-			expect(result).toContain('name = "test"');
-			expect(result).toContain('version = "1.0.0"');
+			expect(result).toContain("name = \"test\"");
+			expect(result).toContain("version = \"1.0.0\"");
 		});
 
 		it("should transform nested JSON to TOML sections", () => {
-			const json = '{"package": {"name": "my-app", "version": "0.1.0"}}';
+			const json = "{\"package\": {\"name\": \"my-app\", \"version\": \"0.1.0\"}}";
 			const result = JsonToTomlTransformer.transform(json);
 
 			expect(result).toContain("[package]");
-			expect(result).toContain('name = "my-app"');
+			expect(result).toContain("name = \"my-app\"");
 		});
 
 		it("should transform JSON with numbers", () => {
-			const json = '{"count": 42, "ratio": 3.14}';
+			const json = "{\"count\": 42, \"ratio\": 3.14}";
 			const result = JsonToTomlTransformer.transform(json);
 
 			expect(result).toContain("count = 42");
@@ -28,7 +28,7 @@ describe("JsonToTomlTransformer", () => {
 		});
 
 		it("should transform JSON with booleans", () => {
-			const json = '{"enabled": true, "disabled": false}';
+			const json = "{\"enabled\": true, \"disabled\": false}";
 			const result = JsonToTomlTransformer.transform(json);
 
 			expect(result).toContain("enabled = true");
@@ -36,7 +36,7 @@ describe("JsonToTomlTransformer", () => {
 		});
 
 		it("should transform JSON with arrays", () => {
-			const json = '{"colors": ["red", "green", "blue"]}';
+			const json = "{\"colors\": [\"red\", \"green\", \"blue\"]}";
 			const result = JsonToTomlTransformer.transform(json);
 
 			expect(result).toContain("colors");
@@ -62,7 +62,7 @@ describe("JsonToTomlTransformer", () => {
 
 	describe("options", () => {
 		it("should accept transform options", () => {
-			const json = '{"name": "test"}';
+			const json = "{\"name\": \"test\"}";
 			const result = JsonToTomlTransformer.transform(json, { pretty: true });
 
 			expect(result).toBeTruthy();

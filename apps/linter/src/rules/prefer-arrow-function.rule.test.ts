@@ -47,4 +47,3 @@ describe("preferArrowFunction rule", () => {
 		expect(preferArrowFunction.meta.fixable).toBe(false);
 	});
 });
-

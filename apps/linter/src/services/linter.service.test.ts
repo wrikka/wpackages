@@ -22,7 +22,6 @@ describe("LinterService", () => {
 	// 	],
 	// };
 
-
 	it("should lint single file", async () => {
 		// Since it depends on FileSystemService and parseFile,
 		// this test would need proper mocking or integration test setup

@@ -1,6 +1,6 @@
 import type { HighlighterCoreOptions } from "shiki";
-import type { Options as IconsOptions } from "unplugin-icons/types";
 import type { UserConfig as UnoCSSUserConfig } from "unocss";
+import type { Options as IconsOptions } from "unplugin-icons/types";
 
 export type CommandOptions = {
 	readonly scripts: string;

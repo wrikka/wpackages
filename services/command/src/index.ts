@@ -37,7 +37,10 @@ const runWithBun = async (file: string, args: ReadonlyArray<string>, options: Ex
 		...(options.cwd ? { cwd: options.cwd } : {}),
 		...(options.env
 			? {
-				env: Object.fromEntries(Object.entries(options.env).filter(([, v]) => v !== undefined)) as Record<string, string>,
+				env: Object.fromEntries(Object.entries(options.env).filter(([, v]) => v !== undefined)) as Record<
+					string,
+					string
+				>,
 			}
 			: {}),
 	};
@@ -96,7 +99,7 @@ export const CommandLive = Layer.succeed(Command, {
 });
 
 export const run = (file: string, args?: ReadonlyArray<string>, options?: ExecOptions) =>
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		const svc = yield Effect.get(Command);
 		return yield svc.run(file, args, options);
 	});

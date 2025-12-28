@@ -2,9 +2,14 @@
  * File utilities
  */
 
-import { IGNORE_DIRECTORIES, isJavaScriptFile, isTypeScriptFile } from "../constant/extensions.const";
+import {
+	IGNORE_DIRECTORIES,
+	isJavaScriptFile,
+	isTypeScriptFile,
+} from "../constant/extensions.const";
 
-export const isLintableFile = (filename: string): boolean => isTypeScriptFile(filename) || isJavaScriptFile(filename);
+export const isLintableFile = (filename: string): boolean =>
+	isTypeScriptFile(filename) || isJavaScriptFile(filename);
 
 export const shouldIgnoreDirectory = (dirname: string): boolean =>
 	IGNORE_DIRECTORIES.some((ignored) => dirname === ignored);

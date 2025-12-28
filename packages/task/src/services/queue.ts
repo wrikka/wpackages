@@ -87,6 +87,12 @@ export async function processNext<T_OUT = unknown, E = Error>(
 			}),
 		) as Result<QueueError, TaskQueue<T_OUT, E>>;
 	}
+
+	const queueWithRunning: TaskQueue<T_OUT, E> = {
+		...queue,
+		pending: remainingPending,
+		running: [...queue.running, task],
+	};
 	const startedAt = new Date();
 	let attempts = 0;
 	let result: Result<E, T_OUT> | undefined;
@@ -107,7 +113,8 @@ export async function processNext<T_OUT = unknown, E = Error>(
 				await delay(queue.config.retryDelay ?? 1000);
 			}
 		} catch (catchErr) {
-			lastError = catchErr as any;
+			lastError = catchErr as E;
+			result = err(lastError) as Result<E, T_OUT>;
 		}
 	}
 
@@ -124,11 +131,12 @@ export async function processNext<T_OUT = unknown, E = Error>(
 	};
 
 	return ok({
-		...queue,
-		pending: remainingPending,
-		running: queue.running.filter((t) => t.id !== task.id),
-		completed: result && result._tag === "Success" ? [...queue.completed, taskResult] : queue.completed,
-		failed: result && result._tag === "Failure" ? [...queue.failed, taskResult] : queue.failed,
+		...queueWithRunning,
+		running: queueWithRunning.running.filter((t) => t.id !== task.id),
+		completed:
+			result && result._tag === "Success" ? [...queueWithRunning.completed, taskResult] : queueWithRunning.completed,
+		failed:
+			result && result._tag === "Failure" ? [...queueWithRunning.failed, taskResult] : queueWithRunning.failed,
 	});
 }
 

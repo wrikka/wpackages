@@ -77,7 +77,7 @@ async function downloadRepository(repoUrl: string, options: Options) {
 		throw new Error("Failed to parse GitHub URL");
 	}
 
-	const specificPath = options["path"] || pathFromUrl || "";
+	const specificPath = options.path || pathFromUrl || "";
 
 	// Create download URL for the repository zip
 	let zipUrl = `https://github.com/${owner}/${repo}/archive/refs/heads/main.zip`;
@@ -106,7 +106,7 @@ async function downloadRepository(repoUrl: string, options: Options) {
 	const outFile = Bun.file(outDir);
 	if (await outFile.exists()) {
 		// Remove existing directory
-		const fs = require("fs");
+		const fs = require("node:fs");
 		const { rmSync } = fs;
 		rmSync(outDir, { recursive: true });
 	}

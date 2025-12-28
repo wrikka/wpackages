@@ -2,14 +2,8 @@
  * Usage examples for test reporter
  */
 
-import {
-	formatReport,
-	printReport,
-	generateJsonReport,
-	generateHtmlReport,
-	exportReport,
-} from "./reporter";
 import type { TestReport } from "../types";
+import { exportReport, formatReport, generateHtmlReport, generateJsonReport, printReport } from "./reporter";
 
 // Example 1: Format report as string
 export const example1_formatReport = () => {

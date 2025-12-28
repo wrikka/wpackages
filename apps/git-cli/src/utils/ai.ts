@@ -1,6 +1,5 @@
 import { getCommitConfig } from "./config";
 
-
 interface OpenAIResponse {
 	choices: Array<{
 		message: {
@@ -36,11 +35,11 @@ function groupFilesByFeature(files: string[]): Record<string, string[]> {
 function analyzeFileChanges(diff: string): FileChange[] {
 	const files: FileChange[] = [];
 	const fileRegex = /^\+\+\+ b\/(.+)$/gm;
-	
+
 	let match;
 	while ((match = fileRegex.exec(diff)) !== null) {
 		const filePath = match[1];
-		
+
 		// หา end ของ file diff
 		const nextFileMatch = fileRegex.exec(diff.substring(match.index + 1));
 		const fileEnd = nextFileMatch ? nextFileMatch.index + match.index + 1 : diff.length;
@@ -69,7 +68,7 @@ export async function generateCommitMessageWithAI(diff: string): Promise<string>
 		throw new Error("AI is not enabled in config");
 	}
 
-	const apiKey = config.ai.apiKey || process.env['OPENAI_API_KEY'];
+	const apiKey = config.ai.apiKey || process.env["OPENAI_API_KEY"];
 
 	if (!apiKey) {
 		throw new Error("OpenAI API key is not configured. Set it in .wgit.json or OPENAI_API_KEY env variable");

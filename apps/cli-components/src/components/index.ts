@@ -19,3 +19,6 @@ export {
 	formatCSV,
 	formatHTMLTable,
 } from "./result-formatter";
+
+// Help generator
+export { generateCommandHelp, generateProgramHelp } from "./help";

@@ -4,7 +4,7 @@
  */
 
 import type { CommandDef, OptionDef, OptionValue, ParsedCLI, ParseError, ProgramDef } from "./types/index";
-import { camelCase, parseFlags } from "./utils";
+import { camelCase } from "./utils";
 
 // ===== Result Type for Functional Parser =====
 
@@ -14,6 +14,31 @@ const ok = <A, E>(value: A): ParserResult<E, A> => ({ _tag: "Success", value });
 const err = <E, A>(error: E): ParserResult<E, A> => ({ _tag: "Failure", error });
 const isSuccess = <E, A>(result: ParserResult<E, A>): result is { _tag: "Success"; value: A } =>
 	result._tag === "Success";
+
+const parseOptionFlags = (flags: string): { short?: string; long?: string } => {
+	const parts = flags
+		.split(",")
+		.map((p) => p.trim())
+		.filter((p) => p.length > 0);
+
+	let short: string | undefined;
+	let long: string | undefined;
+
+	for (const part of parts) {
+		if (part.startsWith("--")) {
+			const name = part.slice(2).split(/[\s=[]/, 1)[0];
+			if (name) long = name;
+			continue;
+		}
+
+		if (part.startsWith("-")) {
+			const name = part.slice(1).split(/[\s=[]/, 1)[0];
+			if (name) short = name;
+		}
+	}
+
+	return { long, short };
+};
 
 // ===== Standard Parser (throws on error) =====
 
@@ -114,7 +139,7 @@ const parseOption = (
 	options: Record<string, OptionDef>,
 ): { key?: string; value: unknown } => {
 	for (const [key, optDef] of Object.entries(options)) {
-		const { short, long } = parseFlags(optDef.flags);
+		const { short, long } = parseOptionFlags(optDef.flags);
 
 		let matched = false;
 		let value: unknown = true;
@@ -137,7 +162,11 @@ const parseOption = (
 
 		if (matched) {
 			if (optDef.parse && value !== true) {
-				value = optDef.parse(String(value));
+				const parseResult = optDef.parse(String(value));
+				if (parseResult._tag === "Failure") {
+					throw new Error(`Invalid value for option "${key}": ${parseResult.error}`);
+				}
+				value = parseResult.value;
 			} else if (value !== true && !Number.isNaN(Number(value))) {
 				value = Number(value);
 			}
@@ -157,7 +186,7 @@ export const executeCommand = async <T = Record<string, OptionValue>>(
 	program: ProgramDef,
 ): Promise<void> => {
 	if (parsed.command) {
-		const cmd = program.commands?.find((c) => c.name === parsed.command);
+		const cmd = program.commands?.find((c: CommandDef) => c.name === parsed.command);
 		if (cmd) {
 			await cmd.action(
 				parsed.options as Record<string, OptionValue>,
@@ -330,7 +359,7 @@ const parseOptionWithResult = (
 	options: Record<string, OptionDef>,
 ): ParserResult<ParseError, { key?: string; value: unknown }> => {
 	for (const [key, optDef] of Object.entries(options)) {
-		const { short, long } = parseFlags(optDef.flags);
+		const { short, long } = parseOptionFlags(optDef.flags);
 
 		let matched = false;
 		let value: unknown = true;
@@ -401,7 +430,7 @@ export const executeCommandWithResult = async <T = Record<string, OptionValue>>(
 	program: ProgramDef,
 ): Promise<ParserResult<string, void>> => {
 	if (parsed.command) {
-		const cmd = program.commands?.find((c) => c.name === parsed.command);
+		const cmd = program.commands?.find((c: CommandDef) => c.name === parsed.command);
 		if (cmd) {
 			return await cmd.action(
 				parsed.options as Record<string, OptionValue>,

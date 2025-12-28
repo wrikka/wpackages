@@ -69,13 +69,13 @@ const envToken = process.env["GITHUB_TOKEN"];
 export const GitHubLive = Layer.succeed(GitHub, makeGitHub(envToken ? { token: envToken } : {}));
 
 export const requestJson = (path: string, init?: RequestInit) =>
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		const svc = yield Effect.get(GitHub);
 		return yield svc.requestJson(path, init);
 	});
 
 export const getRepo = (owner: string, repo: string) =>
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		const svc = yield Effect.get(GitHub);
 		return yield svc.getRepo(owner, repo);
 	});

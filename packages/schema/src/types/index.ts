@@ -27,8 +27,7 @@ export type Schema<TInput, TOutput = TInput> = {
 	_output: TOutput;
 };
 
-export type Infer<S extends Schema<unknown, unknown>> =
-	S extends Schema<unknown, infer O> ? O : never;
+export type Infer<S extends Schema<unknown, unknown>> = S extends Schema<unknown, infer O> ? O : never;
 export enum ErrorCode {
 	InvalidType = 0,
 	InvalidLiteral = 1,

@@ -20,8 +20,7 @@ export const MESSAGES = {
 	PROMPT_CUSTOM_PATH: "📄 Enter custom file path:",
 	PROMPT_CONFIRM_ADD: (path: string) => `Do you want to add ${pc.cyan(path)} to your dotfiles?`,
 	PROMPT_SELECT_FILES_REMOVE: "🗑️  Select files to remove from management",
-	PROMPT_CONFIRM_REMOVE: (count: number) =>
-		`⚠️  Remove ${count} file${count > 1 ? "s" : ""} from dotfiles management?`,
+	PROMPT_CONFIRM_REMOVE: (count: number) => `⚠️  Remove ${count} file${count > 1 ? "s" : ""} from dotfiles management?`,
 	PROMPT_SELECT_FILE_OPEN: "📄 Select a file to open:",
 	PROMPT_SELECT_EDITOR: "🧑‍💻 Select your preferred editor for opening files:",
 	PROMPT_SYNC_REMOTE: (url: string) => `Sync files to ${pc.cyan(url)}?`,
@@ -30,8 +29,7 @@ export const MESSAGES = {
 	// Success messages
 	SUCCESS_INIT: "✅ Initialized successfully!",
 	SUCCESS_ADD: "✅ Successfully added dotfile",
-	SUCCESS_REMOVE: (count: number) =>
-		`✅ Successfully removed ${count} file${count > 1 ? "s" : ""}`,
+	SUCCESS_REMOVE: (count: number) => `✅ Successfully removed ${count} file${count > 1 ? "s" : ""}`,
 	SUCCESS_OPEN: (path: string) => `✅ Opened ${pc.cyan(path)}`,
 	SUCCESS_SYNC_LOCAL: "✅ Sync to local completed",
 	SUCCESS_SYNC_REMOTE: "✅ Successfully synced to remote repository",
@@ -48,6 +46,5 @@ export const MESSAGES = {
 	INFO_NO_FILES_ADDED: "No files were added.",
 	INFO_EDITOR_SAVED: (editor: string) => `Editor preference saved to ${pc.cyan(editor)}`,
 	INFO_TOTAL_FILES: (count: number) => `📊 Total managed files: ${count}`,
-	INFO_REMAINING_FILES: (count: number) =>
-		`📊 Remaining files: ${pc.cyan(String(count))}`,
+	INFO_REMAINING_FILES: (count: number) => `📊 Remaining files: ${pc.cyan(String(count))}`,
 } as const;

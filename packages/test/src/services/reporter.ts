@@ -2,62 +2,34 @@
  * Test reporter service
  */
 
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
+import {
+	formatReport as formatReportBase,
+	generateJsonReport as generateJsonReportBase,
+	printReport as printReportBase,
+} from "reporter";
 import type { TestReport } from "../types";
 
 /**
  * Format test report
  */
 export const formatReport = (report: TestReport): string => {
-	const lines: string[] = [];
-
-	lines.push("\n" + "=".repeat(60));
-	lines.push("TEST REPORT");
-	lines.push("=".repeat(60) + "\n");
-
-	// Summary
-	lines.push(`Total Tests: ${report.totalTests}`);
-	lines.push(`✅ Passed: ${report.passedTests}`);
-	lines.push(`❌ Failed: ${report.failedTests}`);
-	lines.push(`⏭️  Skipped: ${report.skippedTests}`);
-	lines.push(`⏱️  Duration: ${report.duration}ms\n`);
-
-	// Suites
-	for (const suite of report.suites) {
-		lines.push(`📦 ${suite.name}`);
-		for (const test of suite.tests) {
-			const icon = test.status === "passed" ? "✅" : test.status === "failed" ? "❌" : "⏭️";
-			lines.push(`  ${icon} ${test.name} (${test.duration}ms)`);
-			if (test.error) {
-				lines.push(`     Error: ${test.error.message}`);
-			}
-		}
-		lines.push("");
-	}
-
-	// Footer
-	lines.push("=".repeat(60));
-	if (report.success) {
-		lines.push("✅ ALL TESTS PASSED");
-	} else {
-		lines.push("❌ SOME TESTS FAILED");
-	}
-	lines.push("=".repeat(60) + "\n");
-
-	return lines.join("\n");
+	return formatReportBase(report);
 };
 
 /**
  * Print report to console
  */
 export const printReport = (report: TestReport): void => {
-	console.log(formatReport(report));
+	printReportBase(report);
 };
 
 /**
  * Generate JSON report
  */
 export const generateJsonReport = (report: TestReport): string => {
-	return JSON.stringify(report, null, 2);
+	return generateJsonReportBase(report);
 };
 
 /**
@@ -90,26 +62,30 @@ export const generateHtmlReport = (report: TestReport): string => {
 		<p>Duration: ${report.duration}ms</p>
 	</div>
 	<div class="suites">
-		${report.suites
+		${
+		report.suites
 			.map(
 				(suite) => `
 		<div class="suite">
 			<h2>${suite.name}</h2>
-			${suite.tests
-				.map(
-					(test) => `
+			${
+					suite.tests
+						.map(
+							(test) => `
 			<div class="test">
 				<span class="${test.status}">${test.status === "passed" ? "✅" : test.status === "failed" ? "❌" : "⏭️"}</span>
 				${test.name} (${test.duration}ms)
 				${test.error ? `<div class="error">Error: ${test.error.message}</div>` : ""}
 			</div>
 			`,
-				)
-				.join("")}
+						)
+						.join("")
+				}
 		</div>
 		`,
 			)
-			.join("")}
+			.join("")
+	}
 	</div>
 </body>
 </html>
@@ -139,8 +115,6 @@ export const exportReport = async (
 			break;
 	}
 
-	// In a real implementation, this would write to a file
-	// For now, we just log it
-	console.log(`Report exported to ${filename}`);
-	console.log(content);
+	await mkdir(dirname(filename), { recursive: true });
+	await writeFile(filename, content, "utf8");
 };

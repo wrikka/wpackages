@@ -96,4 +96,3 @@ console.log("- Lexical 'this' binding (no surprises)");
 console.log("- Better for functional programming");
 console.log("- Implicit return for single expressions");
 console.log("- Standard in modern JavaScript/TypeScript");
-

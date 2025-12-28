@@ -4,7 +4,7 @@ import { TomlToJsonTransformer } from "./toml-to-json";
 describe("TomlToJsonTransformer", () => {
 	describe("transform", () => {
 		it("should transform simple TOML to JSON", () => {
-			const toml = 'name = "test"\nversion = "1.0.0"';
+			const toml = "name = \"test\"\nversion = \"1.0.0\"";
 			const result = TomlToJsonTransformer.transform(toml);
 			const parsed = JSON.parse(result);
 
@@ -13,7 +13,7 @@ describe("TomlToJsonTransformer", () => {
 		});
 
 		it("should transform TOML sections to JSON objects", () => {
-			const toml = '[package]\nname = "my-app"\nversion = "0.1.0"';
+			const toml = "[package]\nname = \"my-app\"\nversion = \"0.1.0\"";
 			const result = TomlToJsonTransformer.transform(toml);
 			const parsed = JSON.parse(result);
 
@@ -22,7 +22,7 @@ describe("TomlToJsonTransformer", () => {
 		});
 
 		it("should transform TOML arrays to JSON arrays", () => {
-			const toml = 'colors = ["red", "green", "blue"]';
+			const toml = "colors = [\"red\", \"green\", \"blue\"]";
 			const result = TomlToJsonTransformer.transform(toml);
 			const parsed = JSON.parse(result);
 
@@ -30,7 +30,7 @@ describe("TomlToJsonTransformer", () => {
 		});
 
 		it("should transform TOML numbers", () => {
-			const toml = 'count = 42\nratio = 3.14';
+			const toml = "count = 42\nratio = 3.14";
 			const result = TomlToJsonTransformer.transform(toml);
 			const parsed = JSON.parse(result);
 
@@ -39,7 +39,7 @@ describe("TomlToJsonTransformer", () => {
 		});
 
 		it("should transform TOML booleans", () => {
-			const toml = 'enabled = true\ndisabled = false';
+			const toml = "enabled = true\ndisabled = false";
 			const result = TomlToJsonTransformer.transform(toml);
 			const parsed = JSON.parse(result);
 
@@ -66,14 +66,14 @@ describe("TomlToJsonTransformer", () => {
 
 	describe("options", () => {
 		it("should support pretty print option", () => {
-			const toml = 'name = "test"';
+			const toml = "name = \"test\"";
 			const result = TomlToJsonTransformer.transform(toml, { pretty: true, indent: 2 });
 
 			expect(result).toContain("\n");
 		});
 
 		it("should support compact output", () => {
-			const toml = 'name = "test"';
+			const toml = "name = \"test\"";
 			const result = TomlToJsonTransformer.transform(toml, { pretty: false });
 
 			expect(result).not.toContain("\n");

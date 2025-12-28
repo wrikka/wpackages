@@ -13,8 +13,8 @@ export const SEVERITY_LEVELS = {
 
 export const isSeverity = (value: unknown): value is Severity => {
 	return (
-		typeof value === "string"
-		&& ["error", "warning", "info", "hint"].includes(value)
+		typeof value === "string" &&
+		["error", "warning", "info", "hint"].includes(value)
 	);
 };
 

@@ -1,4 +1,4 @@
-import type { StringOptions, Schema, Result, Issue } from "../types";
+import type { Issue, Result, Schema, StringOptions } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 export type StringSchema = Schema<string> & {
@@ -21,9 +21,8 @@ export function string(options: StringOptions = {}): StringSchema {
 						success: false,
 						issues: [
 							{
-								message:
-									next.message ||
-									`Expected a string, but received ${typeof input}`,
+								message: next.message
+									|| `Expected a string, but received ${typeof input}`,
 								path: [],
 							},
 						],

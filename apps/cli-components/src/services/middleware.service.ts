@@ -18,7 +18,7 @@ export const composeMiddleware = (
 		(a, b) => (a.order ?? 0) - (b.order ?? 0),
 	);
 
-	return async (context, next) => {
+	return async (context: MiddlewareContext, next: () => Promise<ResultType<string, void>>) => {
 		let index = -1;
 
 		const dispatch = async (
@@ -69,7 +69,7 @@ export const createLoggingMiddleware = (
 	name = "logging",
 	order = 0,
 ): MiddlewareDef => ({
-	fn: async (context, next) => {
+	fn: async (context: MiddlewareContext, next: () => Promise<ResultType<string, void>>) => {
 		const start = Date.now();
 		console.log(
 			`[${context.program.name}] Starting command: ${context.parsed.command || "default"}`,
@@ -94,7 +94,7 @@ export const createValidationMiddleware = (
 	name = "validation",
 	order = -10,
 ): MiddlewareDef => ({
-	fn: async (context, next) => {
+	fn: async (context: MiddlewareContext, next: () => Promise<ResultType<string, void>>) => {
 		const validationResult = validator(context);
 
 		if (validationResult._tag === "Failure") {
@@ -115,7 +115,7 @@ export const createErrorHandlingMiddleware = (
 	name = "error-handling",
 	order = 1000,
 ): MiddlewareDef => ({
-	fn: async (_context, next) => {
+	fn: async (_context: MiddlewareContext, next: () => Promise<ResultType<string, void>>) => {
 		try {
 			return await next();
 		} catch (error) {

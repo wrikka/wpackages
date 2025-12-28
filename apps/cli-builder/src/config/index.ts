@@ -1,1 +1,1 @@
-export * from './cli.config';
+export * from "./cli.config";

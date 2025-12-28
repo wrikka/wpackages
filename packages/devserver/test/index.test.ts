@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import wdev from "../src";
+import { createApp as wdev } from "../src";
 
 describe("wdev plugin", () => {
 	it("should return an array of plugins", () => {

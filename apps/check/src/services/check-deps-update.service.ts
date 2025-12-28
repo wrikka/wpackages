@@ -53,8 +53,8 @@ export const makeDepsUpdateCheckerService = () => {
 
 					// Check for pre-release versions
 					if (
-						typeof version === "string" &&
-						(version.includes("-alpha") || version.includes("-beta") || version.includes("-rc"))
+						typeof version === "string"
+						&& (version.includes("-alpha") || version.includes("-beta") || version.includes("-rc"))
 					) {
 						issues.push({
 							message: `Dependency "${name}" uses pre-release version: ${version}`,

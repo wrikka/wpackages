@@ -21,7 +21,9 @@ describe("Result utilities", () => {
 	});
 
 	it("should not map Err value", () => {
-		const result: Result.Result<number, string> = Result.err<string>("error");
+		const result: Result.Result<number, string> = Result.err<number, string>(
+			"error",
+		);
 		const mapped = Result.map(result, (x) => x * 2);
 		expect(Result.isErr(mapped)).toBe(true);
 	});
@@ -33,7 +35,9 @@ describe("Result utilities", () => {
 	});
 
 	it("should unwrapOr with default value", () => {
-		const errResult: Result.Result<number, string> = Result.err<string>("error");
+		const errResult: Result.Result<number, string> = Result.err<number, string>(
+			"error",
+		);
 		expect(Result.unwrapOr(errResult, 0)).toBe(0);
 
 		const okResult = Result.ok(42);

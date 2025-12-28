@@ -19,8 +19,8 @@ export const SEVERITY_ORDER: Record<Severity, number> = {
 } as const;
 
 export const isSeverity = (value: unknown): value is Severity =>
-	typeof value === "string"
-	&& (value === "error"
-		|| value === "warning"
-		|| value === "info"
-		|| value === "hint");
+	typeof value === "string" &&
+	(value === "error" ||
+		value === "warning" ||
+		value === "info" ||
+		value === "hint");

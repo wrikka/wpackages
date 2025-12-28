@@ -3,8 +3,8 @@
  */
 
 export * from "./components";
-export * from "./constant";
 export * from "./config";
+export * from "./constant";
 export * from "./types";
 export * from "./utils";
 

@@ -20,12 +20,32 @@ export function createQueueWorker<T_OUT, E>(queue: TaskQueue<T_OUT, E>): QueueWo
 	const work = async () => {
 		if (!running) return;
 
+		const nextTask = queue.pending[0];
+		if (nextTask) {
+			emit("task:start", {
+				taskId: nextTask.id,
+				status: "running",
+				startedAt: new Date(),
+				attempts: 0,
+			});
+		}
+
+		const prevCompletedCount = queue.completed.length;
+		const prevFailedCount = queue.failed.length;
+
 		const result = await processNext(queue);
 		if (result._tag === "Success") {
 			queue = result.value;
-			const lastCompleted = queue.completed[queue.completed.length - 1];
-			if (lastCompleted) {
-				emit("task:complete", lastCompleted);
+			if (queue.completed.length > prevCompletedCount) {
+				const lastCompleted = queue.completed[queue.completed.length - 1];
+				if (lastCompleted) {
+					emit("task:complete", lastCompleted);
+				}
+			} else if (queue.failed.length > prevFailedCount) {
+				const lastFailed = queue.failed[queue.failed.length - 1];
+				if (lastFailed) {
+					emit("task:fail", lastFailed);
+				}
 			}
 		} else if (result.error.code === "QUEUE_EMPTY") {
 			// Queue is empty, wait for a moment

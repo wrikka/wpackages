@@ -28,7 +28,7 @@ export const makeDepsCheckerService = () => {
 						}
 						// This is a real execution error
 						return Effect.fail(error instanceof Error ? error : new Error("Failed to run knip"));
-					})
+					}),
 				);
 
 				const { stdout } = yield* knipEffect;

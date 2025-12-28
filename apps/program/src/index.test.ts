@@ -1,7 +1,7 @@
-import { describe, test, vi, expect } from "vitest";
 import { Effect, Layer } from "@wts/functional";
+import { describe, expect, test, vi } from "vitest";
 import { program } from "./app";
-import { Random, Console } from "./services";
+import { Console, Random } from "./services";
 
 describe("Program", () => {
 	test("should run without errors and log a predictable number", async () => {

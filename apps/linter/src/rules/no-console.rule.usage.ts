@@ -66,4 +66,3 @@ return result;
 example1();
 example2();
 example3();
-

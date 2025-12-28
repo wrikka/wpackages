@@ -121,7 +121,7 @@ function findUnusedIdentifiers(
 							// Simple check - if only declaration is the import itself, it's unused
 							const isUsed = program.getSourceFiles().some(file => {
 								if (file.isDeclarationFile || file.fileName.includes("node_modules")) return false;
-								
+
 								let used = false;
 								ts.forEachChild(file, (child) => {
 									if (ts.isIdentifier(child) && child.text === element.name.text) {
@@ -133,7 +133,7 @@ function findUnusedIdentifiers(
 								});
 								return used;
 							});
-							
+
 							if (!isUsed) {
 								unusedIdentifiers.push(element.name);
 							}
@@ -151,7 +151,7 @@ function findUnusedIdentifiers(
 				const nodeName = ts.isIdentifier(node.name) ? node.name.text : String(node.name);
 				const isUsed = program.getSourceFiles().some(file => {
 					if (file.isDeclarationFile || file.fileName.includes("node_modules")) return false;
-					
+
 					let used = false;
 					ts.forEachChild(file, (child) => {
 						if (ts.isIdentifier(child) && child.text === nodeName) {
@@ -163,7 +163,7 @@ function findUnusedIdentifiers(
 					});
 					return used;
 				});
-				
+
 				if (!isUsed) {
 					unusedIdentifiers.push(node.name);
 				}

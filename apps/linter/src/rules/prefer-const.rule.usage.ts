@@ -109,4 +109,3 @@ console.log("- Use const by default");
 console.log("- Use let only when reassignment is needed");
 console.log("- const prevents accidental reassignment");
 console.log("- Makes code more predictable and easier to reason about");
-

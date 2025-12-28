@@ -46,4 +46,3 @@ describe("no-class", () => {
 		expect(messages).toHaveLength(2);
 	});
 });
-

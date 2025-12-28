@@ -21,7 +21,7 @@ describe("ConsoleService", () => {
 		const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 		const service = makeConsoleService();
 
-		const program = Effect.gen(function*() {
+		const program = Effect.gen(function* () {
 			yield* service.log("Message 1");
 			yield* service.log("Message 2");
 			yield* service.log("Message 3");

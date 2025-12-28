@@ -104,5 +104,6 @@ export const colorIf = (
 export const stripColors = (str: string): string => {
 	// Remove ANSI color codes (ESC [ ... m)
 	// eslint-disable-next-line no-control-regex
-	return str.replace(/\u001b\[[0-9;]*m/g, "");
+	const esc = String.fromCharCode(27);
+	return str.replace(new RegExp(`${esc}\\[[0-9;]*m`, "g"), "");
 };

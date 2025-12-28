@@ -2,10 +2,7 @@
  * Validation utilities
  */
 
-import type {
-	Issue,
-	ValidationContext as BaseValidationContext,
-} from "../types";
+import type { Issue, ValidationContext as BaseValidationContext } from "../types";
 
 export type ValidationContext = BaseValidationContext & {
 	readonly issues: Issue[];

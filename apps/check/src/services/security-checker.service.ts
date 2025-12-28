@@ -108,7 +108,7 @@ export const makeSecurityCheckerService = () => {
 								}
 							}
 						}
-					// eslint-disable-next-line no-unused-vars
+						// eslint-disable-next-line no-unused-vars
 					} catch (_) {}
 				}
 

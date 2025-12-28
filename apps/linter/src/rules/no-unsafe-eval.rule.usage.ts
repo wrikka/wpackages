@@ -106,4 +106,3 @@ console.log("- Never use eval() - it's a major security risk");
 console.log("- Avoid Function constructor - similar to eval");
 console.log("- Use function callbacks instead of string code");
 console.log("- Validate and sanitize all user input");
-

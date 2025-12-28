@@ -4,41 +4,41 @@ import { JsonParser } from "./json";
 describe("JsonParser", () => {
 	describe("parse", () => {
 		it("should parse valid JSON object", () => {
-			const json = '{"name": "test", "value": 123}';
+			const json = "{\"name\": \"test\", \"value\": 123}";
 			const result = JsonParser.parse(json);
 
 			expect(result).toEqual({ name: "test", value: 123 });
 		});
 
 		it("should parse valid JSON array", () => {
-			const json = '[1, 2, 3]';
+			const json = "[1, 2, 3]";
 			const result = JsonParser.parse(json);
 
 			expect(result).toEqual([1, 2, 3]);
 		});
 
 		it("should parse nested JSON", () => {
-			const json = '{"user": {"name": "Alice", "age": 30}}';
+			const json = "{\"user\": {\"name\": \"Alice\", \"age\": 30}}";
 			const result = JsonParser.parse(json);
 
 			expect(result).toEqual({ user: { name: "Alice", age: 30 } });
 		});
 
 		it("should throw error on invalid JSON", () => {
-			const json = '{invalid json}';
+			const json = "{invalid json}";
 
 			expect(() => JsonParser.parse(json)).toThrow("Failed to parse JSON");
 		});
 
 		it("should parse JSON with null values", () => {
-			const json = '{"value": null}';
+			const json = "{\"value\": null}";
 			const result = JsonParser.parse(json);
 
 			expect(result).toEqual({ value: null });
 		});
 
 		it("should parse JSON with boolean values", () => {
-			const json = '{"active": true, "deleted": false}';
+			const json = "{\"active\": true, \"deleted\": false}";
 			const result = JsonParser.parse(json);
 
 			expect(result).toEqual({ active: true, deleted: false });
@@ -50,8 +50,8 @@ describe("JsonParser", () => {
 			const obj = { name: "test", value: 123 };
 			const result = JsonParser.stringify(obj, { pretty: true, indent: 2 });
 
-			expect(result).toContain('"name"');
-			expect(result).toContain('"test"');
+			expect(result).toContain("\"name\"");
+			expect(result).toContain("\"test\"");
 			expect(result).toContain("\n");
 		});
 
@@ -60,7 +60,7 @@ describe("JsonParser", () => {
 			const result = JsonParser.stringify(obj, { pretty: false });
 
 			expect(result).not.toContain("\n");
-			expect(result).toEqual('{"name":"test","value":123}');
+			expect(result).toEqual("{\"name\":\"test\",\"value\":123}");
 		});
 
 		it("should stringify with custom indent", () => {

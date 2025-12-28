@@ -1,4 +1,4 @@
-import type { Schema, ValidationContext, Result, Issue } from "../types";
+import type { Issue, Result, Schema, ValidationContext } from "../types";
 import { createSchema as createSchemaWithTransform } from "../utils/create-schema";
 
 export const createSchema = <TInput, TOutput>(

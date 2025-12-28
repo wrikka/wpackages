@@ -2,36 +2,49 @@
  * Test runner service - Effect-based test execution
  */
 
-import type {
-	TestFn,
-	TestHook,
-	TestMetadata,
-	TestSuite,
-	TestStatus,
-	TestReport,
-} from "../types";
+import type { TestFn, TestHook, TestMetadata, TestReport, TestStatus, TestSuite } from "../types";
+import { withTimeout } from "../utils";
+
+import { createConfig } from "../config";
+import type { TestConfig } from "../config";
+
+type RegisteredTest = {
+	name: string;
+	fn: TestFn;
+	only: boolean;
+};
 
 /**
  * Test registry
  */
 class TestRegistry {
-	private tests: Map<string, TestFn> = new Map();
-	private suites: Map<string, TestFn[]> = new Map();
+	private tests: Map<string, RegisteredTest> = new Map();
+	private suites: Map<string, RegisteredTest[]> = new Map();
 	private beforeHooks: TestHook[] = [];
 	private afterHooks: TestHook[] = [];
 	private currentSuite: string = "default";
+	private hasOnlyTests: boolean = false;
 
 	/**
 	 * Register test
 	 */
-	registerTest(name: string, fn: TestFn): void {
+	registerTest(name: string, fn: TestFn, options?: { only?: boolean }): void {
 		const key = `${this.currentSuite}:${name}`;
-		this.tests.set(key, fn);
+		const entry: RegisteredTest = {
+			name,
+			fn,
+			only: options?.only ?? false,
+		};
+		this.tests.set(key, entry);
+
+		if (entry.only) {
+			this.hasOnlyTests = true;
+		}
 
 		if (!this.suites.has(this.currentSuite)) {
 			this.suites.set(this.currentSuite, []);
 		}
-		this.suites.get(this.currentSuite)!.push(fn);
+		this.suites.get(this.currentSuite)!.push(entry);
 	}
 
 	/**
@@ -51,15 +64,19 @@ class TestRegistry {
 	/**
 	 * Get all tests
 	 */
-	getTests(): Map<string, TestFn> {
+	getTests(): Map<string, RegisteredTest> {
 		return this.tests;
 	}
 
 	/**
 	 * Get suites
 	 */
-	getSuites(): Map<string, TestFn[]> {
+	getSuites(): Map<string, RegisteredTest[]> {
 		return this.suites;
+	}
+
+	getHasOnlyTests(): boolean {
+		return this.hasOnlyTests;
 	}
 
 	/**
@@ -92,6 +109,7 @@ class TestRegistry {
 		this.beforeHooks = [];
 		this.afterHooks = [];
 		this.currentSuite = "default";
+		this.hasOnlyTests = false;
 	}
 }
 
@@ -117,6 +135,10 @@ export const test = (name: string, fn: TestFn): void => {
 	registry.registerTest(name, fn);
 };
 
+export const only = (name: string, fn: TestFn): void => {
+	registry.registerTest(name, fn, { only: true });
+};
+
 /**
  * It - alias for test
  */
@@ -139,10 +161,12 @@ export const after = (fn: TestHook): void => {
 /**
  * Run tests
  */
-export const runTests = async (): Promise<TestReport> => {
+export const runTests = async (config: Partial<TestConfig> = {}): Promise<TestReport> => {
+	const finalConfig = createConfig(config);
 	const suites = registry.getSuites();
 	const beforeHooks = registry.getBeforeHooks();
 	const afterHooks = registry.getAfterHooks();
+	const hasOnlyTests = registry.getHasOnlyTests();
 
 	const testSuites: TestSuite[] = [];
 	let totalTests = 0;
@@ -154,8 +178,9 @@ export const runTests = async (): Promise<TestReport> => {
 	for (const [suiteName, tests] of suites) {
 		const suiteTests: TestMetadata[] = [];
 		const suiteStartTime = Date.now();
+		const selectedTests = hasOnlyTests ? tests.filter((t) => t.only) : tests;
 
-		for (const test of tests) {
+		const runOne = async (registered: RegisteredTest): Promise<TestMetadata> => {
 			// Run before hooks
 			for (const hook of beforeHooks) {
 				try {
@@ -170,16 +195,32 @@ export const runTests = async (): Promise<TestReport> => {
 			let testError: Error | undefined;
 			let shouldSkip = false;
 
+			const context = {
+				name: registered.name,
+				skip: () => {
+					shouldSkip = true;
+				},
+				only: () => {
+					// If called during execution, it doesn't affect current run.
+				},
+			};
+
+			const attempt = async (): Promise<void> => {
+				await withTimeout(Promise.resolve(registered.fn(context)), finalConfig.timeout);
+			};
+
 			try {
-				await test({
-					name: suiteName,
-					skip: () => {
-						shouldSkip = true;
-					},
-					only: () => {
-						// Implementation for .only
-					},
-				});
+				for (let i = 0; i <= finalConfig.retries; i++) {
+					try {
+						await attempt();
+						break;
+					} catch (err) {
+						if (i === finalConfig.retries) {
+							throw err;
+						}
+					}
+				}
+
 				if (shouldSkip) {
 					status = "skipped";
 				}
@@ -190,20 +231,6 @@ export const runTests = async (): Promise<TestReport> => {
 
 			const duration = Date.now() - testStartTime;
 
-			suiteTests.push({
-				name: suiteName,
-				duration,
-				status,
-				error: testError,
-				assertions: [],
-			});
-
-			// Update counters
-			totalTests++;
-			if (status === "passed") passedTests++;
-			if (status === "failed") failedTests++;
-			if (status === "skipped") skippedTests++;
-
 			// Run after hooks
 			for (const hook of afterHooks) {
 				try {
@@ -212,13 +239,39 @@ export const runTests = async (): Promise<TestReport> => {
 					console.error("After hook failed:", err);
 				}
 			}
+
+			return {
+				name: registered.name,
+				duration,
+				status,
+				error: testError,
+				assertions: [],
+			};
+		};
+
+		const results = finalConfig.parallel
+			? await Promise.all(selectedTests.map(runOne))
+			: await selectedTests.reduce<Promise<TestMetadata[]>>(async (accP, t) => {
+				const acc = await accP;
+				const r = await runOne(t);
+				acc.push(r);
+				return acc;
+			}, Promise.resolve([]));
+
+		suiteTests.push(...results);
+
+		// Update counters
+		for (const r of results) {
+			totalTests++;
+			if (r.status === "passed") passedTests++;
+			if (r.status === "failed") failedTests++;
+			if (r.status === "skipped") skippedTests++;
 		}
 
 		const suiteDuration = Date.now() - suiteStartTime;
-		const suiteStatus: TestStatus =
-			suiteTests.every((t) => t.status === "passed" || t.status === "skipped")
-				? "passed"
-				: "failed";
+		const suiteStatus: TestStatus = suiteTests.every((t) => t.status === "passed" || t.status === "skipped")
+			? "passed"
+			: "failed";
 
 		testSuites.push({
 			name: suiteName,

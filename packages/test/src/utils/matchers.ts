@@ -28,8 +28,7 @@ export const createMatcher = <T>(
  */
 export const deepEqualMatcher: CustomMatcher<unknown> = (actual, expected) => ({
 	pass: JSON.stringify(actual) === JSON.stringify(expected),
-	message: () =>
-		`Expected ${JSON.stringify(actual)} to deeply equal ${JSON.stringify(expected)}`,
+	message: () => `Expected ${JSON.stringify(actual)} to deeply equal ${JSON.stringify(expected)}`,
 });
 
 /**
@@ -38,8 +37,7 @@ export const deepEqualMatcher: CustomMatcher<unknown> = (actual, expected) => ({
  */
 export const typeMatcher: CustomMatcher<unknown> = (actual, expected) => ({
 	pass: typeof actual === (expected as string),
-	message: () =>
-		`Expected ${typeof actual} to be type ${expected}`,
+	message: () => `Expected ${typeof actual} to be type ${expected}`,
 });
 
 /**
@@ -51,8 +49,7 @@ export const rangeMatcher: CustomMatcher<number> = (actual, expected) => {
 	const pass = Math.abs(actual - expected) <= range;
 	return {
 		pass,
-		message: () =>
-			`Expected ${actual} to be within ${range} of ${expected}`,
+		message: () => `Expected ${actual} to be within ${range} of ${expected}`,
 	};
 };
 
@@ -65,8 +62,7 @@ export const arrayLengthMatcher: CustomMatcher<unknown[]> = (
 	expected,
 ) => ({
 	pass: actual.length === (expected as unknown[]).length,
-	message: () =>
-		`Expected array length ${actual.length} to equal ${(expected as unknown[]).length}`,
+	message: () => `Expected array length ${actual.length} to equal ${(expected as unknown[]).length}`,
 });
 
 /**

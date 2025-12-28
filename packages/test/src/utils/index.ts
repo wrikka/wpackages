@@ -3,38 +3,24 @@
  */
 
 // Assertions
-export { expect, AssertionError, Assertion } from "./assertions";
+export { Assertion, AssertionError, expect } from "./assertions";
 
 // Snapshots
-export {
-	storeSnapshot,
-	getSnapshot,
-	matchSnapshot,
-	clearSnapshots,
-	getAllSnapshots,
-} from "./snapshot";
+export { clearSnapshots, getAllSnapshots, getSnapshot, matchSnapshot, storeSnapshot } from "./snapshot";
 
 // Matchers
 export {
+	arrayLengthMatcher,
 	createMatcher,
 	deepEqualMatcher,
-	typeMatcher,
-	rangeMatcher,
-	arrayLengthMatcher,
 	patternMatcher,
+	rangeMatcher,
+	typeMatcher,
 } from "./matchers";
 
 // Mocks and spies
-export { createMock, spyOn, restore } from "./mock";
+export { createMock, restore, spyOn } from "./mock";
 export type { MockFn } from "./mock";
 
 // Async helpers
-export {
-	waitFor,
-	delay,
-	retry,
-	race,
-	withTimeout,
-	batch,
-	sequential,
-} from "./async-helpers";
+export { batch, delay, race, retry, sequential, waitFor, withTimeout } from "./async-helpers";

@@ -1,4 +1,4 @@
-import type { NumberOptions, Schema, Result, Issue } from "../types";
+import type { Issue, NumberOptions, Result, Schema } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 export type NumberSchema = Schema<number> & {
@@ -21,9 +21,8 @@ export function number(options: NumberOptions = {}): NumberSchema {
 						success: false,
 						issues: [
 							{
-								message:
-									next.message ||
-									`Expected a number, but received ${typeof input}`,
+								message: next.message
+									|| `Expected a number, but received ${typeof input}`,
 								path: [],
 							},
 						],

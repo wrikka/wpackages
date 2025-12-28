@@ -14,10 +14,14 @@ export const MESSAGES = {
 	NO_ISSUES: "✅ No issues found",
 } as const;
 
-export const createFileMessage = (count: number): string => `Found ${count} file${count !== 1 ? "s" : ""} to lint`;
+export const createFileMessage = (count: number): string =>
+	`Found ${count} file${count !== 1 ? "s" : ""} to lint`;
 
-export const createErrorMessage = (count: number): string => `${count} error${count !== 1 ? "s" : ""}`;
+export const createErrorMessage = (count: number): string =>
+	`${count} error${count !== 1 ? "s" : ""}`;
 
-export const createWarningMessage = (count: number): string => `${count} warning${count !== 1 ? "s" : ""}`;
+export const createWarningMessage = (count: number): string =>
+	`${count} warning${count !== 1 ? "s" : ""}`;
 
-export const createFixableMessage = (count: number): string => `${count} fixable`;
+export const createFixableMessage = (count: number): string =>
+	`${count} fixable`;

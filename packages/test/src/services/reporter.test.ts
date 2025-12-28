@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
-import { expect } from "../utils";
-import { formatReport, generateJsonReport, generateHtmlReport } from "./reporter";
 import type { TestReport } from "../types";
+import { expect } from "../utils";
+import { formatReport, generateHtmlReport, generateJsonReport } from "./reporter";
 
 describe("Reporter", () => {
 	const mockReport: TestReport = {

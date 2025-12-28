@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { parseArgs } from "./args";
 
 describe("env-manager args", () => {
@@ -9,7 +9,7 @@ describe("env-manager args", () => {
 	});
 
 	it("parses env and output", () => {
-		const opts = parseArgs(["--env", "production", "--output", "dotenv", "apps"]); 
+		const opts = parseArgs(["--env", "production", "--output", "dotenv", "apps"]);
 		expect(opts.environment).toBe("production");
 		expect(opts.output).toBe("dotenv");
 		expect(opts.paths).toEqual(["apps"]);

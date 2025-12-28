@@ -3,7 +3,7 @@
  * Generate command suggestions for typos
  */
 
-import type { ProgramDef } from "../config";
+import type { CommandDef, ProgramDef } from "../types";
 import { findMostSimilar } from "../utils";
 
 /**
@@ -18,7 +18,7 @@ export const suggestCommand = (
 		return undefined;
 	}
 
-	const commandNames = program.commands.map((cmd) => cmd.name);
+	const commandNames = program.commands.map((cmd: CommandDef) => cmd.name);
 	return findMostSimilar(unknownCommand, commandNames, threshold);
 };
 
@@ -35,6 +35,6 @@ export const generateSuggestionMessage = (
 		return `Unknown command "${unknownCommand}". Did you mean "${suggestion}"?`;
 	}
 
-	const availableCommands = program.commands?.map((cmd) => cmd.name).join(", ") || "none";
+	const availableCommands = program.commands?.map((cmd: CommandDef) => cmd.name).join(", ") || "none";
 	return `Unknown command "${unknownCommand}". Available commands: ${availableCommands}`;
 };

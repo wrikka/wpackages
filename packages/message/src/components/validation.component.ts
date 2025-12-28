@@ -32,10 +32,12 @@ export const validateEmail = (
 			return true;
 		},
 		catch: (error) =>
-			new NotificationError({
-				reason: "Unknown",
-				message: `Email validation failed: ${error instanceof Error ? error.message : String(error)}`,
-			}),
+			error instanceof NotificationError
+				? error
+				: new NotificationError({
+					reason: "Unknown",
+					message: `Email validation failed: ${error instanceof Error ? error.message : String(error)}`,
+				}),
 	});
 
 /**
@@ -55,10 +57,12 @@ export const validatePhoneNumber = (
 			return true;
 		},
 		catch: (error) =>
-			new NotificationError({
-				reason: "Unknown",
-				message: `Phone number validation failed: ${error instanceof Error ? error.message : String(error)}`,
-			}),
+			error instanceof NotificationError
+				? error
+				: new NotificationError({
+					reason: "Unknown",
+					message: `Phone number validation failed: ${error instanceof Error ? error.message : String(error)}`,
+				}),
 	});
 
 /**

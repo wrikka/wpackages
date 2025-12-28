@@ -30,8 +30,8 @@ export const preferArrowFunction: Rule = createRule(
 
 			// Skip function declarations (they're different from expressions)
 			if (
-				line.trim().startsWith("function ")
-				|| line.trim().startsWith("export function ")
+				line.trim().startsWith("function ") ||
+				line.trim().startsWith("export function ")
 			) {
 				continue;
 			}

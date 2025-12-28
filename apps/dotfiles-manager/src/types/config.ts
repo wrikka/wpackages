@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 export const fileMapSchema = z.object({
-  source: z.string().describe("Source file path"),
-  target: z.string().describe("Target file path in dotfiles directory"),
+	source: z.string().describe("Source file path"),
+	target: z.string().describe("Target file path in dotfiles directory"),
 });
 
 export type FileMapping = z.infer<typeof fileMapSchema>;
 
 export const gitRemoteSchema = z.object({
-  url: z.string().url().optional().describe("Git remote URL"),
-  branch: z.string().default("main").describe("Git branch name"),
+	url: z.string().url().optional().describe("Git remote URL"),
+	branch: z.string().default("main").describe("Git branch name"),
 });
 
 export type GitRemote = z.infer<typeof gitRemoteSchema>;

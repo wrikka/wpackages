@@ -105,4 +105,3 @@ const z = x - 1;
 		expect(noMutation.meta.fixable).toBe(false);
 	});
 });
-

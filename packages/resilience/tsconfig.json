@@ -3,10 +3,15 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "./dist",
-		"rootDir": "./src",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"@w/design-pattern": [
+				"../design-pattern/dist/index.d.mts"
+			]
+		},
 		"target": "ES2022",
 		"module": "ESNext",
 		"moduleResolution": "bundler",

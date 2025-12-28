@@ -2,14 +2,15 @@
  * Error Creators Usage Examples
  */
 
-import { err, ok } from "program";
-import * as E from "../services/creators";
+import { err, ok, isFailure, isSuccess, type Result } from '@wts/functional';
+import type { AnyError } from '../error';
+import * as E from './creators';
 
 // ============================================
 // Example 1: Validation Error
 // ============================================
 
-function validateEmail(email: string): any {
+function validateEmail(email: string): Result<AnyError, string> {
 	if (!email.includes("@")) {
 		return err(
 			E.validationError("Invalid email format", {
@@ -23,7 +24,7 @@ function validateEmail(email: string): any {
 
 // Usage
 const result1 = validateEmail("not-an-email");
-if (!result1.ok) {
+if (isFailure(result1)) {
 	console.log("Error:", result1.error.message);
 	console.log("Field:", result1.error.field);
 }
@@ -32,7 +33,7 @@ if (!result1.ok) {
 // Example 2: Not Found Error
 // ============================================
 
-async function findUser(id: number): Promise<any> {
+async function findUser(id: number): Promise<Result<AnyError, { id: number; name: string }>> {
 	const users = [
 		{ id: 1, name: "John" },
 		{ id: 2, name: "Jane" },
@@ -40,7 +41,7 @@ async function findUser(id: number): Promise<any> {
 
 	const user = users.find(u => u.id === id);
 	if (!user) {
-		return err(E.notFoundError("User", id));
+		return err(E.notFoundError('User', { id }));
 	}
 
 	return ok(user);
@@ -48,7 +49,7 @@ async function findUser(id: number): Promise<any> {
 
 // Usage
 const result2 = await findUser(999);
-if (!result2.ok) {
+if (isFailure(result2)) {
 	console.log("Error:", result2.error.message); // "User with id "999" not found"
 	console.log("Resource:", result2.error.resource);
 }
@@ -57,7 +58,7 @@ if (!result2.ok) {
 // Example 3: HTTP Error with Try
 // ============================================
 
-async function handleHttpError(url: string): Promise<any> {
+async function handleHttpError(url: string): Promise<Result<AnyError, unknown>> {
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -65,13 +66,13 @@ async function handleHttpError(url: string): Promise<any> {
 		}
 		return ok(await response.json());
 	} catch (e) {
-		return err(e as Error);
+		return err(E.fromUnknown(e));
 	}
 }
 
 // Usage
 const httpResult = await handleHttpError("https://api.example.com/data");
-if (!httpResult.ok) {
+if (isFailure(httpResult)) {
 	console.log("HTTP Error:", httpResult.error.message);
 }
 
@@ -79,7 +80,7 @@ if (!httpResult.ok) {
 // Example 4: Database Error
 // ============================================
 
-async function handleDatabaseQuery(sql: string): Promise<any> {
+async function handleDatabaseQuery(sql: string): Promise<Result<AnyError, unknown[]>> {
 	try {
 		// Simulate database query
 		if (sql.includes("DROP")) {
@@ -87,13 +88,13 @@ async function handleDatabaseQuery(sql: string): Promise<any> {
 		}
 		return ok([]);
 	} catch (e) {
-		return err(e as Error);
+		return err(E.fromUnknown(e));
 	}
 }
 
 // Usage
 const dbResult = await handleDatabaseQuery("SELECT * FROM users");
-if (dbResult.ok) {
+if (isSuccess(dbResult)) {
 	console.log("Query result:", dbResult.value);
 }
 
@@ -101,9 +102,9 @@ if (dbResult.ok) {
 // Example 5: Chaining with Result
 // ============================================
 
-function processUser(id: number): Promise<any> {
+function processUser(id: number): Promise<Result<AnyError, string>> {
 	return findUser(id).then((userResult) => {
-		if (!userResult.ok) {
+		if (isFailure(userResult)) {
 			return userResult;
 		}
 
@@ -114,7 +115,7 @@ function processUser(id: number): Promise<any> {
 
 // Usage
 const result5 = await processUser(1);
-if (result5.ok) {
+if (isSuccess(result5)) {
 	console.log("Email:", result5.value);
 } else {
 	console.log("Error:", result5.error.name, result5.error.message);
@@ -124,7 +125,7 @@ if (result5.ok) {
 // Example 6: Error from unknown
 // ============================================
 
-function handleUnknownError(error: unknown): any {
+function handleUnknownError(error: unknown) {
 	return E.fromUnknown(error);
 }
 
@@ -139,7 +140,7 @@ try {
 // Example 7: HTTP Status Errors
 // ============================================
 
-function handleHttpStatus(status: number): any {
+function handleHttpStatus(status: number) {
 	if (status === 401) {
 		return E.unauthorizedError("Authentication required");
 	}
@@ -148,7 +149,7 @@ function handleHttpStatus(status: number): any {
 		return E.forbiddenError("Access denied");
 	}
 
-	return E.httpError(`HTTP Error ${status}`, status);
+	return E.httpError(status, `HTTP Error ${status}`);
 }
 
 // Usage

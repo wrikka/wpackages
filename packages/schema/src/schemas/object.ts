@@ -1,4 +1,4 @@
-import type { ObjectOptions, Schema, Result, Issue, Infer } from "../types";
+import type { Infer, Issue, ObjectOptions, Result, Schema } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 type ObjectOutput<TShape extends Record<string, Schema<unknown, unknown>>> = {
@@ -19,9 +19,8 @@ export function object<TShape extends Record<string, Schema<unknown, unknown>>>(
 					success: false,
 					issues: [
 						{
-							message:
-								options.message ||
-								`Expected an object, but received ${typeof input}`,
+							message: options.message
+								|| `Expected an object, but received ${typeof input}`,
 							path: [],
 						},
 					],

@@ -34,7 +34,7 @@ export const pipe = <T>(value: T, ...fns: Array<(arg: any) => any>): any => {
 };
 
 // Compose function for function composition (right to left)
-export const compose = <R>(...fns: Array<(arg: any) => any>): ((...args: any[]) => R) => {
+export const compose = <R>(...fns: Array<(arg: any) => any>): (...args: any[]) => R => {
 	return (...args: any[]): R => {
 		const reversed = fns.reverse();
 		if (reversed.length === 0) {

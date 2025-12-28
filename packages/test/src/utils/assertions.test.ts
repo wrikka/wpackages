@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { expect, AssertionError } from "./assertions";
+import { AssertionError, expect } from "./assertions";
 
 describe("Assertions", () => {
 	describe("toBe", () => {
@@ -164,5 +164,4 @@ describe("Assertions", () => {
 			expect([1, 2, 3]).not.toContain(4);
 		});
 	});
-
 });

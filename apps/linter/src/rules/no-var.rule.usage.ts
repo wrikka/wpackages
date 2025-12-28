@@ -56,4 +56,3 @@ console.log("- var has function scope (confusing)");
 console.log("- var can be redeclared (error-prone)");
 console.log("- const/let have block scope (safer)");
 console.log("- const prevents reassignment (better)");
-

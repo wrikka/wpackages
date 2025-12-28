@@ -69,7 +69,8 @@ export const FsEffect = {
 	/**
 	 * Write file with Effect
 	 */
-	writeText: (path: string, content: string) => Effect.try(() => FsPure.writeText(path, content)),
+	writeText: (path: string, content: string) =>
+		Effect.try(() => FsPure.writeText(path, content)),
 
 	/**
 	 * Check if file exists with Effect
@@ -90,12 +91,14 @@ export const FileTypes = {
 	/**
 	 * Check if file is TypeScript
 	 */
-	isTypeScript: (path: string): boolean => FsPure.isFile(path, FileTypes.typescript),
+	isTypeScript: (path: string): boolean =>
+		FsPure.isFile(path, FileTypes.typescript),
 
 	/**
 	 * Check if file is JavaScript
 	 */
-	isJavaScript: (path: string): boolean => FsPure.isFile(path, FileTypes.javascript),
+	isJavaScript: (path: string): boolean =>
+		FsPure.isFile(path, FileTypes.javascript),
 
 	/**
 	 * Check if file is JSON
@@ -105,10 +108,12 @@ export const FileTypes = {
 	/**
 	 * Check if file is Markdown
 	 */
-	isMarkdown: (path: string): boolean => FsPure.isFile(path, FileTypes.markdown),
+	isMarkdown: (path: string): boolean =>
+		FsPure.isFile(path, FileTypes.markdown),
 
 	/**
 	 * Check if file is source code (TS/JS)
 	 */
-	isSourceCode: (path: string): boolean => FileTypes.isTypeScript(path) || FileTypes.isJavaScript(path),
+	isSourceCode: (path: string): boolean =>
+		FileTypes.isTypeScript(path) || FileTypes.isJavaScript(path),
 };

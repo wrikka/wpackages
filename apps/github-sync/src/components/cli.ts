@@ -60,7 +60,10 @@ export function startSpinner(message: string) {
 	return s;
 }
 
-export function stopSpinner(spinner: any, message: string) {
+export function stopSpinner(
+	spinner: ReturnType<typeof p.spinner>,
+	message: string,
+) {
 	spinner.stop(message);
 }
 

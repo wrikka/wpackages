@@ -27,7 +27,9 @@ export type LintOptions = {
  * @param options - Linting options
  * @returns Promise with lint report or error
  */
-export async function lint(options: LintOptions): Promise<Result.Result<LintReport, Error>> {
+export async function lint(
+	options: LintOptions,
+): Promise<Result.Result<LintReport, Error>> {
 	try {
 		const {
 			rules: customRules,
@@ -83,7 +85,9 @@ export async function lint(options: LintOptions): Promise<Result.Result<LintRepo
 		return Result.ok(report);
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
-		return Result.err(new Error(`Linting failed: ${message}`));
+		return Result.err<LintReport, Error>(
+			new Error(`Linting failed: ${message}`),
+		);
 	}
 }
 

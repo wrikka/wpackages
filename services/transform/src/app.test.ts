@@ -1,19 +1,19 @@
-import { describe, expect, it } from "vitest";
 import { Effect } from "effect";
+import { describe, expect, it } from "vitest";
 import { transform } from "./app";
 
 describe("transform", () => {
 	describe("explicit format specification", () => {
 		it("should transform JSON to TOML", () => {
-			const json = '{"name": "test", "version": "1.0.0"}';
+			const json = "{\"name\": \"test\", \"version\": \"1.0.0\"}";
 			const result = Effect.runSync(transform(json, "json", "toml"));
 
-			expect(result).toContain('name = "test"');
-			expect(result).toContain('version = "1.0.0"');
+			expect(result).toContain("name = \"test\"");
+			expect(result).toContain("version = \"1.0.0\"");
 		});
 
 		it("should transform TOML to JSON", () => {
-			const toml = 'name = "test"\nversion = "1.0.0"';
+			const toml = "name = \"test\"\nversion = \"1.0.0\"";
 			const result = Effect.runSync(transform(toml, "toml", "json"));
 			const parsed = JSON.parse(result);
 
@@ -22,7 +22,7 @@ describe("transform", () => {
 		});
 
 		it("should transform JSON to Markdown", () => {
-			const json = '[{"name": "Alice", "age": 30}]';
+			const json = "[{\"name\": \"Alice\", \"age\": 30}]";
 			const result = Effect.runSync(transform(json, "json", "markdown"));
 
 			expect(result).toContain("| name | age |");
@@ -52,7 +52,7 @@ describe("transform", () => {
 		});
 
 		it("should transform TOML to Markdown", () => {
-			const toml = '[package]\nname = "my-app"';
+			const toml = "[package]\nname = \"my-app\"";
 			const result = Effect.runSync(transform(toml, "toml", "markdown"));
 
 			expect(result).toContain("### package");
@@ -61,14 +61,14 @@ describe("transform", () => {
 
 	describe("auto-detect format", () => {
 		it("should auto-detect JSON and transform to TOML", () => {
-			const json = '{"key": "value"}';
+			const json = "{\"key\": \"value\"}";
 			const result = Effect.runSync(transform(json, "auto", "toml"));
 
-			expect(result).toContain('key = "value"');
+			expect(result).toContain("key = \"value\"");
 		});
 
 		it("should auto-detect TOML and transform to JSON", () => {
-			const toml = 'key = "value"';
+			const toml = "key = \"value\"";
 			const result = Effect.runSync(transform(toml, "auto", "json"));
 			const parsed = JSON.parse(result);
 
@@ -85,10 +85,10 @@ describe("transform", () => {
 
 	describe("with filename hint", () => {
 		it("should use filename for format detection", () => {
-			const json = '{"key": "value"}';
+			const json = "{\"key\": \"value\"}";
 			const result = Effect.runSync(transform(json, "auto", "toml", {}, "config.json"));
 
-			expect(result).toContain('key = "value"');
+			expect(result).toContain("key = \"value\"");
 		});
 
 		it("should detect TypeScript from filename", () => {
@@ -101,14 +101,14 @@ describe("transform", () => {
 
 	describe("with options", () => {
 		it("should support pretty print option", () => {
-			const toml = 'name = "test"';
+			const toml = "name = \"test\"";
 			const result = Effect.runSync(transform(toml, "toml", "json", { pretty: true, indent: 2 }));
 
 			expect(result).toContain("\n");
 		});
 
 		it("should support compact output", () => {
-			const toml = 'name = "test"';
+			const toml = "name = \"test\"";
 			const result = Effect.runSync(transform(toml, "toml", "json", { pretty: false }));
 
 			expect(result).not.toContain("\n");
@@ -117,7 +117,7 @@ describe("transform", () => {
 
 	describe("error handling", () => {
 		it("should fail on unsupported transformation", () => {
-			const json = '{"key": "value"}';
+			const json = "{\"key\": \"value\"}";
 
 			expect(() => {
 				Effect.runSync(transform(json, "json", "unsupported" as any));
@@ -143,14 +143,14 @@ describe("transform", () => {
 
 	describe("complex transformations", () => {
 		it("should transform nested JSON to TOML", () => {
-			const json = '{"package": {"name": "my-app", "version": "0.1.0"}}';
+			const json = "{\"package\": {\"name\": \"my-app\", \"version\": \"0.1.0\"}}";
 			const result = Effect.runSync(transform(json, "json", "toml"));
 
 			expect(result).toContain("[package]");
 		});
 
 		it("should transform JSON array to Markdown table", () => {
-			const json = '[{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]';
+			const json = "[{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]";
 			const result = Effect.runSync(transform(json, "json", "markdown"));
 
 			expect(result).toContain("| name | age |");
@@ -159,7 +159,7 @@ describe("transform", () => {
 		});
 
 		it("should transform TOML sections to Markdown", () => {
-			const toml = '[package]\nname = "my-app"\nversion = "0.1.0"';
+			const toml = "[package]\nname = \"my-app\"\nversion = \"0.1.0\"";
 			const result = Effect.runSync(transform(toml, "toml", "markdown"));
 
 			expect(result).toContain("### package");
@@ -169,7 +169,7 @@ describe("transform", () => {
 
 	describe("Effect integration", () => {
 		it("should return Effect type", () => {
-			const json = '{"key": "value"}';
+			const json = "{\"key\": \"value\"}";
 			const effect = transform(json, "json", "toml");
 
 			expect(effect).toBeDefined();
@@ -177,7 +177,7 @@ describe("transform", () => {
 		});
 
 		it("should be runnable with Effect.runSync", () => {
-			const json = '{"key": "value"}';
+			const json = "{\"key\": \"value\"}";
 			const effect = transform(json, "json", "toml");
 
 			expect(() => Effect.runSync(effect)).not.toThrow();

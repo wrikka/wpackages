@@ -46,24 +46,26 @@ const drawLayoutToGrid = (layout: Layout, grid: ScreenCell[][]) => {
 
 		for (let i = 0; i < height; i++) {
 			for (let j = 0; j < width; j++) {
+				const row = grid[y + i];
+				if (!row) continue;
+				const xIndex = x + j;
+				if (xIndex < 0 || xIndex >= row.length) continue;
 				const isTop = i === 0;
 				const isBottom = i === height - 1;
 				const isLeft = j === 0;
 				const isRight = j === width - 1;
 
-				if (isTop && isLeft)
-					grid[y + i][x + j] = { char: border.topLeft, style };
+				if (isTop && isLeft) row[xIndex] = { char: border.topLeft, style };
 				else if (isTop && isRight)
-					grid[y + i][x + j] = { char: border.topRight, style };
+					row[xIndex] = { char: border.topRight, style };
 				else if (isBottom && isLeft)
-					grid[y + i][x + j] = { char: border.bottomLeft, style };
+					row[xIndex] = { char: border.bottomLeft, style };
 				else if (isBottom && isRight)
-					grid[y + i][x + j] = { char: border.bottomRight, style };
-				else if (isTop) grid[y + i][x + j] = { char: border.horizontal, style };
-				else if (isBottom)
-					grid[y + i][x + j] = { char: border.horizontal, style };
-				else if (isLeft) grid[y + i][x + j] = { char: border.vertical, style };
-				else if (isRight) grid[y + i][x + j] = { char: border.vertical, style };
+					row[xIndex] = { char: border.bottomRight, style };
+				else if (isTop) row[xIndex] = { char: border.horizontal, style };
+				else if (isBottom) row[xIndex] = { char: border.horizontal, style };
+				else if (isLeft) row[xIndex] = { char: border.vertical, style };
+				else if (isRight) row[xIndex] = { char: border.vertical, style };
 			}
 		}
 	}
@@ -85,8 +87,11 @@ const drawLayoutToGrid = (layout: Layout, grid: ScreenCell[][]) => {
 		for (let i = 0; i < content.length; i++) {
 			const charX = x + i;
 			const charY = y;
-			if (grid?.[charY] && charX < grid[charY].length) {
-				grid[charY][charX] = { char: content[i], style };
+			const row = grid?.[charY];
+			if (row && charX >= 0 && charX < row.length) {
+				const ch = content[i];
+				if (!ch) continue;
+				row[charX] = { char: ch, style };
 			}
 		}
 	}

@@ -1,115 +1,113 @@
 import { Effect, Layer } from "effect";
 import { type Notification, NotificationError, type NotificationResult } from "../types";
+import { IdGeneratorService, IdGeneratorServiceLive } from "./id-generator.service";
+import { LoggerService, LoggerServiceLive } from "./logger.service";
 import { NotificationService } from "./service";
-
-/**
- * Generate a unique notification ID
- */
-const generateId = (): string => {
-	return `notif_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-};
 
 /**
  * Simulate sending notification through different channels
  * In production, this would integrate with actual services like SendGrid, Twilio, etc.
  */
 const sendNotification = (
+	deps: {
+		readonly logger: LoggerService;
+		readonly idGenerator: { readonly nextId: Effect.Effect<string> };
+	},
 	notification: Notification,
-): Effect.Effect<NotificationResult, NotificationError> =>
-	Effect.gen(function*() {
-		const id = generateId();
+): Effect.Effect<NotificationResult, NotificationError, never> =>
+	Effect.flatMap(deps.idGenerator.nextId, (id) => {
+		const logEffect = (() => {
+			switch (notification.channel) {
+				case "email":
+					return deps.logger.info("[EMAIL] Sending", {
+						to: notification.to,
+						subject: notification.subject ?? "No subject",
+					});
+				case "sms":
+					return deps.logger.info("[SMS] Sending", {
+						to: notification.to,
+					});
+				case "push":
+					return deps.logger.info("[PUSH] Sending", {
+						to: notification.to,
+						title: notification.title,
+					});
+				case "in-app":
+					return deps.logger.info("[IN-APP] Sending", {
+						to: notification.to,
+						userId: notification.userId,
+					});
+				default:
+					return Effect.fail(
+						new NotificationError({
+							reason: "InvalidChannel",
+							message: `Unknown channel: ${(notification as Notification).channel}`,
+						}),
+					);
+			}
+		})();
 
-		// Simulate channel-specific logic
-		switch (notification.channel) {
-			case "email":
-				console.log(`[EMAIL] Sending to: ${notification.to}`);
-				console.log(`[EMAIL] Subject: ${notification.subject || "No subject"}`);
-				console.log(`[EMAIL] Body: ${notification.body}`);
-				break;
-
-			case "sms":
-				console.log(`[SMS] Sending to: ${notification.to}`);
-				console.log(`[SMS] Message: ${notification.body}`);
-				break;
-
-			case "push":
-				console.log(`[PUSH] Sending to: ${notification.to}`);
-				console.log(
-					`[PUSH] Title: ${notification.channel === "push" ? notification.title : ""}`,
-				);
-				console.log(`[PUSH] Body: ${notification.body}`);
-				break;
-
-			case "in-app":
-				console.log(
-					`[IN-APP] Sending to user: ${notification.channel === "in-app" ? notification.userId : ""}`,
-				);
-				console.log(`[IN-APP] Message: ${notification.body}`);
-				break;
-
-			default:
-				return yield* Effect.fail(
-					new NotificationError({
-						reason: "InvalidChannel",
-						message: `Unknown channel: ${(notification as Notification).channel}`,
-					}),
-				);
-		}
-
-		// Simulate network delay
-		yield* Effect.sleep("100 millis");
-
-		return {
-			id,
-			status: "sent" as const,
-			sentAt: new Date(),
-		};
+		return logEffect.pipe(
+			Effect.zipRight(Effect.sleep("100 millis")),
+			Effect.as({
+				id,
+				status: "sent" as const,
+				sentAt: new Date(),
+			}),
+		);
 	});
 
 /**
  * Live implementation of NotificationService
  */
-export const NotificationServiceLive = Layer.succeed(
+export const NotificationServiceLive = Layer.effect(
 	NotificationService,
-	NotificationService.of({
-		send: (notification) => sendNotification(notification),
+	Effect.map(
+		Effect.all([IdGeneratorService, LoggerService]),
+		([idGenerator, logger]) => {
+			const deps = { logger, idGenerator } as const;
+			return NotificationService.of({
+				send: (notification) => sendNotification(deps, notification),
 
-		sendBatch: (notifications) =>
-			Effect.all(
-				notifications.map((n) => sendNotification(n)),
-				{
-					concurrency: 5,
-				},
-			),
+				sendBatch: (notifications) =>
+					Effect.all(
+						notifications.map((n) => sendNotification(deps, n)),
+						{
+							concurrency: 5,
+						},
+					),
 
-		schedule: (_, scheduledAt) =>
-			Effect.succeed({
-				id: generateId(),
-				status: "scheduled" as const,
-			}).pipe(
-				Effect.tap((res) =>
-					Effect.sync(() =>
-						console.log(
-							`[SCHEDULE] Notification ${res.id} scheduled for ${scheduledAt.toISOString()}`,
-						)
-					)
-				),
-			),
+				schedule: (_, scheduledAt) =>
+					Effect.flatMap(idGenerator.nextId, (id) =>
+						logger
+							.info("[SCHEDULE] Notification scheduled", {
+								id,
+								scheduledAt: scheduledAt.toISOString(),
+							})
+							.pipe(
+								Effect.as({
+									id,
+									status: "scheduled" as const,
+								}),
+							),
+					),
 
-		cancel: (notificationId) =>
-			Effect.sync(() => {
-				console.log(`[CANCEL] Canceling notification ${notificationId}`);
-				return true;
-			}),
+				cancel: (notificationId) =>
+					logger
+						.info("[CANCEL] Canceling notification", { notificationId })
+						.pipe(Effect.as(true)),
 
-		getStatus: (notificationId) =>
-			Effect.sync(() => {
-				console.log(`[STATUS] Getting status for ${notificationId}`);
-				return {
-					id: notificationId,
-					status: "sent" as const,
-					sentAt: new Date(),
-				};
-			}),
-	}),
-);
+				getStatus: (notificationId) =>
+					logger
+						.debug("[STATUS] Getting status", { notificationId })
+						.pipe(
+							Effect.as({
+								id: notificationId,
+								status: "sent" as const,
+								sentAt: new Date(),
+							}),
+						),
+			});
+		},
+	),
+).pipe(Layer.provide(LoggerServiceLive), Layer.provide(IdGeneratorServiceLive));

@@ -2,7 +2,7 @@
  * Usage examples for no-if-else rule
  */
 
-import { err, ok } from "functional";
+import { err, ok } from "../utils/result.util";
 
 // ❌ Bad - Long if-else chain
 // function getStatusBad(code: number): string {
@@ -102,5 +102,11 @@ function handleResult<T>(result: Result<T, Error>) {
 }
 
 // Export for examples
-export { getStatusGood, processResultGood, categorizeAgeGood, categorizeAgeBest, isEven, handleResult };
-
+export {
+	getStatusGood,
+	processResultGood,
+	categorizeAgeGood,
+	categorizeAgeBest,
+	isEven,
+	handleResult,
+};

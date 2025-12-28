@@ -54,4 +54,3 @@ return undefined;
 		expect(noNull.meta.fixable).toBe(false);
 	});
 });
-

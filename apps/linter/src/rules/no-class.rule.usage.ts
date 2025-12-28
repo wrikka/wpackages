@@ -55,4 +55,3 @@ const _createDog = (name: string, breed: string): Dog2 => ({
 });
 
 const _bark = (_dog: Dog2): string => "Woof!";
-

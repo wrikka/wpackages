@@ -4,8 +4,8 @@ import {
 	commitAndPushFiles,
 	generateCommitMessage,
 } from "@/services";
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 async function main() {
 	cli.intro();
@@ -73,10 +73,11 @@ async function main() {
 				commitSpinner,
 				`Successfully committed and pushed. Commit SHA: ${commitSha}`,
 			);
-		} catch (error: any) {
+		} catch (error: unknown) {
+			const message = error instanceof Error ? error.message : String(error);
 			cli.stopSpinner(
 				commitSpinner,
-				`Failed to commit and push files: ${error.message}`,
+				`Failed to commit and push files: ${message}`,
 			);
 		}
 	}

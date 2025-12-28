@@ -3,6 +3,8 @@
  */
 
 import { lint, lintWithDefaults } from "./app";
+import type { LintReport } from "./types";
+import { Result } from "./utils";
 
 // ============================================
 // Example 1: Basic Linting
@@ -12,12 +14,12 @@ async function example1() {
 	const result = await lint({ paths: ["./src"] });
 
 	result.match({
-		ok: (report: any) => {
+		ok: (report: LintReport) => {
 			console.log(`✅ Linted ${report.filesLinted} files`);
 			console.log(`Errors: ${report.errorCount}`);
 			console.log(`Warnings: ${report.warningCount}`);
 		},
-		err: (error: any) => {
+		err: (error: Error) => {
 			console.error("❌ Linting failed:", error.message);
 		},
 	});
@@ -194,17 +196,18 @@ async function example10() {
 		const result = await lint({ paths: ["./src"] });
 
 		// Chain operations
-		const report = result
+		const reportResult = result
 			.tap((r) => console.log(`Linted ${r.filesLinted} files`))
-			.tapErr((e) => console.error(`Error: ${e.message}`))
-			.unwrapOr({
-				results: [],
-				errorCount: 0,
-				warningCount: 0,
-				fixableErrorCount: 0,
-				fixableWarningCount: 0,
-				filesLinted: 0,
-			});
+			.tapErr((e) => console.error(`Error: ${e.message}`));
+
+		const report = Result.unwrapOr(reportResult, {
+			results: [],
+			errorCount: 0,
+			warningCount: 0,
+			fixableErrorCount: 0,
+			fixableWarningCount: 0,
+			filesLinted: 0,
+		});
 
 		console.log("Final report:", report);
 	} catch (error) {

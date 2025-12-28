@@ -1,4 +1,4 @@
-import type { Schema, Result } from "../types";
+import type { Result, Schema } from "../types";
 
 type SchemaDefinition<TInput, TOutput> = Omit<
 	Schema<TInput, TOutput>,

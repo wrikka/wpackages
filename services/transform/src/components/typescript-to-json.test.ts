@@ -62,7 +62,7 @@ describe("TypeScriptToJsonTransformer", () => {
 
 	describe("edge cases", () => {
 		it("should handle import statements", () => {
-			const code = 'import { x } from "module";';
+			const code = "import { x } from \"module\";";
 			const result = TypeScriptToJsonTransformer.transform(code);
 			const parsed = JSON.parse(result);
 

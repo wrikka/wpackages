@@ -29,7 +29,7 @@ describe("TypeScriptParser", () => {
 		});
 
 		it("should parse import statement", () => {
-			const code = 'import { x } from "module";';
+			const code = "import { x } from \"module\";";
 			const result = TypeScriptParser.parse(code);
 
 			expect(result.type).toBe("Program");

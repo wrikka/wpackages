@@ -4,7 +4,8 @@
 
 import { presetWind as presetWind4 } from "unocss";
 import { defineConfig } from "vite";
-import wdev from "./src/index";
+import { createWebServerPlugin } from "webserver/vite-plugin-wserver";
+import { createApp as wdev } from "./src/index";
 import { render } from "./src/render";
 
 export default defineConfig(async () => {
@@ -15,7 +16,7 @@ export default defineConfig(async () => {
 					types: { config: true, scripts: "tsc --noEmit" },
 					unused: { config: true, scripts: "bunx knip" },
 				},
-				deps: { config: true, scripts: "bunx depcheck" },
+				deps: { depcheck: { config: true, scripts: "bunx depcheck" } },
 				format: {
 					biome: { config: true, scripts: "biome format --write ." },
 					dprint: { config: true, scripts: "dprint fmt" },
@@ -35,6 +36,7 @@ export default defineConfig(async () => {
 					},
 				},
 			}),
+			createWebServerPlugin({}),
 		],
 	};
 });

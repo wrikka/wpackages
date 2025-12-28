@@ -93,4 +93,3 @@ class User {
 		expect(preferReadonly.meta.fixable).toBe(true);
 	});
 });
-

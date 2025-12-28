@@ -44,8 +44,16 @@ export class CustomError extends Error {
    */
   public withContext(context: ErrorContext): this {
     const newContext = { ...this.context, ...context };
-    // @ts-expect-error - `this.constructor` is a valid constructor
-    return new this.constructor({
+
+    const extra: Record<string, unknown> = {};
+    for (const key of Object.keys(this)) {
+      if (key === 'name' || key === 'message' || key === 'cause' || key === 'context' || key === 'stack') continue;
+      extra[key] = (this as Record<string, unknown>)[key];
+    }
+
+    const Ctor = this.constructor as unknown as new (options: Record<string, unknown>) => this;
+    return new Ctor({
+      ...extra,
       message: this.message,
       cause: this.cause,
       context: newContext,

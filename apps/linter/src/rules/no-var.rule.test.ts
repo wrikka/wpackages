@@ -56,4 +56,3 @@ let y = 2;
 		expect(noVar.meta.fixable).toBe(true);
 	});
 });
-

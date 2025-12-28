@@ -1,5 +1,5 @@
-import { describe, expect, test } from "vitest";
 import { Effect } from "@wts/functional";
+import { describe, expect, test } from "vitest";
 import { CommandLive, run } from "./index";
 
 describe("@wts/command", () => {

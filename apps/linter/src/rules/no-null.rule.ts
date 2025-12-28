@@ -28,11 +28,11 @@ export const noNull: Rule = createRule(
 
 			// Skip comments and type annotations
 			if (
-				line.trim().startsWith("//")
-				|| line.trim().startsWith("/*")
-				|| line.includes("NonNullable")
-				|| line.includes("| null")
-				|| line.includes("null |")
+				line.trim().startsWith("//") ||
+				line.trim().startsWith("/*") ||
+				line.includes("NonNullable") ||
+				line.includes("| null") ||
+				line.includes("null |")
 			) {
 				continue;
 			}

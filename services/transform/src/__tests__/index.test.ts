@@ -1,18 +1,18 @@
-import { describe, expect, it } from "vitest";
 import { Effect } from "effect";
+import { describe, expect, it } from "vitest";
 import { transform } from "../index";
 
 describe("transform", () => {
 	it("should transform JSON to TOML", () => {
-		const json = '{"name": "test", "version": "1.0.0"}';
+		const json = "{\"name\": \"test\", \"version\": \"1.0.0\"}";
 		const result = Effect.runSync(transform(json, "json", "toml"));
 
-		expect(result).toContain('name = "test"');
-		expect(result).toContain('version = "1.0.0"');
+		expect(result).toContain("name = \"test\"");
+		expect(result).toContain("version = \"1.0.0\"");
 	});
 
 	it("should transform TOML to JSON", () => {
-		const toml = 'name = "test"\nversion = "1.0.0"';
+		const toml = "name = \"test\"\nversion = \"1.0.0\"";
 		const result = Effect.runSync(transform(toml, "toml", "json"));
 
 		const parsed = JSON.parse(result);
@@ -21,14 +21,14 @@ describe("transform", () => {
 	});
 
 	it("should auto-detect format", () => {
-		const json = '{"key": "value"}';
+		const json = "{\"key\": \"value\"}";
 		const result = Effect.runSync(transform(json, "auto", "toml"));
 
-		expect(result).toContain('key = "value"');
+		expect(result).toContain("key = \"value\"");
 	});
 
 	it("should transform JSON array to Markdown table", () => {
-		const json = '[{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]';
+		const json = "[{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]";
 		const result = Effect.runSync(transform(json, "json", "markdown"));
 
 		expect(result).toContain("| name | age |");

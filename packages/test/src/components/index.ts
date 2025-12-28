@@ -3,4 +3,4 @@
  */
 
 // Re-export from utils
-export { expect, Assertion, AssertionError } from "../utils";
+export { Assertion, AssertionError, expect } from "../utils";

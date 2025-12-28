@@ -13,6 +13,7 @@
 		"verify": "bun format && bun lint && bun run test && bun audit && bun run build"
 	},
 	"dependencies": {
+		"@wts/console": "workspace:*",
 		"@wts/functional": "workspace:*"
 	}
 }

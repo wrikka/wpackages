@@ -35,7 +35,8 @@ export const isAbsolute = (path: string): boolean => path.startsWith("/");
 /**
  * Normalize path (remove redundant separators)
  */
-export const normalize = (path: string): string => path.replace(/\/+/g, "/").replace(/\/$/, "");
+export const normalize = (path: string): string =>
+	path.replace(/\/+/g, "/").replace(/\/$/, "");
 
 /**
  * Get relative path from base to target

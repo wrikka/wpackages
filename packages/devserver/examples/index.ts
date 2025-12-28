@@ -5,7 +5,7 @@
 
 import presetWind from "@unocss/preset-wind";
 import { defineConfig } from "vite";
-import wdev from "../src";
+import { createApp as wdev } from "../src";
 
 export default defineConfig({
 	plugins: [

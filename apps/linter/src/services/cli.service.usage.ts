@@ -7,7 +7,7 @@ import { makeCliService } from "./cli.service";
 import type { Process } from "./cli.service";
 
 // Example 1: Parse command line arguments
-const example1 = Effect.gen(function*() {
+const example1 = Effect.gen(function* () {
 	console.log("=== Example 1: Parse CLI arguments ===");
 
 	const mockProcess: Process = {
@@ -31,7 +31,7 @@ const example1 = Effect.gen(function*() {
 });
 
 // Example 2: Detect specific flags
-const example2 = Effect.gen(function*() {
+const example2 = Effect.gen(function* () {
 	console.log("\n=== Example 2: Detect flags ===");
 
 	const mockProcess: Process = {
@@ -52,7 +52,7 @@ const example2 = Effect.gen(function*() {
 });
 
 // Example 3: Extract paths
-const example3 = Effect.gen(function*() {
+const example3 = Effect.gen(function* () {
 	console.log("\n=== Example 3: Extract paths ===");
 
 	const mockProcess: Process = {
@@ -71,7 +71,7 @@ const example3 = Effect.gen(function*() {
 });
 
 // Example 4: Exit with code
-const example4 = Effect.gen(function*() {
+const example4 = Effect.gen(function* () {
 	console.log("\n=== Example 4: Exit handling ===");
 
 	let exitCode = -1;
@@ -95,7 +95,7 @@ const example4 = Effect.gen(function*() {
 });
 
 // Run all examples
-const program = Effect.gen(function*() {
+const program = Effect.gen(function* () {
 	yield* example1;
 	yield* example2;
 	yield* example3;

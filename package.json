@@ -3,7 +3,10 @@
 	"version": "0.0.1",
 	"workspaces": [
 		"packages/*",
+		"services/*",
 		"apps/*",
+		"utils/*",
+		"lib/*",
 		"plugins/*",
 		"framework/*/*"
 	],
@@ -39,5 +42,9 @@
 		"turbo": "^2.7.2",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
+	},
+	"dependencies": {
+		"@effect/schema": "^0.75.5",
+		"effect": "^3.19.13"
 	}
 }

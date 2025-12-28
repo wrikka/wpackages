@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		// From follow-tsconfig-json.md for bun
 		"types": ["bun-types"],
 
@@ -29,7 +30,10 @@
 		"noUnusedParameters": true,
 
 		// Path aliases if needed later
-		"paths": {}
+		"paths": {
+			"@wts/console": ["../../services/console/src/index.ts"],
+			"@wts/functional": ["../../packages/functional/src/index.ts"]
+		}
 	},
 	"include": ["src"]
 }

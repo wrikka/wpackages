@@ -8,8 +8,8 @@ import { open } from "../cli/open";
 import { remove } from "../cli/remove";
 import { syncToLocal } from "../cli/sync-local";
 import { syncToRemote } from "../cli/sync-remote";
-import { MESSAGES, SUGGESTED_DOTFILES } from "../constant";
 import { buildMainMenuOptions } from "../components";
+import { MESSAGES, SUGGESTED_DOTFILES } from "../constant";
 import { handleCancel } from "../lib/clack-prompt";
 import { loadDotfileConfig, saveDotfileConfig } from "../lib/config";
 

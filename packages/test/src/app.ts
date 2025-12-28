@@ -3,9 +3,9 @@
  */
 
 import { createConfig } from "./config";
+import type { TestConfig } from "./config";
 import { runTests } from "./services";
 import type { TestReport } from "./types";
-import type { TestConfig } from "./config";
 
 /**
  * Run test suite with configuration
@@ -19,7 +19,7 @@ export const runTestSuite = async (
 		console.log("Running tests with config:", finalConfig);
 	}
 
-	const report = await runTests();
+	const report = await runTests(finalConfig);
 
 	if (finalConfig.verbose) {
 		console.log("Test report:", report);

@@ -28,7 +28,6 @@ const runScriptExample = Effect.gen(function*() {
 	}
 });
 
-
 // Run the examples (commented out as this is an example file)
 // Effect.runPromise(Effect.all([runScriptExample, runMultipleScriptsExample]))
 // 	.then(() => console.log("\nExamples completed!"))

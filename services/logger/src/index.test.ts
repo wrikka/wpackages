@@ -1,6 +1,6 @@
-import { describe, expect, test, vi } from "vitest";
 import { Effect, Layer } from "@wts/functional";
-import { Logger, LoggerLive, info } from "./index";
+import { describe, expect, test, vi } from "vitest";
+import { info, Logger, LoggerLive } from "./index";
 
 describe("@wts/logger", () => {
 	test("LoggerLive should redact default keys", async () => {

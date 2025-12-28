@@ -27,7 +27,9 @@
 		"clean": "rm -rf dist .tsbuildinfo coverage",
 		"prepublishOnly": "bun run clean && bun run build"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"reporter": "workspace:*"
+	},
 	"devDependencies": {
 		"@types/bun": "1.3.3",
 		"@types/node": "^24.10.4",

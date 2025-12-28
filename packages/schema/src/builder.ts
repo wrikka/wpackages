@@ -1,5 +1,5 @@
-import type { StringOptions } from "./types";
 import { string as createStringSchema } from "./schemas/string";
+import type { StringOptions } from "./types";
 
 type Builder<State> = {
 	readonly map: <T>(fn: (state: State) => T) => T;
@@ -26,8 +26,7 @@ const createStringBuilder = (state: StringOptions): StringBuilder => {
 	};
 };
 
-const StringSchemaBuilder = (): ReturnType<StringBuilder["map"]> =>
-	createStringBuilder({}).map(createStringSchema);
+const StringSchemaBuilder = (): ReturnType<StringBuilder["map"]> => createStringBuilder({}).map(createStringSchema);
 
 export const s = {
 	string: StringSchemaBuilder,

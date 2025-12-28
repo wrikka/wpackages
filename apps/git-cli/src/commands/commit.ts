@@ -2,8 +2,8 @@ import { select, spinner, text } from "@clack/prompts";
 import { execa } from "execa";
 import pc from "picocolors";
 import { generateCommitMessageWithAI } from "../utils/ai";
+import { getTypeDescription, runGitCommand } from "../utils/common";
 import { getCommitConfig, isAICommitEnabled } from "../utils/config";
-import { runGitCommand, getTypeDescription } from "../utils/common";
 import { getGitStatusDetailed } from "./status";
 
 async function getStagedDiff(): Promise<string> {
@@ -187,7 +187,7 @@ export async function gitCommitCommand(): Promise<void> {
 		}
 
 		// Manual mode: ask for commit message
-		
+
 		const message = await text({
 			message: "Enter commit message:",
 			placeholder: commitConfig?.conventionalCommits

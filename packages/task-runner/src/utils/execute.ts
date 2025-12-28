@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import type { Result, RunnerError, RunnerOptions, RunnerResult, StreamHandler } from "../types";
 import { err, ok } from "../types/result";
 import { createRunnerError } from "./error";
@@ -211,7 +211,7 @@ export const executeStream = async (
 
 		const commandStr = `${options.command} ${options.args?.join(" ") ?? ""}`;
 
-		const child: any = spawn(commandStr, {
+		const child: any = spawn(options.command, options.args ?? [], {
 			cwd: options.cwd,
 			env,
 			shell: options.shell ?? false,
@@ -354,8 +354,6 @@ export const executeSync = (
 	}
 
 	try {
-		const { execSync } = require("node:child_process");
-
 		const env = parseEnv(options.env);
 
 		if (normalized.preferLocal) {
@@ -372,7 +370,7 @@ export const executeSync = (
 			cwd: options.cwd,
 			env,
 			encoding: normalized.encoding,
-			shell: options.shell ?? false,
+			shell: typeof options.shell === "string" ? options.shell : undefined,
 			timeout: options.timeout,
 			maxBuffer: options.maxBuffer,
 			killSignal: options.killSignal,
@@ -407,7 +405,7 @@ export const executeSync = (
 				stdout: (error as any).stdout?.toString() ?? "",
 				stderr: (error as any).stderr?.toString() ?? "",
 				signal: (error as any).signal ?? null,
-				timedOut: (error as any).killed ?? false,
+				timedOut: false,
 				killed: (error as any).killed ?? false,
 				message: error.message,
 			});

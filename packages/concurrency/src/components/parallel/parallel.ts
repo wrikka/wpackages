@@ -17,8 +17,9 @@ export const parallel = async <T>(
 		throw new Error("Concurrency must be greater than 0");
 	}
 
-	const results: ParallelResult<T>[] = Array.from({ length: fns.length }, () =>
-		({ success: false, error: new Error("Not executed") }) as ParallelResult<T>,
+	const results: ParallelResult<T>[] = Array.from(
+		{ length: fns.length },
+		() => ({ success: false, error: new Error("Not executed") }) as ParallelResult<T>,
 	);
 	const executing: Array<Promise<void>> = [];
 

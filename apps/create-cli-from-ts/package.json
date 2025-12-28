@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@clack/prompts": "^0.11.0",
+    "cli-builder": "workspace:*",
     "openai": "^6.15.0"
   },
   "description": "Complete CLI toolkit - Commands, Components, and Prompts",
@@ -37,8 +38,10 @@
     "watch": "bun lint && bun watch && bun test",
     "start": "bun --watch dev && vitest:ui",
     "dev": "bun run src/index.ts",
+    "examples": "bun run src/index.ts build --entry examples/hello.ts --name example-generated-cli",
     "lint": "oxlint --fix",
-    "build": "tsdown",
+    "postbuild": "bun run src/scripts/add-shebang.ts",
+    "build": "tsdown && bun run postbuild",
     "format": "dprint fmt",
     "test": "vitest --run --passWithNoTests",
     "verify": "bun format && bun lint && bun run test && bun audit && bun run build"

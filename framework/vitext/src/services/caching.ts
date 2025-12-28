@@ -1,4 +1,4 @@
-import { createCache, memoize } from "caching";
+import { createCache, memoize } from "services/cache/src";
 import { logInfo } from "../utils/logger";
 
 /**

@@ -130,9 +130,9 @@ export type ComparisonFormat = "default" | "table" | "json" | "chart";
 
 const selectFormatter = patterns.behavioral.conditionalSelector.createSelector<ComparisonFormat, (comparison: ComparisonResult) => string>(
 	[
-		{ condition: (format) => format === "table", result: formatTable },
-		{ condition: (format) => format === "json", result: formatJson },
-		{ condition: (format) => format === "chart", result: formatChart },
+		{ condition: (format: ComparisonFormat) => format === "table", result: formatTable },
+		{ condition: (format: ComparisonFormat) => format === "json", result: formatJson },
+		{ condition: (format: ComparisonFormat) => format === "chart", result: formatChart },
 	],
 	formatComparison, // Default formatter
 );

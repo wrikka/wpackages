@@ -43,4 +43,3 @@ describe("prefer-pipe", () => {
 		expect(messages).toHaveLength(0);
 	});
 });
-

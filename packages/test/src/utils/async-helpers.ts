@@ -60,9 +60,7 @@ export const race = <T>(
 ): Promise<T> => {
 	return Promise.race([
 		Promise.race(promises),
-		new Promise<T>((_, reject) =>
-			setTimeout(() => reject(new Error(`Race timeout after ${timeout}ms`)), timeout),
-		),
+		new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`Race timeout after ${timeout}ms`)), timeout)),
 	]);
 };
 
@@ -75,9 +73,7 @@ export const withTimeout = <T>(
 ): Promise<T> => {
 	return Promise.race([
 		promise,
-		new Promise<T>((_, reject) =>
-			setTimeout(() => reject(new Error(`Timeout after ${timeout}ms`)), timeout),
-		),
+		new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`Timeout after ${timeout}ms`)), timeout)),
 	]);
 };
 

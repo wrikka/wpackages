@@ -6,14 +6,14 @@ import { Effect } from "effect";
 import { ConsoleService } from "./console.service";
 
 // Example 1: Simple logging
-const example1 = Effect.gen(function*() {
+const example1 = Effect.gen(function* () {
 	console.log("=== Example 1: Simple logging ===");
 	yield* ConsoleService.log("Hello from ConsoleService!");
 	yield* ConsoleService.log("This is logged via Effect");
 });
 
 // Example 2: Sequential logging
-const example2 = Effect.gen(function*() {
+const example2 = Effect.gen(function* () {
 	console.log("\n=== Example 2: Sequential logging ===");
 	yield* ConsoleService.log("Step 1: Initialize");
 	yield* ConsoleService.log("Step 2: Process");
@@ -21,7 +21,7 @@ const example2 = Effect.gen(function*() {
 });
 
 // Example 3: Conditional logging
-const example3 = Effect.gen(function*() {
+const example3 = Effect.gen(function* () {
 	console.log("\n=== Example 3: Conditional logging ===");
 	const shouldLog = true;
 
@@ -36,7 +36,7 @@ const example3 = Effect.gen(function*() {
 });
 
 // Example 4: Logging with formatting
-const example4 = Effect.gen(function*() {
+const example4 = Effect.gen(function* () {
 	console.log("\n=== Example 4: Formatted logging ===");
 	const count = 42;
 	const name = "wtslint";
@@ -46,7 +46,7 @@ const example4 = Effect.gen(function*() {
 });
 
 // Run all examples
-const program = Effect.gen(function*() {
+const program = Effect.gen(function* () {
 	yield* example1;
 	yield* example2;
 	yield* example3;

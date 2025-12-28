@@ -1,4 +1,4 @@
-import { createConfigManager } from "config-manager";
+import { createConfigManager } from "@wts/config-manager";
 import { Context, Effect, Layer } from "effect";
 import { scriptRunnerConfigSchema } from "../config";
 import { DEFAULT_SCRIPT_RUNNER_CONFIG } from "../constant";

@@ -43,7 +43,7 @@ export const makeSizeCheckerService = () => {
 								suggestion: "Consider splitting the file or optimizing its contents",
 							});
 						}
-					// eslint-disable-next-line no-unused-vars
+						// eslint-disable-next-line no-unused-vars
 					} catch (_) {
 						// Ignore file access errors - some files might not be accessible
 					}

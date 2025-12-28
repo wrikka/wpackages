@@ -77,4 +77,3 @@ function processData(data: unknown) {
 example1();
 example2();
 example3();
-

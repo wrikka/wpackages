@@ -106,4 +106,3 @@ console.log("- Use spread [...arr] for array operations");
 console.log("- Use toSorted(), toReversed() (ES2023)");
 console.log("- Use slice(), filter(), map() instead of mutating methods");
 console.log("- Use x + 1 instead of x++");
-

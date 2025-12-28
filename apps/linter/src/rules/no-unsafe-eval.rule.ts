@@ -47,13 +47,7 @@ export const noUnsafeEval: Rule = createRule(
 				const match = pattern.exec(line);
 				if (match) {
 					messages.push(
-						createMessage(
-							"no-eval",
-							message,
-							"error",
-							i + 1,
-							match.index,
-						),
+						createMessage("no-eval", message, "error", i + 1, match.index),
 					);
 				}
 			}

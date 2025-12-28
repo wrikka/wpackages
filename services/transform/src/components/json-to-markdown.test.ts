@@ -4,7 +4,7 @@ import { JsonToMarkdownTransformer } from "./json-to-markdown";
 describe("JsonToMarkdownTransformer", () => {
 	describe("transform", () => {
 		it("should transform JSON array to markdown table", () => {
-			const json = '[{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]';
+			const json = "[{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("| name | age |");
@@ -14,7 +14,7 @@ describe("JsonToMarkdownTransformer", () => {
 		});
 
 		it("should transform JSON object to markdown list", () => {
-			const json = '{"name": "Alice", "age": 30}';
+			const json = "{\"name\": \"Alice\", \"age\": 30}";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("- **name**:");
@@ -29,21 +29,21 @@ describe("JsonToMarkdownTransformer", () => {
 		});
 
 		it("should handle primitive values", () => {
-			const json = '"hello"';
+			const json = "\"hello\"";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("```json");
 		});
 
 		it("should handle null values in table", () => {
-			const json = '[{"name": "Alice", "email": null}]';
+			const json = "[{\"name\": \"Alice\", \"email\": null}]";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("| name | email |");
 		});
 
 		it("should handle mixed data types in table", () => {
-			const json = '[{"name": "Alice", "active": true, "score": 95}]';
+			const json = "[{\"name\": \"Alice\", \"active\": true, \"score\": 95}]";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("| name | active | score |");
@@ -69,7 +69,7 @@ describe("JsonToMarkdownTransformer", () => {
 
 	describe("edge cases", () => {
 		it("should handle nested objects in array", () => {
-			const json = '[{"user": {"name": "Alice"}}]';
+			const json = "[{\"user\": {\"name\": \"Alice\"}}]";
 			const result = JsonToMarkdownTransformer.transform(json);
 
 			expect(result).toContain("|");

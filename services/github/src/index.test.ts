@@ -1,6 +1,6 @@
-import { describe, expect, test, vi } from "vitest";
 import { Effect } from "@wts/functional";
-import { GitHubLive, getRepo, makeGitHub } from "./index";
+import { describe, expect, test, vi } from "vitest";
+import { getRepo, GitHubLive, makeGitHub } from "./index";
 
 describe("@wts/github", () => {
 	test("makeGitHub should call fetch and return json on success", async () => {
@@ -8,7 +8,7 @@ describe("@wts/github", () => {
 			new Response(JSON.stringify({ ok: true }), {
 				status: 200,
 				headers: { "content-type": "application/json" },
-			}),
+			})
 		);
 		vi.stubGlobal("fetch", fetchMock);
 
@@ -26,7 +26,7 @@ describe("@wts/github", () => {
 			new Response(JSON.stringify({ name: "repo" }), {
 				status: 200,
 				headers: { "content-type": "application/json" },
-			}),
+			})
 		);
 		vi.stubGlobal("fetch", fetchMock);
 

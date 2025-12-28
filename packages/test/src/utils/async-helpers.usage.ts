@@ -2,7 +2,7 @@
  * Usage examples for async helpers
  */
 
-import { delay, waitFor, retry, withTimeout, batch, sequential } from "./async-helpers";
+import { batch, delay, retry, sequential, waitFor, withTimeout } from "./async-helpers";
 
 // Example 1: Delay execution
 export const example1_delay = async () => {

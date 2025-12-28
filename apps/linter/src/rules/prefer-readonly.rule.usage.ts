@@ -135,4 +135,3 @@ console.log("- Mark properties readonly when they're only set in constructor");
 console.log("- readonly prevents accidental modification");
 console.log("- Improves type safety and code clarity");
 console.log("- Makes intent explicit - this value won't change");
-

@@ -64,4 +64,3 @@ const y = x + 1;
 		expect(noConsole.meta.fixable).toBe(false);
 	});
 });
-

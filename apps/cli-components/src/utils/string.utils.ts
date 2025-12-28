@@ -80,3 +80,10 @@ export const rightAlign = (text: string, width: number): string => {
  * Pad string to specific length (alias for pad)
  */
 export const padEnd = pad;
+
+/**
+ * Convert string to camelCase
+ */
+export const camelCase = (str: string): string => {
+	return str.replace(/[-_](\w)/g, (_, c) => c.toUpperCase());
+};

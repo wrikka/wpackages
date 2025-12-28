@@ -1,5 +1,5 @@
-import type { CliOptions, LangKey, OutputMode } from "../types/cli.type";
 import { DEFAULT_LANG } from "../config/defaults.config";
+import type { CliOptions, LangKey, OutputMode } from "../types/cli.type";
 
 const toOutput = (raw: string | undefined): OutputMode => {
 	if (!raw) return "text";

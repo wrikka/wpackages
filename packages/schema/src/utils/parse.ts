@@ -1,5 +1,5 @@
 import { parse as parseWithParser } from "parser";
-import type { Schema, Result } from "../types";
+import type { Result, Schema } from "../types";
 
 export async function parse<T>(
 	schema: Schema<unknown, T>,

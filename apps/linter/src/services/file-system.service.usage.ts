@@ -6,7 +6,7 @@ import { Effect } from "effect";
 import { FileSystemService } from "./file-system.service";
 
 // Example 1: Read directory contents
-const example1 = Effect.gen(function*() {
+const example1 = Effect.gen(function* () {
 	console.log("=== Example 1: Read directory ===");
 
 	try {
@@ -30,7 +30,7 @@ const example1 = Effect.gen(function*() {
 });
 
 // Example 2: Read file content
-const example2 = Effect.gen(function*() {
+const example2 = Effect.gen(function* () {
 	console.log("\n=== Example 2: Read file ===");
 
 	try {
@@ -49,7 +49,7 @@ const example2 = Effect.gen(function*() {
 });
 
 // Example 3: Filter TypeScript files
-const example3 = Effect.gen(function*() {
+const example3 = Effect.gen(function* () {
 	console.log("\n=== Example 3: Filter TypeScript files ===");
 
 	try {
@@ -66,7 +66,7 @@ const example3 = Effect.gen(function*() {
 });
 
 // Example 4: Combine operations
-const example4 = Effect.gen(function*() {
+const example4 = Effect.gen(function* () {
 	console.log("\n=== Example 4: Read and process ===");
 
 	try {
@@ -91,7 +91,7 @@ const example4 = Effect.gen(function*() {
 });
 
 // Run examples
-const program = Effect.gen(function*() {
+const program = Effect.gen(function* () {
 	yield* example1;
 	yield* example2;
 	yield* example3;

@@ -1,4 +1,4 @@
-import type { Schema, Result, Issue, Infer } from "../types";
+import type { Infer, Issue, Result, Schema } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 type UnionOptions<

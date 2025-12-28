@@ -9,7 +9,16 @@ export type { Severity } from "./severity";
 export { compareSeverity, isSeverity, SEVERITY_LEVELS } from "./severity";
 
 // Rules
-export type { Fix, LintMessage, Rule, RuleCategory, RuleConfig, RuleContext, RuleMeta, Suggestion } from "./rule";
+export type {
+	Fix,
+	LintMessage,
+	Rule,
+	RuleCategory,
+	RuleConfig,
+	RuleContext,
+	RuleMeta,
+	Suggestion,
+} from "./rule";
 
 // Linter
 export type { LinterOptions, LintReport, LintResult } from "./linter";

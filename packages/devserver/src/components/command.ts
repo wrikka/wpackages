@@ -12,7 +12,7 @@ export function createCommandPlugin(
 
 	return {
 		buildStart() {
-			console.log(`[wvite:${name}] Running commands...`);
+			console.log(`[wdev:${name}] Running commands...`);
 			for (const [tool, opts] of Object.entries(commands)) {
 				let command = opts.scripts;
 				if (typeof opts.config === "string") {
@@ -29,6 +29,6 @@ export function createCommandPlugin(
 				}
 			}
 		},
-		name: `vite-plugin-wvite-${name}`,
+		name: `vite-plugin-wdev-${name}`,
 	};
 }

@@ -3,8 +3,36 @@
  */
 
 // Simple pipe implementation for examples
-const pipe = <T>(value: T, ...fns: Array<(x: any) => any>): any =>
-	fns.reduce((acc, fn) => fn(acc), value);
+function pipe<A>(a: A): A;
+function pipe<A, B>(a: A, ab: (a: A) => B): B;
+function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C;
+function pipe<A, B, C, D>(
+	a: A,
+	ab: (a: A) => B,
+	bc: (b: B) => C,
+	cd: (c: C) => D,
+): D;
+function pipe<A, B, C, D, E>(
+	a: A,
+	ab: (a: A) => B,
+	bc: (b: B) => C,
+	cd: (c: C) => D,
+	de: (d: D) => E,
+): E;
+function pipe<A, B, C, D, E, F>(
+	a: A,
+	ab: (a: A) => B,
+	bc: (b: B) => C,
+	cd: (c: C) => D,
+	de: (d: D) => E,
+	ef: (e: E) => F,
+): F;
+function pipe(
+	value: unknown,
+	...fns: ReadonlyArray<(x: unknown) => unknown>
+): unknown {
+	return fns.reduce((acc, fn) => fn(acc), value);
+}
 
 // ❌ Bad - Nested function calls (hard to read)
 const result1 = JSON.stringify(
@@ -14,10 +42,11 @@ const result1 = JSON.stringify(
 // ✅ Good - Using pipe (easier to read)
 const result2 = pipe(
 	{ a: 1, b: 2 },
-	(data) => Object.entries(data),
-	(data) => Object.fromEntries(data),
-	(data) => Object.values(data),
-	(data) => JSON.stringify(data),
+	(data: { readonly a: number; readonly b: number }) => Object.entries(data),
+	(entries: ReadonlyArray<readonly [string, number]>) =>
+		Object.fromEntries(entries),
+	(obj: Record<string, number>) => Object.values(obj),
+	(values: ReadonlyArray<number>) => JSON.stringify(values),
 );
 
 // Example functions
@@ -26,7 +55,8 @@ const trim = (s: string) => s.trim();
 const toUpperCase = (s: string) => s.toUpperCase();
 const parseJSON = (s: string) => JSON.parse(s);
 const mapToUsers = (data: { users: unknown[] }) => data.users;
-const filterActive = (users: { active: boolean }[]) => users.filter((u) => u.active);
+const filterActive = (users: { active: boolean }[]) =>
+	users.filter((u) => u.active);
 
 // ❌ Bad - Multiple nested calls
 const result3 = toUpperCase(trim(removeSpaces("input")));
@@ -47,5 +77,15 @@ const ok2 = toUpperCase(trim("input")); // ✅ Still readable
 const notOk = toUpperCase(trim(removeSpaces("input"))); // ❌ Use pipe!
 
 // Export for examples
-export { result1, result2, result3, result4, ok1, ok2, notOk, parseJSON, mapToUsers, filterActive };
-
+export {
+	result1,
+	result2,
+	result3,
+	result4,
+	ok1,
+	ok2,
+	notOk,
+	parseJSON,
+	mapToUsers,
+	filterActive,
+};

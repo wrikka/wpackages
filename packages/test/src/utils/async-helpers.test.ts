@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import { expect } from "./assertions";
-import { delay, waitFor, retry, withTimeout } from "./async-helpers";
+import { delay, retry, waitFor, withTimeout } from "./async-helpers";
 
 describe("Async helpers", () => {
 	describe("delay", () => {
@@ -39,13 +39,17 @@ describe("Async helpers", () => {
 	describe("retry", () => {
 		it("should retry on failure", async () => {
 			let attempts = 0;
-			const result = await retry(async () => {
-				attempts++;
-				if (attempts < 3) {
-					throw new Error("Not yet");
-				}
-				return 42;
-			}, 5, 10);
+			const result = await retry(
+				async () => {
+					attempts++;
+					if (attempts < 3) {
+						throw new Error("Not yet");
+					}
+					return 42;
+				},
+				5,
+				10,
+			);
 			expect(result).toBe(42);
 			expect(attempts).toBe(3);
 		});

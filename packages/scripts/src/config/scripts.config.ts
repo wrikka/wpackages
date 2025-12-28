@@ -1,4 +1,4 @@
-import type { EnvSchema } from "config-manager";
+import type { EnvSchema } from "@wts/config-manager";
 import type { ScriptRunnerConfig } from "../types";
 
 /**

@@ -1,4 +1,4 @@
-import type { Schema, Result } from "../types";
+import type { Result, Schema } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 export function optional<TInput, TOutput>(

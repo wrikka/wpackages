@@ -5,7 +5,7 @@
  * using the configuration manager.
  */
 
-import { createConfigManager } from "config-manager";
+import { createConfigManager } from "@wts/config-manager";
 import { scriptRunnerConfigSchema } from "../config";
 import type { ScriptRunnerConfig } from "../types";
 

@@ -56,8 +56,8 @@ export const noMutation: Rule = createRule(
 					// Skip if using spread operator before mutation (e.g., [...arr].sort())
 					const beforeMatch = line.substring(0, match.index);
 					if (
-						beforeMatch.includes("[...")
-						&& beforeMatch.lastIndexOf("[...") > beforeMatch.lastIndexOf("]")
+						beforeMatch.includes("[...") &&
+						beforeMatch.lastIndexOf("[...") > beforeMatch.lastIndexOf("]")
 					) {
 						continue;
 					}

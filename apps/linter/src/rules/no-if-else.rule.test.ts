@@ -54,4 +54,3 @@ describe("no-if-else", () => {
 		expect(messages).toHaveLength(0);
 	});
 });
-

@@ -1,4 +1,4 @@
-import type { ArrayOptions, Schema, Result, Issue, Infer } from "../types";
+import type { ArrayOptions, Infer, Issue, Result, Schema } from "../types";
 import { createSchema } from "../utils/create-schema";
 
 export function array<TItem extends Schema<unknown, unknown>>(
@@ -14,9 +14,8 @@ export function array<TItem extends Schema<unknown, unknown>>(
 					success: false,
 					issues: [
 						{
-							message:
-								options.message ||
-								`Expected an array, but received ${typeof input}`,
+							message: options.message
+								|| `Expected an array, but received ${typeof input}`,
 							path: [],
 						},
 					],

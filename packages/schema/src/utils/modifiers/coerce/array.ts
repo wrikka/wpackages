@@ -17,9 +17,7 @@ export const coerceArray = <Input, Output>(
 				arr = input.split(options.splitBy);
 
 				if (options.trimItems) {
-					arr = arr.map((item) =>
-						typeof item === "string" ? item.trim() : item,
-					);
+					arr = arr.map((item) => typeof item === "string" ? item.trim() : item);
 				}
 
 				if (options.filterEmpty) {
