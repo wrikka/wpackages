@@ -18,6 +18,9 @@ describe("Async Error Handling Utilities", () => {
 
 			expect(result).toEqual({ success: false, error: expect.any(Error) });
 			expect(result.success).toBe(false);
+			if (result.success) {
+				throw new Error("Expected failure result");
+			}
 			expect(result).toHaveProperty("error");
 			expect(result.error).toBeInstanceOf(Error);
 			expect(result.error.message).toBe("fail");

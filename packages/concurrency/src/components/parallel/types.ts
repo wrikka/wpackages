@@ -3,8 +3,12 @@ export type ParallelOptions = {
 	failFast?: boolean;
 };
 
-export type ParallelResult<T> = {
-	success: boolean;
-	value?: T;
-	error?: Error;
-};
+export type ParallelResult<T> =
+	| {
+			success: true;
+			value: T;
+	}
+	| {
+			success: false;
+			error: Error;
+	};

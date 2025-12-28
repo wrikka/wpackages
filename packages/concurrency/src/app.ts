@@ -5,13 +5,17 @@
 import type { ConcurrencyConfig } from "./config";
 import { defaultConcurrencyConfig } from "./config";
 
+export type ConcurrencyApp = {
+	readonly config: ConcurrencyConfig;
+};
+
 /**
  * Create concurrency application with custom config
  */
 export const createConcurrencyApp = (
 	config: Partial<ConcurrencyConfig> = {},
-) => {
-	const finalConfig = { ...defaultConcurrencyConfig, ...config };
+): ConcurrencyApp => {
+	const finalConfig: ConcurrencyConfig = { ...defaultConcurrencyConfig, ...config };
 
 	return {
 		config: finalConfig,
@@ -22,4 +26,4 @@ export const createConcurrencyApp = (
 /**
  * Default concurrency app instance
  */
-export const app = createConcurrencyApp();
+export const app: ConcurrencyApp = createConcurrencyApp();

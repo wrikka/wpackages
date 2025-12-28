@@ -17,7 +17,9 @@ export const parallel = async <T>(
 		throw new Error("Concurrency must be greater than 0");
 	}
 
-	const results: ParallelResult<T>[] = Array.from({ length: fns.length }, () => undefined as any);
+	const results: ParallelResult<T>[] = Array.from({ length: fns.length }, () =>
+		({ success: false, error: new Error("Not executed") }) as ParallelResult<T>,
+	);
 	const executing: Array<Promise<void>> = [];
 
 	for (let i = 0; i < fns.length; i++) {
@@ -29,11 +31,7 @@ export const parallel = async <T>(
 				results[i] = { success: true, value };
 			} catch (_error) {
 				const error = _error instanceof Error ? _error : new Error(String(_error));
-				const result: ParallelResult<T> = {
-					success: false,
-					error,
-				};
-				results[i] = result;
+				results[i] = { success: false, error };
 
 				if (failFast) {
 					throw error;
@@ -76,9 +74,9 @@ export const parallelCollect = async <T>(
 	const errors: Error[] = [];
 
 	for (const result of results) {
-		if (result.success && result.value !== undefined) {
+		if (result.success) {
 			success.push(result.value);
-		} else if (!result.success) {
+		} else {
 			errors.push(result.error);
 		}
 	}

@@ -1,4 +1,4 @@
-import { patterns } from "@w/design-pattern";
+export type BackoffStrategy = "constant" | "linear" | "exponential";
 
 /**
  * retry - Retry function on failure
@@ -12,25 +12,22 @@ export const retry = <T>(
 	_options: {
 		maxAttempts?: number;
 		delay?: number;
-		backoff?: "constant" | "linear" | "exponential";
+		backoff?: BackoffStrategy;
 	} = {},
 ): Promise<T> => {
 	const { maxAttempts = 3, delay = 1000, backoff = "constant" } = _options;
 
-	const calculateNextDelay = patterns.behavioral.conditionalSelector.selectFunctionByCondition(
-		backoff,
-		[
-			{
-				condition: (b: typeof backoff) => b === "exponential",
-				fn: (d: number) => d * 2,
-			},
-			{
-				condition: (b: typeof backoff) => b === "linear",
-				fn: (d: number) => d + delay,
-			},
-		],
-		(d: number) => d, // constant backoff
-	);
+	const transformDelay = (currentDelay: number): number => {
+		switch (backoff) {
+			case "exponential":
+				return currentDelay * 2;
+			case "linear":
+				return currentDelay + delay;
+			case "constant":
+			default:
+				return currentDelay;
+		}
+	};
 
 	let lastError: Error | undefined;
 
@@ -42,7 +39,7 @@ export const retry = <T>(
 					lastError = error instanceof Error ? error : new Error(String(error));
 
 					if (count < maxAttempts - 1) {
-						const nextDelay = calculateNextDelay(currentDelay);
+						const nextDelay = transformDelay(currentDelay);
 						setTimeout(() => attempt(count + 1, nextDelay), currentDelay);
 					} else {
 						reject(lastError);
