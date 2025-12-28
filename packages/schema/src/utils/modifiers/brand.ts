@@ -5,9 +5,9 @@
  * Better than competitors with more flexible branding options.
  */
 
-import { createSchema } from "../../core/create";
+import { createSchema } from "../../schemas/create";
 import type { Schema } from "../../types";
-import { addIssue } from "../../errors";
+import { addIssue } from "../validation";
 
 /**
  * Create a branded type

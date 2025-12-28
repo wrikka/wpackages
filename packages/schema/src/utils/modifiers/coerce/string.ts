@@ -2,6 +2,7 @@ import { ERROR_MESSAGES } from "../../../constant";
 import { Result } from "../../../lib";
 import type { Schema } from "../../../types";
 import { createError } from "../../../utils";
+import { createSchema } from "../../create-schema";
 
 export const coerceString = (
 	options: {
@@ -10,7 +11,7 @@ export const coerceString = (
 		readonly toUpperCase?: boolean;
 	} = {},
 ): Schema<unknown, string> => {
-	return {
+	return createSchema({
 		parse: (input: unknown) => {
 			if (typeof input === "string") {
 				let value = input;
@@ -39,5 +40,5 @@ export const coerceString = (
 		_input: undefined as any,
 		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
 		_output: undefined as any,
-	};
+	});
 };

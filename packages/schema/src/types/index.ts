@@ -17,7 +17,7 @@ export type Schema<TInput, TOutput = TInput> = {
 	transform: <TNewOutput>(
 		transformer: (value: TOutput) => TNewOutput,
 	) => Schema<TInput, TNewOutput>;
-	shape?: Record<string, Schema<any, any>>;
+	shape?: Record<string, Schema<unknown, unknown>>;
 	parse: (
 		input: unknown,
 		context?: Partial<ValidationContext>,
@@ -26,8 +26,9 @@ export type Schema<TInput, TOutput = TInput> = {
 	_input: TInput;
 	_output: TOutput;
 };
-export type Infer<S extends Schema<any, any>> =
-	S extends Schema<any, infer O> ? O : never;
+
+export type Infer<S extends Schema<unknown, unknown>> =
+	S extends Schema<unknown, infer O> ? O : never;
 export enum ErrorCode {
 	InvalidType = 0,
 	InvalidLiteral = 1,
@@ -54,13 +55,15 @@ export type NumberOptions = {
 	name?: string;
 };
 
-export type ObjectOptions<TShape extends Record<string, Schema<any, any>>> = {
+export type ObjectOptions<
+	TShape extends Record<string, Schema<unknown, unknown>>,
+> = {
 	shape: TShape;
 	message?: string;
 	name?: string;
 };
 
-export type ArrayOptions<TItem extends Schema<any, any>> = {
+export type ArrayOptions<TItem extends Schema<unknown, unknown>> = {
 	item: TItem;
 	message?: string;
 	name?: string;

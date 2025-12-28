@@ -21,10 +21,11 @@ export function createSchema<TInput, TOutput>(
 					if (result.success) {
 						try {
 							return { success: true, data: transformer(result.data) };
-						} catch (e: any) {
+						} catch (e: unknown) {
+							const message = e instanceof Error ? e.message : String(e);
 							return {
 								success: false,
-								issues: [{ message: e.message, path: [] }],
+								issues: [{ message, path: [] }],
 							};
 						}
 					}

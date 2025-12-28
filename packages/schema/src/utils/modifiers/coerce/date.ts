@@ -2,11 +2,12 @@ import { ERROR_MESSAGES } from "../../../constant";
 import { Result } from "../../../lib";
 import type { Schema } from "../../../types";
 import { createError } from "../../../utils";
+import { createSchema } from "../../create-schema";
 
 export const coerceDate = (
 	options: { readonly allowInvalid?: boolean } = {},
 ): Schema<string | number | Date, Date> => {
-	return {
+	return createSchema({
 		parse: (input: unknown) => {
 			if (input instanceof Date) {
 				return Result.ok(new Date(input.getTime()));
@@ -33,5 +34,5 @@ export const coerceDate = (
 		_input: undefined as any,
 		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
 		_output: undefined as any,
-	};
+	});
 };

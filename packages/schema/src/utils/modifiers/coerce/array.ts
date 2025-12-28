@@ -1,4 +1,5 @@
 import type { Schema } from "../../../types";
+import { createSchema } from "../../create-schema";
 
 export const coerceArray = <Input, Output>(
 	schema: Schema<Input[], Output>,
@@ -8,7 +9,7 @@ export const coerceArray = <Input, Output>(
 		readonly filterEmpty?: boolean;
 	} = {},
 ): Schema<Input | Input[] | string, Output> => {
-	return {
+	return createSchema({
 		parse: (input: unknown) => {
 			let arr: unknown[];
 
@@ -36,5 +37,5 @@ export const coerceArray = <Input, Output>(
 		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
 		_input: undefined as any,
 		_output: schema._output,
-	};
+	});
 };

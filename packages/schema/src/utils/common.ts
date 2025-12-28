@@ -3,23 +3,23 @@
  */
 
 import type { Result, Schema, ValidationContext, Issue } from "../types";
+import { createSchema as createSchemaWithTransform } from "./create-schema";
 
 // The context object used during validation.
 // It's intentionally extensible with `[key: string]: any` to allow for custom properties.
-// biome-ignore lint/suspicious/noExplicitAny: This is a flexible context object.
 type InternalValidationContext = ValidationContext & {
 	issues: Issue[];
-	data?: any;
+	data?: unknown;
 };
 
 export const createSchema = <T, I = T>(
 	validate: (
 		input: unknown,
 		ctx: InternalValidationContext,
-	) => void | Result<T>,
+	) => undefined | Result<T>,
 	metadata?: { name?: string },
 ): Schema<I, T> => {
-	return {
+	return createSchemaWithTransform({
 		parse: (input: unknown, context?: Partial<ValidationContext>) => {
 			const ctx: InternalValidationContext = {
 				issues: [],
@@ -39,7 +39,7 @@ export const createSchema = <T, I = T>(
 		_metadata: metadata || {},
 		_input: undefined as I,
 		_output: undefined as T,
-	};
+	});
 };
 
 export const createError = (

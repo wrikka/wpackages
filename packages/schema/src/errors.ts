@@ -1,4 +1,4 @@
-import type { Issue } from "../types";
+import type { Issue } from "./types";
 
 export class ValidationError extends Error {
 	public readonly issues: Issue[];

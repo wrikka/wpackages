@@ -4,7 +4,7 @@
  * Transform validated values to another type
  */
 
-import { addIssue } from "../../errors";
+import { addIssue } from "../validation";
 import type { Schema, SchemaOptions } from "../../types";
 import { createSchema } from "../../utils";
 
@@ -30,7 +30,7 @@ export const transform = <I, O, T>(
 	options: SchemaOptions = {},
 ): Schema<I, T> => {
 	return createSchema<I, T>(
-		(input, ctx) => {
+		(input, ctx): undefined => {
 			const result = schema.parse(input);
 			if (!result.success) {
 				// Forward errors
@@ -42,6 +42,7 @@ export const transform = <I, O, T>(
 			try {
 				const transformed = fn(result.data);
 				ctx.data = transformed;
+				return;
 			} catch (error) {
 				addIssue(ctx, {
 					code: "transformation_error",
@@ -50,7 +51,7 @@ export const transform = <I, O, T>(
 						`Transformation failed: ${error instanceof Error ? error.message : String(error)}`,
 				});
 			}
-			return { success: true, data: ctx.data };
+			return;
 		},
 		{
 			...(options.name !== undefined ? { name: options.name } : {}),
@@ -78,7 +79,7 @@ export const withDefault = <I, O>(
 	schema: Schema<I, O>,
 	defaultValue: O | (() => O),
 ): Schema<I | undefined, O> => {
-	return createSchema<I | undefined, O>((input, ctx) => {
+	return createSchema<I | undefined, O>((input, ctx): undefined => {
 		if (input === undefined) {
 			const value =
 				typeof defaultValue === "function"
@@ -117,7 +118,7 @@ export const optional = <I, O>(
 	schema: Schema<I, O>,
 	options?: { default?: O | (() => O) },
 ): Schema<I | undefined, O | undefined> => {
-	return createSchema<I | undefined, O | undefined>((input, ctx) => {
+	return createSchema<I | undefined, O | undefined>((input, ctx): undefined => {
 		if (input === undefined) {
 			if (options?.default !== undefined) {
 				const value =
@@ -160,7 +161,7 @@ export const nullable = <I, O>(
 	schema: Schema<I, O>,
 	options?: { default?: O | (() => O) },
 ): Schema<I | null, O | null> => {
-	return createSchema<I | null, O | null>((input, ctx) => {
+	return createSchema<I | null, O | null>((input, ctx): undefined => {
 		if (input === null) {
 			if (options?.default !== undefined) {
 				const value =

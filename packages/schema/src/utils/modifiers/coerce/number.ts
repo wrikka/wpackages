@@ -2,6 +2,7 @@ import { ERROR_MESSAGES } from "../../../constant";
 import { Result } from "../../../lib";
 import type { Schema } from "../../../types";
 import { createError } from "../../../utils";
+import { createSchema } from "../../create-schema";
 
 export const coerceNumber = <Output>(
 	schema: Schema<number, Output>,
@@ -11,7 +12,7 @@ export const coerceNumber = <Output>(
 		readonly allowNaN?: boolean;
 	} = {},
 ): Schema<string | number, Output> => {
-	return {
+	return createSchema({
 		parse: (input: unknown) => {
 			if (typeof input === "number") {
 				if (Number.isNaN(input) && !options.allowNaN) {
@@ -50,5 +51,5 @@ export const coerceNumber = <Output>(
 		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
 		_input: undefined as any,
 		_output: schema._output,
-	};
+	});
 };

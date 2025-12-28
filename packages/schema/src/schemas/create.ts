@@ -1,4 +1,5 @@
 import type { Schema, ValidationContext, Result, Issue } from "../types";
+import { createSchema as createSchemaWithTransform } from "../utils/create-schema";
 
 export const createSchema = <TInput, TOutput>(
 	parser: (
@@ -7,7 +8,7 @@ export const createSchema = <TInput, TOutput>(
 	) => void,
 	options?: { name?: string },
 ): Schema<TInput, TOutput> => {
-	return {
+	return createSchemaWithTransform({
 		parse: (
 			input: unknown,
 			context?: Partial<ValidationContext>,
@@ -23,7 +24,7 @@ export const createSchema = <TInput, TOutput>(
 			return { success: true, data: ctx.data as TOutput };
 		},
 		_metadata: options || {},
-		_input: undefined as any,
-		_output: undefined as any,
-	};
+		_input: undefined as unknown as TInput,
+		_output: undefined as unknown as TOutput,
+	});
 };

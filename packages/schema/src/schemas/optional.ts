@@ -1,18 +1,18 @@
-import type { Schema, Result, Infer } from "../types";
+import type { Schema, Result } from "../types";
 import { createSchema } from "../utils/create-schema";
 
-export function optional<T extends Schema<any, any>>(
-	schema: T,
-): Schema<Infer<T> | undefined, Infer<T> | undefined> {
+export function optional<TInput, TOutput>(
+	schema: Schema<TInput, TOutput>,
+): Schema<TInput | undefined, TOutput | undefined> {
 	return createSchema({
 		_metadata: { name: "optional" },
-		_input: undefined as Infer<T> | undefined,
-		_output: undefined as Infer<T> | undefined,
-		parse(input: unknown): Result<Infer<T> | undefined> {
+		_input: undefined as TInput | undefined,
+		_output: undefined as TOutput | undefined,
+		parse(input: unknown): Result<TOutput | undefined> {
 			if (input === undefined) {
 				return { success: true, data: undefined };
 			}
-			return schema.parse(input);
+			return schema.parse(input) as Result<TOutput>;
 		},
 	});
 }

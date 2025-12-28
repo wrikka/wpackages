@@ -38,7 +38,7 @@ export const array = <S extends Schema<unknown, unknown>>(
 	options: ArrayOptions = {},
 ): Schema<Infer<S>[], Infer<S>[]> => {
 	return createSchema<Infer<S>[], Infer<S>[]>(
-		(input, ctx) => {
+		(input, ctx): undefined => {
 			// Type check
 			if (!Array.isArray(input)) {
 				addIssue(ctx, {

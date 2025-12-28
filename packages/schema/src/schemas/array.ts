@@ -1,7 +1,7 @@
 import type { ArrayOptions, Schema, Result, Issue, Infer } from "../types";
 import { createSchema } from "../utils/create-schema";
 
-export function array<TItem extends Schema<any, any>>(
+export function array<TItem extends Schema<unknown, unknown>>(
 	options: ArrayOptions<TItem>,
 ): Schema<unknown[], Infer<TItem>[]> {
 	return createSchema({
@@ -31,7 +31,7 @@ export function array<TItem extends Schema<any, any>>(
 				const result = options.item.parse(item);
 
 				if (result.success) {
-					output.push(result.data);
+					output.push(result.data as Infer<TItem>);
 				} else {
 					issues.push(
 						...result.issues.map((issue) => ({

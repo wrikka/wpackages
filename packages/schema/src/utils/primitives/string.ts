@@ -25,9 +25,9 @@ const ERROR_MESSAGES = {
 	INVALID_UUID: "Invalid UUID format",
 };
 
-import { createSchema } from "../../core/create";
+import { createSchema } from "../../schemas/create";
 import type { Schema, SchemaOptions } from "../../types";
-import { addIssue } from "../../errors";
+import { addIssue } from "../validation";
 
 /**
  * String refinement options

@@ -2,6 +2,7 @@ import { ERROR_MESSAGES } from "../../../constant";
 import { Result } from "../../../lib";
 import type { Schema } from "../../../types";
 import { createError } from "../../../utils";
+import { createSchema } from "../../create-schema";
 
 const TRUTHY_VALUES = new Set(["true", "1", "yes", "on"]);
 const FALSY_VALUES = new Set(["false", "0", "no", "off"]);
@@ -15,7 +16,7 @@ export const coerceBoolean = (
 	const trueSet = new Set(options.trueValues || TRUTHY_VALUES);
 	const falseSet = new Set(options.falseValues || FALSY_VALUES);
 
-	return {
+	return createSchema({
 		parse: (input: unknown) => {
 			if (typeof input === "boolean") {
 				return Result.ok(input);
@@ -41,5 +42,5 @@ export const coerceBoolean = (
 		_input: undefined as any,
 		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
 		_output: undefined as any,
-	};
+	});
 };

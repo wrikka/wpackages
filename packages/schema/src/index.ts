@@ -23,6 +23,7 @@ export * from "./schemas/array";
 export * from "./schemas/union";
 export * from "./schemas/literal";
 export * from "./schemas/optional";
-export * from "./errors.js";
+export * from "./components";
+export * from "./errors";
 export * from "./types";
 export * from "./builder";

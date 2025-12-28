@@ -2,22 +2,15 @@
  * Validation utilities
  */
 
-export interface Issue {
-	code: string;
-	expected?: string;
-	received?: unknown;
-	message?: string;
-	path?: string[];
-	minimum?: number;
-	maximum?: number;
-	validation?: string;
-	pattern?: RegExp;
-}
+import type {
+	Issue,
+	ValidationContext as BaseValidationContext,
+} from "../types";
 
-export interface ValidationContext {
-	issues: Issue[];
-	path: string[];
-}
+export type ValidationContext = BaseValidationContext & {
+	readonly issues: Issue[];
+	data?: unknown;
+};
 
 export const addIssue = (
 	ctx: ValidationContext,

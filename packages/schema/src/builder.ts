@@ -1,17 +1,33 @@
-import { createValidatedBuilder } from "@w/design-pattern";
 import type { StringOptions } from "./types";
 import { string as createStringSchema } from "./schemas/string";
 
-// Using the ValidatedBuilder from design-pattern to create a chainable API
-const StringSchemaBuilder = () =>
-	createValidatedBuilder<StringOptions>(
-		{},
-		{
-			min: (state, min: number) => ({ ...state, min }),
-			max: (state, max: number) => ({ ...state, max }),
-			pattern: (state, pattern: RegExp) => ({ ...state, pattern }),
-		},
-	).map(createStringSchema);
+type Builder<State> = {
+	readonly map: <T>(fn: (state: State) => T) => T;
+};
+
+const createBuilder = <State>(initial: State): Builder<State> => {
+	const map = <T>(fn: (state: State) => T): T => fn(initial);
+	return { map };
+};
+
+type StringBuilder = Builder<StringOptions> & {
+	readonly min: (min: number) => StringBuilder;
+	readonly max: (max: number) => StringBuilder;
+	readonly pattern: (pattern: RegExp) => StringBuilder;
+};
+
+const createStringBuilder = (state: StringOptions): StringBuilder => {
+	const base = createBuilder(state);
+	return {
+		...base,
+		min: (min) => createStringBuilder({ ...state, min }),
+		max: (max) => createStringBuilder({ ...state, max }),
+		pattern: (pattern) => createStringBuilder({ ...state, pattern }),
+	};
+};
+
+const StringSchemaBuilder = (): ReturnType<StringBuilder["map"]> =>
+	createStringBuilder({}).map(createStringSchema);
 
 export const s = {
 	string: StringSchemaBuilder,

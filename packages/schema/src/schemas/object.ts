@@ -1,11 +1,11 @@
 import type { ObjectOptions, Schema, Result, Issue, Infer } from "../types";
 import { createSchema } from "../utils/create-schema";
 
-type ObjectOutput<TShape extends Record<string, Schema<any, any>>> = {
+type ObjectOutput<TShape extends Record<string, Schema<unknown, unknown>>> = {
 	[K in keyof TShape]: Infer<TShape[K]>;
 };
 
-export function object<TShape extends Record<string, Schema<any, any>>>(
+export function object<TShape extends Record<string, Schema<unknown, unknown>>>(
 	options: ObjectOptions<TShape>,
 ): Schema<Record<string, unknown>, ObjectOutput<TShape>> {
 	return createSchema({
@@ -29,13 +29,14 @@ export function object<TShape extends Record<string, Schema<any, any>>>(
 			}
 
 			const issues: Issue[] = [];
-			const output: any = {};
+			const output: Record<string, unknown> = {};
+			const record = input as Record<string, unknown>;
 
 			for (const key in options.shape) {
-				if (Object.prototype.hasOwnProperty.call(options.shape, key)) {
+				if (Object.hasOwn(options.shape, key)) {
 					const schema = options.shape[key];
 					if (schema) {
-						const value = (input as any)[key];
+						const value = record[key];
 						const result = schema.parse(value);
 
 						if (result.success) {
@@ -56,7 +57,7 @@ export function object<TShape extends Record<string, Schema<any, any>>>(
 				return { success: false, issues };
 			}
 
-			return { success: true, data: output };
+			return { success: true, data: output as ObjectOutput<TShape> };
 		},
 	});
 }
