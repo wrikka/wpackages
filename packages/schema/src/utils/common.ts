@@ -7,15 +7,26 @@ import type { Result, Schema, ValidationContext, Issue } from "../types";
 // The context object used during validation.
 // It's intentionally extensible with `[key: string]: any` to allow for custom properties.
 // biome-ignore lint/suspicious/noExplicitAny: This is a flexible context object.
-type InternalValidationContext = ValidationContext & { issues: Issue[]; data?: any };
+type InternalValidationContext = ValidationContext & {
+	issues: Issue[];
+	data?: any;
+};
 
 export const createSchema = <T, I = T>(
-	validate: (input: unknown, ctx: InternalValidationContext) => void | Result<T>,
+	validate: (
+		input: unknown,
+		ctx: InternalValidationContext,
+	) => void | Result<T>,
 	metadata?: { name?: string },
 ): Schema<I, T> => {
 	return {
 		parse: (input: unknown, context?: Partial<ValidationContext>) => {
-			const ctx: InternalValidationContext = { issues: [], data: undefined, path: [], ...context };
+			const ctx: InternalValidationContext = {
+				issues: [],
+				data: undefined,
+				path: [],
+				...context,
+			};
 			const result = validate(input, ctx);
 			if (result) {
 				return result;
@@ -31,7 +42,10 @@ export const createSchema = <T, I = T>(
 	};
 };
 
-export const createError = (message: string, path?: (string | number)[]): Issue => ({
+export const createError = (
+	message: string,
+	path?: (string | number)[],
+): Issue => ({
 	message,
 	path: path || [],
 });

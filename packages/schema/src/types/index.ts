@@ -14,6 +14,10 @@ export type Result<T> =
 	| { success: true; data: T }
 	| { success: false; issues: Issue[] };
 export type Schema<TInput, TOutput = TInput> = {
+	transform: <TNewOutput>(
+		transformer: (value: TOutput) => TNewOutput,
+	) => Schema<TInput, TNewOutput>;
+	shape?: Record<string, Schema<any, any>>;
 	parse: (
 		input: unknown,
 		context?: Partial<ValidationContext>,
@@ -39,6 +43,25 @@ export type StringOptions = {
 	min?: number;
 	max?: number;
 	pattern?: RegExp;
+	message?: string;
+	name?: string;
+};
+export type NumberOptions = {
+	min?: number;
+	max?: number;
+	integer?: boolean;
+	message?: string;
+	name?: string;
+};
+
+export type ObjectOptions<TShape extends Record<string, Schema<any, any>>> = {
+	shape: TShape;
+	message?: string;
+	name?: string;
+};
+
+export type ArrayOptions<TItem extends Schema<any, any>> = {
+	item: TItem;
 	message?: string;
 	name?: string;
 };
