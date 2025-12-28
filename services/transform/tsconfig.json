@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": [
+      "ES2022"
+    ],
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "paths": {
+      "@w/design-pattern": [
+        "../../packages/design-pattern/src/index.ts"
+      ],
+      "@w/design-pattern/*": [
+        "../../packages/design-pattern/src/*"
+      ],
+      "parser": [
+        "../parser/src/index.ts"
+      ]
+    },
+    "outDir": "./dist"
+  },
+  "include": [
+    "src",
+    "src/__tests__",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
