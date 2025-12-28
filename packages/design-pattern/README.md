@@ -1,13 +1,13 @@
 # design-pattern
 
-Pure functional design patterns library with TypeScript - includes all GoF patterns in functional style
+Pure functional design patterns library with Effect-TS - includes all GoF patterns in functional style
 
 ## Features
 
-- ✨ **Pure Functional** - All patterns implemented using pure functions
-- 🎯 **Type-Safe** - Full TypeScript support with type inference
-- 🔥 **Tree-Shakeable** - Import only what you need
-- 📦 **Zero Dependencies** - Lightweight and fast
+- ✨ **Pure Functional** - All patterns implemented using pure, composable functions powered by Effect-TS.
+- 🎯 **Type-Safe** - Full TypeScript support with robust type inference.
+- 🔥 **Tree-Shakeable** - Import only what you need, keeping your bundles small.
+- 🚀 **Effect-TS Powered** - Leverages the power of Effect-TS for robust error handling, context management, and asynchronous operations.
 - 🧪 **Well Tested** - Comprehensive test coverage
 - 📚 **Complete** - All 23 GoF design patterns
 
@@ -17,44 +17,33 @@ Pure functional design patterns library with TypeScript - includes all GoF patte
 bun add design-pattern
 ```
 
-## Design Patterns
+## Design Patterns Overview
 
-### Creational Patterns
-
-Object creation mechanisms
-
-- **Factory** - Creates objects without specifying exact classes
-- **Builder** - Constructs complex objects step by step
-- **Singleton** - Ensures only one instance exists
-- **Prototype** - Creates new objects by cloning existing ones
-
-### Structural Patterns
-
-Object composition and relationships
-
-- **Adapter** - Converts interface of a class into another interface
-- **Decorator** - Adds new functionality to objects dynamically
-- **Facade** - Provides a simplified interface to a complex subsystem
-- **Proxy** - Provides a surrogate or placeholder for another object
-- **Composite** - Composes objects into tree structures
--   **Reactivity**: Integrates with `reactivity` for state management.
-- **Bridge** - Separates abstraction from implementation
-- **Flyweight** - Shares common state between multiple objects
-
-### Behavioral Patterns
-
-Object collaboration and responsibility
-
-- **Observer** - Defines a one-to-many dependency between objects
-- **Strategy** - Defines a family of algorithms
-- **Command** - Encapsulates a request as an object
-- **Chain of Responsibility** - Passes requests along a chain of handlers
-- **Iterator** - Accesses elements of a collection sequentially
-- **Mediator** - Defines simplified communication between classes
-- **State** - Alters behavior when internal state changes
-- **Template Method** - Defines skeleton of algorithm in base class
-- **Visitor** - Separates algorithm from object structure
-- **Memento** - Captures and restores object state
+| Pattern | Category | Paradigm | Style | Environment | Use Case |
+|---|---|---|---|---|---|
+| **Abstract-factory** | creational | fp | functional | client | Providing an interface for creating families of related or dependent objects without specifying their concrete classes |
+| **Adapter** | structural | fp | functional | both | Translating one interface for another, integrating legacy code, or mapping data between different models |
+| **Bridge** | structural | fp | functional | both | Decoupling an abstraction from its implementation so that the two can vary independently |
+| **Builder** | creational | fp | functional | both | Constructing complex objects step by step, allowing for different representations of an object using the same construction process |
+| **Chain** | behavioral | fp | functional | both | Passing a request along a chain of handlers |
+| **Command** | behavioral | fp | functional | both | Encapsulating a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations |
+| **Composite** | structural | fp | functional | both | Composing objects into tree structures to represent part-whole hierarchies |
+| **Decorator** | structural | fp | functional | both | Attaching additional responsibilities to an object or function dynamically |
+| **Facade** | structural | fp | functional | both | Providing a simplified, high-level interface to a complex subsystem of components |
+| **Factory** | creational | fp | functional | both | Creating objects without specifying the exact class of object that will be created |
+| **Flyweight** | structural | fp | functional | both | Minimizing memory usage by sharing as much data as possible with other similar objects; it is a way to use objects in large numbers when a simple repeated representation would use an unacceptable amount of memory |
+| **Interpreter** | behavioral | fp | functional | both | Given a language, define a representation for its grammar along with an interpreter that uses the representation to interpret sentences in the language |
+| **Iterator** | behavioral | fp | functional | both | Providing a way to access the elements of an aggregate object sequentially without exposing its underlying representation |
+| **Mediator** | behavioral | fp | functional | both | Defining an object that encapsulates how a set of objects interact |
+| **Memento** | behavioral | fp | stateful | both | Capturing and externalizing an object's internal state so that the object can be restored to this state later, without violating encapsulation |
+| **Observer** | behavioral | reactive | stateful | both | Defining a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically |
+| **Prototype** | creational | fp | functional | both | Creating new objects by copying an existing object, known as the prototype |
+| **Proxy** | structural | fp | functional | both | Providing a surrogate or placeholder for another object to control access to it |
+| **Singleton** | creational | fp | stateful | both | Ensuring that a class has only one instance and providing a global point of access to it |
+| **State** | behavioral | reactive | stateful | both | Allowing an object to alter its behavior when its internal state changes |
+| **Strategy** | behavioral | fp | functional | both | Defining a family of algorithms, encapsulating each one, and making them interchangeable |
+| **Template** | behavioral | fp | functional | both | Defining the skeleton of an algorithm in an operation, deferring some steps to subclasses or client functions |
+| **Visitor** | behavioral | fp | functional | both | Representing an operation to be performed on the elements of an object structure |
 
 ## Usage Examples
 
@@ -145,6 +134,31 @@ invoker.undo();             // count = 0
 invoker.redo();             // count = 1
 ```
 
+### Abstract Factory Pattern
+
+```typescript
+import { WinFactory, MacFactory, createApplication } from 'design-pattern/creational';
+
+const app = createApplication(process.platform === 'win32' ? WinFactory : MacFactory);
+const ui = app.createUI();
+
+console.log(ui.button.paint());
+console.log(ui.checkbox.paint());
+```
+
+### Interpreter Pattern
+
+```typescript
+import { interpret, add, number } from 'design-pattern/behavioral';
+
+// Represents the expression: 5 + (10 + 2)
+const expression = add(number(5), add(number(10), number(2)));
+
+const result = interpret(expression);
+
+console.log(`Result: ${result}`); // Result: 17
+```
+
 ## API Reference
 
 ### Creational
@@ -171,6 +185,10 @@ invoker.redo();             // count = 1
 - `shallowClone<T>(obj)`
 - `createPrototype<T>(prototype)`
 - `createPrototypeRegistry<T>()`
+
+#### Abstract Factory
+- `createApplication(factory)` - Creates an application instance with a given factory.
+- `WinFactory` / `MacFactory` - Concrete factory objects.
 
 ### Structural
 
@@ -214,6 +232,11 @@ invoker.redo();             // count = 1
 #### Chain of Responsibility
 - `createChain<TInput, TOutput>(handlers, defaultValue?)`
 - `composeHandlers<TInput, TOutput>(...handlers)`
+
+#### Interpreter
+- `interpret(expression)` - Evaluates an expression tree.
+- `number(value)` - Creates a number expression.
+- `add(left, right)` - Creates an addition expression.
 
 ## TypeScript Support
 

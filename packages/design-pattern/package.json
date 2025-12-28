@@ -1,5 +1,5 @@
 {
-	"name": "design-pattern",
+	"name": "@w/design-pattern",
 	"version": "0.1.0",
 	"description": "Pure functional design patterns library with Effect-TS - includes all GoF patterns in functional style",
 	"keywords": [
@@ -32,30 +32,25 @@
 		"flyweight"
 	],
 	"type": "module",
-	"main": "./dist/index.mjs",
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
-	"exports": {
-		".": "./dist/index.mjs",
-		"./creational": "./dist/creational/index.mjs",
-		"./structural": "./dist/structural/index.mjs",
-		"./behavioral": "./dist/behavioral/index.mjs",
-		"./utils": "./dist/utils/index.mjs",
-		"./package.json": "./package.json"
-	},
 	"scripts": {
 		"build": "tsdown --dts --minify",
 		"dev": "tsc --noEmit --watch",
 		"lint": "tsc --noEmit && oxlint --fix",
-		"review": "bun run lint && bun run test && bun run build",
-		"test": "vitest run"
+		"test": "vitest run",
+		"format": "dprint fmt",
+		"verify": "bun run format && bun run lint && bun run test && bun run build",
+		"review": "bun run verify",
+		"generate:readme": "bun scripts/generate-readme.ts"
 	},
 	"dependencies": {
 		"effect": "^3.19.13"
 	},
 	"devDependencies": {
+		"oxlint": "^1.35.0",
 		"@types/bun": "^1.3.5",
-		"tsdown": "^0.16.8",
+		"@types/glob": "^^8.1.0",
+		"glob": "^13.0.0",
+		"tsdown": "^0.18.3",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
 	}
