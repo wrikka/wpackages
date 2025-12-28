@@ -1,7 +1,7 @@
 pre-commit:
   jobs:
     - name: format
-      run: bunx dprint fmt {staged_files}
+      run: bun run format
 
 pre-push:
   jobs:
