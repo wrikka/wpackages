@@ -29,7 +29,10 @@ const levelRank: Record<LogLevel, number> = {
 	error: 40,
 };
 
-const redact = (meta: Readonly<Record<string, unknown>> | undefined, keys: ReadonlyArray<string>): Readonly<Record<string, unknown>> | undefined => {
+const redact = (
+	meta: Readonly<Record<string, unknown>> | undefined,
+	keys: ReadonlyArray<string>,
+): Readonly<Record<string, unknown>> | undefined => {
 	if (!meta) return undefined;
 	if (keys.length === 0) return meta;
 	const out: Record<string, unknown> = { ...meta };
@@ -60,7 +63,7 @@ export const makeLogger = (config: LoggerConfig = {}): Logger => {
 export const LoggerLive = Layer.succeed(Logger, makeLogger({ redactKeys: ["token", "password", "secret"] }));
 
 export const log = (level: LogLevel, message: string, meta?: Readonly<Record<string, unknown>>) =>
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		const svc = yield Effect.get(Logger);
 		yield svc.log({ level, message, time: Date.now(), ...(meta ? { meta } : {}) });
 	});

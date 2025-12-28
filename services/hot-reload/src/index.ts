@@ -87,7 +87,7 @@ const watchWithNode = async (paths: ReadonlyArray<string>): Promise<AsyncIterabl
 				return;
 			}
 			queue.push(ev);
-		}),
+		})
 	);
 
 	return {
@@ -121,7 +121,7 @@ export const HotReloadLive = Layer.succeed(HotReload, {
 });
 
 export const watch = (paths: ReadonlyArray<string>) =>
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		const svc = yield Effect.get(HotReload);
 		return yield svc.watch(paths);
 	});
