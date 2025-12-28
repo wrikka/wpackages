@@ -1,16 +1,30 @@
+import { distance } from 'fastest-levenshtein';
 import type { CliConfig, Command } from '../types';
 
-const findCommand = (commands: Command[], commandName: string): Command | undefined => {
+const getAllCommandNames = (commands: ReadonlyArray<Command>): string[] => {
+  const names: string[] = [];
   for (const cmd of commands) {
-    if (cmd.name === commandName) {
-      return cmd;
-    }
+    names.push(cmd.name);
     if (cmd.subCommands) {
-      const found = findCommand(cmd.subCommands, commandName);
-      if (found) return found;
+      names.push(...getAllCommandNames(cmd.subCommands as Command[]));
     }
   }
-  return undefined;
+  return names;
+};
+
+const findClosestCommand = (commandName: string, allCommands: string[]): string | undefined => {
+  let closestCommand: string | undefined;
+  let minDistance = 2; // Set a threshold for suggestions
+
+  for (const cmd of allCommands) {
+    const d = distance(commandName, cmd);
+    if (d < minDistance) {
+      minDistance = d;
+      closestCommand = cmd;
+    }
+  }
+
+  return closestCommand;
 };
 
 export const parseArguments = (
@@ -23,11 +37,14 @@ export const parseArguments = (
 
   while (argIndex < argv.length) {
     const currentArg = argv[argIndex];
+    if (currentArg.startsWith('-')) {
+      break; // Stop parsing commands when options start
+    }
     const foundCommand = commands.find(c => c.name === currentArg);
 
     if (foundCommand) {
       command = foundCommand;
-      if (foundCommand.subCommands) {
+      if (foundCommand.subCommands && foundCommand.subCommands.length > 0) {
         commands = foundCommand.subCommands;
         argIndex++;
       } else {
@@ -35,16 +52,21 @@ export const parseArguments = (
         break;
       }
     } else {
-      break;
+      const allCommandNames = getAllCommandNames(config.commands);
+      const suggestion = findClosestCommand(currentArg, allCommandNames);
+      if (suggestion) {
+        throw new Error(`Command not found: '${currentArg}'. Did you mean '${suggestion}'?`);
+      }
+      throw new Error(`Command not found: '${currentArg}'`);
     }
   }
 
   if (!command) {
-    throw new Error(`Command not found: ${argv.slice(2).join(' ')}`);
+    throw new Error(`Command not found. Please specify a valid command.`);
   }
   
   if (!command.action) {
-    throw new Error(`Command "${command.name}" is a container for sub-commands and has no action.`);
+    throw new Error(`Command "${command.name}" is a container for sub-commands and has no action. Please specify a sub-command.`);
   }
 
   const args: Record<string, any> = {};

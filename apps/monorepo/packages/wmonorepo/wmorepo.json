@@ -1,15 +1,9 @@
 {
-  "$schema": "https://cascaderepo.dev/schema.json",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "pipeline": {
-    "build": {
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ]
-    }
-  }
+	"$schema": "https://cascaderepo.dev/schema.json",
+	"workspaces": ["apps/*", "packages/*"],
+	"pipeline": {
+		"build": {
+			"outputs": ["dist/**", ".next/**"]
+		}
+	}
 }

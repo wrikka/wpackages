@@ -1,10 +1,10 @@
-import type { Style } from 'picocolors/types';
+type Style = (text: string) => string;
 
 export interface Theme {
-  message: Style;
-  placeholder: Style;
-  value: Style;
-  cursor: Style;
-  error: Style;
-  info: Style;
+	message: Style;
+	placeholder: Style;
+	value: Style;
+	cursor: Style;
+	error: Style;
+	info: Style;
 }

@@ -1,34 +1,43 @@
-import React, { useEffect } from 'react';
-import { Box, Text, useInput } from 'ink';
+import { prompt, usePrompt } from "@/context";
+import { useInput } from "@/hooks";
+import { theme } from "@/services";
+import { TextPromptOptions } from "@/types";
+import { Box, Text } from "ink";
+import React from "react";
 
-interface TextPromptProps {
-  message: string;
-  placeholder?: string;
-}
+const TextPromptComponent: React.FC<TextPromptOptions> = ({ message, placeholder }) => {
+	const { value, setValue, state, submit } = usePrompt<string>();
 
-export function TextPrompt({ message, placeholder }: TextPromptProps) {
-  const { value, setValue, submit, state } = usePrompt<string>();
+	useInput((input, key) => {
+		if (key.return) {
+			submit(value);
+			return;
+		}
+		if (key.backspace || key.delete) {
+			setValue(value.slice(0, -1));
+			return;
+		}
+		if (input) {
+			setValue(value + input);
+		}
+	});
 
-  useInput((input, key) => {
-    if (key.return) {
-      submit(value);
-    } else if (key.backspace) {
-      setValue(value.slice(0, -1));
-    } else {
-      setValue(value + input);
-    }
-  });
+	let inputText = value;
+	if (state === "active" && !value && placeholder) {
+		inputText = theme.placeholder(placeholder);
+	} else {
+		inputText = theme.value(value);
+	}
 
-  return (
-    <Box>
-      <Text>{message} </Text>
-      {state === 'submitted' ? (
-        <Text color="cyan">{value}</Text>
-      ) : (
-        <Text color="gray">
-          {value.length > 0 ? value : placeholder}
-        </Text>
-      )}
-    </Box>
-  );
-}
+	return (
+		<Box>
+			<Text>{theme.message(message)}</Text>
+			{state === "active" && <Text>{inputText}{theme.cursor(theme.value("_"))}</Text>}
+			{state === "submitted" && <Text>{theme.value(value)}</Text>}
+		</Box>
+	);
+};
+
+export const text = (options: TextPromptOptions) => {
+	return prompt(TextPromptComponent, options, options.initialValue ?? "");
+};

@@ -1,35 +1,35 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declarationDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "bundler",
-    "module": "esnext",
-    "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "composite": true,
-    "incremental": true,
-    "exactOptionalPropertyTypes": false
-  },
-  "include": [
-    "src/**/*",
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.usage.ts"
-  ]
+	"compilerOptions": {
+		// From follow-tsconfig-json.md for bun
+		"types": ["bun-types"],
+
+		// General Best Practices for modern TS
+		"lib": ["ESNext"],
+		"module": "ESNext",
+		"target": "ESNext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+
+		// Strictness & Correctness (Good for Effect-TS)
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"exactOptionalPropertyTypes": true, // Recommended for Effect
+		"allowUnusedLabels": false,
+		"allowUnreachableCode": false,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		// Path aliases if needed later
+		"paths": {}
+	},
+	"include": ["src"]
 }

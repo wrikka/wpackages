@@ -3,4 +3,4 @@
  */
 
 // Re-export configuration from templates and defaults
-export { DEFAULT_KEYWORDS, DEFAULT_AUTHOR, DEFAULT_LICENSE, DEFAULT_VERSION } from "../constant";
+export { DEFAULT_AUTHOR, DEFAULT_KEYWORDS, DEFAULT_LICENSE, DEFAULT_VERSION } from "../constant";

@@ -1,27 +1,15 @@
-export type Option = {
-  name: string; // e.g., --port
-  shorthand?: string; // e.g., -p
-  description?: string;
-  defaultValue?: string | boolean | number;
-  required?: boolean;
-};
+import type { Schema } from '@effect/schema';
+import type { CommandSchema, OptionSchema } from './schema';
+
+export type Option = Schema.Schema.Type<typeof OptionSchema>;
+export type Command = Schema.Schema.Type<typeof CommandSchema>;
 
 export type Hook = (args: Record<string, any>) => void | Promise<void>;
-
-export type Command = {
-  name: string;
-  description?: string;
-  options?: Option[];
-  action?: (args: Record<string, any>) => void;
-  subCommands?: Command[];
-  before?: Hook;
-  after?: Hook;
-};
 
 export type CliConfig = {
   name: string;
   version: string;
-  commands: Command[];
+  commands: ReadonlyArray<Command>;
   before?: Hook; // Global before hook
   after?: Hook;  // Global after hook
 };

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import pc from "picocolors";
-import { ReleaseOrchestrator } from "../release-orchestrator";
+import { createReleaseApp } from "../app";
 import type { ReleaseOptions, ReleaseType } from "../types/index";
 
 const HELP_TEXT = `
@@ -114,9 +114,9 @@ function parseArgs(args: string[]): CliArgs {
 async function interactiveMode(): Promise<ReleaseOptions> {
 	try {
 		// Dynamic import to avoid type errors during build
-		// @ts-ignore - tui may not be available at build time
+		// @ts-ignore - @wts/cli-components may not be available at build time
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const tui = await import("tui") as any;
+		const tui = await import("@wts/cli-components") as any;
 		const { select, confirm, input } = tui;
 
 		const type = await select({
@@ -197,8 +197,8 @@ async function main() {
 			options = args as ReleaseOptions;
 		}
 
-		const orchestrator = new ReleaseOrchestrator();
-		const result = await orchestrator.release(options);
+		const app = createReleaseApp();
+		const result = await app.release(options);
 
 		if (result.success) {
 			process.exit(0);

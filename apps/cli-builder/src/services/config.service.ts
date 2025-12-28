@@ -1,28 +1,34 @@
-import { loadConfig } from 'c12';
+import { loadConfig } from '@wts/config-manager';
 import { Effect } from 'effect';
+import { Schema } from '@effect/schema';
 import type { CliConfig } from '../types';
+import { CommandSchema } from '../types/schema';
 import { config as defaultConfig } from '../config/cli.config';
 
-export const loadCliConfig = () =>
+const CliConfigSchema = Schema.Struct({
+  name: Schema.String,
+  version: Schema.String,
+  commands: Schema.Array(CommandSchema),
+  before: Schema.optional(Schema.Any as Schema.Schema<(args: Record<string, any>) => void | Promise<void>>),
+  after: Schema.optional(Schema.Any as Schema.Schema<(args: Record<string, any>) => void | Promise<void>>),
+});
+
+export const loadCliConfig = (): Effect.Effect<CliConfig, Error> =>
   Effect.tryPromise({
     try: async () => {
-      const { config: userConfig } = await loadConfig<Partial<CliConfig>>({
+      const { config: loadedConfig } = await loadConfig<CliConfig>({
         name: defaultConfig.name,
+        defaults: defaultConfig,
       });
-
-      if (!userConfig) {
-        return defaultConfig;
-      }
-
-      // Deep merge commands, and shallow merge the rest
-      return {
-        ...defaultConfig,
-        ...userConfig,
-        commands: [
-          ...defaultConfig.commands,
-          ...(userConfig.commands || []),
-        ],
-      };
+      return loadedConfig;
     },
-    catch: (error: unknown) => new Error(`Failed to load configuration: ${error}`),
-  });
+    catch: (error: unknown) => new Error(`Failed to load configuration file: ${error}`),
+  }).pipe(
+    Effect.flatMap(mergedConfig =>
+      Schema.decodeUnknown(CliConfigSchema)(mergedConfig).pipe(
+        Effect.mapError(
+          parseError => new Error(`Invalid configuration: ${JSON.stringify(parseError, null, 2)}`)
+        )
+      )
+    )
+  );

@@ -1,6 +1,6 @@
 /**
  * Command module re-export
- * TODO: Implement command module or import from tui-command when available
+ * TODO: Implement command module or import from @wts/cli-components when available
  */
 
 // Placeholder export to prevent empty file

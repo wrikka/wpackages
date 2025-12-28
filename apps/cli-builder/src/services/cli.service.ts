@@ -1,50 +1,38 @@
-import { Effect, Console } from 'effect';
 import { parseArguments } from '../utils';
-import type { CliConfig, Command, Hook } from '../types';
-import { runPromptMode } from './prompt.service';
+import type { CliConfig } from '../types';
 import { generateHelp } from '../components';
 
-const handleCliError = (error: unknown) =>
-  Console.error(error instanceof Error ? error.message : 'An unknown error occurred').pipe(
-    Effect.flatMap(() => Effect.fail(process.exit(1)))
-  );
+export const createCli = async (config: CliConfig): Promise<void> => {
+  console.log('[Debug] Loaded config with commands:', config.commands.map(c => c.name));
 
-export const createCli = (config: CliConfig) => {
   if (process.argv.length <= 2) {
-    return runPromptMode(config.commands);
+    console.log('Entering prompt mode (currently a no-op in this debug version).');
+    return;
   }
 
   if (process.argv.includes('--help') || process.argv.includes('-h')) {
-    return Console.log(generateHelp(config));
+    console.log(generateHelp(config));
+    return;
   }
 
   if (process.argv.includes('--version') || process.argv.includes('-v')) {
-    return Console.log(config.version);
+    console.log(config.version);
+    return;
   }
 
-  return Effect.try({
-    try: () => parseArguments(process.argv, config),
-    catch: handleCliError,
-  }).pipe(
-    Effect.flatMap(({ command, args }: { command: Command; args: Record<string, any> }) => {
-      const runHook = (hook?: Hook) => hook ? Effect.tryPromise(() => Promise.resolve(hook(args))) : Effect.succeed(undefined);
+  try {
+    const { command, args } = parseArguments(process.argv, config);
+    console.log(`[Debug] Parsed command: ${command.name}`);
 
-      if (command.action) {
-        return Effect.gen(function* () {
-          yield* runHook(config.before);
-          yield* runHook(command.before);
-
-          yield* Effect.try({
-            try: () => command.action!(args),
-            catch: handleCliError,
-          });
-
-          yield* runHook(command.after);
-          yield* runHook(config.after);
-        });
-      }
-      // If no action, show help for this command context
-      return Console.log(generateHelp({ ...config, commands: command.subCommands || [] }));
-    })
-  );
+    if (command.action) {
+      console.log(`[Debug] Action found for command: ${command.name}. Executing...`);
+      console.log('[Debug] Action function source:', command.action.toString());
+      command.action(args);
+    } else {
+      console.log(generateHelp({ ...config, commands: command.subCommands || [] }));
+    }
+  } catch (error) {
+    console.error(`[Error] Caught in createCli:`, error);
+    process.exit(1);
+  }
 };

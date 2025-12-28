@@ -1,8 +1,13 @@
 import { Effect } from 'effect';
 import { createCli, loadCliConfig } from './services';
 
-const program = loadCliConfig().pipe(
-  Effect.flatMap(config => createCli(config))
-);
+const configEffect = loadCliConfig();
 
-Effect.runPromise(program);
+Effect.runPromise(configEffect)
+  .then(createCli)
+  .catch(error => {
+    // Errors from createCli are handled internally with process.exit,
+    // so this catch is primarily for config loading errors.
+    console.error('[App Error] Failed to load configuration:', error);
+    process.exit(1);
+  });

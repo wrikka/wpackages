@@ -1,37 +1,31 @@
-# build-cli
+# Create CLI from TS
 
-CLI builder utilities for creating command-line interfaces.
+A powerful CLI tool to bundle a TypeScript file and its local dependencies into a complete, distributable package.
 
 ## Features
 
-- 🚀 Fast CLI creation
-- 📦 Zero dependencies core
-- 🎨 Beautiful output formatting
-- ⚡ TypeScript first
+- 🚀 **Zero-Configuration Bundling**: Just point to your entry file, and the tool handles the rest.
+- 🔍 **Dependency Detection**: Automatically finds and includes all local imports.
+- 📦 **Package Scaffolding**: Generates a complete package structure with `package.json`, `tsconfig.json`, and other essential configs.
+- ✨ **AI-Powered Enhancement**: Optionally uses OpenAI to improve your `README.md` and `package.json` metadata.
+- ⚙️ **Ready-to-Use Scripts**: Includes pre-configured scripts for building, linting, formatting, and testing.
 
 ## Installation
 
 ```bash
-bun add build-cli
+# Install globally to use anywhere
+bun install -g create-cli-from-ts
 ```
 
 ## Usage
 
-```typescript
-import { createCLI } from 'build-cli';
+To bundle a TypeScript file into a new package, simply run:
 
-const cli = createCLI({
-  name: 'my-cli',
-  version: '1.0.0',
-  description: 'My awesome CLI tool',
-});
-
-cli.command('hello', 'Say hello', () => {
-  console.log('Hello, world!');
-});
-
-cli.parse();
+```bash
+create-cli-from-ts <path-to-your-entry-file.ts>
 ```
+
+The tool will guide you through the process, asking for a package name and offering AI assistance.
 
 ## License
 

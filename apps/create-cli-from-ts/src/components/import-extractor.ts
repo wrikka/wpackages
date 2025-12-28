@@ -8,45 +8,45 @@
  * @returns Object with imports array and dependencies array
  */
 export function extractImports(content: string): {
-	imports: string[];
-	dependencies: string[];
+  imports: string[];
+  dependencies: string[];
 } {
-	const imports: string[] = [];
-	const dependencies: string[] = [];
-	const importRegex = /import\s+.*?from\s+['"]([^'"]+)['"];?/g;
-	const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
+  const imports: string[] = [];
+  const dependencies: string[] = [];
+  const importRegex = /import\s+.*?from\s+['"]([^'"]+)['"];?/g;
+  const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
 
-	let match;
-	while ((match = importRegex.exec(content)) !== null) {
-		const importPath = match[1];
-		if (importPath) {
-			imports.push(importPath);
+  let match;
+  while ((match = importRegex.exec(content)) !== null) {
+    const importPath = match[1];
+    if (importPath) {
+      imports.push(importPath);
 
-			// Detect external dependencies (not relative paths)
-			if (!importPath.startsWith(".") && !importPath.startsWith("/")) {
-				const packageName = extractPackageName(importPath);
-				if (packageName) {
-					dependencies.push(packageName);
-				}
-			}
-		}
-	}
+      // Detect external dependencies (not relative paths)
+      if (!importPath.startsWith(".") && !importPath.startsWith("/")) {
+        const packageName = extractPackageName(importPath);
+        if (packageName) {
+          dependencies.push(packageName);
+        }
+      }
+    }
+  }
 
-	while ((match = requireRegex.exec(content)) !== null) {
-		const importPath = match[1];
-		if (importPath) {
-			imports.push(importPath);
+  while ((match = requireRegex.exec(content)) !== null) {
+    const importPath = match[1];
+    if (importPath) {
+      imports.push(importPath);
 
-			if (!importPath.startsWith(".") && !importPath.startsWith("/")) {
-				const packageName = extractPackageName(importPath);
-				if (packageName) {
-					dependencies.push(packageName);
-				}
-			}
-		}
-	}
+      if (!importPath.startsWith(".") && !importPath.startsWith("/")) {
+        const packageName = extractPackageName(importPath);
+        if (packageName) {
+          dependencies.push(packageName);
+        }
+      }
+    }
+  }
 
-	return { imports, dependencies };
+  return { imports, dependencies };
 }
 
 /**
@@ -55,9 +55,9 @@ export function extractImports(content: string): {
  * @returns Package name or null
  */
 export function extractPackageName(importPath: string): string | null {
-	if (importPath.startsWith("@")) {
-		const parts = importPath.split("/");
-		return parts.slice(0, 2).join("/");
-	}
-	return importPath.split("/")[0] || null;
+  if (importPath.startsWith("@")) {
+    const parts = importPath.split("/");
+    return parts.slice(0, 2).join("/");
+  }
+  return importPath.split("/")[0] || null;
 }

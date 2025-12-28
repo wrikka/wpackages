@@ -1,11 +1,11 @@
 {
-  "name": "web",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "echo 'Building web...' && exit 0",
-    "lint": "echo 'Linting web...' && exit 0"
-  },
-  "dependencies": {
-    "ui": "*"
-  }
+	"name": "web",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "echo 'Building web...' && exit 0",
+		"lint": "echo 'Linting web...' && exit 0"
+	},
+	"dependencies": {
+		"ui": "*"
+	}
 }

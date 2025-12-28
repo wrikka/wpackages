@@ -7,24 +7,33 @@
     "watch": "bun lint && bun watch && bun test",
     "start": "bun --watch dev && vitest:ui",
     "dev": "bun run src/index.ts",
-    "lint": "tsc --noEmit && biome lint --write",
+    "lint": "tsc --noEmit && oxlint .",
     "build": "tsdown",
-    "format": "biome format --write",
+    "format": "dprint fmt",
     "test": "vitest --run",
-    "verify": "bun format && bun lint && bun test && bun audit && run build"
+    "verify": "bun format && bun lint && bun test && bun audit && bun build"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "tsdown": "^0.18.3",
-    "vitest": "^4.0.16",
     "oxlint": "latest",
-    "oxlint-tsgolint": "latest"
+    "oxlint-tsgolint": "latest",
+    "tsdown": "^0.18.3",
+    "vitest": "^4.0.16"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "c12": "^3.3.3"
+    "@effect/platform-bun": "^0.87.0",
+    "@effect/schema": "^0.75.5",
+    "@wrikka/prompt": "workspace:*",
+    "@wts/config-manager": "workspace:*",
+    "@wts/cli-components": "workspace:*",
+    "c12": "^3.3.3",
+    "effect": "^3.19.13",
+    "fastest-levenshtein": "^1.0.16",
+    "find-up": "^8.0.0",
+    "picocolors": "^1.1.1"
   },
   "packageManager": "bun@1.3.5"
 }

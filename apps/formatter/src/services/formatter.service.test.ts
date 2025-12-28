@@ -1,24 +1,27 @@
-import { describe, it, expect, vi } from 'vitest';
-import { format } from './formatter.service';
-import { promisify } from 'node:util';
-import { exec } from 'node:child_process';
+import { describe, it, expect, vi } from "vitest";
+import { format } from "./formatter.service";
+import { exec } from "node:child_process";
 
-vi.mock('node:child_process', () => ({
-  exec: vi.fn(),
+vi.mock("node:child_process", () => ({
+	exec: vi.fn(),
 }));
 
-describe('formatter service', () => {
-  it('should call dprint with the correct paths', async () => {
-    const execAsync = promisify(exec);
-    (exec as vi.Mock).mockImplementation((command, callback) => {
-      callback(null, { stdout: 'formatted', stderr: '' });
-    });
+describe("formatter service", () => {
+	it("should call dprint with the correct paths", async () => {
+		vi.mocked(exec).mockImplementation((command, options, callback) => {
+			const cb = (typeof options === "function" ? options : callback) as
+				| ((error: Error | null, stdout: string, stderr: string) => void)
+				| undefined;
 
-    await format(['src', 'test']);
+			cb?.(null, "formatted", "");
+			return {} as ReturnType<typeof exec>;
+		});
 
-    expect(exec).toHaveBeenCalledWith(
-      'npx dprint fmt src test',
-      expect.any(Function)
-    );
-  });
+		await format(["src", "test"]);
+
+		expect(exec).toHaveBeenCalledWith(
+			"npx dprint fmt src test",
+			expect.any(Function),
+		);
+	});
 });
