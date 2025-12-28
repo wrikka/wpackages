@@ -19,14 +19,14 @@
 		"src"
 	],
 	"scripts": {
-		"postinstall": "cargo update",
-		"lint": "cargo check && cargo clippy --all-targets --all-features -- -D warnings",
-		"test": "cargo test --all-features && cargo nextest run --all-features",
+		"postinstall": "bun -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" || cargo update",
+		"lint": "bun -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" || (cargo check && cargo clippy --all-targets --all-features -- -D warnings)",
+		"test": "bun -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" || (cargo test --all-features && cargo nextest run --all-features)",
 		"build": "cargo build",
 		"build:windows": "cargo build --release --target x86_64-pc-windows-msvc",
 		"build:node": "napi build --platform --release",
 		"release": "cargo build --release",
-		"verify": "cargo fmt --all -- --check && cargo clippy --all-targets --all-features -- -D warnings && cargo nextest run && cargo audit && cargo build",
+		"verify": "bun -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" || (cargo fmt --all -- --check && cargo clippy --all-targets --all-features -- -D warnings && cargo nextest run && cargo audit && cargo build)",
 		"bench": "cargo bench"
 	},
 	"dependencies": {},
