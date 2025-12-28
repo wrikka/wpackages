@@ -16,7 +16,7 @@ export const memoizeWith = <T extends (...args: any[]) => unknown>(
 	keyFn: (...args: Parameters<T>) => string,
 ): T => {
 	// The `as T` is a safe cast because the enhanced createMemoizedFn returns a function with the same signature.
-	return patterns.creational.cacheFactory.createMemoizedFn(fn, { keyFn }) as T;
+	return patterns.creational.cacheFactory.createMemoizedFn(fn, { keyFn }) as unknown as T;
 };
 
 // Local implementation for createKey for memoizeWeak

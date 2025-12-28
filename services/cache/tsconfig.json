@@ -9,13 +9,12 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "./dist",
-		"rootDir": "./src",
 		"paths": {
 			"@w/design-pattern": [
-				"../design-pattern/src/index.ts"
+				"../../packages/design-pattern/src/index.ts"
 			],
 			"@w/design-pattern/*": [
-				"../design-pattern/src/*"
+				"../../packages/design-pattern/src/*"
 			]
 		},
 		"declaration": true,

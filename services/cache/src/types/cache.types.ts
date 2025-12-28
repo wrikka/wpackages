@@ -39,5 +39,3 @@ export interface CacheStorage {
 	delete(key: string): Promise<void>;
 	clear(): Promise<void>;
 }
-
-export type { Result } from "@wts/functional";

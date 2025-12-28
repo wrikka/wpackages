@@ -8,7 +8,7 @@ import type { Cache, CacheConfig, CacheStats } from "../types/cache.types";
 /**
  * Service for cache operations with error handling
  */
-export class CacheService<K, V> {
+export class CacheService<K extends string | number, V> {
 	private readonly cache: Cache<K, V>;
 
 	constructor(config: CacheConfig = {}) {
