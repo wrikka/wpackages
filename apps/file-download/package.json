@@ -1,5 +1,5 @@
 {
-	"name": "file-download",
+	"name": "@wpackages/file-download",
 	"version": "1.0.0",
 	"description": "A CLI tool for development tasks",
 	"type": "module",

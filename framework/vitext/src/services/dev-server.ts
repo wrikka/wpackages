@@ -1,4 +1,4 @@
-import { createDevServer, type DevServerInstance } from "devserver";
+import { createDevServer, type DevServerInstance } from "@wpackages/devserver";
 import type { VitextConfig } from "../types/config";
 import { logError, logInfo } from "../utils/logger";
 

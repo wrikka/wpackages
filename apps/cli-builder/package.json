@@ -1,5 +1,5 @@
 {
-	"name": "cli-builder",
+	"name": "@wpackages/cli-builder",
 	"module": "./src/index.ts",
 	"type": "module",
 	"private": true,
@@ -33,10 +33,10 @@
 	},
 	"dependencies": {
 		"@effect/platform-bun": "^0.87.0",
-		"@effect/schema": "^0.75.5",
-		"@wrikka/prompt": "workspace:*",
-		"@wts/cli-components": "workspace:*",
-		"@wts/config-manager": "workspace:*",
+		"@wpackages/schema": "workspace:*",
+		"@wpackages/prompt": "workspace:*",
+		"@wpackages/cli-components": "workspace:*",
+		"@wpackages/config-manager": "workspace:*",
 		"c12": "^3.3.3",
 		"effect": "^3.19.13",
 		"fastest-levenshtein": "^1.0.16",

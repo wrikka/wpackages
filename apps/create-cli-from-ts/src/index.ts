@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { confirm, intro, note, outro, spinner, text } from "@clack/prompts";
-import { type CliConfig, createCli } from "cli-builder";
+import { type CliConfig, createCli } from "@wpackages/cli-builder";
 import * as path from "path";
 import { renderDependencies, renderFileTree } from "./components/file-tree-renderer";
 import { ERROR_MESSAGES, HELP_TEXT, SPINNER_MESSAGES, SUCCESS_MESSAGES } from "./constant";

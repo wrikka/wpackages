@@ -1,5 +1,5 @@
 {
-	"name": "@wts/console",
+	"name": "@wpackages/console",
 	"version": "0.1.0",
 	"description": "Console service (Effect tag) for logging",
 	"type": "module",
@@ -21,7 +21,7 @@
 		"verify": "bun run format && bun run lint && bun run test && bun audit && bun run build"
 	},
 	"dependencies": {
-		"@wts/functional": "workspace:*"
+		"@wpackages/functional": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",

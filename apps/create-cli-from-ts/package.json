@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@clack/prompts": "^0.11.0",
-    "cli-builder": "workspace:*",
+    "@wpackages/cli-builder": "workspace:*",
     "openai": "^6.15.0"
   },
   "description": "Complete CLI toolkit - Commands, Components, and Prompts",
@@ -33,7 +33,7 @@
   "bin": {
     "create-cli-from-ts": "./dist/index.js"
   },
-  "name": "create-cli-from-ts",
+  "name": "@wpackages/create-cli-from-ts",
   "scripts": {
     "watch": "bun lint && bun watch && bun test",
     "start": "bun --watch dev && vitest:ui",

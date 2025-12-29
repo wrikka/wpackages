@@ -1,0 +1,5 @@
+- ทุกไฟล์ต้องมี x.test.ts, x.usage.ts
+- ต้องมี index.ts และใช้ explicit import
+- ไม่มี side effect
+- ใช้ naming ชัดเจน
+- ใช้ error handling ที่ดี (error = data)

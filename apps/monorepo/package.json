@@ -1,5 +1,5 @@
 {
-	"name": "monorepo",
+	"name": "@wpackages/monorepo",
 	"packageManager": "bun@1.3.5",
 	"type": "module",
 	"scripts": {
@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"effect": "^3.19.13",
-		"schema": "workspace:*"
+		"@wpackages/schema": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^25.0.3",

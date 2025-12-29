@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "@w/signal";
+import { createEffect, createSignal } from "@wpackages/signal";
 import { Effect, Layer, Runtime } from "effect";
 import { Box } from "./components/Box";
 import { Text } from "./components/Text";

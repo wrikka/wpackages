@@ -1,5 +1,5 @@
 {
-	"name": "parser",
+	"name": "@wpackages/parser",
 	"version": "0.1.0",
 	"description": "Universal multi-language parser - JavaScript, TypeScript, JSON, YAML, TOML, Markdown, HTML, XML, CSS and more",
 	"type": "module",
@@ -42,7 +42,7 @@
 	},
 	"dependencies": {
 		"@connorskees/grass": "*",
-		"@w/design-pattern": "workspace:*",
+		"@wpackages/design-pattern": "workspace:*",
 		"lightningcss": "1.30.2",
 		"markdown-wasm": "1.2.0",
 		"oxc-parser": "0.105.0",

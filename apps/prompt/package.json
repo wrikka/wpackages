@@ -1,5 +1,5 @@
 {
-	"name": "@wrikka/prompt",
+	"name": "@wpackages/prompt",
 	"version": "0.0.1",
 	"private": true,
 	"description": "An elegant and feature-rich command-line prompt library, inspired by @clack/prompts but with 3x more components and a focus on superior UX/UI.",

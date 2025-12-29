@@ -1,4 +1,4 @@
-import { err, ok } from "functional";
+import { err, ok } from "@wpackages/functional";
 import type { BuildConfig } from "../types/config";
 import { logError, logInfo } from "../utils/logger";
 import { resolvePath } from "../utils/path";

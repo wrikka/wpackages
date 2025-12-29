@@ -1,5 +1,5 @@
 {
-	"name": "@w/design-pattern",
+	"name": "@wpackages/design-pattern",
 	"version": "0.1.0",
 	"description": "Pure functional design patterns library with Effect-TS - includes all GoF patterns in functional style",
 	"keywords": [

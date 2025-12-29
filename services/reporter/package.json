@@ -1,5 +1,5 @@
 {
-	"name": "reporter",
+	"name": "@wpackages/reporter",
 	"version": "0.1.0",
 	"description": "Report formatting utilities",
 	"type": "module",

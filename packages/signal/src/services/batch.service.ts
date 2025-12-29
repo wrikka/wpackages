@@ -18,7 +18,7 @@ export function batch(fn: () => void): void {
 }
 
 // For internal use
-export function queueEffect(effect: Effect) {
+export function queueEffect(effect: Effect): void {
 	if (isBatching) {
 		queue.add(effect);
 	} else {

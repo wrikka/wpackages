@@ -30,6 +30,18 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"paths": {
+			"@wpackages/signal": [
+				"packages/signal/src/index.ts"
+			],
+			"@wpackages/signal/*": [
+				"packages/signal/src/*"
+			],
+			"@w/utils-data-structure": [
+				"utils/data-structure/src"
+			],
+			"@w/utils-algorithms": [
+				"utils/algorithms/src"
+			],
 			"@w/design-pattern": [
 				"utils/design-pattern/src"
 			],

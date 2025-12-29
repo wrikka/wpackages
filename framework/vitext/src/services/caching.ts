@@ -1,4 +1,4 @@
-import { createCache, memoize } from "services/cache/src";
+import { createCache, memoize } from "@wpackages/cache";
 import { logInfo } from "../utils/logger";
 
 /**
@@ -8,25 +8,40 @@ import { logInfo } from "../utils/logger";
  */
 
 // Cache for build artifacts
-const buildCache = createCache<string, unknown>({
+const buildCache = createCache({
 	maxSize: 1000,
 	ttl: 300000, // 5 minutes
 	lru: true,
-});
+}) as unknown as {
+	set: (key: string, value: unknown) => void;
+	get: (key: string) => unknown | undefined;
+	clear: () => void;
+	size: () => number;
+};
 
 // Cache for module resolution
-const moduleCache = createCache<string, unknown>({
+const moduleCache = createCache({
 	maxSize: 5000,
 	ttl: 600000, // 10 minutes
 	lru: true,
-});
+}) as unknown as {
+	set: (key: string, value: unknown) => void;
+	get: (key: string) => unknown | undefined;
+	clear: () => void;
+	size: () => number;
+};
 
 // Cache for file system operations
-const fileCache = createCache<string, string>({
+const fileCache = createCache({
 	maxSize: 1000,
 	ttl: 300000, // 5 minutes
 	lru: true,
-});
+}) as unknown as {
+	set: (key: string, value: string) => void;
+	get: (key: string) => string | undefined;
+	clear: () => void;
+	size: () => number;
+};
 
 // Memoized expensive operations
 export const memoizedTransform = memoize((...args: unknown[]) => {

@@ -1,5 +1,5 @@
 import { Schema } from "@effect/schema";
-import { loadConfig } from "@wts/config-manager";
+import { loadConfig } from "@wpackages/config-manager";
 import { Effect } from "effect";
 import { config as defaultConfig } from "../config/cli.config";
 import type { CliConfig } from "../types";

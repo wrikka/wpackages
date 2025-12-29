@@ -1,5 +1,5 @@
-import { watch } from "watch";
-import type { WatcherInstance } from "watch";
+import { watch } from "@wpackages/watch";
+import type { WatchEvent, WatcherInstance } from "@wpackages/watch";
 import { logError, logInfo } from "../utils/logger";
 
 /**
@@ -35,33 +35,35 @@ export class VitextFileWatcher {
 			});
 
 			// Register event handlers
-			this.watcher.on("add", (event) => {
+			this.watcher.on("add", (event: WatchEvent) => {
 				logInfo(`File added: ${event.path}`);
 				this.triggerCallbacks(event.path, "add");
 			});
 
-			this.watcher.on("change", (event) => {
+			this.watcher.on("change", (event: WatchEvent) => {
 				logInfo(`File changed: ${event.path}`);
 				this.triggerCallbacks(event.path, "change");
 			});
 
-			this.watcher.on("unlink", (event) => {
+			this.watcher.on("unlink", (event: WatchEvent) => {
 				logInfo(`File removed: ${event.path}`);
 				this.triggerCallbacks(event.path, "unlink");
 			});
 
-			this.watcher.on("addDir", (event) => {
+			this.watcher.on("addDir", (event: WatchEvent) => {
 				logInfo(`Directory added: ${event.path}`);
 				this.triggerCallbacks(event.path, "addDir");
 			});
 
-			this.watcher.on("unlinkDir", (event) => {
+			this.watcher.on("unlinkDir", (event: WatchEvent) => {
 				logInfo(`Directory removed: ${event.path}`);
 				this.triggerCallbacks(event.path, "unlinkDir");
 			});
 
-			this.watcher.on("error", (_error) => {
-				logError(`File watcher error: ${_error instanceof Error ? _error.message : "Unknown error"}`);
+			this.watcher.on("error", (_error: any) => {
+				logError(
+					`File watcher error: ${_error instanceof Error ? _error.message : "Unknown error"}`,
+				);
 			});
 
 			await this.watcher.start();

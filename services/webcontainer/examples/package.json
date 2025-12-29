@@ -1,16 +1,16 @@
 {
 	"dependencies": {
-		"nuxt": "4.2.1",
+		"nuxt": "4.2.2",
 		"vue": "^3.5.26",
-		"webcontainer": "workspace:*"
+		"@wpackages/webcontainer": "workspace:*"
 	},
 	"devDependencies": {
 		"nitropack": "^2.12.9",
 		"oxlint": "^1.35.0",
 		"typescript": "^5.9.3",
-		"vue-tsc": "^2.2.12"
+		"vue-tsc": "^3.2.1"
 	},
-	"name": "app-webcontainer",
+	"name": "@wpackages/webcontainer-examples",
 	"private": true,
 	"scripts": {
 		"dev": "nuxt dev",

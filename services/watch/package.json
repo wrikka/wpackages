@@ -1,5 +1,5 @@
 {
-	"name": "watch",
+	"name": "@wpackages/watch",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
@@ -33,7 +33,7 @@
 		"review": "bun run format && bun run lint && bun run test && bun run build"
 	},
 	"dependencies": {
-		"@w/design-pattern": "workspace:*"
+		"@wpackages/design-pattern": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",

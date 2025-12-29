@@ -11,10 +11,7 @@
 		"declarationMap": true,
 		"declaration": true,
 		"noEmit": false,
-		"types": ["@types/bun", "@types/node"],
-		"paths": {
-			".": ["./src/types/vnode.ts"]
-		}
+		"types": ["@types/bun", "@types/node"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }

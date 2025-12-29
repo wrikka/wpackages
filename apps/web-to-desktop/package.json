@@ -1,5 +1,5 @@
 {
-  "name": "web-to-desktop",
+  "name": "@wpackages/web-to-desktop",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsdown --exports --dts --minify",
     "dev": "bun --watch src/bin/cli.ts",
-    "lint": "tsc --noEmit && oxlint --fix",
+    "lint": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --noEmit && oxlint --fix",
     "test": "vitest run",
     "review": "bun lint && bun test && bun build"
   },

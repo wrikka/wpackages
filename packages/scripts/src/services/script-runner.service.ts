@@ -1,4 +1,4 @@
-import { createConfigManager } from "@wts/config-manager";
+import { createConfigManager } from "@wpackages/config-manager";
 import { Context, Effect, Layer } from "effect";
 import { scriptRunnerConfigSchema } from "../config";
 import { DEFAULT_SCRIPT_RUNNER_CONFIG } from "../constant";
@@ -53,7 +53,9 @@ export const makeScriptRunner = Effect.gen(function*() {
 	// Load configuration
 	let config: ScriptRunnerConfig;
 	try {
-		const configResult = yield* Effect.promise(() => configManager.load());
+		const configResult = (yield* Effect.promise(() => configManager.load())) as {
+			readonly config: ScriptRunnerConfig;
+		};
 		config = configResult.config;
 	} catch (error) {
 		return yield* Effect.fail(

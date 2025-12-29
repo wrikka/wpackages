@@ -1,4 +1,4 @@
-import * as p from "@wrikka/prompt";
+import * as p from "@wpackages/prompt";
 import { Effect } from "effect";
 import type { Command, Option } from "../types";
 

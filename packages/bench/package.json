@@ -1,5 +1,5 @@
 {
-	"name": "bench",
+	"name": "@wpackages/bench",
 	"version": "0.0.1",
 	"private": true,
 	"bin": {
@@ -37,8 +37,8 @@
 		"verify": "bun format && bun lint && bun test && bun audit && bun build"
 	},
 	"dependencies": {
-		"@effect/schema": "^0.75.5",
-		"@wts/cli-components": "workspace:*",
+		"@wpackages/schema": "workspace:*",
+		"@wpackages/cli-components": "workspace:*",
 		"effect": "^3.19.13",
 		"picocolors": "^1.1.1"
 	},

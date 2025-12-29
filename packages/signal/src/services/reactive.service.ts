@@ -3,7 +3,7 @@ import { currentEffect } from "./effect.scope";
 
 const targetMap = new WeakMap<object, Map<any, Set<() => void>>>();
 
-export function track(target: object, key: any) {
+export function track(target: object, key: any): void {
 	if (currentEffect) {
 		let depsMap = targetMap.get(target);
 		if (!depsMap) {
@@ -19,7 +19,7 @@ export function track(target: object, key: any) {
 	}
 }
 
-export function trigger(target: object, key: any) {
+export function trigger(target: object, key: any): void {
 	const depsMap = targetMap.get(target);
 	if (!depsMap) return;
 	const dep = depsMap.get(key);

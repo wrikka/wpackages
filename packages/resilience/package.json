@@ -1,5 +1,5 @@
 {
-	"name": "@wts/resilience",
+	"name": "@wpackages/resilience",
 	"version": "0.1.0",
 	"description": "Resilience patterns and fault tolerance utilities built with functional programming",
 	"type": "module",
@@ -28,7 +28,7 @@
 		"prepublishOnly": "bun run clean && bun run build"
 	},
 	"dependencies": {
-		"@w/design-pattern": "workspace:*",
+		"@wpackages/design-pattern": "workspace:*",
 		"effect": "^3.19.13"
 	},
 	"devDependencies": {

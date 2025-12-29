@@ -1,46 +1,46 @@
 {
-	"name": "github-cli",
-	"version": "0.0.1",
-	"private": true,
-	"type": "module",
-	"main": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
-	"bin": {
-		"github-sync": "./dist/index.mjs"
-	},
-	"scripts": {
-		"start": "bun run dev",
-		"dev": "bun run src/index.ts",
-		"lint": "tsc --noEmit && biome lint",
-		"build": "tsdown",
-		"format": "biome format --write",
-		"test": "vitest --run",
-		"verify": "bun run format && bun run lint && bun run test && bun audit && bun run build"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@clack/prompts": "^0.11.0",
-		"@wrikka/prompt": "workspace:*",
-		"bench": "workspace:*",
-		"dotenv": "^17.2.3",
-		"octokit": "^5.0.5",
-		"openai": "^6.15.0",
-		"picocolors": "^1.1.1"
-	},
-	"devDependencies": {
-		"@types/node": "^25.0.3",
-		"oxlint": "^1.35.0",
-		"tsdown": "^0.18.3",
-		"tsx": "^4.21.0",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.16"
-	},
-	"module": "./dist/index.mjs",
-	"exports": {
-		".": "./dist/index.mjs",
-		"./package.json": "./package.json"
-	},
-	"packageManager": "bun@1.3.5"
+  "name": "@wpackages/github-cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "bin": {
+    "github-sync": "./dist/index.mjs"
+  },
+  "scripts": {
+    "start": "bun run dev",
+    "dev": "bun run src/index.ts",
+    "lint": "tsc --noEmit && biome lint",
+    "build": "tsdown",
+    "format": "biome format --write",
+    "test": "vitest --run",
+    "verify": "bun run format && bun run lint && bun run test && bun audit && bun run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "@wpackages/prompt": "workspace:*",
+    "@wpackages/bench": "workspace:*",
+    "dotenv": "^17.2.3",
+    "octokit": "^5.0.5",
+    "openai": "^6.15.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "oxlint": "^1.35.0",
+    "tsdown": "^0.18.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "packageManager": "bun@1.3.5"
 }

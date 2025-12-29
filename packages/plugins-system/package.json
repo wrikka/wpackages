@@ -1,39 +1,39 @@
 {
-	"dependencies": {},
-	"devDependencies": {
-		"@types/bun": "1.3.2",
-		"@types/glob": "^8.1.0",
-		"@types/node": "^24.10.4",
-		"glob": "^12.0.0",
-		"tsdown": "^0.16.8",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.16"
-	},
-	"exports": {
-		".": "./dist/index.mjs",
-		"./package.json": "./package.json"
-	},
-	"keywords": [
-		"plugin",
-		"plugins",
-		"plugin-manager",
-		"plugin-system",
-		"extensible",
-		"modular",
-		"functional",
-		"typescript"
-	],
-	"main": "./dist/index.mjs",
-	"module": "./dist/index.mjs",
-	"name": "plugin-system",
-	"scripts": {
-		"build": "tsdown --exports --dts --minify",
-		"dev": "bun --watch src/index.ts",
-		"lint": "tsc --noEmit && oxlint --fix",
-		"review": "bun format && bun lint && bun test",
-		"test": "vitest"
-	},
-	"type": "module",
-	"types": "./dist/index.d.mts",
-	"version": "0.0.1"
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "1.3.2",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^24.10.4",
+    "glob": "^12.0.0",
+    "tsdown": "^0.16.8",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "plugin",
+    "plugins",
+    "plugin-manager",
+    "plugin-system",
+    "extensible",
+    "modular",
+    "functional",
+    "typescript"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "name": "@wpackages/plugins-system",
+  "scripts": {
+    "build": "tsdown --exports --dts --minify",
+    "dev": "bun --watch src/index.ts",
+    "lint": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --noEmit && oxlint --fix",
+    "review": "bun format && bun lint && bun test",
+    "test": "vitest"
+  },
+  "type": "module",
+  "types": "./dist/index.d.mts",
+  "version": "0.0.1"
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@wts/config-manager",
+  "name": "@wpackages/config-manager",
   "version": "0.0.1",
   "private": true,
   "description": "A comprehensive config manager with support for multiple file formats, environment variables, and schema validation.",
@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
-    "@w/design-pattern": "workspace:*",
-    "@wts/functional": "workspace:*",
+    "@wpackages/design-pattern": "workspace:*",
+    "@wpackages/functional": "workspace:*",
     "yaml": "^2.8.2"
   },
   "devDependencies": {

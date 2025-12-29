@@ -1,10 +1,10 @@
 {
 	"dependencies": {
 		"effect": "latest",
-		"file-system": "workspace:*",
-		"monorepo": "workspace:*",
-		"ports": "workspace:*",
-		"task-runner": "workspace:*"
+		"@wpackages/file-system": "workspace:*",
+		"@wpackages/monorepo": "workspace:*",
+		"@wpackages/ports": "workspace:*",
+		"@wpackages/task-runner": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",
@@ -31,7 +31,7 @@
 	],
 	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
-	"name": "webcontainer",
+	"name": "@wpackages/webcontainer",
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "tsdown --watch",

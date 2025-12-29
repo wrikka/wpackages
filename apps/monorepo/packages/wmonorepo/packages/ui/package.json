@@ -1,5 +1,5 @@
 {
-	"name": "ui",
+	"name": "@wpackages/ui",
 	"version": "1.0.0",
 	"scripts": {
 		"build": "echo 'Building ui...' && exit 0",

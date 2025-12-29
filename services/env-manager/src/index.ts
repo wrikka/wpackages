@@ -1,4 +1,4 @@
-import { createEnvManager } from "@wts/config-manager";
+import { createEnvManager } from "@wpackages/config-manager";
 import { parseArgs } from "./args";
 
 const toDotenv = (obj: Record<string, unknown>): string => {

@@ -1,5 +1,5 @@
 {
-	"name": "file-system",
+	"name": "@wpackages/file-system",
 	"version": "0.1.0",
 	"description": "A robust file system utility library for Node.js environments.",
 	"type": "module",
@@ -19,7 +19,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@w/design-pattern": "workspace:*",
+		"@wpackages/design-pattern": "workspace:*",
 		"effect": "^3.19.13"
 	},
 	"devDependencies": {
