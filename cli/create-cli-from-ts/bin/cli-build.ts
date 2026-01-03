@@ -102,7 +102,7 @@ async function runCommand(
         break;
 
       default:
-        logError(`Unknown command: ${command}`);
+        logError(`Unknown command: ${command as string}`);
         return false;
     }
 

@@ -24,7 +24,13 @@
     "build": "tsdown",
     "test": "vitest --run --passWithNoTests",
     "format": "dprint fmt",
-    "verify": "bun format && bun lint && bun run test && bun audit && bun run build"
+    "verify": "bun format && bun lint && bun run test && bun audit && bun run build",
+    "binary:prepare": "node --experimental-sea-config sea-config.json",
+    "binary:package": "node -e \"const fs = require('fs'); const path = require('path'); const binDir = path.join('dist-binary'); if (!fs.existsSync(binDir)) fs.mkdirSync(binDir); fs.copyFileSync(process.execPath, path.join(binDir, '__BIN_NAME__'));\" && npx postject ./dist-binary/__BIN_NAME__ NODE_SEA_BLOB ./dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2",
+    "binary": "bun run build && bun run binary:prepare && bun run binary:package",
+    "sea:prepare": "node --experimental-sea-config sea-config.json",
+    "sea:package": "npx postject ./dist/index.js NODE_SEA_BLOB ./dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2",
+    "sea": "bun run build && bun run sea:prepare && bun run sea:package"
   },
   "dependencies": {
     "@wpackages/cli-builder": "workspace:*"
@@ -34,6 +40,7 @@
     "dprint": "^0.50.2",
     "oxlint": "^1.36.0",
     "oxlint-tsgolint": "^0.10.1",
+    "postject": "^1.0.0-alpha.6",
     "tsdown": "^0.18.4",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"

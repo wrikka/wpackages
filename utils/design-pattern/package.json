@@ -9,6 +9,9 @@
 	"exports": {
 		".": "./dist/index.js"
 	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
 	"scripts": {
 		"lint": "oxlint --fix --type-aware",
 		"build": "tsdown src/index.ts --out-dir dist",

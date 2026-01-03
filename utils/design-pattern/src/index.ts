@@ -1,5 +1,1 @@
-import * as behavioral from "./behavioral";
-
-export const patterns = {
-	behavioral,
-};
+export * from "./utils";
