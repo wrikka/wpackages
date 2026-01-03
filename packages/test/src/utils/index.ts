@@ -2,8 +2,18 @@
  * Testing utilities
  */
 
-// Assertions
-export { Assertion, AssertionError, expect } from "./assertions";
+// Core Assertions
+export { Assertion, expect } from "./assertions";
+export * from "./assertions/collections";
+export * from "./assertions/equality";
+export * from "./assertions/instance";
+export * from "./assertions/promises";
+export * from "./assertions/throws";
+export * from "./assertions/truthiness";
+export * from "./assertions/types";
+
+// Error
+export { AssertionError } from "./error";
 
 // Snapshots
 export { clearSnapshots, getAllSnapshots, getSnapshot, matchSnapshot, storeSnapshot } from "./snapshot";
@@ -19,8 +29,12 @@ export {
 } from "./matchers";
 
 // Mocks and spies
-export { createMock, restore, spyOn } from "./mock";
+export { createMock } from "./mock";
 export type { MockFn } from "./mock";
+export { restore, spyOn } from "./spy";
 
 // Async helpers
 export { batch, delay, race, retry, sequential, waitFor, withTimeout } from "./async-helpers";
+
+// File Discovery
+export { findTestFiles } from "./file-discovery";

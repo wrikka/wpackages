@@ -1,6 +1,8 @@
+import { ProgressBar } from "@wpackages/cli-components";
 import { execa } from "execa";
 import { calculateStats } from "../lib/benchmark";
-import { runCommand } from "../lib/runner";
+import { runCommand, type RunResult } from "../lib/runner";
+import { LiveConsole } from "../services/live-console.service";
 import type { BenchmarkOptions, BenchmarkResult } from "../types/index";
 
 /**
@@ -50,76 +52,80 @@ export const executeWarmup = async (
  * console.log(`Average: ${times.reduce((a, b) => a + b) / times.length}ms`);
  * ```
  */
+type BenchmarkRunData = {
+	times: number[];
+	totalCpuUserMs: number;
+	totalCpuSystemMs: number;
+	maxRssBytes: number;
+	errorCount: number;
+	requestedRuns: number;
+};
+
 export const executeBenchmarkRuns = async (
 	command: string,
 	options: BenchmarkOptions,
-): Promise<number[]> => {
+): Promise<BenchmarkRunData> => {
 	const { runs = 10, concurrency = 1, prepare, cleanup, shell = "bash", silent, verbose } = options;
+	const liveConsole = silent || verbose ? null : new LiveConsole();
 
-	if (!silent) {
-		console.log(`Running ${runs} benchmark iteration(s)...`);
-	}
-
-	const times: number[] = [];
+	const results: RunResult[] = [];
 	let errorCount = 0;
-	const startCpu = process.cpuUsage();
-	const startResourceUsage = typeof process.resourceUsage === "function" ? process.resourceUsage() : undefined;
-	let maxRssBytes = process.memoryUsage().rss;
-
 	const parallel = Math.max(1, concurrency);
 
 	for (let i = 0; i < runs; i++) {
+		liveConsole?.render(ProgressBar({ value: i, max: runs, labelPosition: "right" }));
 		if (prepare) await execa(shell, ["-c", prepare]);
+
 		try {
-			const startTime = performance.now();
 			const settled = await Promise.allSettled(
 				Array.from({ length: parallel }, () => runCommand(command, shell)),
 			);
-			const endTime = performance.now();
-			const batchErrors = settled.filter((r) => r.status === "rejected").length;
+
+			const successfulRuns = settled
+				.filter((r): r is PromiseFulfilledResult<RunResult> => r.status === "fulfilled")
+				.map(r => r.value);
+
+			const batchErrors = settled.length - successfulRuns.length;
 			errorCount += batchErrors;
-			times.push(endTime - startTime);
-			maxRssBytes = Math.max(maxRssBytes, process.memoryUsage().rss);
-			if (verbose) {
-				console.log(`  Run ${i + 1}: ${(endTime - startTime).toFixed(2)} ms (${parallel}x)`);
+
+			if (successfulRuns.length > 0) {
+				successfulRuns.sort((a, b) => b.timeMs - a.timeMs);
+				results.push(successfulRuns[0]!);
+				if (verbose) {
+					console.log(`  Run ${i + 1}: ${successfulRuns[0]!.timeMs.toFixed(2)} ms (${parallel}x)`);
+				}
+			} else {
+				if (verbose) {
+					console.log(`  Run ${i + 1}: failed (${parallel}x)`);
+				}
+				liveConsole?.render(ProgressBar({ value: i + 1, max: runs, labelPosition: "right", color: "red" }));
 			}
 		} catch {
 			errorCount += parallel;
 			if (verbose) {
 				console.log(`  Run ${i + 1}: failed (${parallel}x)`);
 			}
+			liveConsole?.render(ProgressBar({ value: i + 1, max: runs, labelPosition: "right", color: "red" }));
 		} finally {
 			if (cleanup) await execa(shell, ["-c", cleanup]);
 		}
 	}
 
-	const cpu = process.cpuUsage(startCpu);
-	const endResourceUsage = typeof process.resourceUsage === "function" ? process.resourceUsage() : undefined;
-	const fsReadBytes = startResourceUsage && endResourceUsage
-		? Math.max(0, endResourceUsage.fsRead - startResourceUsage.fsRead)
-		: 0;
-	const fsWriteBytes = startResourceUsage && endResourceUsage
-		? Math.max(0, endResourceUsage.fsWrite - startResourceUsage.fsWrite)
-		: 0;
+	liveConsole?.render(ProgressBar({ value: runs, max: runs, labelPosition: "right" }));
+	liveConsole?.clear();
 
-	if (times.length === 0) {
-		throw new Error(`All benchmark runs failed (${errorCount}/${runs})`);
+	if (results.length === 0) {
+		throw new Error(`All benchmark runs failed (${errorCount}/${runs * concurrency})`);
 	}
 
-	// Attach errorCount to the array object for later consumption (internal convention)
-	Object.defineProperty(times, "_errorCount", { value: errorCount, enumerable: false });
-	Object.defineProperty(times, "_requestedRuns", { value: runs, enumerable: false });
-	Object.defineProperty(times, "_resource", {
-		value: {
-			cpuUserMicros: cpu.user,
-			cpuSystemMicros: cpu.system,
-			maxRssBytes,
-			fsReadBytes,
-			fsWriteBytes,
-		},
-		enumerable: false,
-	});
-	return times;
+	return {
+		times: results.map(r => r.timeMs),
+		totalCpuUserMs: results.reduce((sum, r) => sum + r.cpuUserMs, 0),
+		totalCpuSystemMs: results.reduce((sum, r) => sum + r.cpuSystemMs, 0),
+		maxRssBytes: results.reduce((max, r) => Math.max(max, r.maxRssBytes), 0),
+		errorCount,
+		requestedRuns: runs,
+	};
 };
 
 /**
@@ -147,25 +153,15 @@ export const executeBenchmark = async (
 	await executeWarmup(command, options);
 
 	// Benchmark runs
-	const times = await executeBenchmarkRuns(command, options);
-	const errorCount = (times as unknown as { _errorCount?: number })._errorCount ?? 0;
-	const requestedRuns = (times as unknown as { _requestedRuns?: number })._requestedRuns ?? times.length;
-	const resource = (times as unknown as {
-		_resource?: {
-			readonly cpuUserMicros: number;
-			readonly cpuSystemMicros: number;
-			readonly maxRssBytes: number;
-			readonly fsReadBytes: number;
-			readonly fsWriteBytes: number;
-		};
-	})._resource ?? {
-		cpuUserMicros: 0,
-		cpuSystemMicros: 0,
-		maxRssBytes: 0,
-		fsReadBytes: 0,
-		fsWriteBytes: 0,
-	};
+	const runData = await executeBenchmarkRuns(command, options);
 
 	// Calculate statistics
-	return calculateStats(command, times, errorCount, requestedRuns, resource);
+	return calculateStats(command, runData.times, runData.errorCount, runData.requestedRuns, {
+		cpuUserMicros: runData.totalCpuUserMs * 1000,
+		cpuSystemMicros: runData.totalCpuSystemMs * 1000,
+		maxRssBytes: runData.maxRssBytes,
+		// fsReadBytes and fsWriteBytes are not collected per-process yet.
+		fsReadBytes: 0,
+		fsWriteBytes: 0,
+	});
 };

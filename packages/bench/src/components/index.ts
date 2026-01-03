@@ -5,6 +5,7 @@ export { executeBenchmark, executeBenchmarkRuns, executeWarmup } from "./benchma
 export { formatBytes, formatNumber, formatOps, formatPercentage, formatTime } from "./stats-formatters";
 
 // Result formatters (consolidated)
+export { formatCsv, formatMarkdown } from "./export-formatters";
 export {
 	formatBenchComparison,
 	formatBenchmarkResult,

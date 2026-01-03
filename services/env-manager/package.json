@@ -1,35 +1,47 @@
 {
-  "name": "@wpackages/env-manager",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "bin": {
-    "wenv": "./dist/cli.js"
-  },
-  "main": "./dist/cli.js",
-  "module": "./dist/cli.js",
-  "types": "./dist/cli.d.ts",
-  "exports": {
-    ".": "./dist/cli.js",
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "build": "tsdown --exports --dts --minify",
-    "lint": "tsc --noEmit && oxlint --fix",
-    "test": "vitest run",
-    "verify": "bun run lint && bun run build && bun run test"
-  },
-  "dependencies": {
-    "@wpackages/config-manager": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/bun": "1.3.5",
-    "@types/node": "^20.19.27",
-    "oxlint": "^1.35.0",
-    "tsdown": "^0.18.3",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
-  },
-  "packageManager": "bun@1.3.5"
+	"name": "@wpackages/env-manager",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"bun": ">=1.3.5"
+	},
+	"bin": {
+		"wenv": "./dist/bin/cli.mjs"
+	},
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./bin/cli": "./dist/bin/cli.mjs",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"dev": "bun --watch src/bin/cli.ts",
+		"build": "tsdown",
+		"postbuild": "bun run src/scripts/add-shebang.ts",
+		"format": "dprint fmt",
+		"lint": "oxlint --fix --type-aware --tsconfig ./tsconfig.oxlint.json",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"audit": "bun audit",
+		"verify": "bun run format && bun run lint && bun run test && bun run build"
+	},
+	"dependencies": {
+		"@wpackages/config-manager": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/bun": "1.3.5",
+		"@types/node": "^20.19.27",
+		"dprint": "^0.51.1",
+		"oxlint": "^1.36.0",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
 }

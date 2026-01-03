@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@wts/functional": fileURLToPath(new URL("../../packages/functional/src", import.meta.url)),
+			"@wpackages/functional": fileURLToPath(new URL("../../packages/functional/src", import.meta.url)),
 		},
 	},
 	test: {

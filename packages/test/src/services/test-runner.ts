@@ -1,168 +1,43 @@
 /**
- * Test runner service - Effect-based test execution
+ * Discovers, loads, and runs test suites.
+ * This service orchestrates the entire test execution process, from finding test files
+ * to collecting results into a final report.
  */
 
-import type { TestFn, TestHook, TestMetadata, TestReport, TestStatus, TestSuite } from "../types";
-import { withTimeout } from "../utils";
+import { injectGlobals } from "../globals";
+import type { TestMetadata, TestReport, TestStatus, TestSuite } from "../types";
+import { findTestFiles } from "../utils";
 
 import { createConfig } from "../config";
 import type { TestConfig } from "../config";
-
-type RegisteredTest = {
-	name: string;
-	fn: TestFn;
-	only: boolean;
-};
+import { registry } from "./registry";
+import { executeTest } from "./test-executor";
 
 /**
- * Test registry
- */
-class TestRegistry {
-	private tests: Map<string, RegisteredTest> = new Map();
-	private suites: Map<string, RegisteredTest[]> = new Map();
-	private beforeHooks: TestHook[] = [];
-	private afterHooks: TestHook[] = [];
-	private currentSuite: string = "default";
-	private hasOnlyTests: boolean = false;
-
-	/**
-	 * Register test
-	 */
-	registerTest(name: string, fn: TestFn, options?: { only?: boolean }): void {
-		const key = `${this.currentSuite}:${name}`;
-		const entry: RegisteredTest = {
-			name,
-			fn,
-			only: options?.only ?? false,
-		};
-		this.tests.set(key, entry);
-
-		if (entry.only) {
-			this.hasOnlyTests = true;
-		}
-
-		if (!this.suites.has(this.currentSuite)) {
-			this.suites.set(this.currentSuite, []);
-		}
-		this.suites.get(this.currentSuite)!.push(entry);
-	}
-
-	/**
-	 * Register before hook
-	 */
-	registerBefore(fn: TestHook): void {
-		this.beforeHooks.push(fn);
-	}
-
-	/**
-	 * Register after hook
-	 */
-	registerAfter(fn: TestHook): void {
-		this.afterHooks.push(fn);
-	}
-
-	/**
-	 * Get all tests
-	 */
-	getTests(): Map<string, RegisteredTest> {
-		return this.tests;
-	}
-
-	/**
-	 * Get suites
-	 */
-	getSuites(): Map<string, RegisteredTest[]> {
-		return this.suites;
-	}
-
-	getHasOnlyTests(): boolean {
-		return this.hasOnlyTests;
-	}
-
-	/**
-	 * Get before hooks
-	 */
-	getBeforeHooks(): TestHook[] {
-		return this.beforeHooks;
-	}
-
-	/**
-	 * Get after hooks
-	 */
-	getAfterHooks(): TestHook[] {
-		return this.afterHooks;
-	}
-
-	/**
-	 * Set current suite
-	 */
-	setCurrentSuite(name: string): void {
-		this.currentSuite = name;
-	}
-
-	/**
-	 * Clear registry
-	 */
-	clear(): void {
-		this.tests.clear();
-		this.suites.clear();
-		this.beforeHooks = [];
-		this.afterHooks = [];
-		this.currentSuite = "default";
-		this.hasOnlyTests = false;
-	}
-}
-
-/**
- * Global test registry
- */
-const registry = new TestRegistry();
-
-/**
- * Describe - group tests
- */
-export const describe = (name: string, fn: () => void): void => {
-	const previousSuite = registry["currentSuite"];
-	registry.setCurrentSuite(name);
-	fn();
-	registry.setCurrentSuite(previousSuite);
-};
-
-/**
- * Test - register test
- */
-export const test = (name: string, fn: TestFn): void => {
-	registry.registerTest(name, fn);
-};
-
-export const only = (name: string, fn: TestFn): void => {
-	registry.registerTest(name, fn, { only: true });
-};
-
-/**
- * It - alias for test
- */
-export const it = test;
-
-/**
- * Before hook
- */
-export const before = (fn: TestHook): void => {
-	registry.registerBefore(fn);
-};
-
-/**
- * After hook
- */
-export const after = (fn: TestHook): void => {
-	registry.registerAfter(fn);
-};
-
-/**
- * Run tests
+ * Discovers, loads, and executes all tests based on the provided configuration.
+ * It generates a comprehensive report of the test run.
+ * @param config A partial `TestConfig` object to override default settings.
+ * @returns A promise that resolves to a `TestReport` summarizing the test run.
  */
 export const runTests = async (config: Partial<TestConfig> = {}): Promise<TestReport> => {
 	const finalConfig = createConfig(config);
+
+	// Inject globals if enabled
+	if (finalConfig.globals) {
+		injectGlobals();
+	}
+
+	// Run setup files
+	for (const file of finalConfig.setupFiles) {
+		await import(file);
+	}
+
+	// Discover and load test files
+	const testFiles = await findTestFiles(finalConfig.include, finalConfig.exclude);
+	for (const file of testFiles) {
+		await import(file);
+	}
+
 	const suites = registry.getSuites();
 	const beforeHooks = registry.getBeforeHooks();
 	const afterHooks = registry.getAfterHooks();
@@ -180,80 +55,11 @@ export const runTests = async (config: Partial<TestConfig> = {}): Promise<TestRe
 		const suiteStartTime = Date.now();
 		const selectedTests = hasOnlyTests ? tests.filter((t) => t.only) : tests;
 
-		const runOne = async (registered: RegisteredTest): Promise<TestMetadata> => {
-			// Run before hooks
-			for (const hook of beforeHooks) {
-				try {
-					await hook();
-				} catch (err) {
-					console.error("Before hook failed:", err);
-				}
-			}
-
-			const testStartTime = Date.now();
-			let status: TestStatus = "passed";
-			let testError: Error | undefined;
-			let shouldSkip = false;
-
-			const context = {
-				name: registered.name,
-				skip: () => {
-					shouldSkip = true;
-				},
-				only: () => {
-					// If called during execution, it doesn't affect current run.
-				},
-			};
-
-			const attempt = async (): Promise<void> => {
-				await withTimeout(Promise.resolve(registered.fn(context)), finalConfig.timeout);
-			};
-
-			try {
-				for (let i = 0; i <= finalConfig.retries; i++) {
-					try {
-						await attempt();
-						break;
-					} catch (err) {
-						if (i === finalConfig.retries) {
-							throw err;
-						}
-					}
-				}
-
-				if (shouldSkip) {
-					status = "skipped";
-				}
-			} catch (err) {
-				status = "failed";
-				testError = err instanceof Error ? err : new Error(String(err));
-			}
-
-			const duration = Date.now() - testStartTime;
-
-			// Run after hooks
-			for (const hook of afterHooks) {
-				try {
-					await hook();
-				} catch (err) {
-					console.error("After hook failed:", err);
-				}
-			}
-
-			return {
-				name: registered.name,
-				duration,
-				status,
-				error: testError,
-				assertions: [],
-			};
-		};
-
 		const results = finalConfig.parallel
-			? await Promise.all(selectedTests.map(runOne))
+			? await Promise.all(selectedTests.map((t) => executeTest(t, finalConfig, beforeHooks, afterHooks)))
 			: await selectedTests.reduce<Promise<TestMetadata[]>>(async (accP, t) => {
 				const acc = await accP;
-				const r = await runOne(t);
+				const r = await executeTest(t, finalConfig, beforeHooks, afterHooks);
 				acc.push(r);
 				return acc;
 			}, Promise.resolve([]));
@@ -293,8 +99,3 @@ export const runTests = async (config: Partial<TestConfig> = {}): Promise<TestRe
 		success: failedTests === 0,
 	};
 };
-
-/**
- * Get registry for testing
- */
-export const getRegistry = (): TestRegistry => registry;

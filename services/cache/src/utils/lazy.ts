@@ -2,8 +2,8 @@
  * Lazy evaluation utilities with caching
  */
 
-import { createCache } from "../core/cache";
 import type { Cache, CacheConfig } from "../types/cache.types";
+import { createCache } from "./cache";
 
 // Lazy value with caching
 export class Lazy<T> {

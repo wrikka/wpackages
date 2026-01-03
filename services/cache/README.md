@@ -23,51 +23,51 @@ bun add caching
 ### Basic Cache
 
 ```typescript
-import { createCache } from 'caching'
+import { createCache } from "caching";
 
-const cache = createCache<string, number>({ 
-  maxSize: 100, 
-  ttl: 5000, 
-  lru: true 
-})
+const cache = createCache<string, number>({
+	maxSize: 100,
+	ttl: 5000,
+	lru: true,
+});
 
-cache.set('key', 42)
-const value = cache.get('key') // 42
+cache.set("key", 42);
+const value = cache.get("key"); // 42
 ```
 
 ### Memoization
 
 ```typescript
-import { memoize } from 'caching'
+import { memoize } from "caching";
 
 const expensiveFunction = (x: number, y: number) => {
-  // Expensive computation
-  return x * y
-}
+	// Expensive computation
+	return x * y;
+};
 
-const memoizedFunction = memoize(expensiveFunction, { maxSize: 10 })
+const memoizedFunction = memoize(expensiveFunction, { maxSize: 10 });
 
 // First call computes and caches the result
-const result1 = memoizedFunction(5, 3) 
+const result1 = memoizedFunction(5, 3);
 
 // Second call returns cached result
-const result2 = memoizedFunction(5, 3)
+const result2 = memoizedFunction(5, 3);
 ```
 
 ### Lazy Evaluation
 
 ```typescript
-import { lazy } from 'caching'
+import { lazy } from "caching";
 
 const expensiveComputation = () => {
-  // Expensive operation
-  return 'computed result'
-}
+	// Expensive operation
+	return "computed result";
+};
 
-const lazyValue = lazy(expensiveComputation, { maxSize: 1 })
+const lazyValue = lazy(expensiveComputation, { maxSize: 1 });
 
 // Computation happens only on first access
-const result = lazyValue.get()
+const result = lazyValue.get();
 ```
 
 ## Advanced Features
@@ -75,37 +75,37 @@ const result = lazyValue.get()
 ### Auto Key Cache
 
 ```typescript
-import { createAutoKeyCache } from 'caching'
+import { createAutoKeyCache } from "caching";
 
-const autoKeyCachedFunction = createAutoKeyCache(expensiveFunction)
+const autoKeyCachedFunction = createAutoKeyCache(expensiveFunction);
 ```
 
 ### TTL Cache
 
 ```typescript
-import { createTTLCache } from 'caching'
+import { createTTLCache } from "caching";
 
 const ttlCachedFunction = createTTLCache(
-  expensiveFunction, 
-  (result) => result * 1000 // TTL based on result
-)
+	expensiveFunction,
+	(result) => result * 1000, // TTL based on result
+);
 ```
 
 ### Retry Cache
 
 ```typescript
-import { createRetryCache } from 'caching'
+import { createRetryCache } from "caching";
 
-const retryCachedFunction = createRetryCache(unreliableFunction, 3)
+const retryCachedFunction = createRetryCache(unreliableFunction, 3);
 ```
 
 ### Cache Service
 
 ```typescript
-import { CacheService } from 'caching'
+import { CacheService } from "caching";
 
-const cacheService = new CacheService<string, number>()
-const result = cacheService.get('key')
+const cacheService = new CacheService<string, number>();
+const result = cacheService.get("key");
 ```
 
 ## API
@@ -146,9 +146,9 @@ const result = cacheService.get('key')
 
 ```typescript
 interface CacheConfig {
-  maxSize?: number    // Maximum cache size (default: Infinity)
-  ttl?: number        // Time to live in ms (default: 0 - no expiration)
-  lru?: boolean       // Use LRU eviction (default: false - FIFO)
+	maxSize?: number; // Maximum cache size (default: Infinity)
+	ttl?: number; // Time to live in ms (default: 0 - no expiration)
+	lru?: boolean; // Use LRU eviction (default: false - FIFO)
 }
 ```
 

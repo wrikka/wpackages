@@ -1,0 +1,59 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		/* Modern ECMAScript Features */
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "auto",
+		/* Advanced Type Safety */
+		"strict": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noFallthroughCasesInSwitch": true,
+		"exactOptionalPropertyTypes": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"useUnknownInCatchVariables": true,
+		/* Module Resolution */
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"resolvePackageJsonExports": true,
+		"resolvePackageJsonImports": true,
+		/* Bundler & Runtime Optimization */
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"verbatimModuleSyntax": true,
+		/* Development Experience */
+		"types": ["@types/bun"],
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"inlineSources": true,
+		"removeComments": false,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		/* JSX (Modern Frameworks) */
+		"jsx": "preserve",
+		"jsxImportSource": "react",
+		/* Build Performance */
+		"useDefineForClassFields": true,
+		/* Path Aliases */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@components/*": ["./src/components/*"],
+			"@composables/*": ["./src/composables/*"],
+			"@hooks/*": ["./src/hooks/*"],
+			"@utils/*": ["./src/utils/*", "./src/cli/utils/*"],
+			"@types/*": ["./src/types/*"],
+			"@config/*": ["./src/config/*"],
+			"@services/*": ["./src/services/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["**/node_modules", "**/dist"]
+}

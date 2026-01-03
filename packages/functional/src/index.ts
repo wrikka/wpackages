@@ -41,6 +41,8 @@ const succeed = <A>(value: A): Effect<A, never, never> => () => Promise.resolve(
 const fromPromise = <A>(promise: () => Promise<A>): Effect<A, unknown, never> => () =>
 	promise().then(right).catch(left);
 
+const sync = <A>(f: () => A): Effect<A, never, never> => () => Promise.resolve(right(f()));
+
 const gen = <A>(f: () => Generator<any, A, any>): Effect<A, any, any> => (ctx) => runGenerator(f(), ctx);
 
 const get = <T>(tag: Tag<T>): Effect<T, Error, { [K in symbol]: T }> => (ctx) => {
@@ -161,6 +163,7 @@ export const Effect = {
 	fail,
 	succeed,
 	fromPromise,
+	sync,
 	gen,
 	get,
 	provide,

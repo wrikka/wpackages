@@ -18,15 +18,15 @@ bun add file-system
 ## Usage
 
 ```typescript
-import { readFile, writeFile } from 'file-system';
+import { readFile, writeFile } from "file-system";
 
 async function main() {
-  // Write to a file
-  await writeFile('example.txt', 'Hello, world!');
+	// Write to a file
+	await writeFile("example.txt", "Hello, world!");
 
-  // Read from a file
-  const content = await readFile('example.txt', 'utf8');
-  console.log(content);
+	// Read from a file
+	const content = await readFile("example.txt", "utf8");
+	console.log(content);
 }
 
 main();

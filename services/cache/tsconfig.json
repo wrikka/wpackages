@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
 		"target": "ES2022",
 		"module": "ESNext",
 		"moduleResolution": "bundler",
@@ -8,15 +7,7 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"outDir": "./dist",
-		"paths": {
-			"@w/design-pattern": [
-				"../../utils/design-pattern/src/index.ts"
-			],
-			"@w/design-pattern/*": [
-				"../../utils/design-pattern/src/*"
-			]
-		},
+		"outDir": "dist",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -35,23 +26,13 @@
 		"checkJs": false,
 		"resolveJsonModule": true,
 		"composite": false,
-		"declarationDir": "./dist/types",
 		"emitDeclarationOnly": false,
 		"incremental": true,
 		"tsBuildInfoFile": "./dist/.tsbuildinfo",
-		"lib": [
-			"ES2022",
-			"DOM"
-		],
-		"types": [
-			"@types/bun",
-			"vitest/globals"
-		]
+		"lib": ["ES2022", "DOM"],
+		"types": ["@types/bun", "vitest/globals"]
 	},
-	"include": [
-		"src/**/*",
-		"src"
-	],
+	"include": ["src/**/*", "src"],
 	"exclude": [
 		"node_modules",
 		"dist",

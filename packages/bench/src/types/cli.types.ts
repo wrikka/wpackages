@@ -34,10 +34,15 @@ export type BenchmarkOptions = {
 	prepare?: string; // command to run before each benchmark
 	cleanup?: string; // command to run after each benchmark
 	shell?: string; // shell to use
-	output?: "json" | "text" | "table" | "chart";
+	output?: "json" | "text" | "table" | "chart" | "histogram" | "boxplot" | "csv" | "md" | "markdown";
 	export?: string; // export results to file
 	verbose?: boolean;
 	silent?: boolean;
+	htmlReport?: string; // path to generate HTML report
+	config?: string; // path to a configuration file
+	parameterScan?: { parameter: string; values: string[] };
+	threshold?: number; // regression threshold in percentage
+	ab?: boolean; // enable A/B testing mode
 };
 
 export type ComparisonResult = {
@@ -45,4 +50,5 @@ export type ComparisonResult = {
 	fastest: string;
 	slowest: string;
 	speedups: Record<string, number>; // relative to fastest
+	pValues?: Record<string, number>; // p-value from t-test vs fastest
 };

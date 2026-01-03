@@ -1,2 +1,14 @@
-dist/
-node_modules/
+# Dependencies
+/node_modules
+
+# Build artifacts
+/dist
+
+# Drizzle migrations
+/drizzle
+
+# Turbo cache
+.turbo
+
+# Environment variables
+.env

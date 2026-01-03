@@ -22,16 +22,16 @@ bun add @wts/test
 ## Quick Start
 
 ```typescript
-import { describe, it, expect } from '@wts/test';
+import { describe, expect, it } from "@wts/test";
 
-describe('Calculator', () => {
-  it('should add numbers', () => {
-    expect(2 + 2).toBe(4);
-  });
+describe("Calculator", () => {
+	it("should add numbers", () => {
+		expect(2 + 2).toBe(4);
+	});
 
-  it('should handle negative numbers', () => {
-    expect(-5 + 3).toBe(-2);
-  });
+	it("should handle negative numbers", () => {
+		expect(-5 + 3).toBe(-2);
+	});
 });
 ```
 
@@ -40,7 +40,7 @@ describe('Calculator', () => {
 ### Mocking and Spying
 
 ```typescript
-import { createMock, spyOn } from '@wts/test';
+import { createMock, spyOn } from "@wts/test";
 
 // Create a mock function
 const mockFn = createMock<() => number>(() => 42);
@@ -49,7 +49,7 @@ expect(mockFn()).toBe(100);
 
 // Spy on object methods
 const obj = { getValue: () => 42 };
-const spy = spyOn(obj, 'getValue');
+const spy = spyOn(obj, "getValue");
 obj.getValue();
 expect(spy.callCount).toBe(1);
 ```
@@ -57,7 +57,7 @@ expect(spy.callCount).toBe(1);
 ### Async Testing
 
 ```typescript
-import { waitFor, delay, retry, withTimeout } from '@wts/test';
+import { delay, retry, waitFor, withTimeout } from "@wts/test";
 
 // Wait for condition
 await waitFor(() => dataLoaded, 5000);
@@ -75,21 +75,21 @@ await batch(items, processItem, 5);
 ### Snapshots
 
 ```typescript
-import { matchSnapshot } from '@wts/test';
+import { matchSnapshot } from "@wts/test";
 
-const result = { name: 'John', age: 30 };
-expect(matchSnapshot(result, { name: 'user-snapshot' })).toBe(true);
+const result = { name: "John", age: 30 };
+expect(matchSnapshot(result, { name: "user-snapshot" })).toBe(true);
 ```
 
 ### Custom Matchers
 
 ```typescript
-import { createMatcher, typeMatcher } from '@wts/test';
+import { createMatcher, typeMatcher } from "@wts/test";
 
 const customMatcher = createMatcher(
-  'isPositive',
-  (actual, expected) => actual > 0,
-  (actual) => `Expected ${actual} to be positive`
+	"isPositive",
+	(actual, expected) => actual > 0,
+	(actual) => `Expected ${actual} to be positive`,
 );
 ```
 
@@ -98,9 +98,9 @@ const customMatcher = createMatcher(
 ### Equality
 
 ```typescript
-expect(value).toBe(expected);           // Strict equality
-expect(value).toEqual(expected);        // Deep equality
-expect(value).not.toBe(unexpected);     // Negation
+expect(value).toBe(expected); // Strict equality
+expect(value).toEqual(expected); // Deep equality
+expect(value).not.toBe(unexpected); // Negation
 ```
 
 ### Truthiness
@@ -115,9 +115,9 @@ expect(value).toBeUndefined();
 ### Type Checking
 
 ```typescript
-expect(value).toBeType('string');
-expect(value).toBeType('number');
-expect(value).toBeType('object');
+expect(value).toBeType("string");
+expect(value).toBeType("number");
+expect(value).toBeType("object");
 ```
 
 ### Collections
@@ -147,38 +147,38 @@ expect(promise).toReject();
 ### Describe Blocks
 
 ```typescript
-describe('User Service', () => {
-  describe('Create User', () => {
-    it('should create a new user', () => {
-      // test code
-    });
-  });
+describe("User Service", () => {
+	describe("Create User", () => {
+		it("should create a new user", () => {
+			// test code
+		});
+	});
 
-  describe('Delete User', () => {
-    it('should delete an existing user', () => {
-      // test code
-    });
-  });
+	describe("Delete User", () => {
+		it("should delete an existing user", () => {
+			// test code
+		});
+	});
 });
 ```
 
 ### Hooks
 
 ```typescript
-describe('Database', () => {
-  before(async () => {
-    // Setup before all tests
-    await connectDatabase();
-  });
+describe("Database", () => {
+	before(async () => {
+		// Setup before all tests
+		await connectDatabase();
+	});
 
-  after(async () => {
-    // Cleanup after all tests
-    await disconnectDatabase();
-  });
+	after(async () => {
+		// Cleanup after all tests
+		await disconnectDatabase();
+	});
 
-  it('should query data', () => {
-    // test code
-  });
+	it("should query data", () => {
+		// test code
+	});
 });
 ```
 
@@ -187,12 +187,12 @@ describe('Database', () => {
 ```typescript
 // Readable, chainable assertions
 expect(user.age)
-  .toBeType('number')
-  .not.toBe(0);
+	.toBeType("number")
+	.not.toBe(0);
 
 expect(users)
-  .toContain(newUser)
-  .not.toContain(deletedUser);
+	.toContain(newUser)
+	.not.toContain(deletedUser);
 ```
 
 ## Advanced Usage
@@ -201,8 +201,8 @@ expect(users)
 
 ```typescript
 const customMatcher = (actual, expected) => ({
-  pass: actual === expected,
-  message: () => `Expected ${actual} to equal ${expected}`
+	pass: actual === expected,
+	message: () => `Expected ${actual} to equal ${expected}`,
 });
 ```
 
@@ -210,15 +210,15 @@ const customMatcher = (actual, expected) => ({
 
 ```typescript
 expect(result).toMatchSnapshot();
-expect(result).toMatchSnapshot({ name: 'custom-snapshot' });
+expect(result).toMatchSnapshot({ name: "custom-snapshot" });
 ```
 
 ### Async Tests
 
 ```typescript
-it('should fetch data', async () => {
-  const data = await fetchData();
-  expect(data).toBeDefined();
+it("should fetch data", async () => {
+	const data = await fetchData();
+	expect(data).toBeDefined();
 });
 ```
 
@@ -246,27 +246,29 @@ bun run dev
 
 ## Comparison with vitest/Playwright
 
-| Feature | @wts/test | vitest | Playwright |
-|---------|-----------|--------|-----------|
-| **Type Safety** | ✅ Full | ⚠️ Partial | ⚠️ Partial |
-| **Fluent API** | ✅ Yes | ❌ No | ❌ No |
-| **Functional** | ✅ Yes | ❌ No | ❌ No |
-| **Unit Testing** | ✅ Yes | ✅ Yes | ❌ No |
-| **E2E Testing** | ✅ Yes | ❌ No | ✅ Yes |
-| **Mocking** | ✅ Built-in | ✅ Built-in | ⚠️ Limited |
-| **Async Helpers** | ✅ Rich | ⚠️ Basic | ✅ Good |
-| **Snapshots** | ✅ Yes | ✅ Yes | ❌ No |
-| **Custom Matchers** | ✅ Yes | ✅ Yes | ⚠️ Limited |
-| **Effect-TS** | ✅ Yes | ❌ No | ❌ No |
-| **Unified Framework** | ✅ Yes | ❌ No | ❌ No |
-| **Learning Curve** | Low | Medium | High |
-| **Performance** | ⚡ Fast | ⚡ Fast | 🐢 Slower |
-| **Bundle Size** | 📦 Small | 📦 Medium | 📦 Large |
+| Feature               | @wts/test   | vitest      | Playwright |
+| --------------------- | ----------- | ----------- | ---------- |
+| **Type Safety**       | ✅ Full     | ⚠️ Partial   | ⚠️ Partial  |
+| **Fluent API**        | ✅ Yes      | ❌ No       | ❌ No      |
+| **Functional**        | ✅ Yes      | ❌ No       | ❌ No      |
+| **Unit Testing**      | ✅ Yes      | ✅ Yes      | ❌ No      |
+| **E2E Testing**       | ✅ Yes      | ❌ No       | ✅ Yes     |
+| **Mocking**           | ✅ Built-in | ✅ Built-in | ⚠️ Limited  |
+| **Async Helpers**     | ✅ Rich     | ⚠️ Basic     | ✅ Good    |
+| **Snapshots**         | ✅ Yes      | ✅ Yes      | ❌ No      |
+| **Custom Matchers**   | ✅ Yes      | ✅ Yes      | ⚠️ Limited  |
+| **Effect-TS**         | ✅ Yes      | ❌ No       | ❌ No      |
+| **Unified Framework** | ✅ Yes      | ❌ No       | ❌ No      |
+| **Learning Curve**    | Low         | Medium      | High       |
+| **Performance**       | ⚡ Fast     | ⚡ Fast     | 🐢 Slower  |
+| **Bundle Size**       | 📦 Small    | 📦 Medium   | 📦 Large   |
 
 ### Pros and Cons
 
 #### @wts/test
+
 **Pros:**
+
 - Type-safe fluent API
 - Functional programming approach
 - Unified unit + E2E framework
@@ -276,12 +278,15 @@ bun run dev
 - Rich async helpers
 
 **Cons:**
+
 - Newer project (less community)
 - Fewer plugins/extensions
 - Less browser automation
 
 #### vitest
+
 **Pros:**
+
 - Mature and stable
 - Large community
 - Good performance
@@ -289,6 +294,7 @@ bun run dev
 - Familiar Jest-like API
 
 **Cons:**
+
 - Not fully type-safe
 - No fluent API
 - Not functional
@@ -296,13 +302,16 @@ bun run dev
 - Larger bundle
 
 #### Playwright
+
 **Pros:**
+
 - Best for E2E testing
 - Multi-browser support
 - Good documentation
 - Powerful automation
 
 **Cons:**
+
 - Not for unit testing
 - Steep learning curve
 - Larger bundle
@@ -339,5 +348,5 @@ MIT © Wrikka Team
 ## Related Packages
 
 - `@wts/resilience` - Resilience patterns and fault tolerance
-- `@wts/functional` - Functional programming utilities
+- `@wpackages/functional` - Functional programming utilities
 - `@wts/effect` - Effect-TS extensions

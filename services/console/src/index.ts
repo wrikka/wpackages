@@ -1,60 +1,54 @@
-import { Effect as FunctionalEffect } from "@wts/functional";
-import { Effect, Layer } from "@wts/functional";
-import type { Effect as EffectType } from "@wts/functional";
+import { Effect as FunctionalEffect } from "@wpackages/functional";
+import { Effect, Layer } from "@wpackages/functional";
+import { makeConsole } from "./services";
+import type { Console as ConsoleService, LogMessage } from "./types";
+export type { Console as ConsoleService, ConsoleConfig, LogLevel, LogMessage } from "./types";
 
-export interface Console {
-	readonly log: (message: string) => EffectType<void, never, never>;
-	readonly info?: (message: string) => EffectType<void, never, never>;
-	readonly warn?: (message: string) => EffectType<void, never, never>;
-	readonly error?: (message: string) => EffectType<void, never, never>;
-}
+export const Console = FunctionalEffect.tag<ConsoleService>();
 
-export const Console = FunctionalEffect.tag<Console>();
+export const ConsoleLive = Layer.succeed(Console, makeConsole());
 
-export const ConsoleLive = Layer.succeed(Console, {
-	log: (message: string) =>
-		Effect.tap(Effect.succeed(undefined), () => {
-			console.log(message);
-		}),
-	info: (message: string) =>
-		Effect.tap(Effect.succeed(undefined), () => {
-			console.info(message);
-		}),
-	warn: (message: string) =>
-		Effect.tap(Effect.succeed(undefined), () => {
-			console.warn(message);
-		}),
-	error: (message: string) =>
-		Effect.tap(Effect.succeed(undefined), () => {
-			console.error(message);
-		}),
-});
+export const log = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.log(message);
+  });
 
-const callOrLog = (svc: Console, method: keyof Pick<Console, "info" | "warn" | "error">, message: string) => {
-	const fn = svc[method];
-	return fn ? fn(message) : svc.log(message);
-};
+export const info = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.info(message);
+  });
 
-export const log = (message: string) =>
-	Effect.gen(function*() {
-		const svc = yield Effect.get(Console);
-		yield svc.log(message);
-	});
+export const warn = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.warn(message);
+  });
 
-export const info = (message: string) =>
-	Effect.gen(function*() {
-		const svc = yield Effect.get(Console);
-		yield callOrLog(svc, "info", message);
-	});
+export const error = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.error(message);
+  });
 
-export const warn = (message: string) =>
-	Effect.gen(function*() {
-		const svc = yield Effect.get(Console);
-		yield callOrLog(svc, "warn", message);
-	});
+export const debug = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.debug(message);
+  });
 
-export const error = (message: string) =>
-	Effect.gen(function*() {
-		const svc = yield Effect.get(Console);
-		yield callOrLog(svc, "error", message);
-	});
+export const fatal = (message: LogMessage) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    yield svc.fatal(message);
+  });
+
+export const logSpan = (context: string) =>
+  Effect.gen(function*() {
+    const svc = yield Effect.get(Console);
+    return svc.withContext(context);
+  });
+
+export * from "./services";
+export * from "./utils";

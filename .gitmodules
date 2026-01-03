@@ -4,3 +4,6 @@
 [submodule "docs-wrikka-com"]
 	path = docs-wrikka-com
 	url = https://github.com/newkub/docs-wrikka-com
+[submodule "packages/webserver/ast-grep"]
+	path = packages/webserver/ast-grep
+	url = https://github.com/newkub/rules

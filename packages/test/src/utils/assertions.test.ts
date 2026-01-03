@@ -1,5 +1,6 @@
 import { describe, it } from "vitest";
-import { AssertionError, expect } from "./assertions";
+import { expect } from "./assertions";
+import { AssertionError } from "./error";
 
 describe("Assertions", () => {
 	describe("toBe", () => {

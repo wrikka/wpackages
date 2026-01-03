@@ -1,6 +1,6 @@
-import { Effect as FunctionalEffect } from "@wts/functional";
-import { Effect, Layer } from "@wts/functional";
-import type { Effect as EffectType } from "@wts/functional";
+import { Effect as FunctionalEffect } from "@wpackages/functional";
+import { Effect, Layer } from "@wpackages/functional";
+import type { Effect as EffectType } from "@wpackages/functional";
 
 type Json = unknown;
 

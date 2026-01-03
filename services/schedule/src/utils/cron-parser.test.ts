@@ -1,4 +1,4 @@
-import { isFailure, isSuccess } from "@wts/functional";
+import { Effect, Exit } from "effect";
 import { describe, expect, it } from "vitest";
 import { parseCronExpression, validateCronExpression } from "./cron-parser";
 
@@ -19,23 +19,23 @@ describe("cron-parser", () => {
 
 	describe("parseCronExpression", () => {
 		it("should parse valid cron expressions", () => {
-			const resultValue = parseCronExpression("* * * * *");
-
-			expect(isSuccess(resultValue)).toBe(true);
-			expect(resultValue).toEqual({
-				_tag: "Success",
-				value: {
-					seconds: 0,
-					minutes: 1,
-					hours: 0,
-					days: 0,
-				},
+			const exit = Effect.runSyncExit(parseCronExpression("* * * * *"));
+			if (Exit.isFailure(exit)) {
+				throw new Error("Expected parseCronExpression to succeed");
+			}
+			expect(exit.value).toEqual({
+				seconds: 0,
+				minutes: 1,
+				hours: 0,
+				days: 0,
 			});
 		});
 
 		it("should return error for invalid cron expressions", () => {
-			const resultValue = parseCronExpression("* * * *");
-			expect(isFailure(resultValue)).toBe(true);
+			const exit = Effect.runSyncExit(parseCronExpression("* * * *"));
+			if (Exit.isSuccess(exit)) {
+				throw new Error("Expected parseCronExpression to fail");
+			}
 		});
 	});
 });

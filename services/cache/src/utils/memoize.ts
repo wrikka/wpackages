@@ -2,7 +2,7 @@
  * Memoization utilities with functional programming principles
  */
 
-import { patterns } from "@w/design-pattern";
+import { patterns } from "@wpackages/design-pattern";
 
 // Re-exporting createMemoizedFn for local project use
 export const memoize = patterns.creational.cacheFactory.createMemoizedFn;

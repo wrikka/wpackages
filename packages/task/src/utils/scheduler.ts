@@ -1,4 +1,4 @@
-import { err, ok } from "@wts/functional";
+import { err, ok } from "@wpackages/functional";
 import type { Schedule, ScheduledTask, ScheduleError } from "../types";
 import { scheduleError } from "./creators";
 

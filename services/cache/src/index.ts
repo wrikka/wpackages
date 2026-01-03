@@ -27,7 +27,7 @@
 export type { Cache, CacheConfig, CacheEntry, CacheStats } from "./types/index";
 
 // Core functionality
-export { createCache } from "./core/index";
+export { createCache } from "./utils/cache";
 
 // Services
 export { CacheService } from "./services/index";

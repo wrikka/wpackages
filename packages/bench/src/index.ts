@@ -1,7 +1,7 @@
 /**
  * The main entry point for running benchmarks from the CLI or programmatically.
  */
-export { runBenchmark } from "./app";
+export { runAbBenchmark, runBenchmark } from "./app";
 
 /**
  * Core types used for configuring and interpreting benchmark results.
@@ -11,5 +11,5 @@ export type { BenchmarkOptions, BenchmarkResult, ComparisonResult } from "./type
 /**
  * CLI helpers
  */
-export { ConsoleService, ConsoleServiceLive } from "./services";
+export { ConsoleService } from "./services";
 export { parseCliArgs } from "./utils";

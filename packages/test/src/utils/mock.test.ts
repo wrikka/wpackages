@@ -1,6 +1,7 @@
 import { describe, it } from "vitest";
 import { expect } from "./assertions";
-import { createMock, spyOn } from "./mock";
+import { createMock } from "./mock";
+import { spyOn } from "./spy";
 
 describe("Mock utilities", () => {
 	describe("createMock", () => {

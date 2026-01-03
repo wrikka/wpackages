@@ -1,0 +1,4 @@
+{
+	"commands": ["echo 'Hello from bench.json'"],
+	"plugins": ["./src/plugins/logger.plugin.ts"]
+}

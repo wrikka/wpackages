@@ -1,65 +1,82 @@
-import { ScheduleConfig } from "../types/index";
+import { Context, Data, Effect, Fiber, Layer, Ref } from "effect";
+import type { ScheduleConfig } from "../types/index";
 
-/**
- * Service interface for managing scheduled tasks
- */
-export interface SchedulerService {
-	readonly scheduleTask: (config: ScheduleConfig, task: () => void) => Promise<void>;
-	readonly cancelTask: (name: string) => Promise<void>;
-	readonly listTasks: () => Promise<string[]>;
+// Define custom error types for the scheduler service
+export class TaskAlreadyExists extends Data.TaggedError("TaskAlreadyExists")<{
+	name: string;
+}> {}
+export class TaskNotFound extends Data.TaggedError("TaskNotFound")<{
+	name: string;
+}> {}
+
+// Define the state for a single scheduled task
+interface ScheduledTask {
+	readonly config: ScheduleConfig;
+	readonly fiber: Fiber.RuntimeFiber<never, void>;
 }
 
-/**
- * Implementation of the scheduler service
- * Manages task scheduling and cancellation
- */
-export class SchedulerServiceImpl implements SchedulerService {
-	private tasks = new Map<string, NodeJS.Timeout>();
+// Define the Scheduler service interface using Context.Tag
+export class SchedulerService extends Context.Tag(
+	"@wpackages/SchedulerService",
+)<
+	SchedulerService,
+	{
+		readonly scheduleTask: (
+			config: ScheduleConfig,
+			task: Effect.Effect<void>,
+		) => Effect.Effect<void, TaskAlreadyExists>;
+		readonly cancelTask: (name: string) => Effect.Effect<void, TaskNotFound>;
+		readonly listTasks: () => Effect.Effect<string[]>;
+	}
+>() {}
 
-	/**
-	 * Schedule a new task
-	 * @param config - Schedule configuration
-	 * @param task - Task function to execute
-	 * @throws Error if task with same name already exists
-	 */
-	scheduleTask = async (config: ScheduleConfig, task: () => void): Promise<void> => {
-		// Validate the schedule configuration
-		if (config.name && this.tasks.has(config.name)) {
-			throw new Error(`Task with name ${config.name} already exists`);
-		}
+// Create a live implementation layer for the SchedulerService
+export const SchedulerLive = Layer.effect(
+	SchedulerService,
+	Effect.gen(function* () {
+		// Use Ref to manage the state of tasks in a functional way
+		const tasks = yield* Ref.make(new Map<string, ScheduledTask>());
 
-		// For simplicity, we're using a basic interval
-		// In a real implementation, this would use the cron expression
-		const timeout = setTimeout(task, 1000); // 1 second interval for demo
+		const scheduleTask = (config: ScheduleConfig, task: Effect.Effect<void>) =>
+			Effect.gen(function* () {
+				const taskMap = yield* Ref.get(tasks);
+				if (config.name && taskMap.has(config.name)) {
+					return yield* new TaskAlreadyExists({ name: config.name });
+				}
 
-		if (config.name) {
-			this.tasks.set(config.name, timeout);
-		}
-	};
+				// In a real implementation, parse cron and use Effect's scheduling capabilities
+				const scheduledFiber = yield* Effect.fork(
+					Effect.forever(Effect.delay(task, "1 seconds")),
+				);
 
-	/**
-	 * Cancel a scheduled task
-	 * @param name - Task name to cancel
-	 * @throws Error if task not found
-	 */
-	cancelTask = async (name: string): Promise<void> => {
-		const timeout = this.tasks.get(name);
-		if (!timeout) {
-			throw new Error(`Task with name ${name} not found`);
-		}
+				if (config.name) {
+					yield* Ref.update(tasks, (map) =>
+						map.set(config.name, { config, fiber: scheduledFiber }),
+					);
+				}
+			});
 
-		clearTimeout(timeout);
-		this.tasks.delete(name);
-	};
+		const cancelTask = (name: string) =>
+			Effect.gen(function* () {
+				const taskMap = yield* Ref.get(tasks);
+				const task = taskMap.get(name);
+				if (!task) {
+					return yield* new TaskNotFound({ name });
+				}
 
-	/**
-	 * List all scheduled tasks
-	 * @returns Array of task names
-	 */
-	listTasks = async (): Promise<string[]> => {
-		return Array.from(this.tasks.keys());
-	};
-}
+				yield* Fiber.interrupt(task.fiber);
+				yield* Ref.update(tasks, (map) => {
+					map.delete(name);
+					return map;
+				});
+			});
 
-// Create a live instance of the scheduler service
-export const schedulerService = new SchedulerServiceImpl();
+		const listTasks = () =>
+			Effect.gen(function* () {
+				const taskMap = yield* Ref.get(tasks);
+				return Array.from(taskMap.keys());
+			});
+
+		return { scheduleTask, cancelTask, listTasks };
+	}),
+);

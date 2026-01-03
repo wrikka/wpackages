@@ -1,4 +1,4 @@
-import { Effect } from "@wts/functional";
+import { Effect } from "@wpackages/functional";
 import { describe, expect, test, vi } from "vitest";
 import { getRepo, GitHubLive, makeGitHub } from "./index";
 
@@ -10,7 +10,7 @@ describe("@wts/github", () => {
 				headers: { "content-type": "application/json" },
 			})
 		);
-		vi.stubGlobal("fetch", fetchMock);
+		vi.spyOn(global, "fetch").mockImplementation(fetchMock);
 
 		const svc = makeGitHub({ baseUrl: "https://example.test" });
 		const result = await Effect.runPromiseEither(svc.getRepo("a", "b"));
@@ -18,7 +18,7 @@ describe("@wts/github", () => {
 		if (result._tag !== "Right") throw new Error("Expected Right");
 		expect(result.right).toEqual({ ok: true });
 
-		vi.unstubAllGlobals();
+		vi.restoreAllMocks();
 	});
 
 	test("GitHubLive should wire the service through Effect context", async () => {
@@ -28,7 +28,7 @@ describe("@wts/github", () => {
 				headers: { "content-type": "application/json" },
 			})
 		);
-		vi.stubGlobal("fetch", fetchMock);
+		vi.spyOn(global, "fetch").mockImplementation(fetchMock);
 
 		const program = getRepo("o", "r");
 		const result = await Effect.runPromiseEither(Effect.provideLayer(program, GitHubLive));
@@ -36,6 +36,6 @@ describe("@wts/github", () => {
 		if (result._tag !== "Right") throw new Error("Expected Right");
 		expect(result.right).toEqual({ name: "repo" });
 
-		vi.unstubAllGlobals();
+		vi.restoreAllMocks();
 	});
 });

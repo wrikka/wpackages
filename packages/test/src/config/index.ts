@@ -2,12 +2,20 @@
  * Testing configuration
  */
 
+export type Reporter = "text" | "json" | "html";
+
 export interface TestConfig {
 	timeout: number;
 	retries: number;
 	parallel: boolean;
 	verbose: boolean;
 	coverage: boolean;
+	include: string[];
+	exclude: string[];
+	globals: boolean;
+	environment: "node" | "jsdom";
+	setupFiles: string[];
+	reporters: Reporter[];
 }
 
 /**
@@ -19,6 +27,12 @@ export const defaultConfig: TestConfig = {
 	parallel: true,
 	verbose: false,
 	coverage: false,
+	include: ["**/*.test.ts", "**/*.spec.ts"],
+	exclude: ["**/node_modules/**", "**/dist/**"],
+	globals: false,
+	environment: "node",
+	setupFiles: [],
+	reporters: ["text"],
 };
 
 /**
@@ -28,3 +42,5 @@ export const createConfig = (partial: Partial<TestConfig> = {}): TestConfig => (
 	...defaultConfig,
 	...partial,
 });
+
+export { defineConfig } from "./define";

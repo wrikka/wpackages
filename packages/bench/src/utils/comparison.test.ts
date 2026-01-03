@@ -176,31 +176,31 @@ describe("comparison", () => {
 
 	describe("integration tests", () => {
 		it("should calculate speedup and format ratio correctly", () => {
-			const fasterTime = 10;
-			const slowerTime = 30;
-			const speedup = calculateSpeedup(fasterTime, slowerTime);
-			const ratio = formatRatio(slowerTime / fasterTime);
+			const faster = createBenchResult("fast", 10);
+			const slower = createBenchResult("slow", 30);
+			const speedup = calculateSpeedup(faster, slower);
+			const ratio = formatRatio(slower.averageTime / faster.averageTime);
 
 			expect(speedup).toBe(3);
 			expect(ratio).toBe("3.00x slower");
 		});
 
 		it("should calculate relative performance and percentage difference", () => {
-			const time = 150;
-			const baseline = 100;
-			const relative = calculateRelativePerformance(time, baseline);
-			const percentage = percentageDifference(time, baseline);
+			const result = createBenchResult("test", 150);
+			const baseline = createBenchResult("baseline", 100);
+			const relative = calculateRelativePerformance(result, baseline);
+			const percentage = percentageDifference(result.averageTime, baseline.averageTime);
 
-			expect(relative).toBe(1.5);
+			expect(relative.relativeTo).toBe(1.5);
 			expect(percentage).toBe("+50.00%");
 		});
 
 		it("should handle comparison where newer is faster", () => {
-			const oldTime = 100;
-			const newTime = 50;
-			const speedup = calculateSpeedup(newTime, oldTime);
-			const ratio = formatRatio(newTime / oldTime);
-			const percentage = percentageDifference(newTime, oldTime);
+			const newer = createBenchResult("new", 50);
+			const older = createBenchResult("old", 100);
+			const speedup = calculateSpeedup(newer, older);
+			const ratio = formatRatio(newer.averageTime / older.averageTime);
+			const percentage = percentageDifference(newer.averageTime, older.averageTime);
 
 			expect(speedup).toBe(2);
 			expect(ratio).toBe("2.00x faster");
@@ -208,11 +208,12 @@ describe("comparison", () => {
 		});
 
 		it("should handle comparison where newer is slower", () => {
-			const oldTime = 50;
-			const newTime = 100;
-			const speedup = calculateSpeedup(oldTime, newTime);
-			const ratio = formatRatio(newTime / oldTime);
-			const percentage = percentageDifference(newTime, oldTime);
+			const older = createBenchResult("old", 50);
+			const newer = createBenchResult("new", 100);
+			// Note: calculateSpeedup expects (faster, slower)
+			const speedup = calculateSpeedup(older, newer);
+			const ratio = formatRatio(newer.averageTime / older.averageTime);
+			const percentage = percentageDifference(newer.averageTime, older.averageTime);
 
 			expect(speedup).toBe(2);
 			expect(ratio).toBe("2.00x slower");

@@ -2,8 +2,8 @@
  * Cache service for handling side effects
  */
 
-import { createCache as createCacheCore } from "../core/cache";
 import type { Cache, CacheConfig, CacheStats } from "../types/cache.types";
+import { createCache as createCacheCore } from "../utils/cache";
 
 /**
  * Service for cache operations with error handling

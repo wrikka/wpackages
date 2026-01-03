@@ -1,4 +1,5 @@
 import { DEFAULT_RUNS, DEFAULT_SHELL, DEFAULT_WARMUP } from "../constant/cli.const";
+import type { BenchConfigFile } from "../services/config-loader";
 import type { BenchmarkOptions } from "../types/cli.types";
 
 export const defaultBenchmarkOptions: BenchmarkOptions = {
@@ -12,8 +13,10 @@ export const defaultBenchmarkOptions: BenchmarkOptions = {
 };
 
 export const createBenchmarkConfig = (
-	options: Partial<BenchmarkOptions> = {},
+	cliOptions: Partial<BenchmarkOptions> = {},
+	configFile: Partial<BenchConfigFile> = {},
 ): BenchmarkOptions => ({
 	...defaultBenchmarkOptions,
-	...options,
+	...configFile,
+	...cliOptions,
 });

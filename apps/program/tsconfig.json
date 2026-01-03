@@ -3,7 +3,6 @@
 		"baseUrl": ".",
 		// From follow-tsconfig-json.md for bun
 		"types": ["bun-types"],
-
 		// General Best Practices for modern TS
 		"lib": ["ESNext"],
 		"module": "ESNext",
@@ -12,7 +11,6 @@
 		"moduleDetection": "force",
 		"allowImportingTsExtensions": true,
 		"noEmit": true,
-
 		// Strictness & Correctness (Good for Effect-TS)
 		"strict": true,
 		"esModuleInterop": true,
@@ -28,11 +26,16 @@
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-
 		// Path aliases if needed later
 		"paths": {
-			"@wts/console": ["../../services/console/src/index.ts"],
-			"@wts/functional": ["../../packages/functional/src/index.ts"]
+			"@wpackages/functional": ["../../utils/functional/dist/index.d.mts"],
+			"@wpackages/observability": [
+				"../../utils/observability/dist/index.d.mts"
+			],
+			"@wpackages/config-manager": [
+				"../../utils/config-manager/dist/index.d.mts"
+			],
+			"@wpackages/error": ["../../utils/error/dist/index.d.mts"]
 		}
 	},
 	"include": ["src"]

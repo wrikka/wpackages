@@ -1,4 +1,4 @@
-import { ScheduleConfig } from "../types/index";
+import type { ScheduleConfig } from "../types/index";
 import { describeCronExpression } from "../utils/index";
 
 /**

@@ -5,15 +5,14 @@
 	"type": "module",
 	"scripts": {
 		"dev": "bun --watch src/index.ts",
-		"format": "biome format --write",
-		"lint": "tsc --noEmit && biome lint",
+		"lint": "oxlint --fix --type-aware",
 		"test": "vitest run --passWithNoTests",
 		"build": "tsdown",
 		"verify": "bun run format && bun run lint && bun run test && bun run build"
 	},
 	"devDependencies": {
 		"@types/node": "^25.0.3",
-		"tsdown": "^0.18.3",
+		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
 	},

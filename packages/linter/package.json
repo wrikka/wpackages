@@ -1,0 +1,40 @@
+{
+	"name": "@wpackages/linter",
+	"version": "0.1.0",
+	"private": true,
+	"bin": {
+		"wlint": "./dist/cli.js"
+	},
+	"type": "module",
+	"scripts": {
+		"watch": "bun lint && bun watch && bun test",
+		"start": "bun --watch dev && vitest:ui",
+		"postinstall": "bun -e \"process.exit(0)\"",
+		"dev": "bun run src/index.ts",
+		"lint": "oxlint --fix --type-aware",
+		"build": "tsdown",
+		"test": "vitest --run",
+		"verify": "bun format && bun lint && bun test && bun audit && run build"
+	},
+	"dependencies": {
+		"@wpackages/bench": "workspace:*",
+		"@wpackages/parser": "workspace:*",
+		"effect": "^3.19.14",
+		"picocolors": "^1.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^25.0.3",
+		"oxlint": "^1.36.0",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"packageManager": "bun@1.3.5"
+}

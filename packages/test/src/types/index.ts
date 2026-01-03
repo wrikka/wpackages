@@ -3,12 +3,16 @@
  */
 
 /**
- * Test result status
+ * Represents the status of a test or suite.
+ * - `passed`: The test or suite completed successfully.
+ * - `failed`: The test or suite failed due to an assertion error or an unexpected exception.
+ * - `skipped`: The test was intentionally skipped.
+ * - `pending`: The test has not been run yet.
  */
 export type TestStatus = "passed" | "failed" | "skipped" | "pending";
 
 /**
- * Assertion result
+ * Represents the result of a single assertion within a test.
  */
 export interface AssertionResult {
 	status: TestStatus;
@@ -19,18 +23,21 @@ export interface AssertionResult {
 }
 
 /**
- * Test metadata
+ * Contains metadata about a single test case execution.
  */
 export interface TestMetadata {
 	name: string;
 	duration: number;
 	status: TestStatus;
-	error: Error | undefined;
+	/** The error thrown by the test function, if any. */
+	error?: Error;
+	/** The error thrown by a `before` or `after` hook, if any. */
+	hookError?: Error;
 	assertions: AssertionResult[];
 }
 
 /**
- * Test suite
+ * Represents a collection of related tests, typically defined by a `describe` block.
  */
 export interface TestSuite {
 	name: string;
@@ -40,11 +47,13 @@ export interface TestSuite {
 }
 
 /**
- * Test context
+ * An object passed to each test function, providing context and utilities.
  */
 export interface TestContext {
 	name: string;
+	/** A function to dynamically skip the current test. */
 	skip: () => void;
+	/** A placeholder for `only` functionality, not used during execution. */
 	only: () => void;
 }
 
@@ -74,12 +83,12 @@ export type CustomMatcher<T> = (
 ) => MatcherResult;
 
 /**
- * Test function
+ * The function that contains the test logic, passed to `it` or `test`.
  */
 export type TestFn = (context: TestContext) => void | Promise<void>;
 
 /**
- * Test hook
+ * A function that runs before or after tests, such as `before` or `after`.
  */
 export type TestHook = () => void | Promise<void>;
 
@@ -92,7 +101,7 @@ export interface SnapshotOptions {
 }
 
 /**
- * Test report
+ * A summary of the entire test run, containing results for all suites and tests.
  */
 export interface TestReport {
 	suites: TestSuite[];

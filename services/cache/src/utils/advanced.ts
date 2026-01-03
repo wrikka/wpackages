@@ -3,8 +3,8 @@
  */
 
 import { createKey } from "../components/cache-utils";
-import { createCache } from "../core/cache";
 import type { CacheConfig } from "../types/cache.types";
+import { createCache } from "./cache";
 
 /**
  * Create a cache with automatic key generation

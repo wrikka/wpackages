@@ -3,34 +3,14 @@
  */
 
 import type { AssertionOptions } from "../types";
-
-/**
- * Assertion error
- */
-export class AssertionError extends Error {
-	constructor(
-		message: string,
-		public expected?: unknown,
-		public actual?: unknown,
-	) {
-		super(message);
-		this.name = "AssertionError";
-	}
-}
-
-/**
- * Helper to throw assertion error if condition fails
- */
-const throwIfFails = (
-	pass: boolean,
-	message: string,
-	expected?: unknown,
-	actual?: unknown,
-): void => {
-	if (!pass) {
-		throw new AssertionError(message, expected, actual);
-	}
-};
+import { toContain, toContainString } from "./assertions/collections";
+import { toBe, toEqual } from "./assertions/equality";
+import { toBeInstanceOf } from "./assertions/instance";
+import { toReject, toResolve } from "./assertions/promises";
+import { toThrow, toThrowAsync } from "./assertions/throws";
+import { toBeFalsy, toBeNull, toBeTruthy, toBeUndefined } from "./assertions/truthiness";
+import { toBeType } from "./assertions/types";
+import { AssertionError } from "./error";
 
 /**
  * Fluent assertion builder
@@ -44,222 +24,62 @@ export class Assertion<T> {
 		this._message = message;
 	}
 
-	/**
-	 * Equality assertion
-	 */
 	toEqual(expected: T, options?: AssertionOptions): void {
-		const pass = JSON.stringify(this._value) === JSON.stringify(expected);
-		throwIfFails(
-			pass,
-			options?.message || "Expected values to be equal",
-			expected,
-			this._value,
-		);
+		toEqual(this._value, expected, options);
 	}
 
-	/**
-	 * Strict equality assertion
-	 */
 	toBe(expected: T, options?: AssertionOptions): void {
-		const pass = Object.is(this._value, expected);
-		throwIfFails(
-			pass,
-			options?.message || "Expected values to be strictly equal",
-			expected,
-			this._value,
-		);
+		toBe(this._value, expected, options);
 	}
 
-	/**
-	 * Truthiness assertion
-	 */
 	toBeTruthy(options?: AssertionOptions): void {
-		const pass = !!this._value;
-		throwIfFails(
-			pass,
-			options?.message || "Expected value to be truthy",
-			true,
-			this._value,
-		);
+		toBeTruthy(this._value, options);
 	}
 
-	/**
-	 * Falsiness assertion
-	 */
 	toBeFalsy(options?: AssertionOptions): void {
-		const pass = !this._value;
-		throwIfFails(
-			pass,
-			options?.message || "Expected value to be falsy",
-			false,
-			this._value,
-		);
+		toBeFalsy(this._value, options);
 	}
 
-	/**
-	 * Null assertion
-	 */
 	toBeNull(options?: AssertionOptions): void {
-		const pass = this._value === null;
-		throwIfFails(
-			pass,
-			options?.message || "Expected value to be null",
-			null,
-			this._value,
-		);
+		toBeNull(this._value, options);
 	}
 
-	/**
-	 * Undefined assertion
-	 */
 	toBeUndefined(options?: AssertionOptions): void {
-		const pass = this._value === undefined;
-		throwIfFails(
-			pass,
-			options?.message || "Expected value to be undefined",
-			undefined,
-			this._value,
-		);
+		toBeUndefined(this._value, options);
 	}
 
-	/**
-	 * Type assertion
-	 */
 	toBeType(type: string, options?: AssertionOptions): void {
-		const pass = typeof this._value === type;
-		throwIfFails(
-			pass,
-			options?.message || `Expected value to be of type ${type}`,
-			type,
-			typeof this._value,
-		);
+		toBeType(this._value, type, options);
 	}
 
-	/**
-	 * Array contains assertion
-	 */
+	toBeInstanceOf(expected: any, options?: AssertionOptions): void {
+		toBeInstanceOf(this._value, expected, options);
+	}
+
 	toContain(item: unknown, options?: AssertionOptions): void {
-		if (!Array.isArray(this._value)) {
-			throw new AssertionError(
-				options?.message || "Expected value to be an array",
-			);
-		}
-		const pass = this._value.includes(item as T);
-		throwIfFails(
-			pass,
-			options?.message || "Expected array to contain item",
-			item,
-			this._value,
-		);
+		toContain(this._value, item, options);
 	}
 
-	/**
-	 * String contains assertion
-	 */
 	toContainString(substring: string, options?: AssertionOptions): void {
-		if (typeof this._value !== "string") {
-			throw new AssertionError(
-				options?.message || "Expected value to be a string",
-			);
-		}
-		const pass = (this._value as unknown as string).includes(substring);
-		throwIfFails(
-			pass,
-			options?.message || "Expected string to contain substring",
-			substring,
-			this._value,
-		);
+		toContainString(this._value, substring, options);
 	}
 
-	/**
-	 * Throws assertion
-	 */
 	toThrow(options?: AssertionOptions): void {
-		if (typeof this._value !== "function") {
-			throw new AssertionError(
-				options?.message || "Expected value to be a function",
-			);
-		}
-		try {
-			(this._value as Function)();
-			throw new AssertionError(
-				options?.message || "Expected function to throw",
-			);
-		} catch (error) {
-			if (error instanceof AssertionError) {
-				throw error;
-			}
-			// Function threw as expected
-		}
+		toThrow(this._value, options);
 	}
 
-	/**
-	 * Async throws assertion
-	 */
 	async toThrowAsync(options?: AssertionOptions): Promise<void> {
-		if (typeof this._value !== "function") {
-			throw new AssertionError(
-				options?.message || "Expected value to be a function",
-			);
-		}
-		try {
-			await (this._value as Function)();
-			throw new AssertionError(
-				options?.message || "Expected function to throw",
-			);
-		} catch (error) {
-			if (error instanceof AssertionError) {
-				throw error;
-			}
-			// Function threw as expected
-		}
+		await toThrowAsync(this._value, options);
 	}
 
-	/**
-	 * Resolves assertion
-	 */
 	async toResolve(options?: AssertionOptions): Promise<void> {
-		if (!(this._value instanceof Promise)) {
-			throw new AssertionError(
-				options?.message || "Expected value to be a Promise",
-			);
-		}
-		try {
-			await this._value;
-		} catch (error) {
-			throw new AssertionError(
-				options?.message || "Expected promise to resolve",
-				undefined,
-				error,
-			);
-		}
+		await toResolve(this._value, options);
 	}
 
-	/**
-	 * Rejects assertion
-	 */
 	async toReject(options?: AssertionOptions): Promise<void> {
-		if (!(this._value instanceof Promise)) {
-			throw new AssertionError(
-				options?.message || "Expected value to be a Promise",
-			);
-		}
-		try {
-			await this._value;
-			throw new AssertionError(
-				options?.message || "Expected promise to reject",
-			);
-		} catch (error) {
-			if (error instanceof AssertionError) {
-				throw error;
-			}
-			// Promise rejected as expected
-		}
+		await toReject(this._value, options);
 	}
 
-	/**
-	 * Not assertion
-	 */
 	get not(): Assertion<T> {
 		return new NotAssertion(this._value, this._message);
 	}
@@ -270,63 +90,48 @@ export class Assertion<T> {
  */
 class NotAssertion<T> extends Assertion<T> {
 	override toEqual(expected: T, options?: AssertionOptions): void {
-		const pass = JSON.stringify(this._value) !== JSON.stringify(expected);
-		if (!pass) {
-			throw new AssertionError(
-				options?.message || "Expected values to not be equal",
-				expected,
-				this._value,
-			);
+		try {
+			super.toEqual(expected, options);
+		} catch (_) {
+			return; // Expected to fail
 		}
+		throw new AssertionError(options?.message || "Expected values to not be equal", expected, this._value);
 	}
 
 	override toBe(expected: T, options?: AssertionOptions): void {
-		const pass = !Object.is(this._value, expected);
-		if (!pass) {
-			throw new AssertionError(
-				options?.message || "Expected values to not be strictly equal",
-				expected,
-				this._value,
-			);
+		try {
+			super.toBe(expected, options);
+		} catch (_) {
+			return; // Expected to fail
 		}
+		throw new AssertionError(options?.message || "Expected values to not be strictly equal", expected, this._value);
 	}
 
 	override toBeTruthy(options?: AssertionOptions): void {
-		const pass = !this._value;
-		if (!pass) {
-			throw new AssertionError(
-				options?.message || "Expected value to not be truthy",
-				false,
-				this._value,
-			);
+		try {
+			super.toBeTruthy(options);
+		} catch (_) {
+			return; // Expected to fail
 		}
+		throw new AssertionError(options?.message || "Expected value to not be truthy", false, this._value);
 	}
 
 	override toBeFalsy(options?: AssertionOptions): void {
-		const pass = !!this._value;
-		if (!pass) {
-			throw new AssertionError(
-				options?.message || "Expected value to not be falsy",
-				true,
-				this._value,
-			);
+		try {
+			super.toBeFalsy(options);
+		} catch (_) {
+			return; // Expected to fail
 		}
+		throw new AssertionError(options?.message || "Expected value to not be falsy", true, this._value);
 	}
 
 	override toContain(item: unknown, options?: AssertionOptions): void {
-		if (!Array.isArray(this._value)) {
-			throw new AssertionError(
-				options?.message || "Expected value to be an array",
-			);
+		try {
+			super.toContain(item, options);
+		} catch (_) {
+			return; // Expected to fail
 		}
-		const pass = !(this._value as unknown[]).includes(item);
-		if (!pass) {
-			throw new AssertionError(
-				options?.message || "Expected array to not contain item",
-				item,
-				this._value,
-			);
-		}
+		throw new AssertionError(options?.message || "Expected array to not contain item", item, this._value);
 	}
 }
 

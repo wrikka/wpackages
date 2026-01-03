@@ -1,22 +1,29 @@
-import { Effect, Layer } from "@wts/functional";
-import { Console, Random } from "./services";
+import { RandomGenerationError } from "./error";
+import { Effect, Layer } from "./lib/functional";
+import { ConfigLive, Logger, LoggerLive, Random } from "./services";
 
-export const program = Effect.gen(function* () {
+const programLogic = Effect.gen(function*() {
 	const random = yield Effect.get(Random);
-	const consoleSvc = yield Effect.get(Console);
+	const logger = yield Effect.get(Logger);
 	const n = yield random.next();
-	yield consoleSvc.log(`Your random number is: ${n}`);
+	yield Effect.succeed(logger.info("random-number-generated", { number: n }));
 });
 
-const ConsoleLive = Layer.succeed(Console, {
-	log: (message: string) =>
-		Effect.tap(Effect.succeed(undefined), () => {
-			console.log(message);
-		}),
-});
+export const program = Effect.mapError(
+	programLogic,
+	(e) => e as RandomGenerationError,
+);
 
 const RandomLive = Layer.succeed(Random, {
-	next: () => Effect.succeed(Math.random()),
+	next: () => {
+		const n = Math.random();
+		return n < 0.1
+			? Effect.fail(new RandomGenerationError({ reason: "Unlucky draw" }))
+			: Effect.succeed(n);
+	},
 });
 
-export const MainLive = Layer.merge(ConsoleLive, RandomLive);
+export const MainLive = Layer.merge(
+	ConfigLive,
+	Layer.merge(LoggerLive, RandomLive),
+);

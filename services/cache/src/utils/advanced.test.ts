@@ -2,10 +2,18 @@
  * Tests for advanced caching utilities
  */
 
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createAutoKeyCache, createRetryCache, createTTLCache } from "./advanced";
 
 describe("Advanced Caching Utilities", () => {
+	beforeEach(() => {
+		vi.useFakeTimers();
+	});
+
+	afterEach(() => {
+		vi.useRealTimers();
+	});
+
 	describe("createAutoKeyCache", () => {
 		it("should automatically generate keys and cache results", () => {
 			let callCount = 0;
@@ -46,10 +54,9 @@ describe("Advanced Caching Utilities", () => {
 			expect(callCount).toBe(1);
 
 			// Wait for TTL to expire
-			setTimeout(() => {
-				expect(cachedFn(2)).toBe(4);
-				expect(callCount).toBe(2); // Should increment after TTL
-			}, 500);
+			vi.advanceTimersByTime(500);
+			expect(cachedFn(2)).toBe(4);
+			expect(callCount).toBe(2); // Should increment after TTL
 		});
 	});
 

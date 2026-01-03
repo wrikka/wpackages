@@ -1,13 +1,5 @@
-import {
-	computed,
-	effect,
-	reactive,
-	readonly,
-	ref,
-	signal,
-	watch,
-	watchEffect,
-} from "../src/index";
+import { describe, expect, it } from "bun:test";
+import { computed, effect, reactive, readonly, ref, signal, watch, watchEffect } from "../src/index";
 
 describe("palse reactivity", () => {
 	it("signal triggers effect", () => {

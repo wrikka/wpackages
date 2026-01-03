@@ -1,4 +1,4 @@
-import { Effect } from "@wts/functional";
+import { Effect } from "@wpackages/functional";
 import { describe, expect, test } from "vitest";
 import { CommandLive, run } from "./index";
 

@@ -1,8 +1,23 @@
-import { defineProject } from "vitest/config";
+import { defineConfig } from "vitest/config";
 
-export default defineProject({
+export default defineConfig({
 	test: {
-		name: "ports",
+		globals: true,
+		environment: "node",
+		include: ["src/**/*.test.ts"],
+		coverage: {
+			provider: "istanbul",
+			reporter: ["text", "html", "lcov"],
+			exclude: [
+				"node_modules/",
+				"dist/",
+				"**/*.d.ts",
+				"**/*.test.ts",
+				"**/index.ts",
+				"vitest.config.ts",
+				"coverage/",
+			],
+		},
 		pool: "forks",
 		maxWorkers: 1,
 	},

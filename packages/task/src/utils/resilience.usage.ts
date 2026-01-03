@@ -1,4 +1,4 @@
-import { err, ok } from "@wts/functional";
+import { err, ok } from "@wpackages/functional";
 import { createTask } from "./creators";
 import {
 	withTaskBulkhead,

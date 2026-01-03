@@ -1,5 +1,14 @@
 import type { BenchmarkResult, ComparisonResult } from "../types/index";
-import { calculatePercentiles, max, mean, median, min, standardDeviation, variance } from "../utils/stats-core";
+import {
+	calculatePercentiles,
+	max,
+	mean,
+	median,
+	min,
+	standardDeviation,
+	variance,
+	welchTTest,
+} from "../utils/stats-core";
 
 /**
  * Calculate statistics from benchmark timing data
@@ -89,8 +98,17 @@ export const compareResults = (
 	}
 
 	const speedups: Record<string, number> = {};
+	const pValues: Record<string, number> = {};
+
 	for (const result of results) {
 		speedups[result.command] = result.mean / fastest.mean;
+
+		if (result.command !== fastest.command) {
+			const testResult = welchTTest(fastest.times, result.times);
+			if (testResult) {
+				pValues[result.command] = testResult.p;
+			}
+		}
 	}
 
 	return {
@@ -98,5 +116,6 @@ export const compareResults = (
 		results,
 		slowest: slowest.command,
 		speedups,
+		pValues,
 	};
 };

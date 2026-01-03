@@ -1,4 +1,4 @@
-# @wts/functional
+# @wpackages/functional
 
 A lightweight, TypeScript-first Effect system for managing side effects in a functional and composable way.
 
@@ -12,7 +12,7 @@ A lightweight, TypeScript-first Effect system for managing side effects in a fun
 ## Installation
 
 ```bash
-npm install @wts/functional
+npm install @wpackages/functional
 ```
 
 ## Usage
@@ -22,13 +22,15 @@ The core of the library is the `Effect` type, which represents a computation tha
 ### Creating Effects
 
 ```typescript
-import { Effect } from '@wts/functional';
+import { Effect } from "@wpackages/functional";
 
 // Create an effect that succeeds with a value
 const successEffect = Effect.succeed(42);
 
 // Create an effect from a Promise
-const promiseEffect = Effect.fromPromise(() => fetch('https://api.example.com/data'));
+const promiseEffect = Effect.fromPromise(() =>
+	fetch("https://api.example.com/data")
+);
 ```
 
 ### Chaining Effects
@@ -36,8 +38,9 @@ const promiseEffect = Effect.fromPromise(() => fetch('https://api.example.com/da
 Use `Effect.flatMap` to chain effects together in a sequence.
 
 ```typescript
-const chainedEffect = Effect.flatMap(successEffect, (n) => 
-  Effect.succeed(n * 2)
+const chainedEffect = Effect.flatMap(
+	successEffect,
+	(n) => Effect.succeed(n * 2),
 );
 ```
 
@@ -47,9 +50,9 @@ For more complex sequences, `Effect.gen` provides a powerful way to write asynch
 
 ```typescript
 const program = Effect.gen(function*() {
-  const value1 = yield Effect.succeed(1);
-  const value2 = yield Effect.fromPromise(() => Promise.resolve(2));
-  return value1 + value2;
+	const value1 = yield Effect.succeed(1);
+	const value2 = yield Effect.fromPromise(() => Promise.resolve(2));
+	return value1 + value2;
 });
 ```
 
@@ -58,23 +61,23 @@ const program = Effect.gen(function*() {
 Layers are used to provide services (dependencies) to effects.
 
 ```typescript
-import { Effect, Layer } from '@wts/functional';
+import { Effect, Layer } from "@wpackages/functional";
 
 // 1. Define a service interface and a Tag
 interface Random {
-  readonly next: () => number;
+	readonly next: () => number;
 }
 const Random = Effect.tag<Random>();
 
 // 2. Create an effect that requires the service
 const program = Effect.gen(function*() {
-  const random = yield Effect.get(Random);
-  console.log(`Random number: ${random.next()}`);
+	const random = yield Effect.get(Random);
+	console.log(`Random number: ${random.next()}`);
 });
 
 // 3. Implement the service and create a Layer
 const RandomLive: Random = {
-  next: () => Math.random(),
+	next: () => Math.random(),
 };
 const randomLayer = Layer.succeed(Random, RandomLive);
 

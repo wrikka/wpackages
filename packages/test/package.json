@@ -1,6 +1,9 @@
 {
 	"name": "@wpackages/test",
 	"version": "0.1.0",
+	"bin": {
+		"wtest": "./dist/cli.mjs"
+	},
 	"description": "Type-safe, functional testing framework with unified unit and E2E testing",
 	"type": "module",
 	"main": "./dist/index.mjs",
@@ -19,11 +22,13 @@
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix",
+		"lint": "oxlint --fix --type-aware",
 		"review": "bun run lint && bun run test && bun run build",
 		"test": "vitest",
 		"test:coverage": "vitest --coverage",
 		"test:ui": "vitest --ui",
+		"bench": "vitest bench",
+		"wtest": "bun --bun src/cli.ts",
 		"clean": "rm -rf dist .tsbuildinfo coverage",
 		"prepublishOnly": "bun run clean && bun run build"
 	},

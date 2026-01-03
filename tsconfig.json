@@ -3,7 +3,6 @@
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		// Path Aliases for Monorepo
-		"baseUrl": ".",
 		"composite": false,
 		"downlevelIteration": true,
 		// Emit
@@ -15,10 +14,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"incremental": false,
 		"isolatedModules": true,
-		"lib": [
-			"ESNext",
-			"DOM"
-		],
+		"lib": ["ESNext", "DOM"],
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"noEmit": false,
@@ -29,180 +25,16 @@
 		// Unused Code
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"paths": {
-			"@wpackages/signal": [
-				"packages/signal/src/index.ts"
-			],
-			"@wpackages/signal/*": [
-				"packages/signal/src/*"
-			],
-			"@w/utils-data-structure": [
-				"utils/data-structure/src"
-			],
-			"@w/utils-algorithms": [
-				"utils/algorithms/src"
-			],
-			"@w/design-pattern": [
-				"utils/design-pattern/src"
-			],
-			"bench": [
-				"packages/bench/src"
-			],
-			"@wts/functional": [
-				"packages/functional/src"
-			],
-			"@wrikka/prompt": [
-				"apps/prompt/src"
-			],
-			"ports": [
-				"services/ports/src"
-			],
-			"file-system": [
-				"services/file-system/src"
-			],
-			"parser": [
-				"services/parser/src"
-			],
-			"reporter": [
-				"services/reporter/src"
-			],
-			"@wts/console": [
-				"services/console/src"
-			],
-			"effect": [
-				"packages/primitives/effect/src"
-			],
-			"models": [
-				"packages/framework/ai/models/src"
-			],
-			"ai-agents": [
-				"packages/framework/ai/agents/src"
-			],
-			"ai-metrics": [
-				"packages/framework/observability/ai-metrics/src"
-			],
-			"ai-models": [
-				"packages/framework/ai/ai-models/src"
-			],
-			// AI
-			"ai-runtime": [
-				"packages/framework/ai/ai-runtime/src"
-			],
-			"auth": [
-				"packages/framework/security/auth/src"
-			],
-			"browser-use": [
-				"packages/adapters/browser-use/src"
-			],
-			"caching": [
-				"services/cache/src"
-			],
-			"computer-use": [
-				"packages/framework/ai/computer-use/src"
-			],
-			// Config
-			"config-manager": [
-				"packages/lib/config-manager/src"
-			],
-			// Infrastructure
-			"diagram-viz": [
-				"packages/tools/diagram-viz/src"
-			],
-			"function": [
-				"packages/primitives/function/src"
-			],
-			"package-manager": [
-				"packages/package-manager/src"
-			],
-			"health-checks": [
-				"packages/framework/observability/health-checks/src"
-			],
-			// Data & State
-			"sync-engine": [
-				"packages/lib/sync-engine/src"
-			],
-			// Dev Tools
-			"@wts/cli-components": [
-				"apps/cli-components/src"
-			],
-			// Observability
-			"tracing": [
-				"packages/framework/observability/tracing/src"
-			],
-			"transaction": [
-				"packages/lib/transaction/src"
-			],
-			"task-runner": [
-				"packages/task-runner/src"
-			],
-			// Tools
-			"ts-analyzer": [
-				"packages/tools/ts-analyzer/src"
-			],
-			"pure.types": [
-				"packages/pure/types/src"
-			],
-			"schema": [
-				"packages/lib/schema/src"
-			],
-			"pure.analyzer": [
-				"packages/pure/analyzer/src"
-			],
-			"pure.explainer": [
-				"packages/api-integrations/base/src"
-			],
-			"stripe": [
-				"packages/api-integrations/stripe/src"
-			],
-			"sendgrid": [
-				"packages/api-integrations/sendgrid/src"
-			],
-			// Frontend - Vitext Framework
-			"canvas": [
-				"packages/canvas/src"
-			],
-			"vitext-router": [
-				"packages/vitext/plugins/router/src"
-			],
-			"vitext-ssr": [
-				"packages/vitext/vitext-ssr/src"
-			],
-			"vitext-store": [
-				"packages/vitext/plugins/store/src"
-			],
-			"vitext": [
-				"packages/vitext/vitext/src"
-			],
-			"vitext-plugin-gen-usage": [
-				"packages/vitext/plugins/usage/src"
-			],
-			// Runtime
-			"webcontainer": [
-				"packages/runtime/webcontainer/src"
-			],
-			// Adapters
-			"webserver": [
-				"packages/adapters/webserver/src"
-			],
-			"websocket-server": [
-				"packages/server/websocket-server/src"
-			],
-			// Orchestration
-			"workflows": [
-				"packages/orchestration/workflows/src"
-			]
-		},
 		"resolveJsonModule": true,
 		// Performance
 		"skipLibCheck": true,
 		"sourceMap": true,
 		// Type Checking - Strict Mode
 		"strict": true,
+		"useUnknownInCatchVariables": true,
 		// Language and Environment
 		"target": "ESNext",
-		"types": [
-			"@types/bun"
-		]
+		"types": ["bun-types"]
 	},
 	"exclude": [
 		"node_modules",

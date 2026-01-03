@@ -1,6 +1,6 @@
 # program
 
-A small example program demonstrating dependency injection and functional effect composition using `@wts/functional`.
+A small example program demonstrating dependency injection and functional effect composition using `@wpackages/functional`.
 
 ## Introduction
 

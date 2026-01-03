@@ -1,6 +1,6 @@
 import type { Resource, ResourceActions } from "../types";
-import { createEffect } from "../services/effect.scope";
 import { createSignal } from "../utils/signal.util";
+import { createEffect } from "./effect.scope";
 
 export function createResource<T>(
 	source: () => Promise<T> | T,

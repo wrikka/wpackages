@@ -1,10 +1,16 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "stream",
-	"globalDependencies": ["**/.env.*", "tsconfig.json", "package.json", "turbo.json", "bun.lockb"],
+	"globalDependencies": [
+		"**/.env.*",
+		"tsconfig.json",
+		"package.json",
+		"turbo.json",
+		"bun.lockb"
+	],
 	"concurrency": "32",
 	"tasks": {
-		"start": {
+		"watch": {
 			"cache": false,
 			"persistent": true
 		},
@@ -26,12 +32,20 @@
 		"test": {
 			"dependsOn": ["^lint"]
 		},
+		"test:coverage": {
+			"dependsOn": ["^lint"]
+		},
+		"wtest": {
+			"dependsOn": ["^lint"]
+		},
 		"build": {
 			"dependsOn": ["^lint"],
-			"outputs": []
+			"outputs": [],
+			"cache": false
 		},
 		"verify": {
-			"dependsOn": ["^test"]
+			"dependsOn": ["^test"],
+			"cache": false
 		},
 		"preview": {
 			"dependsOn": ["^verify"]

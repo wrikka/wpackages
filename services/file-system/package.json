@@ -14,13 +14,13 @@
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix",
+		"lint": "oxlint --fix --type-aware",
 		"review": "bun format && bun lint && bun test",
 		"test": "vitest"
 	},
 	"dependencies": {
 		"@wpackages/design-pattern": "workspace:*",
-		"effect": "^3.19.13"
+		"effect": "^3.19.14"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",

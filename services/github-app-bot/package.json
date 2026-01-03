@@ -1,0 +1,46 @@
+{
+	"name": "@wpackages/github-app-bot",
+	"version": "0.1.0",
+	"private": true,
+	"description": "GitHub App bot for dependency/version review (optional AI summary)",
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"policy.json",
+		".env.example"
+	],
+	"engines": {
+		"bun": ">=1.3.5"
+	},
+	"scripts": {
+		"postinstall": "echo skip",
+		"watch": "bun --watch src/index.ts",
+		"dev": "bun run src/index.ts",
+		"format": "dprint fmt",
+		"lint": "oxlint --fix --type-aware",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"build": "tsdown --exports --dts --minify",
+		"verify": "bun run format && bun audit && bun run lint && bun run test:coverage && bun run build"
+	},
+	"dependencies": {
+		"@wpackages/functional": "workspace:*",
+		"@wpackages/github": "workspace:*",
+		"effect": "^3.19.14"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.3.5",
+		"@types/node": "^25.0.3",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
+}

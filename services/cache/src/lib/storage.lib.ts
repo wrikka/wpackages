@@ -6,25 +6,37 @@
  * Wrapper for localStorage with caching functionality
  */
 export const createLocalStorageCache = <T>(key: string) => {
-	// This would be implemented in a browser environment
+	const storage: Storage | undefined = typeof localStorage === "undefined"
+		? undefined
+		: (localStorage as unknown as Storage);
+
 	return {
 		get: (): T | null => {
+			if (!storage) {
+				return null;
+			}
 			try {
-				const item = localStorage.getItem(key);
+				const item = storage.getItem(key);
 				return item ? JSON.parse(item) : null;
 			} catch {
 				return null;
 			}
 		},
 		set: (value: T): void => {
+			if (!storage) {
+				return;
+			}
 			try {
-				localStorage.setItem(key, JSON.stringify(value));
-			} catch (error) {
-				console.warn(`Failed to set localStorage item ${key}:`, error);
+				storage.setItem(key, JSON.stringify(value));
+			} catch {
+				return;
 			}
 		},
 		remove: (): void => {
-			localStorage.removeItem(key);
+			if (!storage) {
+				return;
+			}
+			storage.removeItem(key);
 		},
 	};
 };
@@ -33,25 +45,37 @@ export const createLocalStorageCache = <T>(key: string) => {
  * Wrapper for sessionStorage with caching functionality
  */
 export const createSessionStorageCache = <T>(key: string) => {
-	// This would be implemented in a browser environment
+	const storage: Storage | undefined = typeof sessionStorage === "undefined"
+		? undefined
+		: (sessionStorage as unknown as Storage);
+
 	return {
 		get: (): T | null => {
+			if (!storage) {
+				return null;
+			}
 			try {
-				const item = sessionStorage.getItem(key);
+				const item = storage.getItem(key);
 				return item ? JSON.parse(item) : null;
 			} catch {
 				return null;
 			}
 		},
 		set: (value: T): void => {
+			if (!storage) {
+				return;
+			}
 			try {
-				sessionStorage.setItem(key, JSON.stringify(value));
-			} catch (error) {
-				console.warn(`Failed to set sessionStorage item ${key}:`, error);
+				storage.setItem(key, JSON.stringify(value));
+			} catch {
+				return;
 			}
 		},
 		remove: (): void => {
-			sessionStorage.removeItem(key);
+			if (!storage) {
+				return;
+			}
+			storage.removeItem(key);
 		},
 	};
 };

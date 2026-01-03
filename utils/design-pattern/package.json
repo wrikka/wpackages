@@ -1,56 +1,25 @@
 {
 	"name": "@wpackages/design-pattern",
+	"private": true,
 	"version": "0.1.0",
-	"description": "Pure functional design patterns library with Effect-TS - includes all GoF patterns in functional style",
-	"keywords": [
-		"design-pattern",
-		"functional",
-		"effect-ts",
-		"creational",
-		"structural",
-		"behavioral",
-		"factory",
-		"builder",
-		"singleton",
-		"observer",
-		"strategy",
-		"decorator",
-		"adapter",
-		"facade",
-		"proxy",
-		"command",
-		"chain-of-responsibility",
-		"iterator",
-		"mediator",
-		"memento",
-		"prototype",
-		"state",
-		"template",
-		"visitor",
-		"composite",
-		"bridge",
-		"flyweight"
-	],
+	"description": "Design pattern implementations and utilities",
 	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js"
+	},
 	"scripts": {
-		"build": "tsdown --dts --minify",
-		"dev": "tsc --noEmit --watch",
-		"lint": "tsc --noEmit && oxlint --fix",
-		"test": "vitest run",
-		"format": "dprint fmt",
-		"verify": "bun run format && bun run lint && bun run test && bun run build",
-		"review": "bun run verify",
-		"generate:readme": "bun scripts/generate-readme.ts"
+		"lint": "oxlint --fix --type-aware",
+		"build": "tsdown src/index.ts --out-dir dist",
+		"test": "vitest run"
 	},
 	"dependencies": {
-		"effect": "^3.19.13"
+		"effect": "^3.19.14"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.3.5",
-		"@types/glob": "^8.1.0",
-		"glob": "^13.0.0",
-		"oxlint": "^1.35.0",
-		"tsdown": "^0.18.3",
+		"@types/bun": "latest",
+		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
 	}

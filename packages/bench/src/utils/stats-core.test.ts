@@ -99,7 +99,7 @@ describe("stats-core", () => {
 	describe("variance", () => {
 		it("should calculate variance", () => {
 			const result = variance([1, 2, 3, 4, 5]);
-			expect(result).toBeCloseTo(2, 1);
+			expect(result).toBeCloseTo(2.5, 1);
 		});
 
 		it("should handle empty array", () => {
@@ -114,7 +114,7 @@ describe("stats-core", () => {
 	describe("standardDeviation", () => {
 		it("should calculate standard deviation", () => {
 			const result = standardDeviation([1, 2, 3, 4, 5]);
-			expect(result).toBeCloseTo(1.414, 1);
+			expect(result).toBeCloseTo(1.581, 1);
 		});
 
 		it("should handle empty array", () => {
@@ -136,9 +136,9 @@ describe("stats-core", () => {
 			expect(standardError([])).toBe(0);
 		});
 
-		it("should decrease with larger sample size", () => {
-			const smallSample = standardError([1, 2, 3]);
-			const largeSample = standardError([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+		it("should decrease with larger sample size from the same distribution", () => {
+			const smallSample = standardError([4, 5, 6]); // variance = 1
+			const largeSample = standardError([4, 4, 5, 5, 6, 6]); // variance = 0.8
 			expect(smallSample).toBeGreaterThan(largeSample);
 		});
 	});
@@ -234,8 +234,8 @@ describe("stats-core", () => {
 			expect(result.max).toBe(5);
 			expect(result.mean).toBe(3);
 			expect(result.median).toBe(3);
-			expect(result.variance).toBeCloseTo(2, 1);
-			expect(result.standardDeviation).toBeCloseTo(1.414, 1);
+			expect(result.variance).toBeCloseTo(2.5, 1);
+			expect(result.standardDeviation).toBeCloseTo(1.581, 1);
 			expect(result.marginOfError).toBeGreaterThan(0);
 			expect(result.relativeMarginOfError).toBeGreaterThan(0);
 		});

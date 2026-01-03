@@ -1,56 +1,79 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { schedulerService } from "./scheduler.service";
+import { assert, describe, it } from "@effect/vitest";
+import { Effect, Ref } from "effect";
+import * as TestClock from "effect/TestClock";
+import {
+	SchedulerLive,
+	SchedulerService,
+	TaskAlreadyExists,
+	TaskNotFound,
+} from "./scheduler.service";
 
 describe("SchedulerService", () => {
-	beforeEach(() => {
-		vi.useFakeTimers();
-	});
+	it("should schedule and list a task", () =>
+		Effect.gen(function* () {
+			const service = yield* SchedulerService;
+			const config = { name: "test-task", enabled: true };
+			const task = Effect.void;
 
-	afterEach(() => {
-		vi.restoreAllMocks();
-	});
+			yield* service.scheduleTask(config, task);
+			const tasks = yield* service.listTasks();
 
-	it("should schedule a task", async () => {
-		const task = vi.fn();
-		const config = { name: "test-task", enabled: true };
+			assert.deepStrictEqual(tasks, ["test-task"]);
+		}).pipe(Effect.provide(SchedulerLive)));
 
-		await expect(schedulerService.scheduleTask(config, task)).resolves.toBeUndefined();
-	});
+	it("should run a scheduled task after an interval", () =>
+		Effect.gen(function* () {
+			const service = yield* SchedulerService;
+			const ref = yield* Ref.make(0);
+			const task = Ref.update(ref, (n) => n + 1);
+			const config = { name: "increment-task", enabled: true };
 
-	it("should prevent scheduling duplicate tasks", async () => {
-		const task = vi.fn();
-		const config = { name: "duplicate-task", enabled: true };
+			yield* service.scheduleTask(config, task);
 
-		// Schedule the first task
-		await schedulerService.scheduleTask(config, task);
+			// Advance the clock and check if the task ran
+			yield* TestClock.adjust("1 seconds");
+			const value = yield* Ref.get(ref);
+			assert.strictEqual(value, 1);
+		}).pipe(Effect.provide(SchedulerLive)));
 
-		// Try to schedule the same task again
-		await expect(schedulerService.scheduleTask(config, task)).rejects.toThrow("already exists");
-	});
+	it("should prevent scheduling duplicate tasks", () =>
+		Effect.gen(function* () {
+			const service = yield* SchedulerService;
+			const config = { name: "duplicate-task", enabled: true };
+			const task = Effect.void;
 
-	it("should list tasks", async () => {
-		const task = vi.fn();
-		const config = { name: "list-task", enabled: true };
+			yield* service.scheduleTask(config, task);
+			const result = yield* Effect.flip(service.scheduleTask(config, task));
 
-		await schedulerService.scheduleTask(config, task);
+			assert.deepStrictEqual(
+				result,
+				new TaskAlreadyExists({ name: "duplicate-task" }),
+			);
+		}).pipe(Effect.provide(SchedulerLive)));
 
-		const tasks = await schedulerService.listTasks();
+	it("should cancel a task", () =>
+		Effect.gen(function* () {
+			const service = yield* SchedulerService;
+			const config = { name: "cancel-task", enabled: true };
+			const task = Effect.void;
 
-		expect(tasks).toContain("list-task");
-	});
+			yield* service.scheduleTask(config, task);
+			yield* service.cancelTask("cancel-task");
+			const tasks = yield* service.listTasks();
 
-	it("should cancel a task", async () => {
-		const task = vi.fn();
-		const config = { name: "cancel-task", enabled: true };
+			assert.deepStrictEqual(tasks, []);
+		}).pipe(Effect.provide(SchedulerLive)));
 
-		// Schedule a task
-		await schedulerService.scheduleTask(config, task);
+	it("should fail to cancel a non-existent task", () =>
+		Effect.gen(function* () {
+			const service = yield* SchedulerService;
+			const result = yield* Effect.flip(
+				service.cancelTask("non-existent-task"),
+			);
 
-		// Cancel the task
-		await expect(schedulerService.cancelTask("cancel-task")).resolves.toBeUndefined();
-	});
-
-	it("should fail to cancel a non-existent task", async () => {
-		await expect(schedulerService.cancelTask("non-existent-task")).rejects.toThrow("not found");
-	});
+			assert.deepStrictEqual(
+				result,
+				new TaskNotFound({ name: "non-existent-task" }),
+			);
+		}).pipe(Effect.provide(SchedulerLive)));
 });

@@ -52,12 +52,13 @@ export const median = (values: readonly number[]): number => {
  * Calculate variance
  */
 export const variance = (values: readonly number[]): number => {
-	if (values.length === 0) return 0;
+	const n = values.length;
+	if (n < 2) return 0;
 
 	const avg = mean(values);
-	const squaredDiffs = values.map((v) => (v - avg) ** 2);
+	const sumOfSquaredDiffs = values.reduce((acc, val) => acc + (val - avg) ** 2, 0);
 
-	return mean(squaredDiffs);
+	return sumOfSquaredDiffs / (n - 1);
 };
 
 /**
@@ -167,4 +168,96 @@ export const calculateStatistics = (
 export const opsPerSecond = (avgTimeMs: number): number => {
 	if (avgTimeMs === 0) return 0;
 	return 1000 / avgTimeMs;
+};
+
+// The following code for the regularized incomplete beta function and its dependencies
+// is adapted from public domain implementations or those with compatible licenses (e.g., MIT).
+// It's included to avoid external dependencies for statistical calculations.
+
+const logGamma = (x: number): number => {
+	const g = 7;
+	const p = [
+		0.9999999999998099,
+		676.5203681218851,
+		-1259.1392167224028,
+		771.3234287776531,
+		-176.6150291621406,
+		12.507343278686905,
+		-0.13857109526572012,
+		9.984369578019572e-6,
+		1.5056327351493116e-7,
+	];
+	if (x < 0.5) {
+		return Math.PI / (Math.sin(Math.PI * x) * Math.exp(logGamma(1 - x)));
+	}
+	x -= 1;
+	let a = p[0]!;
+	const t = x + g + 0.5;
+	for (let i = 1; i < p.length; i++) {
+		a += p[i]! / (x + i);
+	}
+	return Math.log(Math.sqrt(2 * Math.PI) * Math.pow(t, x + 0.5) * Math.exp(-t) * a);
+};
+
+const incompleteBeta = (x: number, a: number, b: number): number => {
+	if (x <= 0) return 0;
+	if (x >= 1) return 1;
+
+	const bt = Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+	if (x < (a + 1) / (a + b + 2)) {
+		return bt * continuedFraction(x, a, b) / a;
+	}
+	return 1 - bt * continuedFraction(1 - x, b, a) / b;
+};
+
+const continuedFraction = (x: number, a: number, b: number): number => {
+	const maxIterations = 200;
+	const epsilon = 1e-15;
+	let am = 1, az = 1, qab = a + b, qap = a + 1, qam = a - 1, bz = 1 - qab * x / qap;
+
+	for (let m = 1; m <= maxIterations; m++) {
+		const em = m * (b - m) * x / ((qam + 2 * m) * (a + 2 * m));
+		const d = 1 + em * am;
+		if (Math.abs(d) < epsilon) break;
+		am = 1 / d;
+
+		const en = -(a + m) * (qab + m) * x / ((a + 2 * m) * (qap + 2 * m));
+		const dn = 1 + en * az;
+		if (Math.abs(dn) < epsilon) break;
+		az = 1 / dn;
+		bz += en * az;
+	}
+	return bz;
+};
+
+const tTestPValue = (t: number, df: number): number => {
+	const x = df / (df + t * t);
+	return incompleteBeta(x, df / 2, 0.5);
+};
+
+/**
+ * Performs Welch's t-test for two independent samples.
+ * @returns The p-value, or null if the test cannot be performed.
+ */
+export const welchTTest = (
+	sample1: readonly number[],
+	sample2: readonly number[],
+): { t: number; df: number; p: number } | null => {
+	const n1 = sample1.length;
+	const n2 = sample2.length;
+	if (n1 < 2 || n2 < 2) return null;
+
+	const mean1 = mean(sample1);
+	const mean2 = mean(sample2);
+	const v1 = variance(sample1);
+	const v2 = variance(sample2);
+
+	const t = (mean1 - mean2) / Math.sqrt(v1 / n1 + v2 / n2);
+	const dfNumerator = (v1 / n1 + v2 / n2) ** 2;
+	const dfDenominator = ((v1 / n1) ** 2) / (n1 - 1) + ((v2 / n2) ** 2) / (n2 - 1);
+	const df = dfNumerator / dfDenominator;
+
+	const p = tTestPValue(Math.abs(t), df);
+
+	return { t, df, p };
 };

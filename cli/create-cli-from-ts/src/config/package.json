@@ -1,0 +1,44 @@
+{
+  "name": "@wpackages/config",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "__DESCRIPTION__",
+  "keywords": [
+    "cli",
+    "typescript",
+    "bundler"
+  ],
+  "bin": {
+    "__BIN_NAME__": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "lint": "tsc --noEmit && oxlint .",
+    "build": "tsdown",
+    "test": "vitest --run --passWithNoTests",
+    "format": "dprint fmt",
+    "verify": "bun format && bun lint && bun run test && bun audit && bun run build"
+  },
+  "dependencies": {
+    "@wpackages/cli-builder": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "dprint": "^0.50.2",
+    "oxlint": "^1.36.0",
+    "oxlint-tsgolint": "^0.10.1",
+    "tsdown": "^0.18.4",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "packageManager": "bun@1.3.5",
+  "author": "Unknown",
+  "license": "MIT"
+}

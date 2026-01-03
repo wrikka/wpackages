@@ -1,16 +1,25 @@
 {
-	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"useUnknownInCatchVariables": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"resolveJsonModule": true,
 		"outDir": "./dist",
 		"rootDir": "./src"
 	},
-	"include": [
-		"src/**/*",
-		"src"
-	],
+	"include": ["src/**/*", "src"],
 	"exclude": [
 		"node_modules",
 		"dist",
+		"coverage",
 		"**/*.test.ts",
 		"**/*.usage.ts"
 	]

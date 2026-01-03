@@ -1,0 +1,91 @@
+/* Base styles */
+body {
+	transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light mode */
+:root {
+	--bg-color: #ffffff;
+	--text-color: #212529;
+	--link-color: #007bff;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+	--bg-color: #212529;
+	--text-color: #f8f9fa;
+	--link-color: #80bfff;
+}
+
+body {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
+a {
+	color: var(--link-color);
+}
+
+/* Top bar */
+.top-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5rem 1rem;
+	background-color: var(--bg-color);
+	border-bottom: 1px solid var(--text-color);
+	z-index: 1000;
+}
+
+body {
+	padding-top: 4rem; /* Adjust for fixed top bar */
+}
+
+/* Search container */
+.search-container {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+#search-input {
+	padding: 0.25rem;
+}
+
+/* Highlighted search result */
+.highlight {
+	background-color: yellow;
+	color: black;
+}
+
+.highlight.active {
+	background-color: orange;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	cursor: pointer;
+	border: 1px solid var(--text-color);
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	padding: 0.5rem;
+	border-radius: 5px;
+}
+
+/* Print styles */
+@media print {
+	.top-bar {
+		display: none;
+	}
+
+	body {
+		padding-top: 20px; /* Reset padding for print */
+	}
+}

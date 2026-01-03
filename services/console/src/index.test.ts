@@ -1,54 +1,73 @@
-import { Effect, Layer } from "@wts/functional";
-import { describe, expect, test, vi } from "vitest";
-import { Console, ConsoleLive, error, info, warn } from "./index";
+import { Effect } from "@wpackages/functional";
+import { afterEach, describe, expect, test, vi } from "vitest";
+import { Console, ConsoleLive, log, logSpan } from "./index";
 
 describe("@wts/console", () => {
-	test("info/warn/error should fallback to log when not implemented", async () => {
-		const logSpy = vi.fn();
-
-		const ConsoleMock = Layer.succeed(Console, {
-			log: (message: string) =>
-				Effect.fromPromise(async () => {
-					logSpy(message);
-				}),
-		});
-
-		const program = Effect.gen(function*() {
-			yield info("a");
-			yield warn("b");
-			yield error("c");
-		});
-
-		const result = await Effect.runPromiseEither(Effect.provideLayer(program, ConsoleMock));
-		expect(result._tag).toBe("Right");
-		expect(logSpy.mock.calls).toEqual([["a"], ["b"], ["c"]]);
+	afterEach(() => {
+		vi.restoreAllMocks();
 	});
 
-	test("ConsoleLive should call underlying console methods", async () => {
-		const log = vi.spyOn(console, "log").mockImplementation(() => {});
+	test("ConsoleLive should call underlying console methods with primitives", async () => {
+		const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 		const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
 		const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+		const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
 
 		const program = Effect.gen(function*() {
 			const svc = yield Effect.get(Console);
 			yield svc.log("l");
-			yield svc.info?.("i") ?? svc.log("i");
-			yield svc.warn?.("w") ?? svc.log("w");
-			yield svc.error?.("e") ?? svc.log("e");
+			yield svc.info("i");
+			yield svc.warn("w");
+			yield svc.error("e");
+			yield svc.debug("d");
+			yield svc.fatal("f");
 		});
 
-		const result = await Effect.runPromiseEither(Effect.provideLayer(program, ConsoleLive));
-		expect(result._tag).toBe("Right");
+		await Effect.runPromise(Effect.provideLayer(program, ConsoleLive));
 
-		expect(log).toHaveBeenCalledWith("l");
-		expect(infoSpy).toHaveBeenCalledWith("i");
-		expect(warnSpy).toHaveBeenCalledWith("w");
-		expect(errorSpy).toHaveBeenCalledWith("e");
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("[LOG] l"));
+		expect(infoSpy).toHaveBeenCalledWith(expect.stringContaining("[INFO] i"));
+		expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("[WARN] w"));
+		expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("[ERROR] e"));
+		expect(debugSpy).toHaveBeenCalledWith(expect.stringContaining("[DEBUG] d"));
+		expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("[FATAL] f"));
+	});
 
-		log.mockRestore();
-		infoSpy.mockRestore();
-		warnSpy.mockRestore();
-		errorSpy.mockRestore();
+	test("ConsoleLive should call underlying console methods with objects", async () => {
+		const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+		const program = log({ a: 1 });
+
+		await Effect.runPromise(Effect.provideLayer(program, ConsoleLive));
+
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("[LOG]"), { a: 1 });
+	});
+
+	test("withContext should add context to log messages", async () => {
+		const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+		const program = Effect.gen(function*() {
+			const svc = yield Effect.get(Console);
+			const scopedSvc = svc.withContext("Auth");
+			yield scopedSvc.log("User login");
+		});
+
+		await Effect.runPromise(Effect.provideLayer(program, ConsoleLive));
+
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("[LOG] [Auth] User login"));
+	});
+
+	test("logSpan should provide a scoped logger", async () => {
+		const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
+
+		const program = Effect.gen(function*() {
+			const scopedSvc = yield logSpan("Payment");
+			yield scopedSvc.info("Processing payment");
+		});
+
+		await Effect.runPromise(Effect.provideLayer(program, ConsoleLive));
+
+		expect(infoSpy).toHaveBeenCalledWith(expect.stringContaining("[INFO] [Payment] Processing payment"));
 	});
 });

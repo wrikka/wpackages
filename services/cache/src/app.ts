@@ -3,9 +3,9 @@
  */
 
 import { normalizeConfig } from "./components/cache-utils";
-import { createCache } from "./core/cache";
 import { CacheService } from "./services/cache.service";
 import type { CacheConfig } from "./types/cache.types";
+import { createCache } from "./utils/cache";
 
 /**
  * Application layer that composes all caching components

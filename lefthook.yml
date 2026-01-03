@@ -1,7 +1,9 @@
 pre-commit:
   jobs:
-    - name: format
-      run: bun run format
+    - name: oxlint
+      run: bunx oxlint --fix {staged_files}
+    - name: dprint
+      run: bunx dprint fmt {staged_files}
 
 pre-push:
   jobs:

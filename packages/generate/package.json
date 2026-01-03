@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsdown --exports --dts --minify",
     "dev": "tsdown --watch",
-    "lint": "tsc --noEmit && oxlint --fix",
+    "lint": "oxlint --fix --type-aware",
     "review": "bun format && bun lint && bun test",
     "test": "vitest"
   },

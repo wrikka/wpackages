@@ -1,27 +1,18 @@
-export function getQuery(req: Request): Record<string, string> {
-  const url = req.url;
-  const queryIndex = url.indexOf('?');
-  if (queryIndex === -1) {
-    return {};
-  }
+import { z } from "zod";
+import { HttpError } from "../error";
 
-  const queryString = url.substring(queryIndex + 1);
-  const params = queryString.split('&');
-  const query: Record<string, string> = {};
-
-  for (const param of params) {
-    const [key, value] = param.split('=');
-    if (key) {
-      query[decodeURIComponent(key)] = value ? decodeURIComponent(value) : '';
-    }
-  }
-  return query;
-}
-
-export async function readBody(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch (_e) {
-    return undefined;
-  }
+export async function parseBody<T extends z.ZodTypeAny>(
+	req: Request,
+	schema: T,
+): Promise<z.infer<T>> {
+	try {
+		const json = await req.json();
+		return schema.parse(json);
+	} catch (error: unknown) {
+		if (error instanceof z.ZodError) {
+			const zodError = error as z.ZodError;
+			throw new HttpError(400, JSON.stringify(zodError.format()));
+		}
+		throw new HttpError(400, "Invalid JSON body");
+	}
 }

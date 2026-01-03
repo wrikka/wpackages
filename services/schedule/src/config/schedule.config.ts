@@ -8,4 +8,6 @@ const defaultScheduleConfig = {
 } as const;
 
 // Frozen configuration object
-export const defaultScheduleConfiguration = Object.freeze(defaultScheduleConfig);
+export const defaultScheduleConfiguration = Object.freeze(
+	defaultScheduleConfig,
+);

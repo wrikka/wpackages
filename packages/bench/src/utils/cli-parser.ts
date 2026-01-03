@@ -93,7 +93,15 @@ export const parseCliArgs = (
 				if (args[i + 1]) {
 					const outputFormat = args[++i];
 					if (
-						outputFormat === "json" || outputFormat === "text" || outputFormat === "table" || outputFormat === "chart"
+						outputFormat === "json"
+						|| outputFormat === "text"
+						|| outputFormat === "table"
+						|| outputFormat === "chart"
+						|| outputFormat === "histogram"
+						|| outputFormat === "boxplot"
+						|| outputFormat === "csv"
+						|| outputFormat === "md"
+						|| outputFormat === "markdown"
 					) {
 						options.output = outputFormat;
 					}
@@ -110,9 +118,53 @@ export const parseCliArgs = (
 				}
 				break;
 
+			case "--html-report":
+				if (args[i + 1]) {
+					const reportPath = args[++i];
+					if (reportPath) {
+						options.htmlReport = reportPath;
+					}
+				}
+				break;
+
+			case "--parameter-scan":
+				if (args[i + 1]) {
+					const scanArg = args[++i];
+					if (scanArg) {
+						const [parameter, valuesStr] = scanArg.split(":", 2);
+						if (parameter && valuesStr) {
+							const values = valuesStr.split(",");
+							options.parameterScan = { parameter, values };
+						}
+					}
+				}
+				break;
+
+			case "--config":
+				if (args[i + 1]) {
+					const configPath = args[++i];
+					if (configPath) {
+						options.config = configPath;
+					}
+				}
+				break;
+
+			case "--threshold":
+				if (args[i + 1]) {
+					const thresholdValue = args[++i];
+					if (thresholdValue) {
+						options.threshold = Number.parseFloat(thresholdValue);
+					}
+				}
+				break;
+
 			case "--verbose":
 			case "-v":
 				options.verbose = true;
+				break;
+
+			case "--ab":
+				options.ab = true;
 				break;
 
 			case "--silent":
