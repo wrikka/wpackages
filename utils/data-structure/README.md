@@ -6,22 +6,22 @@
 
 ## Features
 
--   🧊 **Immutable by Design**: All data structures are immutable. Operations that modify a data structure return a new, updated instance, leaving the original unchanged.
--   🧩 **Functional API**: The library exposes pure functions for interacting with data structures, making the code predictable, testable, and easy to compose.
--   🔒 **Type-Safe**: Written entirely in TypeScript to ensure strong type safety for all operations.
--   📚 **Comprehensive Collection**: Includes a wide range of common data structures like Heaps, Graphs, Tries, and more.
+- 🧊 **Immutable by Design**: All data structures are immutable. Operations that modify a data structure return a new, updated instance, leaving the original unchanged.
+- 🧩 **Functional API**: The library exposes pure functions for interacting with data structures, making the code predictable, testable, and easy to compose.
+- 🔒 **Type-Safe**: Written entirely in TypeScript to ensure strong type safety for all operations.
+- 📚 **Comprehensive Collection**: Includes a wide range of common data structures like Heaps, Graphs, Tries, and more.
 
 ## Goal
 
--   🎯 **Correctness**: To provide reference-quality implementations of classic data structures.
--   🧑‍💻 **Educational**: To serve as a clear and readable learning resource for developers.
--   🧱 **Foundational**: To be a foundational building block for other libraries and applications within the monorepo.
+- 🎯 **Correctness**: To provide reference-quality implementations of classic data structures.
+- 🧑‍💻 **Educational**: To serve as a clear and readable learning resource for developers.
+- 🧱 **Foundational**: To be a foundational building block for other libraries and applications within the monorepo.
 
 ## Design Principles
 
--   **Immutability**: No function ever mutates its inputs. This eliminates a large class of bugs and makes state management more predictable.
--   **Purity**: The API consists of pure functions, meaning their output is determined solely by their input, with no hidden side effects.
--   **Clarity**: Implementations are written to be as clear and easy to understand as possible.
+- **Immutability**: No function ever mutates its inputs. This eliminates a large class of bugs and makes state management more predictable.
+- **Purity**: The API consists of pure functions, meaning their output is determined solely by their input, with no hidden side effects.
+- **Clarity**: Implementations are written to be as clear and easy to understand as possible.
 
 ## Installation
 
@@ -39,12 +39,12 @@ Each data structure is manipulated through a set of exported pure functions.
 
 ```typescript
 import {
-  createHeap,
-  heapInsert,
-  heapExtract,
-  heapPeek,
-  minComparator,
-} from '@wpackages/data-structure';
+	createHeap,
+	heapExtract,
+	heapInsert,
+	heapPeek,
+	minComparator,
+} from "@wpackages/data-structure";
 
 // 1. Create an empty min-heap
 let myHeap = createHeap<number>();
@@ -69,14 +69,13 @@ console.log(heapPeek(myHeap)); // Output: 5
 
 ## Available Data Structures
 
--   Binary Search Tree
--   Graph (Weighted & Unweighted)
--   Heap (Min & Max)
--   Linked List
--   Priority Queue
--   Trie
+- Binary Search Tree
+- Graph (Weighted & Unweighted)
+- Heap (Min & Max)
+- Linked List
+- Priority Queue
+- Trie
 
 ## License
 
 This project is licensed under the MIT License.
-

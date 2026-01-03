@@ -6,22 +6,22 @@
 
 ## Features
 
--   💪 **Common Resilience Patterns**: Includes implementations for Retry, Timeout, and Circuit Breaker.
--   🧩 **Fully Composable**: Resilience policies are applied as functions that wrap your `Effect`s, allowing them to be easily composed and reused.
--   🚀 **`Effect-TS` Native**: Built entirely on top of `Effect-TS` for a purely functional, type-safe, and declarative API.
--   📦 **Zero Dependencies**: The only dependency is `effect` itself.
+- 💪 **Common Resilience Patterns**: Includes implementations for Retry, Timeout, and Circuit Breaker.
+- 🧩 **Fully Composable**: Resilience policies are applied as functions that wrap your `Effect`s, allowing them to be easily composed and reused.
+- 🚀 **`Effect-TS` Native**: Built entirely on top of `Effect-TS` for a purely functional, type-safe, and declarative API.
+- 📦 **Zero Dependencies**: The only dependency is `effect` itself.
 
 ## Goal
 
--   🎯 **Increase Application Stability**: To make it easy to build applications that can gracefully handle and recover from transient errors.
--   🧑‍💻 **Declarative Policies**: To allow developers to declaratively define resilience policies rather than writing complex, imperative error-handling logic.
--   🧩 **Maintain Composability**: To ensure that adding resilience does not break the composability and purity of a functional codebase.
+- 🎯 **Increase Application Stability**: To make it easy to build applications that can gracefully handle and recover from transient errors.
+- 🧑‍💻 **Declarative Policies**: To allow developers to declaratively define resilience policies rather than writing complex, imperative error-handling logic.
+- 🧩 **Maintain Composability**: To ensure that adding resilience does not break the composability and purity of a functional codebase.
 
 ## Design Principles
 
--   **Functional**: All patterns are implemented as higher-order functions that take an `Effect` and return a new, more resilient `Effect`.
--   **Type-Safe**: Leverages `Effect-TS`'s powerful type system to ensure all operations are type-safe.
--   **Layered**: Resilience patterns can be layered on top of each other to create sophisticated fault-tolerance strategies.
+- **Functional**: All patterns are implemented as higher-order functions that take an `Effect` and return a new, more resilient `Effect`.
+- **Type-Safe**: Leverages `Effect-TS`'s powerful type system to ensure all operations are type-safe.
+- **Layered**: Resilience patterns can be layered on top of each other to create sophisticated fault-tolerance strategies.
 
 ## Installation
 
@@ -49,13 +49,13 @@ const myApiCallEffect = Effect.tryPromise({
 
 // Create a new, more resilient effect by wrapping the original
 const resilientEffect = createResilientEffect(myApiCallEffect, {
-	retry: { 
-        attempts: 3, 
-        delay: "100 millis"
-    },
-	timeout: { 
-        duration: "5 seconds"
-    },
+	retry: {
+		attempts: 3,
+		delay: "100 millis",
+	},
+	timeout: {
+		duration: "5 seconds",
+	},
 });
 
 // Run the resilient effect

@@ -6,21 +6,21 @@
 
 ## Features
 
--   ✨ **Interactive CLI**: A beautiful and intuitive user interface powered by `@clack/prompts` for managing tasks.
--   ✅ **Simple Task Management**: Easily add, list, and complete tasks.
--   📂 **Persistent Storage**: Tasks are saved to a local file (e.g., `.tasks.ini` or `.tasks.toml`) in your project directory.
--   🔧 **Multiple Format Support**: Supports both INI and TOML file formats for storing tasks.
+- ✨ **Interactive CLI**: A beautiful and intuitive user interface powered by `@clack/prompts` for managing tasks.
+- ✅ **Simple Task Management**: Easily add, list, and complete tasks.
+- 📂 **Persistent Storage**: Tasks are saved to a local file (e.g., `.tasks.ini` or `.tasks.toml`) in your project directory.
+- 🔧 **Multiple Format Support**: Supports both INI and TOML file formats for storing tasks.
 
 ## Goal
 
--   🎯 **Streamline Workflow**: To provide a simple, terminal-based tool for task management that integrates seamlessly into a developer's workflow.
--   🧑‍💻 **Frictionless Tasking**: To make the process of creating and tracking tasks as quick and easy as possible.
+- 🎯 **Streamline Workflow**: To provide a simple, terminal-based tool for task management that integrates seamlessly into a developer's workflow.
+- 🧑‍💻 **Frictionless Tasking**: To make the process of creating and tracking tasks as quick and easy as possible.
 
 ## Design Principles
 
--   **Simplicity**: The tool is designed to be minimal and focused, providing only the essential features for task management.
--   **Interactive-First**: The primary way to interact with the tool is through its interactive prompts, making it easy to learn and use.
--   **Local-First**: Task data is stored locally in the project directory, with no need for an external service.
+- **Simplicity**: The tool is designed to be minimal and focused, providing only the essential features for task management.
+- **Interactive-First**: The primary way to interact with the tool is through its interactive prompts, making it easy to learn and use.
+- **Local-First**: Task data is stored locally in the project directory, with no need for an external service.
 
 ## Installation
 
@@ -40,10 +40,10 @@ bun wtask
 
 This will launch an interactive menu with the following options:
 
--   **Add a new task**: Prompts you to enter a description for a new task.
--   **List all tasks**: Displays all current tasks, separated by their status (pending/completed).
--   **Complete a task**: Shows a list of pending tasks and allows you to mark one as complete.
--   **Exit**: Closes the task manager.
+- **Add a new task**: Prompts you to enter a description for a new task.
+- **List all tasks**: Displays all current tasks, separated by their status (pending/completed).
+- **Complete a task**: Shows a list of pending tasks and allows you to mark one as complete.
+- **Exit**: Closes the task manager.
 
 ## License
 

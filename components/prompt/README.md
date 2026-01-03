@@ -10,7 +10,7 @@
 - 🧩 **Extensive Component Library**: Offers a wide range of interactive components, from simple text inputs to complex date pickers.
 - 💅 **Beautifully Designed**: A focus on aesthetics and usability to provide a polished user experience.
 - 🧑‍💻 **Developer Friendly**: A simple, promise-based API that is easy to integrate into any CLI application.
-- 🎨 **Themable**: (Coming Soon) Easily customize colors and styles to match your brand.
+- 🎨 **Themable**: Easily customize colors, symbols, and styles to match your brand.
 
 ## Goal
 
@@ -81,6 +81,35 @@ To see all available components in action, run the showcase from this workspace:
 ```bash
 # Run from the monorepo root
 turbo showcase --filter=@wpackages/prompt
+```
+
+## Theming
+
+You can customize the appearance of the prompts by passing a `theme` object to the `prompt` function. The theme object can contain custom `colors` and `symbols`.
+
+```tsx
+import { confirm, prompt, text } from "@wpackages/prompt";
+import picocolors from "picocolors";
+
+async function main() {
+	const customTheme = {
+		colors: {
+			primary: picocolors.magenta,
+			message: picocolors.yellow,
+		},
+		symbols: {
+			radioOn: ">>",
+			radioOff: "  ",
+		},
+	};
+
+	await prompt(
+		text({ message: "What is your name?" }),
+		{ theme: customTheme },
+	);
+}
+
+main();
 ```
 
 ## License

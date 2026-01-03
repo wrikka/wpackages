@@ -6,29 +6,29 @@
 
 ## Features
 
--   ⚡ **Blazing Fast**: Built with Rust for maximum performance and memory safety.
--   🔍 **Powerful Search**: Includes functionalities for both file name searching (like `fd`) and content searching (like `rg`).
--   📂 **Directory Traversal**: Efficiently walks directory trees using the `walkdir` crate.
--   🛠️ **Intuitive CLI**: A user-friendly command-line interface powered by the `clap` argument parser.
--   🧩 **Modular Design**: Aims to combine the best features of several tools into one unified experience.
+- ⚡ **Blazing Fast**: Built with Rust for maximum performance and memory safety.
+- 🔍 **Powerful Search**: Includes functionalities for both file name searching (like `fd`) and content searching (like `rg`).
+- 📂 **Directory Traversal**: Efficiently walks directory trees using the `walkdir` crate.
+- 🛠️ **Intuitive CLI**: A user-friendly command-line interface powered by the `clap` argument parser.
+- 🧩 **Modular Design**: Aims to combine the best features of several tools into one unified experience.
 
 ## Goal
 
--   🎯 **Unified Tooling**: To provide a single binary that covers a wide range of common file system operations, reducing the need to install and learn multiple different tools.
--   🚀 **Peak Performance**: To offer a faster alternative to traditional shell commands like `find` and `grep`.
--   🧑‍💻 **Ergonomic Interface**: To design a CLI that is intuitive, easy to remember, and pleasant to use.
+- 🎯 **Unified Tooling**: To provide a single binary that covers a wide range of common file system operations, reducing the need to install and learn multiple different tools.
+- 🚀 **Peak Performance**: To offer a faster alternative to traditional shell commands like `find` and `grep`.
+- 🧑‍💻 **Ergonomic Interface**: To design a CLI that is intuitive, easy to remember, and pleasant to use.
 
 ## Design Principles
 
--   **Performance First**: Every feature is implemented with performance as a primary consideration.
--   **Sensible Defaults**: The tool is designed to be useful out of the box with minimal configuration.
--   **Cross-Platform**: Aims to be fully functional on Windows, macOS, and Linux.
+- **Performance First**: Every feature is implemented with performance as a primary consideration.
+- **Sensible Defaults**: The tool is designed to be useful out of the box with minimal configuration.
+- **Cross-Platform**: Aims to be fully functional on Windows, macOS, and Linux.
 
 ## Installation
 
 ### Prerequisites
 
--   [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
+- [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
 
 ### Building from Source
 
@@ -48,7 +48,7 @@ cargo build --release
 
 The tool will be structured with subcommands for different operations.
 
-*Note: The following examples are illustrative of the intended functionality.*
+_Note: The following examples are illustrative of the intended functionality._
 
 ### Find Files (like `fd`)
 

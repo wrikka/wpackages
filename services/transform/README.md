@@ -20,7 +20,7 @@ Universal document transformer - Convert between MD, TS, TOML, JSON formats usin
 ## Supported Transformations
 
 | From       | To         | Status |
-|------------|------------|--------|
+| ---------- | ---------- | ------ |
 | JSON       | TOML       | ✅     |
 | TOML       | JSON       | ✅     |
 | JSON       | Markdown   | ✅     |
@@ -41,62 +41,64 @@ bun add transform
 ### Basic Transform
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
 // JSON to TOML
-const toml = transform('{"name": "test"}', 'json', 'toml');
+const toml = transform("{\"name\": \"test\"}", "json", "toml");
 // => name = "test"
 
 // TOML to JSON
-const json = transform('name = "test"', 'toml', 'json');
+const json = transform("name = \"test\"", "toml", "json");
 // => {"name":"test"}
 
 // Auto-detect source format
-const result = transform('{"key": "value"}', 'auto', 'toml');
+const result = transform("{\"key\": \"value\"}", "auto", "toml");
 // => key = "value"
 ```
 
 ### JSON Array to Markdown Table
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
 const data = [
-  { name: 'Alice', age: 30 },
-  { name: 'Bob', age: 25 }
+	{ name: "Alice", age: 30 },
+	{ name: "Bob", age: 25 },
 ];
 
-const markdown = transform(JSON.stringify(data), 'json', 'markdown');
+const markdown = transform(JSON.stringify(data), "json", "markdown");
 ```
 
 Output:
+
 ```markdown
-| name | age |
-| --- | --- |
-| Alice | 30 |
-| Bob | 25 |
+| name  | age |
+| ----- | --- |
+| Alice | 30  |
+| Bob   | 25  |
 ```
 
 ### TypeScript to JSON AST
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
-const code = 'const x = 1;';
-const ast = transform(code, 'typescript', 'json', { pretty: true });
+const code = "const x = 1;";
+const ast = transform(code, "typescript", "json", { pretty: true });
 // Returns TypeScript AST as JSON
 ```
 
 ### TypeScript to Markdown
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
-const code = 'const x: number = 10;';
-const markdown = transform(code, 'typescript', 'markdown');
+const code = "const x: number = 10;";
+const markdown = transform(code, "typescript", "markdown");
 ```
 
 Output:
+
 ````markdown
 ```typescript
 const x: number = 10;
@@ -106,29 +108,29 @@ const x: number = 10;
 ### TOML to Markdown
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
 const toml = `
 [package]
 name = "my-app"
 version = "0.1.0"
 `;
-const markdown = transform(toml, 'toml', 'markdown');
+const markdown = transform(toml, "toml", "markdown");
 ```
 
 Output:
+
 ```markdown
 ### package
 
 - **name**: my-app
 - **version**: 0.1.0
-
 ```
 
 ### Markdown to JSON
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
 const markdown = `
 | name  | age |
@@ -137,27 +139,28 @@ const markdown = `
 | Bob   | 25  |
 `;
 
-const json = transform(markdown, 'markdown', 'json', { pretty: true });
+const json = transform(markdown, "markdown", "json", { pretty: true });
 ```
 
 Output:
+
 ```json
 [
-  {
-    "name": "Alice",
-    "age": "30"
-  },
-  {
-    "name": "Bob",
-    "age": "25"
-  }
+	{
+		"name": "Alice",
+		"age": "30"
+	},
+	{
+		"name": "Bob",
+		"age": "25"
+	}
 ]
 ```
 
 ### JSON to TypeScript Type
 
 ```typescript
-import { transform } from 'transform';
+import { transform } from "transform";
 
 const json = `{
   "user": {
@@ -167,27 +170,28 @@ const json = `{
   }
 }`;
 
-const tsType = transform(json, 'json', 'typescript');
+const tsType = transform(json, "json", "typescript");
 ```
 
 Output:
+
 ```typescript
 export type GeneratedType = {
-  user: {
-    name: string;
-    email: string;
-    roles: string[];
-  };
+	user: {
+		name: string;
+		email: string;
+		roles: string[];
+	};
 };
 ```
 
 ### Using Parsers Directly
 
 ```typescript
-import { JsonParser, TomlParser } from 'transform';
+import { JsonParser, TomlParser } from "transform";
 
 // Parse
-const ast = JsonParser.parse('{"key": "value"}');
+const ast = JsonParser.parse("{\"key\": \"value\"}");
 
 // Stringify
 const json = JsonParser.stringify(ast, { pretty: true, indent: 2 });
@@ -196,19 +200,19 @@ const json = JsonParser.stringify(ast, { pretty: true, indent: 2 });
 ### Using Transformers
 
 ```typescript
-import { JsonToTomlTransformer } from 'transform';
+import { JsonToTomlTransformer } from "transform";
 
-const toml = JsonToTomlTransformer.transform('{"name": "test"}');
+const toml = JsonToTomlTransformer.transform("{\"name\": \"test\"}");
 ```
 
 ### Format Detection
 
 ```typescript
-import { detectFormat } from 'transform';
+import { detectFormat } from "transform";
 
-detectFormat('{"key": "value"}'); // => 'json'
-detectFormat('# Hello', 'README.md'); // => 'markdown'
-detectFormat('const x = 1;'); // => 'typescript'
+detectFormat("{\"key\": \"value\"}"); // => 'json'
+detectFormat("# Hello", "README.md"); // => 'markdown'
+detectFormat("const x = 1;"); // => 'typescript'
 ```
 
 ## API
@@ -231,13 +235,14 @@ Each parser implements the `Parser<T>` interface:
 
 ```typescript
 interface Parser<T> {
-  format: DocumentFormat;
-  parse: (content: string) => T;
-  stringify: (ast: T, options?: TransformOptions) => string;
+	format: DocumentFormat;
+	parse: (content: string) => T;
+	stringify: (ast: T, options?: TransformOptions) => string;
 }
 ```
 
 Available parsers:
+
 - `JsonParser`
 - `TomlParser`
 - `MarkdownParser`
@@ -249,9 +254,9 @@ Each transformer implements the `Transformer` interface:
 
 ```typescript
 interface Transformer {
-  from: DocumentFormat;
-  to: DocumentFormat;
-  transform: (source: string, options?: TransformOptions) => string;
+	from: DocumentFormat;
+	to: DocumentFormat;
+	transform: (source: string, options?: TransformOptions) => string;
 }
 ```
 
@@ -274,6 +279,7 @@ src/
 ## Performance
 
 Built on top of OXC (Oxidation Compiler) - a Rust-based JavaScript parser that is:
+
 - **20x faster** than Babel
 - **2x faster** than SWC
 - Memory efficient

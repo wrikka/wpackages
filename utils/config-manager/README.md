@@ -6,24 +6,24 @@
 
 ## Features
 
--   🔄 **Multi-Source Loading**: Load configurations from files (`.json`, `.js`, `.ts`, `.toml`, `.yaml`), environment variables, and default objects.
--   ✅ **Schema Validation**: Ensure your configuration is valid and complete using a simple, yet powerful schema definition.
--   🔧 **Type Casting**: Automatically casts configuration values to their correct types (e.g., a string `"true"` becomes a boolean `true`).
--   🌿 **Variable Expansion**: Expands environment variables (e.g., `$PORT`) within your configuration files.
--   🔒 **Encryption Support**: Includes helpers for encrypting and decrypting sensitive configuration values.
--   🔥 **Hot-Reload**: Can watch for file changes and automatically reload the configuration during development.
+- 🔄 **Multi-Source Loading**: Load configurations from files (`.json`, `.js`, `.ts`, `.toml`, `.yaml`), environment variables, and default objects.
+- ✅ **Schema Validation**: Ensure your configuration is valid and complete using a simple, yet powerful schema definition.
+- 🔧 **Type Casting**: Automatically casts configuration values to their correct types (e.g., a string `"true"` becomes a boolean `true`).
+- 🌿 **Variable Expansion**: Expands environment variables (e.g., `$PORT`) within your configuration files.
+- 🔒 **Encryption Support**: Includes helpers for encrypting and decrypting sensitive configuration values.
+- 🔥 **Hot-Reload**: Can watch for file changes and automatically reload the configuration during development.
 
 ## Goal
 
--   🎯 **Reliable Configuration**: To provide a single, reliable source of truth for application configuration.
--   🛡️ **Prevent Runtime Errors**: To catch configuration errors at startup, rather than at runtime, through schema validation.
--   🧑‍💻 **Great DX**: To offer a simple and intuitive API for managing complex application configurations.
+- 🎯 **Reliable Configuration**: To provide a single, reliable source of truth for application configuration.
+- 🛡️ **Prevent Runtime Errors**: To catch configuration errors at startup, rather than at runtime, through schema validation.
+- 🧑‍💻 **Great DX**: To offer a simple and intuitive API for managing complex application configurations.
 
 ## Design Principles
 
--   **Layered Configuration**: Configuration sources are layered, allowing defaults to be cleanly overridden by environment-specific settings.
--   **Fail-Fast**: The manager is designed to throw an error and exit the process if the configuration is invalid, preventing the application from starting in a broken state.
--   **Type-Safe**: Leverages TypeScript generics to provide a fully typed configuration object.
+- **Layered Configuration**: Configuration sources are layered, allowing defaults to be cleanly overridden by environment-specific settings.
+- **Fail-Fast**: The manager is designed to throw an error and exit the process if the configuration is invalid, preventing the application from starting in a broken state.
+- **Type-Safe**: Leverages TypeScript generics to provide a fully typed configuration object.
 
 ## Installation
 
@@ -51,7 +51,11 @@ interface AppConfig {
 const configManager = createConfigManager<AppConfig>({
 	schema: {
 		port: { type: "number", required: true, env: "PORT" },
-		nodeEnv: { choices: ["development", "production", "test"], required: true, env: "NODE_ENV" },
+		nodeEnv: {
+			choices: ["development", "production", "test"],
+			required: true,
+			env: "NODE_ENV",
+		},
 		apiKey: { type: "string", required: true, env: "API_KEY" },
 	},
 });
@@ -64,7 +68,6 @@ async function start() {
 
 		console.log("Configuration loaded successfully:", config);
 		// Now you can start your application with the validated `config` object.
-
 	} catch (error) {
 		console.error("Failed to load configuration:", error.message);
 		process.exit(1);

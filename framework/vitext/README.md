@@ -6,26 +6,26 @@
 
 ## Features
 
--   **Extremely Fast Dev Server**: A lightning-fast development server with Hot Module Replacement (HMR) powered by `@wpackages/devserver`.
--   **Optimized Builds**: Utilizes modern bundlers like Rolldown for highly optimized production builds.
--   **File-Based Routing**: Automatic route generation based on your file system structure, powered by `radix3`.
--   **Type-Safe APIs**: First-class TypeScript support throughout the framework.
--   **Advanced Caching**: A multi-layer caching system (build artifacts, module resolution, file system) with TTL and LRU eviction policies.
--   **Intelligent File Watching**: A high-performance file watcher with support for negation patterns, performance monitoring, and debounced hot reloading.
--   **Functional Error Handling**: Leverages functional constructs for type-safe, composable, and robust error management.
--   **Flexible Configuration**: Simple and powerful configuration via a `vitext.config.ts` file.
+- **Extremely Fast Dev Server**: A lightning-fast development server with Hot Module Replacement (HMR) powered by `@wpackages/devserver`.
+- **Optimized Builds**: Utilizes modern bundlers like Rolldown for highly optimized production builds.
+- **File-Based Routing**: Automatic route generation based on your file system structure, powered by `radix3`.
+- **Type-Safe APIs**: First-class TypeScript support throughout the framework.
+- **Advanced Caching**: A multi-layer caching system (build artifacts, module resolution, file system) with TTL and LRU eviction policies.
+- **Intelligent File Watching**: A high-performance file watcher with support for negation patterns, performance monitoring, and debounced hot reloading.
+- **Functional Error Handling**: Leverages functional constructs for type-safe, composable, and robust error management.
+- **Flexible Configuration**: Simple and powerful configuration via a `vitext.config.ts` file.
 
 ## Goal
 
--   **Superior DX**: To provide a development experience that is faster, more intuitive, and more powerful than existing web frameworks.
--   **Peak Performance**: To deliver both a rapid development workflow and a highly optimized production output.
--   **Integrated Power-Features**: To seamlessly integrate advanced capabilities like caching and file-watching without requiring complex configuration.
+- **Superior DX**: To provide a development experience that is faster, more intuitive, and more powerful than existing web frameworks.
+- **Peak Performance**: To deliver both a rapid development workflow and a highly optimized production output.
+- **Integrated Power-Features**: To seamlessly integrate advanced capabilities like caching and file-watching without requiring complex configuration.
 
 ## Design Principles
 
--   **Performance First**: Every architectural decision is made with performance as a primary consideration.
--   **Functional and Composable**: The framework is built using a functional programming approach, leading to code that is more predictable, testable, and maintainable.
--   **Sensible Defaults, Powerful Customization**: Works great out of the box, but provides deep customization options for advanced use cases.
+- **Performance First**: Every architectural decision is made with performance as a primary consideration.
+- **Functional and Composable**: The framework is built using a functional programming approach, leading to code that is more predictable, testable, and maintainable.
+- **Sensible Defaults, Powerful Customization**: Works great out of the box, but provides deep customization options for advanced use cases.
 
 ## Installation
 
@@ -63,22 +63,22 @@ turbo build --filter=my-web-app
 Create a `vitext.config.ts` file in your application's root to configure the framework:
 
 ```typescript
-import { defineConfig } from '@wpackages/vitext';
+import { defineConfig } from "@wpackages/vitext";
 
 export default defineConfig({
-  server: {
-    port: 3000,
-    hostname: 'localhost'
-  },
-  root: './src',
-  build: {
-    outDir: 'dist',
-    minify: true,
-    sourcemap: true
-  },
-  define: {
-    __VERSION__: JSON.stringify('1.0.0')
-  }
+	server: {
+		port: 3000,
+		hostname: "localhost",
+	},
+	root: "./src",
+	build: {
+		outDir: "dist",
+		minify: true,
+		sourcemap: true,
+	},
+	define: {
+		__VERSION__: JSON.stringify("1.0.0"),
+	},
 });
 ```
 
@@ -87,16 +87,16 @@ export default defineConfig({
 Vitext exposes its internal services for advanced integrations:
 
 ```typescript
-import { createVitextApp } from '@wpackages/vitext';
+import { createVitextApp } from "@wpackages/vitext";
 
 const app = await createVitextApp();
 
 // Access the caching service
-app.cache.setBuildArtifact('my-key', { data: 'some-value' });
+app.cache.setBuildArtifact("my-key", { data: "some-value" });
 
 // Listen for file changes
 app.watcher.onChange((path, event) => {
-  console.log(`File ${event}: ${path}`);
+	console.log(`File ${event}: ${path}`);
 });
 ```
 

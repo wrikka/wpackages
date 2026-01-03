@@ -6,22 +6,28 @@
 
 ## Features
 
--   -   **Multi-Source Loading**: Reads environment variables from `.env`, `.env.local`, and environment-specific files (e.g., `.env.production`).
--   -   **Multiple Output Formats**: Can output the resolved environment variables as a standard `.env` file or other formats.
--   -   **Path Aggregation**: Can read and aggregate `.env` files from multiple directory paths in a single command.
--   -   **Type-Safe**: Built with `Effect-TS` for robust and type-safe operations.
+-
+  - **Multi-Source Loading**: Reads environment variables from `.env`, `.env.local`, and environment-specific files (e.g., `.env.production`).
+-
+  - **Multiple Output Formats**: Can output the resolved environment variables as a standard `.env` file or other formats.
+-
+  - **Path Aggregation**: Can read and aggregate `.env` files from multiple directory paths in a single command.
+-
+  - **Type-Safe**: Built with `Effect-TS` for robust and type-safe operations.
 
 ## Goal
 
--   🎯 **Centralize Environment Management**: To provide a single tool for managing environment variables across different applications and services in the monorepo.
--   -   **Simplify Local Development**: To make it easy to assemble the required environment variables for running an application locally.
--   -   **Ensure Consistency**: To help ensure that different environments (development, production) are configured consistently.
+- 🎯 **Centralize Environment Management**: To provide a single tool for managing environment variables across different applications and services in the monorepo.
+-
+  - **Simplify Local Development**: To make it easy to assemble the required environment variables for running an application locally.
+-
+  - **Ensure Consistency**: To help ensure that different environments (development, production) are configured consistently.
 
 ## Design Principles
 
--   **CLI-First**: Designed as a convenient command-line tool for developers.
--   **Configuration as Code**: Leverages the power of `@wpackages/config-manager` to handle the complexity of loading and merging configurations.
--   **Simplicity**: Provides a simple and intuitive command-line interface.
+- **CLI-First**: Designed as a convenient command-line tool for developers.
+- **Configuration as Code**: Leverages the power of `@wpackages/config-manager` to handle the complexity of loading and merging configurations.
+- **Simplicity**: Provides a simple and intuitive command-line interface.
 
 ## Installation
 

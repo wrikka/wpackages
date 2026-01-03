@@ -117,6 +117,88 @@ console.log(`Released ${result.version}`);
 
 See [API Documentation](./docs/api.md) for detailed usage.
 
+## Extensibility
+
+`release-pkg` is designed to be extensible through a powerful plugin system and customizable changelog renderers.
+
+### Plugin System
+
+You can tap into the release lifecycle using plugins. A plugin is a simple object with a `name` and a `hooks` property. Hooks allow you to execute code at various points in the release process.
+
+**Available Hooks:**
+
+- `start`
+- `before:validate` / `after:validate`
+- `before:bumpVersion` / `after:bumpVersion`
+- `before:changelog` / `after:changelog`
+- `before:gitCommit` / `after:gitCommit`
+- `before:publish` / `after:publish`
+- `end`
+
+**Example: A Logger Plugin**
+
+Here's a simple plugin that logs each lifecycle event.
+
+```typescript
+import type { Plugin } from "@wpackages/release-pkg";
+
+export const LifecycleLoggerPlugin: Plugin = {
+  name: 'lifecycle-logger-plugin',
+  hooks: {
+    start: (ctx) => console.log(`Starting release for ${ctx.options.type}`),
+    'after:bumpVersion': (ctx) => {
+      console.log(`Version bumped to ${ctx.result.version}`);
+    },
+    end: () => console.log('Release finished!'),
+  },
+};
+```
+
+**Usage:**
+
+Pass your plugins via the `plugins` array in the release options.
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+import { LifecycleLoggerPlugin } from "./plugins/logger.plugin";
+
+await release({
+  type: "patch",
+  plugins: [LifecycleLoggerPlugin],
+});
+```
+
+### Customizable Changelog
+
+You can provide your own function to render the changelog content. The function receives a context object with all the necessary data.
+
+**Example: JSON Changelog Renderer**
+
+Instead of Markdown, you can output the changelog as JSON.
+
+```typescript
+import type { ChangelogRenderer } from "@wpackages/release-pkg";
+
+export const jsonChangelogRenderer: ChangelogRenderer = (context) => {
+  // context contains: version, date, commits, breaking, features, fixes, others
+  return JSON.stringify(context, null, 2);
+};
+```
+
+**Usage:**
+
+Pass the renderer function via the `changelog` option.
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+import { jsonChangelogRenderer } from "./renderers/json.renderer";
+
+await release({
+  type: "patch",
+  changelog: jsonChangelogRenderer,
+});
+```
+
 ### Preview Releases
 
 ```bash

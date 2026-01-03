@@ -6,15 +6,15 @@
 
 ## Goal
 
--   🎯 **Centralize Macros**: To provide a single, organized location for all procedural and compile-time macros used across the `wpackages` monorepo.
--   🧑‍💻 **Improve DX**: To abstract away repetitive code patterns and provide expressive, high-level APIs through macros.
--   🚀 **Enhance Performance**: To leverage compile-time code generation for improved runtime performance where applicable.
+- 🎯 **Centralize Macros**: To provide a single, organized location for all procedural and compile-time macros used across the `wpackages` monorepo.
+- 🧑‍💻 **Improve DX**: To abstract away repetitive code patterns and provide expressive, high-level APIs through macros.
+- 🚀 **Enhance Performance**: To leverage compile-time code generation for improved runtime performance where applicable.
 
 ## Design Principles
 
--   **Language-Idiomatic**: Macros are designed to feel natural and idiomatic within their respective languages (Rust and TypeScript/Bun).
--   **Clear and Focused**: Each macro has a single, well-defined purpose.
--   **Well-Documented**: Usage for each macro is clearly documented with examples.
+- **Language-Idiomatic**: Macros are designed to feel natural and idiomatic within their respective languages (Rust and TypeScript/Bun).
+- **Clear and Focused**: Each macro has a single, well-defined purpose.
+- **Well-Documented**: Usage for each macro is clearly documented with examples.
 
 ## Available Macros
 
@@ -31,14 +31,14 @@ A macro that enhances `console.log` to automatically include the file path and l
 **Usage:**
 
 ```typescript
-import { log } from './bun/src/index';
+import { log } from "./bun/src/index";
 
 const user = {
-  name: 'John Doe',
-  age: 30
+	name: "John Doe",
+	age: 30,
 };
 
-log('User object:', user);
+log("User object:", user);
 // Expected output will include file path and line number, e.g.:
 // [src/my-file.ts:10] User object: { name: 'John Doe', age: 30 }
 ```

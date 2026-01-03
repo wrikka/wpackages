@@ -6,23 +6,23 @@
 
 ## Features
 
--   🚀 **High Performance**: Built with performance in mind to provide fast feedback.
--   🌳 **AST-Based Rules**: Operates on the Abstract Syntax Tree, allowing for powerful and precise rule creation.
--   🔧 **Customizable Rules**: Easily extendable with new rules to enforce specific architectural patterns or coding styles.
--   🧩 **Functional and Type-Safe**: Written with `Effect-TS` for a robust, maintainable, and error-resistant codebase.
--    CLI **Integrated CLI**: Comes with a `wlint` command-line tool for easy integration into development workflows and CI pipelines.
+- 🚀 **High Performance**: Built with performance in mind to provide fast feedback.
+- 🌳 **AST-Based Rules**: Operates on the Abstract Syntax Tree, allowing for powerful and precise rule creation.
+- 🔧 **Customizable Rules**: Easily extendable with new rules to enforce specific architectural patterns or coding styles.
+- 🧩 **Functional and Type-Safe**: Written with `Effect-TS` for a robust, maintainable, and error-resistant codebase.
+- CLI **Integrated CLI**: Comes with a `wlint` command-line tool for easy integration into development workflows and CI pipelines.
 
 ## Goal
 
--   🎯 **Enforce Project Conventions**: To programmatically enforce the unique architectural and stylistic conventions of the `wpackages` monorepo.
--   🛡️ **Prevent Common Errors**: To catch potential bugs and anti-patterns that are specific to this project's codebase.
--   🧑‍💻 **Improve Code Quality**: To serve as a tool for maintaining a high standard of code quality and consistency across all workspaces.
+- 🎯 **Enforce Project Conventions**: To programmatically enforce the unique architectural and stylistic conventions of the `wpackages` monorepo.
+- 🛡️ **Prevent Common Errors**: To catch potential bugs and anti-patterns that are specific to this project's codebase.
+- 🧑‍💻 **Improve Code Quality**: To serve as a tool for maintaining a high standard of code quality and consistency across all workspaces.
 
 ## Design Principles
 
--   **Performance**: The linter must be fast enough to run frequently during development without causing friction.
--   **Precision**: Rules should be precise to avoid false positives and provide clear, actionable feedback.
--   **Extensibility**: The architecture should make it simple to add new rules as the project evolves.
+- **Performance**: The linter must be fast enough to run frequently during development without causing friction.
+- **Precision**: Rules should be precise to avoid false positives and provide clear, actionable feedback.
+- **Extensibility**: The architecture should make it simple to add new rules as the project evolves.
 
 ## Installation
 

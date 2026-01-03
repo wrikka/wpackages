@@ -22,9 +22,10 @@ bun add @wts/test vitest
 First, set up Vitest in your project. Then, you can use `@wts/test` for your assertions.
 
 `example.test.ts`
+
 ```typescript
-import { describe, it } from "vitest";
 import { expect } from "@wts/test";
+import { describe, it } from "vitest";
 
 describe("Calculator", () => {
 	it("should add numbers", () => {
@@ -70,6 +71,24 @@ expect(array).toContain(item);
 expect(string).toContainString(substring);
 ```
 
+### Schema Validation
+
+Ensure your data structures conform to a `zod` schema.
+
+```typescript
+import { expect } from "@wts/test";
+import { z } from "zod";
+
+const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+
+const userData = { id: "123", name: "John" };
+
+expect(userData).toMatchSchema(UserSchema);
+```
+
 ### Errors
 
 ```typescript
@@ -106,6 +125,36 @@ const obj = { getValue: () => 42 };
 const spy = spyOn(obj, "getValue");
 obj.getValue();
 expect(spy.callCount).toBe(1);
+```
+
+### Property-Based Testing
+
+Powered by [fast-check](https://fast-check.dev/), you can create property-based tests to check invariants in your code against a wide range of generated inputs.
+
+```typescript
+import { it, fc } from "@wts/test";
+
+describe("Math properties", () => {
+	it.prop("should hold for all integers", [fc.integer(), fc.integer()], (a, b) => {
+		expect(a + b).toBe(b + a);
+	});
+});
+```
+
+### E2E Testing Helpers
+
+Utilities to simplify end-to-end testing scenarios.
+
+**`waitForElement`**
+
+Waits for a specific element to appear in the DOM before proceeding.
+
+```typescript
+import { waitForElement } from "@wts/test";
+
+// Wait for the element with id 'submit-btn' to appear
+const button = await waitForElement("#submit-btn", { timeout: 10000 });
+expect(button).not.toBeNull();
 ```
 
 ### Async Testing Utilities

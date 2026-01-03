@@ -6,24 +6,24 @@
 
 ## Features
 
--   🧠 **Memoization**: Automatically cache the results of expensive function calls.
--   ⏱️ **TTL Support**: Set time-to-live expirations for cache entries to manage data freshness.
--   🗑️ **LRU Eviction**: Automatically remove the least recently used entries when the cache reaches its maximum size.
--   😴 **Lazy Evaluation**: Defer expensive computations until their results are actually needed, with the result being cached for subsequent access.
--   🧩 **Functional Design**: Built with pure functions and immutable data structures for predictable and testable code.
--   🔒 **Type-Safe**: Full TypeScript support ensures that all cache interactions are type-safe.
+- 🧠 **Memoization**: Automatically cache the results of expensive function calls.
+- ⏱️ **TTL Support**: Set time-to-live expirations for cache entries to manage data freshness.
+- 🗑️ **LRU Eviction**: Automatically remove the least recently used entries when the cache reaches its maximum size.
+- 😴 **Lazy Evaluation**: Defer expensive computations until their results are actually needed, with the result being cached for subsequent access.
+- 🧩 **Functional Design**: Built with pure functions and immutable data structures for predictable and testable code.
+- 🔒 **Type-Safe**: Full TypeScript support ensures that all cache interactions are type-safe.
 
 ## Goal
 
--   🎯 **High Performance**: To provide a suite of powerful tools for optimizing application performance by reducing redundant computations.
--   🧑‍💻 **Excellent DX**: To offer a simple, intuitive, and functional API for common caching patterns.
--   💪 **Robust and Reliable**: To create a caching solution that is predictable, well-tested, and easy to reason about.
+- 🎯 **High Performance**: To provide a suite of powerful tools for optimizing application performance by reducing redundant computations.
+- 🧑‍💻 **Excellent DX**: To offer a simple, intuitive, and functional API for common caching patterns.
+- 💪 **Robust and Reliable**: To create a caching solution that is predictable, well-tested, and easy to reason about.
 
 ## Design Principles
 
--   **Purity**: The core logic is implemented with pure functions, making it easy to test and compose.
--   **Immutability**: The library is designed to work with immutable data, avoiding unexpected side effects.
--   **Composability**: Caching utilities are designed to be easily composed with other functional constructs.
+- **Purity**: The core logic is implemented with pure functions, making it easy to test and compose.
+- **Immutability**: The library is designed to work with immutable data, avoiding unexpected side effects.
+- **Composability**: Caching utilities are designed to be easily composed with other functional constructs.
 
 ## Installation
 

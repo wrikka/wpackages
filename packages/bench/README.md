@@ -6,25 +6,25 @@
 
 ## Features
 
--   📊 **Detailed Statistics**: Calculates min, max, mean, median, variance, standard deviation, and percentiles for each benchmark.
--   🔁 **Command Comparison**: Easily compare the performance of multiple commands in a single run.
--    parallel **Concurrency Testing**: Use the `--concurrency` flag to test how your commands perform under parallel execution.
--   📈 **Flexible Output**: Display results as a summary, a detailed table, or export them as JSON for further analysis.
--   🔧 **Lifecycle Hooks**: Define `prepare` and `cleanup` commands to run before and after each benchmark iteration.
--   🔒 **Type-Safe API**: Written in TypeScript to provide a fully type-safe programmatic interface.
--   🧩 **Functional by Design**: Built with functional programming principles for predictable and testable code.
+- 📊 **Detailed Statistics**: Calculates min, max, mean, median, variance, standard deviation, and percentiles for each benchmark.
+- 🔁 **Command Comparison**: Easily compare the performance of multiple commands in a single run.
+- parallel **Concurrency Testing**: Use the `--concurrency` flag to test how your commands perform under parallel execution.
+- 📈 **Flexible Output**: Display results as a summary, a detailed table, or export them as JSON for further analysis.
+- 🔧 **Lifecycle Hooks**: Define `prepare` and `cleanup` commands to run before and after each benchmark iteration.
+- 🔒 **Type-Safe API**: Written in TypeScript to provide a fully type-safe programmatic interface.
+- 🧩 **Functional by Design**: Built with functional programming principles for predictable and testable code.
 
 ## Goal
 
--   🎯 **Accurate Measurement**: To provide a reliable tool for accurately measuring and comparing the performance of command-line tools.
--   🧑‍💻 **Great DX**: To offer a simple and intuitive API, both programmatically and on the command line.
--   📊 **Insightful Analysis**: To equip developers with the statistical data needed to make informed performance decisions.
+- 🎯 **Accurate Measurement**: To provide a reliable tool for accurately measuring and comparing the performance of command-line tools.
+- 🧑‍💻 **Great DX**: To offer a simple and intuitive API, both programmatically and on the command line.
+- 📊 **Insightful Analysis**: To equip developers with the statistical data needed to make informed performance decisions.
 
 ## Design Principles
 
--   **Simplicity**: The API is designed to be straightforward and easy to use for common use cases.
--   **Precision**: The core logic is carefully designed to provide accurate and reliable timing measurements.
--   **Separation of Concerns**: The data collection, statistical calculation, and result rendering are handled as separate, pure functions.
+- **Simplicity**: The API is designed to be straightforward and easy to use for common use cases.
+- **Precision**: The core logic is carefully designed to provide accurate and reliable timing measurements.
+- **Separation of Concerns**: The data collection, statistical calculation, and result rendering are handled as separate, pure functions.
 
 ## Installation
 

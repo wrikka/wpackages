@@ -6,19 +6,20 @@
 
 ## Features
 
--   🚀 **Powered by `dprint`**: Leverages the high-speed, plugin-based `dprint` formatter for consistent and fast code formatting.
--   🔧 **Simple CLI**: A zero-configuration wrapper that provides a single, memorable command for formatting.
--   -   **Project-Wide Consistency**: Ensures all code in the monorepo adheres to the same formatting rules defined in the root `dprint.json` file.
+- 🚀 **Powered by `dprint`**: Leverages the high-speed, plugin-based `dprint` formatter for consistent and fast code formatting.
+- 🔧 **Simple CLI**: A zero-configuration wrapper that provides a single, memorable command for formatting.
+-
+  - **Project-Wide Consistency**: Ensures all code in the monorepo adheres to the same formatting rules defined in the root `dprint.json` file.
 
 ## Goal
 
--   🎯 **Standardize Formatting**: To provide a single, unified command for code formatting across all workspaces.
--   🧑‍💻 **Simplify Developer Workflow**: To make code formatting a quick and effortless part of the development process.
+- 🎯 **Standardize Formatting**: To provide a single, unified command for code formatting across all workspaces.
+- 🧑‍💻 **Simplify Developer Workflow**: To make code formatting a quick and effortless part of the development process.
 
 ## Design Principles
 
--   **Simplicity**: The tool is a thin wrapper around `dprint`, providing a simple and focused command-line interface.
--   **Convention over Configuration**: It automatically discovers and uses the project's root `dprint.json` configuration file.
+- **Simplicity**: The tool is a thin wrapper around `dprint`, providing a simple and focused command-line interface.
+- **Convention over Configuration**: It automatically discovers and uses the project's root `dprint.json` configuration file.
 
 ## Installation
 

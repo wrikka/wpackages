@@ -6,22 +6,22 @@
 
 ## Features
 
--   ⏺️ **Interactive Recording**: A simple wizard powered by `@clack/prompts` guides you through starting and stopping your recording.
--   🎞️ **Multiple Output Formats**: Save your terminal session as either an animated GIF or an MP4 video.
--   🚀 **High Performance**: The core recording and processing logic is written in Rust and compiled to WASM for near-native performance.
--   🔧 **Simple CLI**: A single command (`record-terminal`) to start the recording process.
+- ⏺️ **Interactive Recording**: A simple wizard powered by `@clack/prompts` guides you through starting and stopping your recording.
+- 🎞️ **Multiple Output Formats**: Save your terminal session as either an animated GIF or an MP4 video.
+- 🚀 **High Performance**: The core recording and processing logic is written in Rust and compiled to WASM for near-native performance.
+- 🔧 **Simple CLI**: A single command (`record-terminal`) to start the recording process.
 
 ## Goal
 
--   🎯 **Easy Demos**: To make it incredibly simple to create high-quality demos and tutorials of command-line applications.
--   🧑‍💻 **Developer Tooling**: To provide a powerful, integrated tool for developers to showcase their work.
--   ⚡ **Performance**: To create a terminal recorder that is fast and has a low resource footprint.
+- 🎯 **Easy Demos**: To make it incredibly simple to create high-quality demos and tutorials of command-line applications.
+- 🧑‍💻 **Developer Tooling**: To provide a powerful, integrated tool for developers to showcase their work.
+- ⚡ **Performance**: To create a terminal recorder that is fast and has a low resource footprint.
 
 ## Design Principles
 
--   **Simplicity**: The user interface is designed to be as simple as possible, with a focus on a single, clear workflow.
--   **Performance**: Leverages Rust and WebAssembly for the performance-critical parts of the application.
--   **Hybrid Architecture**: Combines a user-friendly TypeScript CLI with a high-performance Rust core.
+- **Simplicity**: The user interface is designed to be as simple as possible, with a focus on a single, clear workflow.
+- **Performance**: Leverages Rust and WebAssembly for the performance-critical parts of the application.
+- **Hybrid Architecture**: Combines a user-friendly TypeScript CLI with a high-performance Rust core.
 
 ## Installation
 
@@ -41,8 +41,8 @@ bun record-terminal
 
 The tool will then prompt you for the following:
 
-1.  **Output File Path**: Where to save the recording (e.g., `./demo.gif`).
-2.  **Output Format**: Choose between GIF and MP4.
+1. **Output File Path**: Where to save the recording (e.g., `./demo.gif`).
+2. **Output Format**: Choose between GIF and MP4.
 
 It will then start recording your terminal session. Press `Enter` when you are finished to stop the recording and generate the output file.
 

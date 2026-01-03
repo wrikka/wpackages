@@ -6,24 +6,24 @@
 
 ## Features
 
--   ✨ **Functional Core**: Built using functional programming principles for clarity and correctness.
--   💉 **Dependency Injection**: Leverages dependency injection to provide services like logging and configuration.
--   🔧 **Configuration Management**: Uses `@wpackages/config-manager` to load and access configuration variables.
--   📜 **Structured Logging**: Integrates with `@wpackages/observability` for structured and context-aware logging.
--   🧪 **Testable by Design**: The separation of concerns makes the core logic easy to test in isolation.
+- ✨ **Functional Core**: Built using functional programming principles for clarity and correctness.
+- 💉 **Dependency Injection**: Leverages dependency injection to provide services like logging and configuration.
+- 🔧 **Configuration Management**: Uses `@wpackages/config-manager` to load and access configuration variables.
+- 📜 **Structured Logging**: Integrates with `@wpackages/observability` for structured and context-aware logging.
+- 🧪 **Testable by Design**: The separation of concerns makes the core logic easy to test in isolation.
 
 ## Goal
 
--   🎯 **Demonstrate Best Practices**: Serve as a clear example of how to structure an application within the `wpackages` monorepo.
--   🧩 **Showcase Package Integration**: Illustrate how different packages (`config-manager`, `observability`) can be composed together.
--   ✅ **Promote Testability**: Encourage writing code that is inherently testable by decoupling side effects.
+- 🎯 **Demonstrate Best Practices**: Serve as a clear example of how to structure an application within the `wpackages` monorepo.
+- 🧩 **Showcase Package Integration**: Illustrate how different packages (`config-manager`, `observability`) can be composed together.
+- ✅ **Promote Testability**: Encourage writing code that is inherently testable by decoupling side effects.
 
 ## Design Principles
 
--   **Type Safety First**: All services, effects, and configurations are fully typed to catch errors at compile time.
--   **Separation of Concerns**: Side effects (like console output) are managed through dedicated services, keeping the core logic pure.
--   **Explicit Dependencies**: Services are explicitly provided to the program, making the dependency graph clear and manageable.
--   **Mockability**: Production services can be easily swapped with mock implementations for deterministic testing.
+- **Type Safety First**: All services, effects, and configurations are fully typed to catch errors at compile time.
+- **Separation of Concerns**: Side effects (like console output) are managed through dedicated services, keeping the core logic pure.
+- **Explicit Dependencies**: Services are explicitly provided to the program, making the dependency graph clear and manageable.
+- **Mockability**: Production services can be easily swapped with mock implementations for deterministic testing.
 
 ## Installation
 

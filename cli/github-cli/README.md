@@ -6,22 +6,23 @@
 
 ## Features
 
--   ✨ **Interactive Interface**: A beautiful and intuitive wizard powered by `@clack/prompts` for all operations.
--   🔄 **File Synchronization**: Easily sync files between your local machine and a remote GitHub repository.
--   -   **GitHub Integration**: Uses `octokit` for robust and reliable communication with the GitHub API.
--   🤖 **AI Assistance**: (Optional) Can leverage `openai` for features like generating commit messages or summarizing changes.
+- ✨ **Interactive Interface**: A beautiful and intuitive wizard powered by `@clack/prompts` for all operations.
+- 🔄 **File Synchronization**: Easily sync files between your local machine and a remote GitHub repository.
+-
+  - **GitHub Integration**: Uses `octokit` for robust and reliable communication with the GitHub API.
+- 🤖 **AI Assistance**: (Optional) Can leverage `openai` for features like generating commit messages or summarizing changes.
 
 ## Goal
 
--   🎯 **Simplify GitHub Workflows**: To abstract away complex Git commands and provide a simple, task-oriented interface for managing files in a GitHub repository.
--   🧑‍💻 **Improve DX**: To offer a pleasant and guided experience for common GitHub file operations.
--   ✅ **Reliability**: To ensure that file synchronization is performed safely and correctly.
+- 🎯 **Simplify GitHub Workflows**: To abstract away complex Git commands and provide a simple, task-oriented interface for managing files in a GitHub repository.
+- 🧑‍💻 **Improve DX**: To offer a pleasant and guided experience for common GitHub file operations.
+- ✅ **Reliability**: To ensure that file synchronization is performed safely and correctly.
 
 ## Design Principles
 
--   **Interactive-First**: The primary interface is a series of guided prompts, making the tool easy to use without memorizing flags.
--   **API-Driven**: All operations are performed via the official GitHub API through `octokit`.
--   **Focused**: The tool is designed specifically for file synchronization tasks.
+- **Interactive-First**: The primary interface is a series of guided prompts, making the tool easy to use without memorizing flags.
+- **API-Driven**: All operations are performed via the official GitHub API through `octokit`.
+- **Focused**: The tool is designed specifically for file synchronization tasks.
 
 ## Installation
 

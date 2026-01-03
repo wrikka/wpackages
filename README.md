@@ -1,4 +1,4 @@
- # wpackages
+# wpackages
 
 ## Introduction
 
@@ -6,51 +6,51 @@
 
 ## Features
 
--   ⚡️ **High-Performance Tooling**: Utilizes **Bun** as the package manager and runtime for exceptional speed.
--   🚀 **Optimized Task Running**: Employs **Turborepo** to orchestrate and cache tasks, speeding up builds, tests, and linting.
--   🏗️ **Structured Workspace**: Organizes code logically into distinct workspaces like `packages`, `services`, `apps`, `utils`, and more.
--   ✅ **Automated Quality Checks**: Integrates **Oxlint** for linting and **dprint** for code formatting to ensure code consistency.
--   🧪 **Robust Testing**: Uses **Vitest** for running unit and integration tests within each workspace.
--   훅 **Git Hooks**: Leverages **Lefthook** to automate checks like formatting and linting before commits and pushes.
--   🧩 **Shared Configurations**: Centralizes configurations like `tsconfig.json` to maintain consistency across the entire monorepo.
+- ⚡️ **High-Performance Tooling**: Utilizes **Bun** as the package manager and runtime for exceptional speed.
+- 🚀 **Optimized Task Running**: Employs **Turborepo** to orchestrate and cache tasks, speeding up builds, tests, and linting.
+- 🏗️ **Structured Workspace**: Organizes code logically into distinct workspaces like `packages`, `services`, `apps`, `utils`, and more.
+- ✅ **Automated Quality Checks**: Integrates **Oxlint** for linting and **dprint** for code formatting to ensure code consistency.
+- 🧪 **Robust Testing**: Uses **Vitest** for running unit and integration tests within each workspace.
+- 훅 **Git Hooks**: Leverages **Lefthook** to automate checks like formatting and linting before commits and pushes.
+- 🧩 **Shared Configurations**: Centralizes configurations like `tsconfig.json` to maintain consistency across the entire monorepo.
 
 ## Goal
 
--   🎯 **Centralized Development**: Provide a single workspace to develop and share internal libraries (`packages/*`, `services/*`, `utils/*`, `framework/*`, `lib/*`).
--   🔄 **Consistent Tooling**: Keep tooling and conventions consistent across many small projects.
--   ⏩ **Rapid Iteration**: Enable fast iteration with optimized task pipelines (`format` -> `lint` -> `test` -> `build` -> `verify`).
+- 🎯 **Centralized Development**: Provide a single workspace to develop and share internal libraries (`packages/*`, `services/*`, `utils/*`, `framework/*`, `lib/*`).
+- 🔄 **Consistent Tooling**: Keep tooling and conventions consistent across many small projects.
+- ⏩ **Rapid Iteration**: Enable fast iteration with optimized task pipelines (`format` -> `lint` -> `test` -> `build` -> `verify`).
 
 ## Design Principles
 
--   🏛️ **Monorepo First**: Workspaces are versioned and developed together as a cohesive unit.
--   🤖 **Automation**: Prefer `turbo` tasks over running tools manually to ensure reliability and speed.
--   📏 **Consistency**: Maintain uniform `tsconfig.json` and script conventions across all packages.
--   🔒 **Safety**: Utilize Git hooks to run formatting before commits and verification checks before pushes.
+- 🏛️ **Monorepo First**: Workspaces are versioned and developed together as a cohesive unit.
+- 🤖 **Automation**: Prefer `turbo` tasks over running tools manually to ensure reliability and speed.
+- 📏 **Consistency**: Maintain uniform `tsconfig.json` and script conventions across all packages.
+- 🔒 **Safety**: Utilize Git hooks to run formatting before commits and verification checks before pushes.
 
 ## Installation
 
 ### Prerequisites
 
--   `bun` (This repository uses `bun@1.3.5`)
--   `git`
+- `bun` (This repository uses `bun@1.3.5`)
+- `git`
 
 ### Steps
 
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/newkub/wpackages.git
-    cd wpackages
-    ```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/newkub/wpackages.git
+   cd wpackages
+   ```
 
-2.  Install dependencies:
-    ```bash
-    bun install
-    ```
+2. Install dependencies:
+   ```bash
+   bun install
+   ```
 
-3.  Install Git hooks:
-    ```bash
-    bun run prepare
-    ```
+3. Install Git hooks:
+   ```bash
+   bun run prepare
+   ```
 
 ## Usage
 
@@ -81,6 +81,14 @@ bun run dev
 ### Workspace-Specific Commands
 
 To run a command for a specific workspace, use the `--filter` flag with Turborepo. The package name is defined in its `package.json`.
+
+## Workspaces
+
+This monorepo contains the following packages and applications:
+
+### Packages
+
+- **`@wpackages/api-builder`**: A powerful and lightweight library for building robust, type-safe, and scalable APIs in TypeScript using Effect-TS.
 
 ## Examples
 

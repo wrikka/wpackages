@@ -6,22 +6,22 @@
 
 ## Features
 
--   🏷️ **Tagged Errors**: Provides custom, tagged error classes like `AppError`, `ValidationError`, and `NotFoundError` that extend `Data.TaggedError` from `effect`.
--   🎣 **Type-Safe Catching**: Allows you to catch and handle specific error types using `Effect.catchTag`, avoiding messy `instanceof` checks.
--   래퍼 **Safe Wrappers**: Includes helper functions like `tryPromise` to safely convert functions that might throw exceptions into `Effect`s.
--   ↔️ **`Either` Integration**: A `fromEither` utility to seamlessly convert an `Either` into an `Effect`, mapping the `Left` side to a custom `AppError`.
+- 🏷️ **Tagged Errors**: Provides custom, tagged error classes like `AppError`, `ValidationError`, and `NotFoundError` that extend `Data.TaggedError` from `effect`.
+- 🎣 **Type-Safe Catching**: Allows you to catch and handle specific error types using `Effect.catchTag`, avoiding messy `instanceof` checks.
+- 래퍼 **Safe Wrappers**: Includes helper functions like `tryPromise` to safely convert functions that might throw exceptions into `Effect`s.
+- ↔️ **`Either` Integration**: A `fromEither` utility to seamlessly convert an `Either` into an `Effect`, mapping the `Left` side to a custom `AppError`.
 
 ## Goal
 
--   🎯 **Predictable Error Flow**: To eliminate the ambiguity of traditional `try/catch` blocks by making all possible failure cases explicit in the type system.
--   🛡️ **Robust Applications**: To make it easier to build applications that handle errors gracefully and correctly.
--   🧑‍💻 **Improved DX**: To provide a clear and concise API for working with errors in a functional context.
+- 🎯 **Predictable Error Flow**: To eliminate the ambiguity of traditional `try/catch` blocks by making all possible failure cases explicit in the type system.
+- 🛡️ **Robust Applications**: To make it easier to build applications that handle errors gracefully and correctly.
+- 🧑‍💻 **Improved DX**: To provide a clear and concise API for working with errors in a functional context.
 
 ## Design Principles
 
--   **Errors as Data**: Treats errors as first-class citizens (data) that can be passed around, inspected, and transformed.
--   **Explicitness**: Makes failure paths explicit in function signatures, forcing developers to handle them.
--   **Composability**: Error handling logic is composable, just like any other part of an `Effect` program.
+- **Errors as Data**: Treats errors as first-class citizens (data) that can be passed around, inspected, and transformed.
+- **Explicitness**: Makes failure paths explicit in function signatures, forcing developers to handle them.
+- **Composability**: Error handling logic is composable, just like any other part of an `Effect` program.
 
 ## Installation
 
@@ -41,12 +41,15 @@ Handle specific, typed errors using `Effect.catchTag`.
 import { ValidationError } from "@wpackages/error";
 import { Effect } from "effect";
 
-const validationEffect = Effect.fail(new ValidationError({ message: "Invalid email" }));
+const validationEffect = Effect.fail(
+	new ValidationError({ message: "Invalid email" }),
+);
 
 const handledEffect = validationEffect.pipe(
-    Effect.catchTag("ValidationError", (e) => 
-        Effect.succeed(`Handled validation error: ${e.message}`)
-    )
+	Effect.catchTag(
+		"ValidationError",
+		(e) => Effect.succeed(`Handled validation error: ${e.message}`),
+	),
 );
 
 Effect.runPromise(handledEffect).then(console.log); // Output: Handled validation error: Invalid email
