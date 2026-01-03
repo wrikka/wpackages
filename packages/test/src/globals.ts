@@ -2,7 +2,8 @@
  * Injects test APIs into the global scope.
  */
 
-import { after, before, describe, it, only, test } from "./services";
+import { describe, it, test, beforeAll, afterAll } from "./core/globals";
+import { w } from "./core/w";
 import { expect } from "./utils";
 
 export function injectGlobals(): void {
@@ -11,8 +12,8 @@ export function injectGlobals(): void {
 	globalContext.describe = describe;
 	globalContext.it = it;
 	globalContext.test = test;
-	globalContext.only = only;
-	globalContext.before = before;
-	globalContext.after = after;
+	globalContext.beforeAll = beforeAll;
+	globalContext.afterAll = afterAll;
 	globalContext.expect = expect;
+	globalContext.w = w;
 }

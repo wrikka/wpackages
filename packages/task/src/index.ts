@@ -26,8 +26,6 @@
 
 export type {
 	AnyTaskError,
-	QueueConfig,
-	QueueError,
 	Result,
 	Schedule,
 	ScheduledTask,
@@ -35,7 +33,6 @@ export type {
 	Task,
 	TaskError,
 	TaskPriority,
-	TaskQueue,
 	TaskResult,
 	TaskStatus,
 	Transaction,
@@ -50,7 +47,6 @@ export type {
 // ============================================
 
 export {
-	QUEUE_DEFAULTS,
 	SCHEDULE_DEFAULTS,
 	TASK_DEFAULTS,
 	TRANSACTION_DEFAULTS,
@@ -67,8 +63,8 @@ export { isValidPriority, isValidSchedule, isValidTask, isValidWorkflow } from "
 // Utilities
 // ============================================
 
-export { ok, err } from "./utils/result";
-export { createTask, queueError, scheduleError, taskError, workflowError } from "./utils/creators";
+export { ok, err, createTask, workflowError } from "@w/workflow";
+export { scheduleError, taskError } from "./utils/creators";
 export { parseSchedule, shouldRun, updateNextRun } from "./utils/scheduler";
 export {
 	withTaskBulkhead,
@@ -79,26 +75,21 @@ export {
 } from "./utils/resilience";
 
 // ============================================
-// Queue
-// ============================================
-
-export { clearCompleted, clearFailed, createQueue, enqueue, getQueueStats, processNext } from "./services/queue";
-
-// ============================================
 // Workflow
 // ============================================
 
-export { createWorkflow, executeWorkflow, validateWorkflow } from "./services/workflow";
+export { createWorkflow, executeWorkflow, validateWorkflow } from "@w/workflow";
 
 // ============================================
 // Transaction
 // ============================================
 
-export { createTransaction, executeTransaction, rollbackTransaction } from "./services/transaction";
+export { createTransaction, executeTransaction, rollbackTransaction } from "./services/transaction.service";
+
+export type { QueueWorker } from "./services/worker.service";
 
 // ============================================
-// Worker
+// Log
 // ============================================
 
-export { createQueueWorker } from "./services/worker";
-export type { QueueWorker } from "./services/worker";
+export { log } from "./services/log.service";

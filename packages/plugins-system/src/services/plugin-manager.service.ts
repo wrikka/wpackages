@@ -1,15 +1,16 @@
-import type {
-	Plugin,
-	PluginEventEmitter,
-	PluginManagerConfig,
-	PluginRegistry,
-	PluginState,
-} from "../types";
+import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry, PluginState } from "../types";
 import { createEventEmitter } from "../utils";
-import { installPlugin, uninstallPlugin, enablePlugin, disablePlugin, updatePlugin } from "./manager/lifecycle";
-import { getPlugin, getAllPlugins, getEnabledPlugins, getDisabledPlugins, hasPlugin, countPlugins } from "./manager/registry";
+import { disablePlugin, enablePlugin, installPlugin, uninstallPlugin, updatePlugin } from "./manager/lifecycle";
+import {
+	countPlugins,
+	getAllPlugins,
+	getDisabledPlugins,
+	getEnabledPlugins,
+	getPlugin,
+	hasPlugin,
+} from "./manager/registry";
 
-export type PluginResult = 
+export type PluginResult =
 	| { readonly _tag: "Success"; readonly value: undefined }
 	| { readonly _tag: "Failure"; readonly error: string };
 
@@ -70,7 +71,15 @@ export const createPluginManager = (
 	};
 
 	const update = async (pluginId: string, newPlugin: Plugin): Promise<PluginResult> => {
-		const { registry: newRegistry, result } = await updatePlugin(pluginId, newPlugin, registry, eventEmitter, logger, disable, enable);
+		const { registry: newRegistry, result } = await updatePlugin(
+			pluginId,
+			newPlugin,
+			registry,
+			eventEmitter,
+			logger,
+			disable,
+			enable,
+		);
 		registry = newRegistry;
 		return result;
 	};

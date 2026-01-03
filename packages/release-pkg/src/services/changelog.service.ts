@@ -7,13 +7,15 @@ import {
 	generateChangelogHeader,
 } from "../components/changelog-formatter";
 import { DEFAULT_CHANGELOG_FILE } from "../constant/index";
-import type { Commit } from "../types/index";
+import type { Commit, ChangelogRenderer } from "../types/index";
 import { readTextFile, writeTextFile } from "../utils/file-system";
 
 export class ChangelogService {
-	async generate(version: string, commits: Commit[]): Promise<string> {
-		let changelog = generateChangelogHeader(version);
-
+	async generate(
+		version: string,
+		commits: Commit[],
+		renderer?: ChangelogRenderer,
+	): Promise<string> {
 		// Group commits
 		const breaking = commits.filter((c) => c.breaking);
 		const features = commits.filter((c) => c.type === "feat" && !c.breaking);
@@ -22,7 +24,20 @@ export class ChangelogService {
 			(c) => c.type !== "feat" && c.type !== "fix" && !c.breaking,
 		);
 
-		// Add sections
+		if (renderer) {
+			return Promise.resolve(renderer({
+				version,
+				date: new Date().toISOString().slice(0, 10),
+				commits,
+				breaking,
+				features,
+				fixes,
+				others,
+			}));
+		}
+
+		// Default rendering logic
+		let changelog = generateChangelogHeader(version);
 		changelog += formatBreakingChanges(breaking);
 		changelog += formatFeatures(features);
 		changelog += formatBugFixes(fixes);

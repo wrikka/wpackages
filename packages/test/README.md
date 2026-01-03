@@ -80,8 +80,8 @@ import { expect } from "@wts/test";
 import { z } from "zod";
 
 const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
+	id: z.string(),
+	name: z.string(),
 });
 
 const userData = { id: "123", name: "John" };
@@ -132,12 +132,16 @@ expect(spy.callCount).toBe(1);
 Powered by [fast-check](https://fast-check.dev/), you can create property-based tests to check invariants in your code against a wide range of generated inputs.
 
 ```typescript
-import { it, fc } from "@wts/test";
+import { fc, it } from "@wts/test";
 
 describe("Math properties", () => {
-	it.prop("should hold for all integers", [fc.integer(), fc.integer()], (a, b) => {
-		expect(a + b).toBe(b + a);
-	});
+	it.prop(
+		"should hold for all integers",
+		[fc.integer(), fc.integer()],
+		(a, b) => {
+			expect(a + b).toBe(b + a);
+		},
+	);
 });
 ```
 

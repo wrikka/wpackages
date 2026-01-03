@@ -50,4 +50,4 @@ async function main() {
 	console.log("\n" + report);
 }
 
-main();
+void main();

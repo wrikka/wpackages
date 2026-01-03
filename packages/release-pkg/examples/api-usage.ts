@@ -51,4 +51,4 @@ async function main() {
 	console.log("Compare 2.0.0 vs 1.9.0:", comparison > 0 ? "newer" : "older");
 }
 
-main();
+void main();

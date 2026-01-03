@@ -2,10 +2,12 @@
  * Fluent assertion API for type-safe testing
  */
 
+import type { ZodSchema } from "zod";
 import type { AssertionOptions } from "../types";
 import { toContain, toContainString } from "./assertions/collections";
 import { toBe, toEqual } from "./assertions/equality";
 import { toBeInstanceOf } from "./assertions/instance";
+import { toMatchSchema } from "./assertions/schema";
 import { toReject, toResolve } from "./assertions/promises";
 import { toThrow, toThrowAsync } from "./assertions/throws";
 import { toBeFalsy, toBeNull, toBeTruthy, toBeUndefined } from "./assertions/truthiness";
@@ -80,6 +82,10 @@ export class Assertion<T> {
 		await toReject(this._value, options);
 	}
 
+	toMatchSchema(schema: ZodSchema<any>, options?: AssertionOptions): void {
+		toMatchSchema(this._value, schema, options);
+	}
+
 	get not(): Assertion<T> {
 		return new NotAssertion(this._value, this._message);
 	}
@@ -89,59 +95,86 @@ export class Assertion<T> {
  * Negated assertion
  */
 class NotAssertion<T> extends Assertion<T> {
-	override toEqual(expected: T, options?: AssertionOptions): void {
+	private _negateSync(superCall: () => void, message: string, expected?: unknown, actual?: unknown) {
 		try {
-			super.toEqual(expected, options);
-		} catch (error: unknown) {
-			// Intentionally unused
-			const _unusedError = error;
+			superCall();
+		} catch {
 			return; // Expected to fail
 		}
-		throw new AssertionError(options?.message || "Expected values to not be equal", expected, this._value);
+		throw new AssertionError(message, expected, actual ?? this._value);
+	}
+
+	private async _negateAsync(superCall: () => Promise<void>, message: string, expected?: unknown, actual?: unknown) {
+		try {
+			await superCall();
+		} catch {
+			return; // Expected to fail
+		}
+		throw new AssertionError(message, expected, actual ?? this._value);
+	}
+
+	override toEqual(expected: T, options?: AssertionOptions): void {
+		this._negateSync(() => super.toEqual(expected, options), options?.message || "Expected values to not be equal", expected);
 	}
 
 	override toBe(expected: T, options?: AssertionOptions): void {
-		try {
-			super.toBe(expected, options);
-		} catch (error: unknown) {
-			// Intentionally unused
-			const _unusedError = error;
-			return; // Expected to fail
-		}
-		throw new AssertionError(options?.message || "Expected values to not be strictly equal", expected, this._value);
+		this._negateSync(() => super.toBe(expected, options), options?.message || "Expected values to not be strictly equal", expected);
 	}
 
 	override toBeTruthy(options?: AssertionOptions): void {
-		try {
-			super.toBeTruthy(options);
-		} catch (error: unknown) {
-			// Intentionally unused
-			const _unusedError = error;
-			return; // Expected to fail
-		}
-		throw new AssertionError(options?.message || "Expected value to not be truthy", false, this._value);
+		this._negateSync(() => super.toBeTruthy(options), options?.message || "Expected value to not be truthy", false);
 	}
 
 	override toBeFalsy(options?: AssertionOptions): void {
-		try {
-			super.toBeFalsy(options);
-		} catch (error: unknown) {
-			// Intentionally unused
-			const _unusedError = error;
-			return; // Expected to fail
-		}
-		throw new AssertionError(options?.message || "Expected value to not be falsy", true, this._value);
+		this._negateSync(() => super.toBeFalsy(options), options?.message || "Expected value to not be falsy", true);
 	}
 
 	override toContain(item: unknown, options?: AssertionOptions): void {
+		this._negateSync(() => super.toContain(item, options), options?.message || "Expected array to not contain item", item);
+	}
+
+	override toBeNull(options?: AssertionOptions): void {
+		this._negateSync(() => super.toBeNull(options), options?.message || "Expected value to not be null", null);
+	}
+
+	override toBeUndefined(options?: AssertionOptions): void {
+		this._negateSync(() => super.toBeUndefined(options), options?.message || "Expected value to not be undefined", undefined);
+	}
+
+	override toContainString(substring: string, options?: AssertionOptions): void {
+		this._negateSync(
+			() => super.toContainString(substring, options),
+			options?.message || `Expected string to not contain "${substring}"`,
+			substring
+		);
+	}
+
+	override toBeInstanceOf(expected: any, options?: AssertionOptions): void {
+		this._negateSync(
+			() => super.toBeInstanceOf(expected, options),
+			options?.message || "Expected value to not be instance of class",
+			expected
+		);
+	}
+
+	override async toThrowAsync(options?: AssertionOptions): Promise<void> {
 		try {
-			super.toContain(item, options);
-		} catch (error: unknown) {
-			// Intentionally unused
-			const _unusedError = error;
-			return; // Expected to fail
+			await super.toThrowAsync(options);
+		} catch (error) {
+			if (error instanceof AssertionError) {
+				return; // Expected to fail because the function did not throw.
+			}
+			throw error; // Re-throw unexpected errors.
 		}
-		throw new AssertionError(options?.message || "Expected array to not contain item", item, this._value);
+		throw new AssertionError(options?.message || "Expected function to not throw", "no error", "error thrown");
+	}
+
+	override async toResolve(options?: AssertionOptions): Promise<void> {
+		await this._negateAsync(() => super.toResolve(options), options?.message || "Expected promise to not resolve", "reject", "resolve");
+	}
+
+	override async toReject(options?: AssertionOptions): Promise<void> {
+		await this._negateAsync(() => super.toReject(options), options?.message || "Expected promise to not reject", "resolve", "reject");
 	}
 }
 

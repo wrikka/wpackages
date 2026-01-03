@@ -1,14 +1,11 @@
+import type { QueueConfig, QueueError, TaskQueue } from "@wpackages/queue";
+
 /**
  * Result type - simple discriminated union
  */
 export type Result<E, A> =
 	| { readonly _tag: "Failure"; readonly error: E }
 	| { readonly _tag: "Success"; readonly value: A };
-
-/**
- * Task execution status
- */
-export type TaskStatus = "pending" | "running" | "completed" | "failed" | "cancelled";
 
 /**
  * Task priority levels
@@ -18,8 +15,6 @@ export type TaskPriority = "low" | "normal" | "high" | "critical";
 /**
  * Base task definition
  */
-export type WorkflowContext = Map<string, any>;
-
 export interface Task<T_IN = unknown, T_OUT = unknown, E = Error> {
 	readonly id: string;
 	readonly name: string;
@@ -31,18 +26,46 @@ export interface Task<T_IN = unknown, T_OUT = unknown, E = Error> {
 }
 
 /**
- * Task execution result
+ * Task result definition
  */
 export interface TaskResult<T_OUT = unknown, E = Error> {
-	readonly taskId: string;
-	readonly status: TaskStatus;
-	readonly result?: Result<E, T_OUT> | undefined;
-	readonly startedAt: Date;
-	readonly completedAt?: Date | undefined;
-	readonly duration?: number | undefined;
-	readonly attempts: number;
-	readonly error?: E | undefined;
+    readonly taskId: string;
+    readonly status: "completed" | "failed";
+    readonly result: Result<E, T_OUT> | undefined;
+    readonly startedAt: Date;
+    readonly completedAt: Date;
+    readonly duration: number; // in milliseconds
+    readonly attempts: number;
+    readonly error?: E | undefined;
 }
+
+// Helper functions for Result type
+export function ok<A>(value: A): Result<never, A> {
+    return { _tag: "Success", value };
+}
+
+export function err<E>(error: E): Result<E, never> {
+    return { _tag: "Failure", error };
+}
+
+export function isOk<E, A>(result: Result<E, A>): result is { readonly _tag: "Success"; readonly value: A } {
+    return result._tag === "Success";
+}
+
+export function isErr<E, A>(result: Result<E, A>): result is { readonly _tag: "Failure"; readonly error: E } {
+    return result._tag === "Failure";
+}
+
+export type {
+    QueueConfig,
+    QueueError,
+    TaskQueue
+};
+
+/**
+ * Base task definition
+ */
+export type WorkflowContext = Map<string, any>;
 
 /**
  * Schedule configuration (cron-like)
@@ -66,28 +89,6 @@ export interface ScheduledTask<T_IN = unknown, T_OUT = unknown, E = Error> exten
 	readonly lastRun?: Date | undefined;
 }
 
-/**
- * Queue configuration
- */
-export interface QueueConfig {
-	readonly maxConcurrent?: number | undefined; // max parallel tasks
-	readonly maxRetries?: number | undefined;
-	readonly retryDelay?: number | undefined; // milliseconds
-	readonly timeout?: number | undefined; // milliseconds
-	readonly priority?: boolean | undefined; // enable priority queue
-}
-
-/**
- * Task queue
- */
-export interface TaskQueue<T_OUT = unknown, E = Error> {
-	readonly name: string;
-	readonly config: QueueConfig;
-	readonly pending: Task<any, T_OUT, E>[];
-	readonly running: Task<any, T_OUT, E>[];
-	readonly completed: TaskResult<T_OUT, E>[];
-	readonly failed: TaskResult<T_OUT, E>[];
-}
 
 /**
  * Workflow step
@@ -148,14 +149,6 @@ export interface ScheduleError {
 	readonly cause?: Error | undefined;
 }
 
-export interface QueueError {
-	readonly name: "QueueError";
-	readonly message: string;
-	readonly queueName?: string | undefined;
-	readonly code?: string | undefined;
-	readonly metadata?: Record<string, unknown> | undefined;
-	readonly cause?: Error | undefined;
-}
 
 export interface WorkflowError {
 	readonly name: "WorkflowError";

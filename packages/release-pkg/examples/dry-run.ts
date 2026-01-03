@@ -20,4 +20,4 @@ async function main() {
 	console.log(`Would be published: ${result.published}`);
 }
 
-main();
+void main();

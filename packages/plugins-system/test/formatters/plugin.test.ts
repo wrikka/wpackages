@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PluginState } from "../../src/types";
-import { formatPluginInfo, formatDate, formatStatus } from "../../src/utils/format.utils";
+import { formatDate, formatPluginInfo, formatStatus } from "../../src/utils/format.utils";
 
 describe("Format Utils - formatPluginInfo", () => {
 	it("should format plugin info with all fields", () => {

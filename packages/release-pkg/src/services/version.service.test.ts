@@ -17,8 +17,8 @@ describe("VersionService", () => {
 	let service: VersionService;
 
 	beforeEach(() => {
-		service = new VersionService();
 		vi.clearAllMocks();
+		service = new VersionService();
 	});
 
 	afterEach(() => {
@@ -28,14 +28,12 @@ describe("VersionService", () => {
 	describe("getCurrentVersion", () => {
 		it("should return version from package.json", async () => {
 			mockReadFile.mockResolvedValue(JSON.stringify({ version: "1.2.3" }));
-
 			const version = await service.getCurrentVersion();
 			expect(version).toBe("1.2.3");
 		});
 
 		it("should return 0.0.0 if version is missing", async () => {
 			mockReadFile.mockResolvedValue(JSON.stringify({}));
-
 			const version = await service.getCurrentVersion();
 			expect(version).toBe("0.0.0");
 		});
@@ -44,7 +42,6 @@ describe("VersionService", () => {
 			mockReadFile.mockResolvedValue(
 				JSON.stringify({ version: "not-a-version" }),
 			);
-
 			await expect(service.getCurrentVersion()).rejects.toThrow(
 				"Invalid version",
 			);
@@ -52,7 +49,6 @@ describe("VersionService", () => {
 
 		it("should throw on read error", async () => {
 			mockReadFile.mockRejectedValue(new Error("File not found"));
-
 			await expect(service.getCurrentVersion()).rejects.toThrow(
 				"Failed to read package.json",
 			);
@@ -105,12 +101,10 @@ describe("VersionService", () => {
 		it("should update package.json with new version", async () => {
 			const packageJson = { name: "test", version: "1.0.0" };
 			mockReadFile.mockResolvedValue(JSON.stringify(packageJson));
-
 			await service.updatePackageJson("2.0.0");
-
 			expect(mockWriteFile).toHaveBeenCalledWith(
 				expect.stringContaining("package.json"),
-				expect.stringContaining("\"version\": \"2.0.0\""),
+				expect.stringContaining('"version": "2.0.0"'),
 			);
 		});
 
@@ -123,7 +117,6 @@ describe("VersionService", () => {
 		it("should throw on write error", async () => {
 			mockReadFile.mockResolvedValue(JSON.stringify({ version: "1.0.0" }));
 			mockWriteFile.mockRejectedValue(new Error("Write failed"));
-
 			await expect(service.updatePackageJson("2.0.0")).rejects.toThrow(
 				"Failed to update package.json",
 			);
@@ -135,14 +128,12 @@ describe("VersionService", () => {
 			mockReadFile.mockResolvedValue(
 				JSON.stringify({ name: "test-package", version: "1.0.0" }),
 			);
-
 			const info = await service.getPackageInfo();
 			expect(info).toEqual({ name: "test-package", version: "1.0.0" });
 		});
 
 		it("should throw if name is missing", async () => {
 			mockReadFile.mockResolvedValue(JSON.stringify({ version: "1.0.0" }));
-
 			await expect(service.getPackageInfo()).rejects.toThrow(
 				"missing 'name' field",
 			);
@@ -150,7 +141,6 @@ describe("VersionService", () => {
 
 		it("should handle missing version", async () => {
 			mockReadFile.mockResolvedValue(JSON.stringify({ name: "test" }));
-
 			const info = await service.getPackageInfo();
 			expect(info.version).toBe("0.0.0");
 		});

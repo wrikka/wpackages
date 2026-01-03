@@ -33,6 +33,7 @@ async function completeWorkflow() {
 	// 2. Get current state
 	console.log("2️⃣ Getting current state...");
 	const version = new VersionService();
+	void main(); // <--- Added void operator here
 	const currentVersion = await version.getCurrentVersion();
 	const packageInfo = await version.getPackageInfo();
 

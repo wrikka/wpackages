@@ -2,6 +2,8 @@
  * Assertion error and helpers
  */
 
+import { createDiff } from "./diff";
+
 /**
  * Assertion error
  */
@@ -11,7 +13,8 @@ export class AssertionError extends Error {
 		public expected?: unknown,
 		public actual?: unknown,
 	) {
-		super(message);
+		const diff = createDiff(expected, actual);
+		super(message + diff);
 		this.name = "AssertionError";
 	}
 }

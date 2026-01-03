@@ -2,8 +2,21 @@
 	"extends": "./../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "./dist",
-		"types": ["vitest/globals", "bun-types"]
+		"types": [
+			"bun-types",
+			"node"
+		],
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
 	},
-	"include": ["src"],
-	"exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.usage.ts"]
+	"include": [
+		"src",
+		"src/globals.d.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"**/*.test.ts",
+		"**/*.usage.ts"
+	]
 }

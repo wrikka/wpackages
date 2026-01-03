@@ -1,3 +1,5 @@
+import type { Plugin } from "./plugin";
+
 export type ReleaseType =
 	| "major"
 	| "minor"
@@ -47,6 +49,18 @@ export type ChangelogEntry = {
 	others: Commit[];
 };
 
+export type ChangelogRenderContext = {
+	version: string;
+	date: string;
+	commits: Commit[];
+	breaking: Commit[];
+	features: Commit[];
+	fixes: Commit[];
+	others: Commit[];
+};
+
+export type ChangelogRenderer = (context: ChangelogRenderContext) => string | Promise<string>;
+
 export type ReleaseOptions = {
 	type?: ReleaseType | undefined;
 	version?: string | undefined;
@@ -62,6 +76,8 @@ export type ReleaseOptions = {
 	postScript?: string | undefined;
 	verbose?: boolean | undefined;
 	silent?: boolean | undefined;
+	plugins?: Plugin[] | undefined;
+	changelog?: ChangelogRenderer | undefined;
 };
 
 export type ReleaseResult = {

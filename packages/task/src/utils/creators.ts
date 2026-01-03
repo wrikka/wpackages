@@ -1,5 +1,5 @@
 import type { Result, Schedule } from "../types";
-import type { QueueError, ScheduleError, Task, TaskError, TaskPriority, WorkflowError } from "../types";
+import type { ScheduleError, Task, TaskError, TaskPriority, WorkflowError } from "../types";
 
 /**
  * Create a task
@@ -66,28 +66,6 @@ export function scheduleError(
 		name: "ScheduleError",
 		message,
 		schedule: options?.schedule,
-		code: options?.code,
-		metadata: options?.metadata,
-		cause: options?.cause,
-	};
-}
-
-/**
- * Create queue error
- */
-export function queueError(
-	message: string,
-	options?: {
-		queueName?: string;
-		code?: string;
-		metadata?: Record<string, unknown>;
-		cause?: Error;
-	},
-): QueueError {
-	return {
-		name: "QueueError",
-		message,
-		queueName: options?.queueName,
 		code: options?.code,
 		metadata: options?.metadata,
 		cause: options?.cause,

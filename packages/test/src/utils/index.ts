@@ -11,6 +11,7 @@ export * from "./assertions/promises";
 export * from "./assertions/throws";
 export * from "./assertions/truthiness";
 export * from "./assertions/types";
+export * from "./assertions/schema";
 
 // Error
 export { AssertionError } from "./error";
@@ -38,3 +39,7 @@ export { batch, delay, race, retry, sequential, waitFor, withTimeout } from "./a
 
 // File Discovery
 export { findTestFiles } from "./file-discovery";
+
+// E2E Helpers
+export { waitForElement } from "./e2e";
+export type { WaitForElementOptions } from "./e2e";

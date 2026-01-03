@@ -18,4 +18,4 @@ async function main() {
 	console.log("📦 You can manually publish with: npm publish");
 }
 
-main();
+void main();

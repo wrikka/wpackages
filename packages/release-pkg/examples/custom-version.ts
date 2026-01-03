@@ -16,4 +16,4 @@ async function main() {
 	console.log(`✅ Released specific version: ${result.version}`);
 }
 
-main();
+void main();

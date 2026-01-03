@@ -8,18 +8,18 @@ import type { Schedule } from "../types";
 import { parseSchedule } from "./scheduler";
 
 function runExample(description: string, schedule: Schedule, fromDate: Date) {
-    console.log(`--- ${description} ---`);
-    console.log(`Schedule: ${JSON.stringify(schedule)}`);
-    console.log(`From Date: ${fromDate.toISOString()}`);
+	console.log(`--- ${description} ---`);
+	console.log(`Schedule: ${JSON.stringify(schedule)}`);
+	console.log(`From Date: ${fromDate.toISOString()}`);
 
-    const result = parseSchedule(schedule, fromDate);
+	const result = parseSchedule(schedule, fromDate);
 
-    if (result._tag === "Success") {
-        console.log(`Next Run Time: ${result.value.toISOString()}`);
-    } else {
-        console.error(`Error: ${result.error.message} (Code: ${result.error.code})`);
-    }
-    console.log("\n");
+	if (result._tag === "Success") {
+		console.log(`Next Run Time: ${result.value.toISOString()}`);
+	} else {
+		console.error(`Error: ${result.error.message} (Code: ${result.error.code})`);
+	}
+	console.log("\n");
 }
 
 const fromDate = new Date("2024-03-10T15:00:00.000Z"); // A Sunday

@@ -7,6 +7,5 @@ describe("Features Performance", () => {
 			const mockFn = createMock<() => number>(() => 42);
 			mockFn.mockReturnValue(100);
 		});
-
 	});
 });

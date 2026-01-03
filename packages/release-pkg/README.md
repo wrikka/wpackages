@@ -143,14 +143,14 @@ Here's a simple plugin that logs each lifecycle event.
 import type { Plugin } from "@wpackages/release-pkg";
 
 export const LifecycleLoggerPlugin: Plugin = {
-  name: 'lifecycle-logger-plugin',
-  hooks: {
-    start: (ctx) => console.log(`Starting release for ${ctx.options.type}`),
-    'after:bumpVersion': (ctx) => {
-      console.log(`Version bumped to ${ctx.result.version}`);
-    },
-    end: () => console.log('Release finished!'),
-  },
+	name: "lifecycle-logger-plugin",
+	hooks: {
+		start: (ctx) => console.log(`Starting release for ${ctx.options.type}`),
+		"after:bumpVersion": (ctx) => {
+			console.log(`Version bumped to ${ctx.result.version}`);
+		},
+		end: () => console.log("Release finished!"),
+	},
 };
 ```
 
@@ -163,8 +163,8 @@ import { release } from "@wpackages/release-pkg";
 import { LifecycleLoggerPlugin } from "./plugins/logger.plugin";
 
 await release({
-  type: "patch",
-  plugins: [LifecycleLoggerPlugin],
+	type: "patch",
+	plugins: [LifecycleLoggerPlugin],
 });
 ```
 
@@ -180,8 +180,8 @@ Instead of Markdown, you can output the changelog as JSON.
 import type { ChangelogRenderer } from "@wpackages/release-pkg";
 
 export const jsonChangelogRenderer: ChangelogRenderer = (context) => {
-  // context contains: version, date, commits, breaking, features, fixes, others
-  return JSON.stringify(context, null, 2);
+	// context contains: version, date, commits, breaking, features, fixes, others
+	return JSON.stringify(context, null, 2);
 };
 ```
 
@@ -194,8 +194,8 @@ import { release } from "@wpackages/release-pkg";
 import { jsonChangelogRenderer } from "./renderers/json.renderer";
 
 await release({
-  type: "patch",
-  changelog: jsonChangelogRenderer,
+	type: "patch",
+	changelog: jsonChangelogRenderer,
 });
 ```
 
