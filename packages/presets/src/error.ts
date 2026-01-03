@@ -8,5 +8,4 @@ export class CustomError extends Error {
 	}
 }
 
-export const logError = (error: Error) =>
-	Effect.flatMap(Logger, (logger) => logger.log(`[Error] ${error.message}`));
+export const logError = (error: Error) => Effect.flatMap(Logger, (logger) => logger.log(`[Error] ${error.message}`));

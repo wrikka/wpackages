@@ -1,29 +1,19 @@
 /**
- * @wts/test - Type-safe, functional testing framework
+ * @wpackages/test - Type-safe, functional testing framework
  */
 
+// Core test functions and hooks
+export { describe, it, test, beforeAll, afterAll } from './core/globals';
+
+// Mocking and spying utilities
+export { w } from './core/w';
+
+// Assertion library
+export { expect } from './utils/assertions';
+
+// All other utilities (diff, async helpers, etc.)
+export * from './utils';
+
 // Core types
-export type * from "./types";
+export type * from './types';
 
-// Configuration
-export type { TestConfig } from "./config";
-export { defineConfig } from "./config";
-
-// Constants
-export * from "./constant";
-
-// Core assertion logic
-export * from "./components";
-
-// All testing utilities
-export * from "./utils";
-
-// Reporter services
-export * from "./services";
-
-// Property-Based Testing
-export * as fc from "fast-check";
-export { it } from "./property";
-
-// Note: Core vitest utilities (describe, test, etc.) should be imported directly from 'vitest'
-// Example: import { describe, test } from 'vitest'

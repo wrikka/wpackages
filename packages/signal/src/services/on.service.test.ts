@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { createEffect } from "./effect.scope";
 import { createSignal } from "../utils/signal.util";
+import { createEffect } from "./effect.scope";
 import { on } from "./watch.service";
 
 describe("on", () => {

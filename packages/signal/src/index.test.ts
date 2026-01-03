@@ -1,13 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import {
-	batch,
-	createEffect,
-	createEffectScope,
-	createMemo,
-	createSignal,
-	onCleanup,
-	watch,
-} from "./index";
+import { batch, createEffect, createEffectScope, createMemo, createSignal, onCleanup, watch } from "./index";
 
 describe("reactivity", () => {
 	it("should create and update signals", () => {

@@ -5,7 +5,7 @@
 /**
  * Mock function
  */
-export interface MockFn<T extends (...args: unknown[]) => unknown> {
+export interface MockFn<T extends (...args: any[]) => any> {
 	(...args: Parameters<T>): ReturnType<T>;
 	calls: Parameters<T>[];
 	results: ReturnType<T>[];
@@ -23,7 +23,7 @@ export interface MockFn<T extends (...args: unknown[]) => unknown> {
 /**
  * Create mock function
  */
-export const createMock = <T extends (...args: unknown[]) => unknown>(
+export const createMock = <T extends (...args: any[]) => any>(
 	implementation?: T,
 ): MockFn<T> => {
 	let returnValue: ReturnType<T> | undefined;

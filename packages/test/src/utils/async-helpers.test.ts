@@ -1,6 +1,5 @@
-import { describe, it } from "vitest";
-import { expect } from "./assertions";
-import { delay, retry, waitFor, withTimeout } from "./async-helpers";
+import { describe, it, expect } from '../index';
+import { delay, waitFor, retry, withTimeout } from './async-helpers';
 
 describe("Async helpers", () => {
 	describe("delay", () => {

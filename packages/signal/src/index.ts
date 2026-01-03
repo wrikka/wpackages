@@ -5,8 +5,8 @@
  */
 
 // Public APIs
-export { createSignal } from "./apis/signal";
 export { createMemo } from "./apis/memo";
+export { createSignal } from "./apis/signal";
 
 // Core services (can be used for advanced cases)
 export * from "./services/batch.service";
@@ -18,4 +18,3 @@ export * from "./services/watch.service";
 
 // Types
 export * from "./types";
-

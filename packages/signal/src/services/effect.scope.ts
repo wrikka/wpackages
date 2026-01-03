@@ -1,4 +1,4 @@
-import type { Effect, EffectCleanup, OnCleanup, EffectScope } from "../types";
+import type { Effect, EffectCleanup, EffectScope, OnCleanup } from "../types";
 
 const effectStack: Effect[] = [];
 export let currentEffect: Effect | null = null;

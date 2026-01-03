@@ -11,7 +11,7 @@ export function track(target: object, key: any): void {
 			depsMap = new Map();
 			targetMap.set(target, depsMap);
 		}
-		let dep = depsMap.get(key) as Set<() => void> & { add: (effect: import('../types').Effect) => void };
+		let dep = depsMap.get(key) as Set<() => void> & { add: (effect: import("../types").Effect) => void };
 		if (!dep) {
 			dep = new Set();
 			depsMap.set(key, dep);

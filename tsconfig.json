@@ -10,9 +10,7 @@
 				"./services/*/src",
 				"./apps/*/src"
 			],
-			"@w/*": [
-				"./rules/*"
-			]
+			"@w/*": ["./rules/*"]
 		},
 		"composite": false,
 		"downlevelIteration": true,

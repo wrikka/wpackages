@@ -4,7 +4,7 @@
  */
 
 import { findNodesByType } from "@wpackages/parser";
-import type { CallExpression, MemberExpression, Identifier } from "oxc-parser";
+import type { CallExpression, Identifier, MemberExpression } from "oxc-parser";
 import { createMessage, createRule } from "../components";
 import type { LintMessage, Rule } from "../types";
 
@@ -47,8 +47,8 @@ export const noConsole: Rule = createRule(
 					`Unexpected console.${member.name}() statement`,
 					"warning",
 					node.loc.start.line,
-					node.loc.start.column
-				)
+					node.loc.start.column,
+				),
 			);
 		}
 

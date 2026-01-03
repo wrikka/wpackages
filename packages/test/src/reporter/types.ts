@@ -1,8 +1,8 @@
 export type TestStatus = "passed" | "failed";
 
 export interface SerializableError {
-    message: string;
-    stack?: string;
+	message: string;
+	stack?: string;
 }
 
 export interface TestResult {

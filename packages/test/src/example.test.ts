@@ -1,3 +1,5 @@
+import { describe, it, test, expect, beforeAll, afterAll } from './index';
+
 describe("Example Suite", () => {
 	beforeAll(() => {
 		console.log("-> beforeAll: Example Suite");

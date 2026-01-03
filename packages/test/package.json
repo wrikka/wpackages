@@ -20,8 +20,8 @@
 		"format": "dprint fmt",
 		"lint": "oxlint --fix --type-aware",
 		"review": "bun run lint && bun run test && bun run build",
-		"test": "bun --preload ./src/setup.ts ./bin/wtest.mjs",
-		"test:watch": "bun --preload ./src/setup.ts ./bin/wtest.mjs --watch",
+		"test": "bun ./bin/wtest.mjs",
+		"test:watch": "bun ./bin/wtest.mjs --watch",
 		"clean": "rm -rf dist .tsbuildinfo coverage",
 		"prepublishOnly": "bun run clean && bun run build"
 	},
