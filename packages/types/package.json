@@ -1,0 +1,27 @@
+{
+  "name": "@wpackages/types",
+  "version": "0.1.0",
+  "description": "Shared types for wpackages workspace",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown --exports --dts --minify"
+  },
+  "dependencies": {
+    "@effect/schema": "^0.75.5"
+  },
+  "devDependencies": {
+    "tsdown": "^0.18.4",
+    "typescript": "^5.9.3"
+  }
+}

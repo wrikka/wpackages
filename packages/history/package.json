@@ -1,0 +1,26 @@
+{
+  "name": "@wpackages/history",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./browser": "./dist/browser.js",
+    "./hash": "./dist/hash.js"
+  },
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build ./src/index.ts ./src/browser.ts ./src/hash.ts --outdir dist",
+    "test": "bun test --dom",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "latest",
+    "happy-dom": "^20.0.11",
+    "oxlint": "^1.36.0",
+    "typescript": "^5.9.3"
+  }
+}

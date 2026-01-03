@@ -1,0 +1,22 @@
+{
+  "name": "@wpackages/api-builder",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run examples/app.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "lint": "echo 'lint not configured'",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@effect/schema": "^0.75.5",
+    "effect": "^3.19.14"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "engines": {
+    "bun": ">= 1.0.0"
+  }
+}

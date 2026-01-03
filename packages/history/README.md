@@ -13,13 +13,13 @@ This is an internal package and does not require installation from an external r
 For most use cases, you can import the singleton browser history instance.
 
 ```typescript
-import history from '@wpackages/history/browser';
+import history from "@wpackages/history/browser";
 ```
 
 If you need to create your own instance (e.g., for an iframe), you can use the factory function:
 
 ```typescript
-import { createBrowserHistory } from '@wpackages/history';
+import { createBrowserHistory } from "@wpackages/history";
 
 const history = createBrowserHistory();
 
@@ -28,11 +28,11 @@ const location = history.location;
 
 // Listen for changes to the current location.
 const unlisten = history.listen(({ location, action }) => {
-  console.log(action, location.pathname, location.state);
+	console.log(action, location.pathname, location.state);
 });
 
 // Use push to push a new entry onto the history stack.
-history.push('/home', { some: 'state' });
+history.push("/home", { some: "state" });
 
 // To stop listening, call the function returned from listen().
 unlisten();
@@ -43,13 +43,13 @@ unlisten();
 For most use cases, you can import the singleton hash history instance.
 
 ```typescript
-import history from '@wpackages/history/hash';
+import history from "@wpackages/history/hash";
 ```
 
 If you need to create your own instance, you can use the factory function:
 
 ```typescript
-import { createHashHistory } from '@wpackages/history';
+import { createHashHistory } from "@wpackages/history";
 
 const history = createHashHistory();
 ```
@@ -57,7 +57,7 @@ const history = createHashHistory();
 ### Memory History
 
 ```typescript
-import { createMemoryHistory } from '@wpackages/history';
+import { createMemoryHistory } from "@wpackages/history";
 
 const history = createMemoryHistory();
 ```

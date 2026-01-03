@@ -1,0 +1,18 @@
+{
+	"name": "@wpackages/queue",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"format": "dprint fmt",
+		"lint": "oxlint --fix",
+		"test": "bun test",
+		"verify": "bun run format && bun run lint && bun run test"
+	},
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"dependencies": {
+		"@wpackages/task": "workspace:*",
+		"effect": "^3.19.14"
+	}
+}

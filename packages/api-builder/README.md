@@ -38,56 +38,55 @@ Here's a complete example of how to define an API on the server and call it from
 ### Server-side (`server.ts`)
 
 ```typescript
-import { Effect } from 'effect';
-import * as Schema from '@effect/schema/Schema';
-import { builder, createServer } from '@wpackages/api-builder';
+import * as Schema from "@effect/schema/Schema";
+import { builder, createServer } from "@wpackages/api-builder";
+import { Effect } from "effect";
 
 // 1. Define your data schemas
 const User = Schema.Struct({
-  id: Schema.Number,
-  name: Schema.String,
+	id: Schema.Number,
+	name: Schema.String,
 });
 
 // 2. Build your API definition
 export const api = builder()
-  .post('getUser', '/user', { // The key 'getUser' is used for the client
-    schema: {
-      response: User,
-    },
-    handler: () => Effect.succeed({ id: 1, name: 'John Doe' }),
-  })
-  .build();
+	.post("getUser", "/user", { // The key 'getUser' is used for the client
+		schema: {
+			response: User,
+		},
+		handler: () => Effect.succeed({ id: 1, name: "John Doe" }),
+	})
+	.build();
 
 // 3. Export the API type for end-to-end type safety
 export type ApiType = typeof api;
 
 // 4. Create and start the server
 createServer(api);
-console.log('Server running at http://localhost:3000');
+console.log("Server running at http://localhost:3000");
 ```
 
 ### Client-side (`client.ts`)
 
 ```typescript
-import { createClient } from '@wpackages/api-builder';
+import { createClient } from "@wpackages/api-builder";
 // Import the API definition and type from the server code
-import { api, ApiType } from './server';
+import { api, ApiType } from "./server";
 
 // 1. Create a type-safe client
-const client = createClient<ApiType>('http://localhost:3000', api);
+const client = createClient<ApiType>("http://localhost:3000", api);
 
 async function main() {
-  try {
-    // 2. Make a type-safe API call
-    const user = await client.getUser(undefined); // No body is needed
-    console.log('Fetched user:', user); // -> { id: 1, name: 'John Doe' }
+	try {
+		// 2. Make a type-safe API call
+		const user = await client.getUser(undefined); // No body is needed
+		console.log("Fetched user:", user); // -> { id: 1, name: 'John Doe' }
 
-    // The following would be a TypeScript error:
-    // const wrong = await client.getUsers(undefined);
-
-  } catch (error) {
-    console.error('API call failed:', error);
-  }
+		// The following would be a TypeScript error:
+		// const wrong = await client.getUsers(undefined);
+	} catch (error) {
+		console.error("API call failed:", error);
+	}
 }
 
 main();
