@@ -18,6 +18,12 @@ pub enum Commands {
         #[arg(short, long)]
         scope: Option<String>,
     },
+    Changed {
+        #[arg(long, default_value = "HEAD~1")]
+        since: String,
+    },
     /// Initialize a new wmo-repo configuration
     Init,
+    /// Check for common problems in the monorepo
+    Doctor,
 }

@@ -1,4 +1,5 @@
 import type { Logger } from "../utils/logger";
+import { getPerformanceRecommendations } from "./performance-recommendations";
 
 export type PerformanceStats = {
 	readonly startTime: number;
@@ -12,6 +13,8 @@ export type PerformanceStats = {
 
 export type PerformanceMonitor = {
 	readonly start: () => void;
+	readonly stop: () => void;
+	readonly reset: () => void;
 	readonly recordReload: (duration: number) => void;
 	readonly recordFileEvent: () => void;
 	readonly getStats: () => PerformanceStats;
@@ -31,6 +34,20 @@ export const createPerformanceMonitor = (
 
 	const start = (): void => {
 		logger.info("Performance monitoring started");
+	};
+
+	const stop = (): void => {
+		logger.info("Performance monitoring stopped");
+	};
+
+	const reset = (): void => {
+		totalReloads = 0;
+		totalFileEvents = 0;
+		totalReloadTime = 0;
+		maxReloadTime = 0;
+		minReloadTime = Infinity;
+		watchedFiles = 0;
+		logger.info("Performance metrics reset");
 	};
 
 	const recordReload = (duration: number): void => {
@@ -55,32 +72,13 @@ export const createPerformanceMonitor = (
 	});
 
 	const getRecommendations = (): string[] => {
-		const recommendations: string[] = [];
-		const stats = getStats();
-
-		if (stats.totalFileEvents > 1000) {
-			recommendations.push(
-				"Consider adding more ignore patterns to reduce file watching overhead",
-			);
-		}
-
-		if (stats.averageReloadTime > 1000) {
-			recommendations.push(
-				"Average reload time is high, consider optimizing your build process",
-			);
-		}
-
-		if (stats.watchedFiles > 10000) {
-			recommendations.push(
-				"Watching too many files, consider reducing the scope of file watching",
-			);
-		}
-
-		return recommendations;
+		return getPerformanceRecommendations(getStats());
 	};
 
 	return {
 		start,
+		stop,
+		reset,
 		recordReload,
 		recordFileEvent,
 		getStats,

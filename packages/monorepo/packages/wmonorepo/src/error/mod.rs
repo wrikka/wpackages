@@ -8,6 +8,8 @@ pub enum AppError {
     Json(#[from] serde_json::Error),
     #[error("Request Error: {0}")]
     Reqwest(#[from] reqwest::Error),
+    #[error("Regex Error: {0}")]
+    Regex(#[from] regex::Error),
     #[error("Task failed: {0}")]
     Task(String),
     #[error("Cache Error: {0}")]
@@ -26,6 +28,8 @@ pub enum AppError {
     CircularDependency(String),
     #[error("Unknown error: {0}")]
     Unknown(String),
+    #[error("Doctor check failed: {0}")]
+    Doctor(String),
 }
 
 pub type AppResult<T> = Result<T, AppError>;
