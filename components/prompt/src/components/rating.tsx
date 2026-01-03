@@ -1,10 +1,11 @@
-import { usePrompt } from "@/context";
-import { PromptDescriptor, RatingPromptOptions } from "@/types";
 import { Box, Text, useInput } from "ink";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { PromptDescriptor, RatingPromptOptions } from "../types";
 
 export const RatingPromptComponent: React.FC<RatingPromptOptions> = ({ message, max = 5, character = "★" }) => {
 	const { value, setValue, submit } = usePrompt<number>();
+	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
@@ -18,12 +19,13 @@ export const RatingPromptComponent: React.FC<RatingPromptOptions> = ({ message, 
 
 	const stars = Array.from({ length: max }, (_, i) => {
 		const isFilled = i < value;
-		return <Text key={i} color={isFilled ? "yellow" : "gray"}>{character}</Text>;
+		const coloredChar = isFilled ? theme.colors.primary(character) : theme.colors.secondary(character);
+		return <Text key={i}>{coloredChar}</Text>;
 	});
 
 	return (
 		<Box>
-			<Text>{message}</Text>
+			<Text>{theme.colors.message(message)}</Text>
 			{stars}
 		</Box>
 	);

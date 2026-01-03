@@ -1,6 +1,7 @@
 import { renderer as legacyRenderer } from "@/services"; // Keep legacy for now
-import { PromptDescriptor } from "@/types";
+import { PromptDescriptor, PromptTheme } from "@/types";
 import React, { createContext, PropsWithChildren, useContext, useState } from "react";
+import { ThemeProvider } from "./theme-context";
 
 export type PromptState = "active" | "submitting" | "submitted" | "cancelled";
 
@@ -52,8 +53,13 @@ export function PromptProvider<T>(
 	);
 }
 
+interface PromptOptions {
+	theme?: Partial<PromptTheme>;
+}
+
 export function prompt<T>(
 	descriptor: PromptDescriptor<T, any>,
+	options: PromptOptions = {},
 ): Promise<T | symbol> {
 	return new Promise((resolve) => {
 		const onCancel = () => {
@@ -67,13 +73,15 @@ export function prompt<T>(
 		};
 
 		legacyRenderer.render(
-			<PromptProvider
-				initialValue={descriptor.initialValue}
-				onSubmit={onSubmit}
-				onCancel={onCancel}
-			>
-				<descriptor.Component {...descriptor.props} />
-			</PromptProvider>,
+			<ThemeProvider theme={options.theme}>
+				<PromptProvider
+					initialValue={descriptor.initialValue}
+					onSubmit={onSubmit}
+					onCancel={onCancel}
+				>
+					<descriptor.Component {...descriptor.props} />
+				</PromptProvider>
+			</ThemeProvider>,
 		);
 	});
 }

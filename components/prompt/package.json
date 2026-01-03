@@ -16,12 +16,20 @@
 		"example": "bun run examples/basic.tsx",
 		"example:autocomplete": "bun run examples/autocomplete.tsx",
 		"showcase": "bun run examples/showcase.tsx",
+		"example:theming": "bun run examples/theming.tsx",
+		"example:debug": "bun run examples/debug.tsx",
 		"example:group": "bun run src/examples/group.tsx",
 		"test": "vitest --run",
 		"format": "dprint fmt",
 		"verify": "bun format && bun lint && bun test && bun audit && bun build"
 	},
-	"keywords": ["cli", "prompt", "cli-components", "terminal", "clack"],
+	"keywords": [
+		"cli",
+		"prompt",
+		"cli-components",
+		"terminal",
+		"clack"
+	],
 	"author": "wrikka",
 	"license": "MIT",
 	"devDependencies": {
@@ -32,6 +40,7 @@
 	},
 	"dependencies": {
 		"@types/react": "^19.2.7",
+		"deepmerge-ts": "^7.1.5",
 		"effect": "^3.19.14",
 		"ink": "^6.6.0",
 		"ink-spinner": "^5.0.0",

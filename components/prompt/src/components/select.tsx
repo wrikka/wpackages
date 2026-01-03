@@ -1,12 +1,13 @@
-import { usePrompt } from "@/context";
-import { useInput } from "@/hooks";
-import { PromptDescriptor, SelectPromptOptions } from "@/types";
 import { Box, Text } from "ink";
 import React, { useState } from "react";
+import { usePrompt, useTheme } from "../context";
+import { useInput } from "../hooks";
+import { PromptDescriptor, SelectPromptOptions } from "../types";
 
 export const SelectPromptComponent = <T,>({ message, options }: SelectPromptOptions<T>) => {
 	const { submit } = usePrompt<T>();
 	const [activeIndex, setActiveIndex] = useState(0);
+	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
@@ -22,15 +23,20 @@ export const SelectPromptComponent = <T,>({ message, options }: SelectPromptOpti
 
 	return (
 		<Box flexDirection="column">
-			<Text>{message}</Text>
-			{options.map((option, index) => (
-				<Box key={option.label}>
-					<Text color={activeIndex === index ? "cyan" : "gray"}>
-						{activeIndex === index ? "❯" : " "} {option.label}
-					</Text>
-					{option.hint && <Text color="gray">({option.hint})</Text>}
-				</Box>
-			))}
+			<Text>{theme.colors.message(message)}</Text>
+			{options.map((option, index) => {
+				const isSelected = activeIndex === index;
+				const pointer = isSelected ? theme.symbols.pointer : " ";
+				const label = `${pointer} ${option.label}`;
+				const coloredLabel = isSelected ? theme.colors.primary(label) : theme.colors.secondary(label);
+
+				return (
+					<Box key={option.label}>
+						<Text>{coloredLabel}</Text>
+						{option.hint && <Text>{theme.colors.secondary(`(${option.hint})`)}</Text>}
+					</Box>
+				);
+			})}
 		</Box>
 	);
 };

@@ -1,11 +1,12 @@
-import { usePrompt } from "@/context";
-import { PromptDescriptor, TimePromptOptions } from "@/types";
 import { Box, Text, useInput } from "ink";
 import React, { useState } from "react";
+import { usePrompt, useTheme } from "../context";
+import { PromptDescriptor, TimePromptOptions } from "../types";
 
 export const TimePromptComponent: React.FC<TimePromptOptions> = ({ message }) => {
 	const { value: time, setValue: setTime, submit } = usePrompt<Date>();
 	const [activePart, setActivePart] = useState<"h" | "m" | "s">("h");
+	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
@@ -31,14 +32,18 @@ export const TimePromptComponent: React.FC<TimePromptOptions> = ({ message }) =>
 
 	const format = (num: number) => num.toString().padStart(2, "0");
 
+	const h = format(time.getHours());
+	const m = format(time.getMinutes());
+	const s = format(time.getSeconds());
+
 	return (
 		<Box>
-			<Text>{message}</Text>
-			<Text color={activePart === "h" ? "cyan" : "gray"}>{format(time.getHours())}</Text>
-			<Text>:</Text>
-			<Text color={activePart === "m" ? "cyan" : "gray"}>{format(time.getMinutes())}</Text>
-			<Text>:</Text>
-			<Text color={activePart === "s" ? "cyan" : "gray"}>{format(time.getSeconds())}</Text>
+			<Text>{theme.colors.message(message)}</Text>
+			<Text>{activePart === "h" ? theme.colors.primary(h) : theme.colors.secondary(h)}</Text>
+			<Text>{theme.colors.secondary(":")}</Text>
+			<Text>{activePart === "m" ? theme.colors.primary(m) : theme.colors.secondary(m)}</Text>
+			<Text>{theme.colors.secondary(":")}</Text>
+			<Text>{activePart === "s" ? theme.colors.primary(s) : theme.colors.secondary(s)}</Text>
 		</Box>
 	);
 };

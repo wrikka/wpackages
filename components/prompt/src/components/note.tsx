@@ -1,29 +1,40 @@
-import { usePrompt } from "@/context";
-import { NotePromptOptions, PromptDescriptor } from "@/types";
 import { Box, Text } from "ink";
-import React, { useEffect } from "react";
+import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { useInput } from "../hooks";
+import { NotePromptOptions, PromptDescriptor } from "../types";
 
-const typeConfig = {
-	info: { color: "blue", symbol: "ℹ" },
-	success: { color: "green", symbol: "✔" },
-	warning: { color: "yellow", symbol: "⚠" },
-	error: { color: "red", symbol: "✖" },
-};
-
-export const NoteComponent: React.FC<NotePromptOptions> = ({ title, message, type = "info" }) => {
+export const NoteComponent: React.FC<NotePromptOptions> = ({ title, message, type: noteType = "info" }) => {
 	const { submit } = usePrompt<void>();
+	const theme = useTheme();
 
-	useEffect(() => {
-		// Notes are display-only, so we submit immediately.
-		submit();
-	}, [submit]);
+	useInput((_, key) => {
+		if (key.return) {
+			submit();
+		}
+	});
 
-	const { color, symbol } = typeConfig[type];
+	const typeSymbolMap = {
+		info: theme.symbols.info,
+		success: theme.symbols.check,
+		warning: theme.symbols.warning,
+		error: theme.symbols.cross,
+	};
+
+	const typeColorMap = {
+		info: theme.colors.info,
+		success: theme.colors.success,
+		warning: theme.colors.warning,
+		error: theme.colors.error,
+	};
+
+	const symbol = typeSymbolMap[noteType];
+	const colorFn = typeColorMap[noteType];
 
 	return (
-		<Box borderStyle="round" borderColor={color} paddingX={1} flexDirection="column">
+		<Box borderStyle="round" borderColor={colorFn(" ")} paddingX={1} flexDirection="column">
 			<Box>
-				<Text color={color}>{symbol}</Text>
+				<Text>{colorFn(symbol)}</Text>
 				{title && <Text bold>{title}</Text>}
 			</Box>
 			<Text>{message}</Text>

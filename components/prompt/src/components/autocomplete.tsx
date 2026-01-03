@@ -1,6 +1,6 @@
 import { Box, Text, useInput } from "ink";
 import React, { useEffect, useState } from "react";
-import { usePrompt } from "../context";
+import { usePrompt, useTheme } from "../context";
 import { AutocompletePromptOptions, Option, PromptDescriptor } from "../types";
 
 export const AutocompletePromptComponent = <T,>(
@@ -10,6 +10,7 @@ export const AutocompletePromptComponent = <T,>(
 	const [inputValue, setInputValue] = useState("");
 	const [filteredOptions, setFilteredOptions] = useState(options);
 	const [activeIndex, setActiveIndex] = useState(0);
+	const theme = useTheme();
 
 	useEffect(() => {
 		const newFilteredOptions = options.filter((option: Option<T>) =>
@@ -42,26 +43,29 @@ export const AutocompletePromptComponent = <T,>(
 	return (
 		<Box flexDirection="column">
 			<Box>
-				<Text color="green">?</Text>
-				<Box marginLeft={1}>
-					<Text>{message}</Text>
-				</Box>
+				<Text>{theme.colors.primary("?")}</Text>
+				<Text>{theme.colors.message(message)}</Text>
 			</Box>
 
 			<Box marginTop={1}>
-				<Text color="cyan">❯</Text>
-				<Text>{inputValue || <Text color="gray">{placeholder}</Text>}</Text>
+				<Text>{theme.colors.primary(theme.symbols.pointer)}</Text>
+				<Text>{inputValue || theme.colors.placeholder(placeholder)}</Text>
 			</Box>
 
 			<Box flexDirection="column" marginTop={1}>
-				{filteredOptions.slice(0, 5).map((option: Option<T>, index: number) => (
-					<Box key={option.label}>
-						<Text color={activeIndex === index ? "cyan" : "gray"}>
-							{activeIndex === index ? "●" : "○"} {option.label}
-						</Text>
-						{option.hint && activeIndex === index && <Text color="gray">- {option.hint}</Text>}
-					</Box>
-				))}
+				{filteredOptions.slice(0, 5).map((option: Option<T>, index: number) => {
+					const isSelected = activeIndex === index;
+					const radio = isSelected ? theme.symbols.radioOn : theme.symbols.radioOff;
+					const label = `${radio} ${option.label}`;
+					const coloredLabel = isSelected ? theme.colors.primary(label) : theme.colors.secondary(label);
+
+					return (
+						<Box key={option.label}>
+							<Text>{coloredLabel}</Text>
+							{option.hint && isSelected && <Text>{theme.colors.secondary(`- ${option.hint}`)}</Text>}
+						</Box>
+					);
+				})}
 			</Box>
 		</Box>
 	);

@@ -17,4 +17,4 @@ async function main() {
 	console.log(results);
 }
 
-main();
+void main();

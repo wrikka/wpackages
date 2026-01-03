@@ -14,6 +14,9 @@ interface GroupContextValue {
 	steps: GroupStep[];
 	activeStepKey: string | null;
 	submitStep: (key: string, value: any) => void;
+	intro?: string;
+	outro?: string;
+	results: Record<string, any> | null;
 }
 
 const GroupContext = createContext<GroupContextValue | null>(null);
@@ -27,8 +30,13 @@ export function useGroup() {
 }
 
 export function GroupProvider(
-	{ children, prompts, onComplete }: PropsWithChildren<
-		{ prompts: Record<string, PromptDescriptor<any, any>>; onComplete: (results: Record<string, any>) => void }
+	{ children, prompts, onComplete, intro, outro }: PropsWithChildren<
+		{
+			prompts: Record<string, PromptDescriptor<any, any>>;
+			onComplete: (results: Record<string, any>) => void;
+			intro?: string;
+			outro?: string;
+		}
 	>,
 ) {
 	const initialSteps: GroupStep[] = Object.entries(prompts).map(([key, descriptor]) => ({
@@ -42,6 +50,7 @@ export function GroupProvider(
 	}
 
 	const [steps, setSteps] = useState<GroupStep[]>(initialSteps);
+	const [results, setResults] = useState<Record<string, any> | null>(null);
 	const activeStepKey = steps.find(s => s.state === "active")?.key ?? null;
 
 	const submitStep = (key: string, value: any) => {
@@ -62,6 +71,7 @@ export function GroupProvider(
 						acc[step.key] = step.value;
 						return acc;
 					}, {} as Record<string, any>);
+					setResults(results);
 					onComplete(results);
 				}
 			}
@@ -70,7 +80,7 @@ export function GroupProvider(
 	};
 
 	return (
-		<GroupContext.Provider value={{ steps, activeStepKey, submitStep }}>
+		<GroupContext.Provider value={{ steps, activeStepKey, submitStep, intro, outro, results }}>
 			{children}
 		</GroupContext.Provider>
 	);

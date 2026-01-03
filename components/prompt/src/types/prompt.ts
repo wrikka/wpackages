@@ -66,8 +66,10 @@ export interface NotePromptOptions extends BasePromptOptions<void> {
 import Spinner from "ink-spinner";
 import React from "react";
 
-export interface SpinnerPromptOptions extends BasePromptOptions<void> {
+export interface SpinnerPromptOptions<T> {
+	message: string;
 	type?: React.ComponentProps<typeof Spinner>["type"];
+	action: () => Promise<T>;
 }
 
 export interface AutocompletePromptOptions<T> extends BasePromptOptions<T> {

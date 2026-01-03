@@ -1,0 +1,20 @@
+{
+  "name": "wshell",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "@effect/schema": "^0.75.5",
+    "@wpackages/command": "workspace:*",
+    "@wpackages/console": "workspace:*",
+    "@wpackages/types": "workspace:*",
+    "effect": "^3.19.14"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}

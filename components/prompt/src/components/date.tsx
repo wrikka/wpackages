@@ -1,13 +1,15 @@
-import { usePrompt } from "@/context";
-import { DatePromptOptions, PromptDescriptor } from "@/types";
 import { Box, Text, useInput } from "ink";
+import picocolors from "picocolors";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { DatePromptOptions, PromptDescriptor } from "../types";
 
 const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
 const getDay = (year: number, month: number, day: number) => new Date(year, month, day).getDay();
 
 export const DatePromptComponent: React.FC<DatePromptOptions> = ({ message }) => {
 	const { value: currentDate, setValue: setCurrentDate, submit } = usePrompt<Date>();
+	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
@@ -43,20 +45,24 @@ export const DatePromptComponent: React.FC<DatePromptOptions> = ({ message }) =>
 
 	return (
 		<Box flexDirection="column">
-			<Text>{message}</Text>
-			<Text>{currentDate.toDateString()}</Text>
+			<Text>{theme.colors.message(message)}</Text>
+			<Text>{theme.colors.primary(currentDate.toDateString())}</Text>
 			<Box flexDirection="column" marginTop={1}>
 				<Box>
-					<Text>Su Mo Tu We Th Fr Sa</Text>
+					<Text>{theme.colors.secondary("Su Mo Tu We Th Fr Sa")}</Text>
 				</Box>
 				{calendar.map((week, weekIndex) => (
 					<Box key={weekIndex}>
-						{week.map((d, dayIndex) => (
-							<Text key={dayIndex} color={Number(d) === day ? "cyan" : "gray"}>
-								{d}
-								{" "}
-							</Text>
-						))}
+						{week.map((d, dayIndex) => {
+							const isSelected = Number(d) === day;
+							const coloredDay = isSelected ? picocolors.inverse(theme.colors.primary(d)) : theme.colors.secondary(d);
+							return (
+								<Text key={dayIndex}>
+									{coloredDay}
+									{" "}
+								</Text>
+							);
+						})}
 					</Box>
 				))}
 			</Box>

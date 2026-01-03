@@ -1,7 +1,7 @@
-import { usePrompt } from "@/context";
-import { PromptDescriptor, SliderPromptOptions } from "@/types";
 import { Box, Text, useInput } from "ink";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { PromptDescriptor, SliderPromptOptions } from "../types";
 
 export const SliderPromptComponent: React.FC<SliderPromptOptions> = ({
 	message,
@@ -11,6 +11,7 @@ export const SliderPromptComponent: React.FC<SliderPromptOptions> = ({
 	barWidth = 20,
 }) => {
 	const { value, setValue, submit } = usePrompt<number>();
+	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
@@ -28,15 +29,17 @@ export const SliderPromptComponent: React.FC<SliderPromptOptions> = ({
 	const filledWidth = Math.round((percentage / 100) * barWidth);
 	const emptyWidth = barWidth - filledWidth;
 
-	const bar = "█".repeat(filledWidth) + "─".repeat(emptyWidth);
+	const filledBar = "█".repeat(filledWidth);
+	const emptyBar = "─".repeat(emptyWidth);
 
 	return (
 		<Box>
-			<Text>{message}</Text>
-			<Text>[`</Text>
-			<Text color="cyan">{bar}</Text>
-			<Text>`]</Text>
-			<Text color="cyan">{value}</Text>
+			<Text>{theme.colors.message(message)}</Text>
+			<Text>{theme.colors.secondary("[")}</Text>
+			<Text>{theme.colors.primary(filledBar)}</Text>
+			<Text>{theme.colors.secondary(emptyBar)}</Text>
+			<Text>{theme.colors.secondary("]")}</Text>
+			<Text>{theme.colors.primary(String(value))}</Text>
 		</Box>
 	);
 };

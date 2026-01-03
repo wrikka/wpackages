@@ -1,11 +1,12 @@
-import { usePrompt } from "@/context";
-import { useInput } from "@/hooks";
-import { NumberPromptOptions, PromptDescriptor } from "@/types";
 import { Box, Text } from "ink";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { useInput } from "../hooks";
+import { NumberPromptOptions, PromptDescriptor } from "../types";
 
 export const NumberPromptComponent: React.FC<NumberPromptOptions> = ({ message, min, max, step = 1 }) => {
 	const { value, setValue, submit } = usePrompt<number>();
+	const theme = useTheme();
 
 	useInput((input, key) => {
 		if (key.return) {
@@ -33,8 +34,8 @@ export const NumberPromptComponent: React.FC<NumberPromptOptions> = ({ message, 
 
 	return (
 		<Box>
-			<Text>{message}</Text>
-			<Text color="cyan">{value}</Text>
+			<Text>{theme.colors.message(message)}</Text>
+			<Text>{theme.colors.primary(String(value))}</Text>
 		</Box>
 	);
 };

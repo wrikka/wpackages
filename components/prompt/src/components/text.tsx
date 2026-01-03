@@ -1,12 +1,13 @@
-import { usePrompt } from "@/context";
+import { usePrompt, useTheme } from "@/context";
 import { useInput } from "@/hooks";
-import { theme } from "@/services";
 import { PromptDescriptor, TextPromptOptions } from "@/types";
 import { Box, Text } from "ink";
+import picocolors from "picocolors";
 import React from "react";
 
 export const TextPromptComponent: React.FC<TextPromptOptions> = ({ message, placeholder }) => {
 	const { value, setValue, state, submit } = usePrompt<string>();
+	const theme = useTheme();
 
 	useInput((input, key) => {
 		if (key.return) {
@@ -24,16 +25,16 @@ export const TextPromptComponent: React.FC<TextPromptOptions> = ({ message, plac
 
 	let inputText = value;
 	if (state === "active" && !value && placeholder) {
-		inputText = theme.placeholder(placeholder);
+		inputText = theme.colors.placeholder(placeholder);
 	} else {
-		inputText = theme.value(value);
+		inputText = theme.colors.value(value);
 	}
 
 	return (
 		<Box>
-			<Text>{theme.message(message)}</Text>
-			{state === "active" && <Text>{inputText}{theme.cursor(theme.value("_"))}</Text>}
-			{state === "submitted" && <Text>{theme.value(value)}</Text>}
+			<Text>{theme.colors.message(message)}</Text>
+			{state === "active" && <Text>{inputText}{picocolors.inverse(theme.colors.value("_"))}</Text>}
+			{state === "submitted" && <Text>{theme.colors.value(value)}</Text>}
 		</Box>
 	);
 };

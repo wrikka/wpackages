@@ -1,11 +1,12 @@
-import { usePrompt } from "@/context";
-import { useInput } from "@/hooks";
-import { PasswordPromptOptions, PromptDescriptor } from "@/types";
 import { Box, Text } from "ink";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { useInput } from "../hooks";
+import { PasswordPromptOptions, PromptDescriptor } from "../types";
 
 export const PasswordPromptComponent: React.FC<PasswordPromptOptions> = ({ message }) => {
 	const { value, setValue, submit, state } = usePrompt<string>();
+	const theme = useTheme();
 
 	useInput((input, key) => {
 		if (key.return) {
@@ -17,12 +18,14 @@ export const PasswordPromptComponent: React.FC<PasswordPromptOptions> = ({ messa
 		}
 	});
 
+	const maskedValue = "*".repeat(value.length);
+
 	return (
 		<Box>
-			<Text>{message}</Text>
+			<Text>{theme.colors.message(message)}</Text>
 			{state === "submitted"
-				? <Text color="cyan">{"*".repeat(value.length)}</Text>
-				: <Text color="gray">{"*".repeat(value.length)}</Text>}
+				? <Text>{theme.colors.primary(maskedValue)}</Text>
+				: <Text>{theme.colors.secondary(maskedValue)}</Text>}
 		</Box>
 	);
 };

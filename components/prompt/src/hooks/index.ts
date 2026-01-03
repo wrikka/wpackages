@@ -1,1 +1,1 @@
-export * from "./use-input";
+export { useInput } from "ink";

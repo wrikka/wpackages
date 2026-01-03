@@ -1,10 +1,11 @@
-import { usePrompt } from "@/context";
-import { PromptDescriptor, TogglePromptOptions } from "@/types";
 import { Box, Text, useInput } from "ink";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { PromptDescriptor, TogglePromptOptions } from "../types";
 
 export const TogglePromptComponent: React.FC<TogglePromptOptions> = ({ message, active = "On", inactive = "Off" }) => {
 	const { value, setValue, submit } = usePrompt<boolean>();
+	const theme = useTheme();
 
 	useInput((input, key) => {
 		if (key.return) {
@@ -14,14 +15,17 @@ export const TogglePromptComponent: React.FC<TogglePromptOptions> = ({ message, 
 		}
 	});
 
+	const activeText = `( ${active} )`;
+	const inactiveText = `( ${inactive} )`;
+
 	const toggle = value
-		? `( ${active} )----`
-		: `----( ${inactive} )`;
+		? `${theme.colors.primary(activeText)}${theme.colors.secondary("----")}`
+		: `${theme.colors.secondary("----")}${theme.colors.primary(inactiveText)}`;
 
 	return (
 		<Box>
-			<Text>{message}</Text>
-			<Text color={value ? "cyan" : "gray"}>{toggle}</Text>
+			<Text>{theme.colors.message(message)}</Text>
+			<Text>{toggle}</Text>
 		</Box>
 	);
 };
