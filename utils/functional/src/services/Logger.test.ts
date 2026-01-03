@@ -9,7 +9,7 @@ describe("LoggerLive", () => {
 		try {
 			await Effect.runPromise(
 				Effect.gen(function*(_) {
-										const logger = yield* _(Logger);
+					const logger = yield* _(Logger);
 					yield* logger.log("hello");
 				}).pipe(Effect.provide(LoggerLive)),
 			);

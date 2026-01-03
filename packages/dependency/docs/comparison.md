@@ -2,18 +2,18 @@
 
 This document provides a detailed comparison between `@wpackages/dependency` and other popular dependency injection libraries in the TypeScript ecosystem.
 
-| Feature                  | @wpackages/dependency | tsyringe (Microsoft)        | injection-js (from Angular) |
-| ------------------------ | --------------------- | --------------------------- | --------------------------- |
-| **API Style**            | Functional / Simple   | Decorator-rich / Fluent API | Based on Angular v4 API     |
-| **Scopes**               | Singleton, Transient  | Singleton, Scoped, Transient| Provider-based              |
-| **Injection Tokens**     | Class, String, Symbol | Class, String, Symbol       | OpaqueToken, String         |
-| **Constructor Injection**| ✅ Yes                | ✅ Yes                      | ✅ Yes                      |
-| **Property Injection**   | ❌ No                 | ❌ No (by design)           | ✅ Yes                      |
-| **Child Containers**     | ❌ No                 | ✅ Yes                      | ✅ Yes                      |
-| **Optional Dependencies**| ❌ No                 | ✅ Yes                      | ✅ Yes                      |
-| **Interceptors**         | ❌ No                 | ✅ Yes                      | ❌ No                       |
-| **Dependencies**         | `reflect-metadata`    | `reflect-metadata`          | `reflect-metadata` polyfill |
-| **Bundle Size**          | Very Small            | Lightweight                 | ~5.2K                       |
+| Feature                   | @wpackages/dependency | tsyringe (Microsoft)         | injection-js (from Angular) |
+| ------------------------- | --------------------- | ---------------------------- | --------------------------- |
+| **API Style**             | Functional / Simple   | Decorator-rich / Fluent API  | Based on Angular v4 API     |
+| **Scopes**                | Singleton, Transient  | Singleton, Scoped, Transient | Provider-based              |
+| **Injection Tokens**      | Class, String, Symbol | Class, String, Symbol        | OpaqueToken, String         |
+| **Constructor Injection** | ✅ Yes                | ✅ Yes                       | ✅ Yes                      |
+| **Property Injection**    | ❌ No                 | ❌ No (by design)            | ✅ Yes                      |
+| **Child Containers**      | ❌ No                 | ✅ Yes                       | ✅ Yes                      |
+| **Optional Dependencies** | ❌ No                 | ✅ Yes                       | ✅ Yes                      |
+| **Interceptors**          | ❌ No                 | ✅ Yes                       | ❌ No                       |
+| **Dependencies**          | `reflect-metadata`    | `reflect-metadata`           | `reflect-metadata` polyfill |
+| **Bundle Size**           | Very Small            | Lightweight                  | ~5.2K                       |
 
 ## Summary
 

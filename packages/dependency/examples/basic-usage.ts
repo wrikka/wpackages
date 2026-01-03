@@ -1,22 +1,22 @@
-import 'reflect-metadata';
-import { injectable, register, resolve, Scope } from '../src';
+import "reflect-metadata";
+import { injectable, register, resolve, Scope } from "../src";
 
 // 1. Define your services
 
 @injectable()
 class Logger {
-  log(message: string) {
-    console.log(`[LOG]: ${message}`);
-  }
+	log(message: string) {
+		console.log(`[LOG]: ${message}`);
+	}
 }
 
 @injectable()
 class AppService {
-  constructor(private logger: Logger) {}
+	constructor(private logger: Logger) {}
 
-  run() {
-    this.logger.log('Application is running!');
-  }
+	run() {
+		this.logger.log("Application is running!");
+	}
 }
 
 // 2. Register your services

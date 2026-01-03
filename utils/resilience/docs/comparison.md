@@ -4,18 +4,18 @@ This document compares `@wpackages/resilience` with other popular resilience lib
 
 ## Comparison Matrix
 
-| Feature / Library         | @wpackages/resilience | Effect-TS (built-in) | cockatiel             | resily                |
-| ------------------------- | --------------------- | -------------------- | --------------------- | --------------------- |
-| **Primary Ecosystem**     | `Effect-TS`           | `Effect-TS`          | `Promise`             | `Promise`             |
-| **API Style**             | Functional/Declarative| Functional/Operator  | Functional/Builder    | Class-based/Imperative|
-| **Retry**                 | ✅ (Basic)            | ✅ (Advanced Schedule) | ✅ (Advanced Backoff) | ✅                    |
-| **Timeout**               | ✅                    | ❌ (Manual)          | ✅ (Cooperative/Aggressive) | ✅                    |
-| **Circuit Breaker**       | ✅                    | ❌ (Manual)          | ✅ (Advanced)         | ✅                    |
-| **Fallback**              | ❌                    | ✅ (`Effect.catch*`) | ✅                    | ✅                    |
-| **Bulkhead Isolation**    | ❌                    | ❌                   | ✅                    | ✅                    |
-| **Caching**               | ❌                    | ❌                   | ❌                    | ✅                    |
-| **Composability**         | High (Effect-native)  | High (Effect-native) | High (Policy wrapping)| Medium (Class-based)|
-| **Dependencies**          | `effect` only         | `effect` core        | Zero                  | Zero                  |
+| Feature / Library      | @wpackages/resilience  | Effect-TS (built-in)   | cockatiel                   | resily                 |
+| ---------------------- | ---------------------- | ---------------------- | --------------------------- | ---------------------- |
+| **Primary Ecosystem**  | `Effect-TS`            | `Effect-TS`            | `Promise`                   | `Promise`              |
+| **API Style**          | Functional/Declarative | Functional/Operator    | Functional/Builder          | Class-based/Imperative |
+| **Retry**              | ✅ (Basic)             | ✅ (Advanced Schedule) | ✅ (Advanced Backoff)       | ✅                     |
+| **Timeout**            | ✅                     | ❌ (Manual)            | ✅ (Cooperative/Aggressive) | ✅                     |
+| **Circuit Breaker**    | ✅                     | ❌ (Manual)            | ✅ (Advanced)               | ✅                     |
+| **Fallback**           | ❌                     | ✅ (`Effect.catch*`)   | ✅                          | ✅                     |
+| **Bulkhead Isolation** | ❌                     | ❌                     | ✅                          | ✅                     |
+| **Caching**            | ❌                     | ❌                     | ❌                          | ✅                     |
+| **Composability**      | High (Effect-native)   | High (Effect-native)   | High (Policy wrapping)      | Medium (Class-based)   |
+| **Dependencies**       | `effect` only          | `effect` core          | Zero                        | Zero                   |
 
 ## Summary
 

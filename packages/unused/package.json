@@ -1,38 +1,38 @@
 {
-  "name": "@wpackages/unused",
-  "version": "0.1.0",
-  "description": "Find unused files, dependencies and exports in your JavaScript/TypeScript projects.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": {
-    "unused": "./dist/cli.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "start": "node .",
-    "lint": "eslint . --ext .ts"
-  },
-  "keywords": [
-    "unused",
-    "dead-code",
-    "dependencies",
-    "exports",
-    "typescript",
-    "javascript"
-  ],
-  "author": "newkub",
-  "license": "MIT",
-  "dependencies": {
-    "@typescript-eslint/typescript-estree": "^7.18.0",
-    "commander": "^12.1.0",
-    "fast-glob": "^3.3.3"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.27",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.9.3"
-  }
+	"name": "@wpackages/unused",
+	"version": "0.1.0",
+	"description": "Find unused files, dependencies and exports in your JavaScript/TypeScript projects.",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"bin": {
+		"unused": "./dist/cli.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"start": "node .",
+		"lint": "eslint . --ext .ts"
+	},
+	"keywords": [
+		"unused",
+		"dead-code",
+		"dependencies",
+		"exports",
+		"typescript",
+		"javascript"
+	],
+	"author": "newkub",
+	"license": "MIT",
+	"dependencies": {
+		"@typescript-eslint/typescript-estree": "^7.18.0",
+		"commander": "^12.1.0",
+		"fast-glob": "^3.3.3"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.27",
+		"@typescript-eslint/eslint-plugin": "^7.18.0",
+		"@typescript-eslint/parser": "^7.18.0",
+		"eslint": "^8.57.0",
+		"typescript": "^5.9.3"
+	}
 }

@@ -4,10 +4,10 @@ Migrating from `pkg.pr.new` to `@wpackages/release-pkg` is straightforward. The 
 
 ## Step 1: Uninstall the `pkg.pr.new` GitHub App
 
-1.  Go to your repository's **Settings** page.
-2.  Navigate to **Integrations & webhooks** > **GitHub Apps**.
-3.  Find the `pkg.pr.new` app and click **Configure**.
-4.  Scroll down and click **Uninstall**.
+1. Go to your repository's **Settings** page.
+2. Navigate to **Integrations & webhooks** > **GitHub Apps**.
+3. Find the `pkg.pr.new` app and click **Configure**.
+4. Scroll down and click **Uninstall**.
 
 ## Step 2: Update Your CI Workflow
 
@@ -39,4 +39,3 @@ Update the step to use `wrelease preview`. You also need to ensure `GITHUB_TOKEN
 ```
 
 That's it! `@wpackages/release-pkg` will now handle the preview release process, offering more features and flexibility.
-

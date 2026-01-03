@@ -9,9 +9,9 @@ It also re-exports `defineConfig` from `@wpackages/config-manager` for configura
 ```ts
 import { defineConfig } from "@wpackages/utils-scripts";
 import {
+	renderScriptResults,
 	ScriptRunnerService,
 	ScriptRunnerServiceLive,
-	renderScriptResults,
 } from "@wpackages/utils-scripts";
 ```
 

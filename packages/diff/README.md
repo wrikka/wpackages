@@ -10,12 +10,12 @@ A modern, lightweight, and high-performance TypeScript library for calculating d
 
 ## Comparison
 
-| Feature          | `@wpackages/diff` | `jsdiff` | `json-diff-ts` |
-| ---------------- | ----------------- | -------- | -------------- |
-| **Primary Use**  | Text & Objects    | Text     | JSON Objects   |
-| **TypeScript**   | ✅ Native         | ❌ (types) | ✅ Native      |
-| **Performance**  | 🚀 High           | 🆗 Good  | 🚀 High        |
-| **Bundle Size**  | 📦 Small          | 📦 Small | 📦 Small       |
+| Feature         | `@wpackages/diff` | `jsdiff`   | `json-diff-ts` |
+| --------------- | ----------------- | ---------- | -------------- |
+| **Primary Use** | Text & Objects    | Text       | JSON Objects   |
+| **TypeScript**  | ✅ Native         | ❌ (types) | ✅ Native      |
+| **Performance** | 🚀 High           | 🆗 Good    | 🚀 High        |
+| **Bundle Size** | 📦 Small          | 📦 Small   | 📦 Small       |
 
 > For a more detailed comparison, please see the [Comparison Document](./docs/comparison.md).
 

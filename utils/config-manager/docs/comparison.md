@@ -4,16 +4,16 @@ This document provides a detailed comparison of `@wpackages/config-manager` with
 
 ## Comparison Matrix
 
-| Feature                  | @wpackages/config-manager                               | dotenv                      | config                      | nconf                       | convict                     |
-| ------------------------ | ------------------------------------------------------- | --------------------------- | --------------------------- | --------------------------- | --------------------------- |
-| **Config Sources**       | Files (JSON, JS, TS, TOML, YAML), Env, Defaults         | `.env` file only            | Files (JSON, YAML, JS)      | Files, Env, Command-line    | Files (JSON), Env           |
-| **Schema Validation**    | ✅ Yes                                                  | ❌ No                       | ❌ No                       | ❌ No                       | ✅ Yes                      |
-| **Type Casting**         | ✅ Yes                                                  | ❌ No (all strings)         | ❌ No                       | ❌ No                       | ✅ Yes                      |
-| **Variable Expansion**   | ✅ Yes                                                  | ✅ Yes (limited)            | ❌ No                       | ❌ No                       | ❌ No                       |
-| **Encryption Support**   | ✅ Yes                                                  | ❌ No                       | ❌ No                       | ❌ No                       | ❌ No                       |
-| **Hot-Reload**           | ✅ Yes                                                  | ❌ No                       | ❌ No                       | ❌ No                       | ❌ No                       |
-| **Ease of Use**          | Moderate (schema definition required)                   | Very Easy                   | Easy                        | Moderate                    | Steep learning curve        |
-| **Extensibility**        | Moderate                                                | Low                         | Low                         | High                        | High                        |
+| Feature                | @wpackages/config-manager                       | dotenv              | config                 | nconf                    | convict              |
+| ---------------------- | ----------------------------------------------- | ------------------- | ---------------------- | ------------------------ | -------------------- |
+| **Config Sources**     | Files (JSON, JS, TS, TOML, YAML), Env, Defaults | `.env` file only    | Files (JSON, YAML, JS) | Files, Env, Command-line | Files (JSON), Env    |
+| **Schema Validation**  | ✅ Yes                                          | ❌ No               | ❌ No                  | ❌ No                    | ✅ Yes               |
+| **Type Casting**       | ✅ Yes                                          | ❌ No (all strings) | ❌ No                  | ❌ No                    | ✅ Yes               |
+| **Variable Expansion** | ✅ Yes                                          | ✅ Yes (limited)    | ❌ No                  | ❌ No                    | ❌ No                |
+| **Encryption Support** | ✅ Yes                                          | ❌ No               | ❌ No                  | ❌ No                    | ❌ No                |
+| **Hot-Reload**         | ✅ Yes                                          | ❌ No               | ❌ No                  | ❌ No                    | ❌ No                |
+| **Ease of Use**        | Moderate (schema definition required)           | Very Easy           | Easy                   | Moderate                 | Steep learning curve |
+| **Extensibility**      | Moderate                                        | Low                 | Low                    | High                     | High                 |
 
 ## Summary
 

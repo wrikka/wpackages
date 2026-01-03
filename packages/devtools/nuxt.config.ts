@@ -1,68 +1,66 @@
 import checker from "vite-plugin-checker";
 
 export default defineNuxtConfig({
-    compatibilityDate: "latest", 
-    devtools: { enabled: true },
-    modules: [
-        "@vue-macros/nuxt",
-        "@nuxtjs/color-mode",
-        "@vueuse/nuxt",
-        "@unocss/nuxt",
-        "@pinia/nuxt",
-        "nuxt-mcp-dev",
-        "@nuxt/icon",
-        "@scalar/nuxt"
-    ],
+	compatibilityDate: "latest",
+	devtools: { enabled: true },
+	modules: [
+		"@vue-macros/nuxt",
+		"@nuxtjs/color-mode",
+		"@vueuse/nuxt",
+		"@unocss/nuxt",
+		"@pinia/nuxt",
+		"nuxt-mcp-dev",
+		"@nuxt/icon",
+		"@scalar/nuxt",
+	],
 
-    alias: {
-        '~/shared': './shared'
-    },
+	alias: {
+		"~/shared": "./shared",
+	},
 
-    typescript: {
+	typescript: {
 		strict: true,
 		typeCheck: true,
 	},
 
-    scalar: {
-        url: 'https://registry.scalar.com/@scalar/apis/galaxy?format=yaml',
-    },
+	scalar: {
+		url: "https://registry.scalar.com/@scalar/apis/galaxy?format=yaml",
+	},
 
-    icon: {
-        serverBundle: {
-            collections: ['mdi']
-        }
-    },
+	icon: {
+		serverBundle: {
+			collections: ["mdi"],
+		},
+	},
 
-    nitro: {
-        preset: "cloudflare_module",
-        cloudflare: {
-            deployConfig: true,
-            nodeCompat: true,
-            wrangler : {
-                routes: [
+	nitro: {
+		preset: "cloudflare_module",
+		cloudflare: {
+			deployConfig: true,
+			nodeCompat: true,
+			wrangler: {
+				routes: [
 					{
 						pattern: "*devtools.wrikka.com",
 						custom_domain: true,
 					},
-				]
-            }
-        },
-    },
+				],
+			},
+		},
+	},
 
-    routeRules : {
+	routeRules: {},
 
-    },
-
-    vite: {
-        plugins: [
-            checker({
-                overlay: {
-                    initialIsOpen: false,
-                },
-                typescript: true,
-                vueTsc: true,
-                oxlint: true,
-            }),
-        ],
-    }
+	vite: {
+		plugins: [
+			checker({
+				overlay: {
+					initialIsOpen: false,
+				},
+				typescript: true,
+				vueTsc: true,
+				oxlint: true,
+			}),
+		],
+	},
 });

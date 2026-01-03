@@ -11,15 +11,15 @@ A tiny, framework-agnostic state management library inspired by Nanostore.
 
 ## Comparison with Nanostore
 
-| Feature                  | Nanostore                                    | @wpackages/store (Proposed)                  |
-| ------------------------ | -------------------------------------------- | -------------------------------------------- |
-| **Bundle Size**          | ~286 bytes                                   | Target: < 300 bytes                          |
-| **Core API**             | `atom`, `map`, `computed`                    | `atom`, `map`, `computed`                    |
-| **Lazy Loading**         | `onMount`                                    | `onMount`                                    |
-| **Framework Support**    | React, Vue, Svelte, etc.                     | React, Vue, Svelte (initially)               |
+| Feature               | Nanostore                 | @wpackages/store (Proposed)    |
+| --------------------- | ------------------------- | ------------------------------ |
+| **Bundle Size**       | ~286 bytes                | Target: < 300 bytes            |
+| **Core API**          | `atom`, `map`, `computed` | `atom`, `map`, `computed`      |
+| **Lazy Loading**      | `onMount`                 | `onMount`                      |
+| **Framework Support** | React, Vue, Svelte, etc.  | React, Vue, Svelte (initially) |
 
 For a more detailed comparison, see [`docs/comparison.md`](./docs/comparison.md).
 
 ## Getting Started
 
-*Coming soon...*
+_Coming soon..._

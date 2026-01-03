@@ -50,7 +50,7 @@ wrelease preview --changed-only
 **Example GitHub Action Workflow:**
 
 ```yaml
-name: 'Create Preview Release'
+name: "Create Preview Release"
 
 on:
   pull_request:
@@ -71,4 +71,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # If publishing to npm registry
 ```
-

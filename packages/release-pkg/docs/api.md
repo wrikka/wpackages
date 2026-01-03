@@ -13,6 +13,7 @@ Creates and configures a new release application instance. This is the primary f
 **Returns:** `ReleaseApp` - An object containing the `release` method.
 
 **Example:**
+
 ```typescript
 import { createReleaseApp } from "@wpackages/release-pkg";
 
@@ -24,20 +25,22 @@ const app = createReleaseApp();
 The core function that runs the entire release workflow based on the provided options.
 
 **Parameters:**
+
 - `options` (`ReleaseOptions`): An object to configure the release process.
 
 **Returns:** `Promise<ReleaseResult>` - A promise that resolves with the results of the release, including the new version.
 
 **Example:**
+
 ```typescript
 import { release } from "@wpackages/release-pkg";
 
 async function main() {
-  const result = await release({
-    type: "patch",
-    dryRun: true,
-  });
-  console.log(`Successfully bumped version to ${result.version}`);
+	const result = await release({
+		type: "patch",
+		dryRun: true,
+	});
+	console.log(`Successfully bumped version to ${result.version}`);
 }
 
 main();
@@ -87,4 +90,3 @@ Helper functions for working with semantic versioning.
 - **`incrementVersion(version: Version, type: ReleaseType)`**: Increments a `Version` object by the specified release type.
 - **`compareVersions(v1: string, v2: string)`**: Compares two version strings, returning `1`, `0`, or `-1`.
 - **`isValidVersion(version: string)`**: Checks if a string is a valid semantic version.
-

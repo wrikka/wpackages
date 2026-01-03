@@ -6,16 +6,16 @@ While both tools aim to solve the problem of testing pull requests, they have fu
 
 ## Feature Matrix
 
-| Feature                  | @wpackages/release-pkg | pkg.pr.new |
-| ------------------------ | ---------------------- | ---------- |
-| **Core Function**        | Integrated Release Tool| Dedicated Preview Tool |
-| **Publish Target**       | ✅ Standard Registries | ❌ (Own Registry Only) |
-| **Monorepo Support**     | ✅ (Native)            | ✅         |
-| **Usage Analytics**      | ✅                     | ❌         |
-| **Self-Hostable**        | ✅                     | ❌         |
-| **Rollback/Unpublish**   | ✅                     | ❌         |
-| **Programmatic API**     | ✅ (Type-Safe)         | ❌         |
-| **Playground Links**     | ✅ (StackBlitz, etc.)  | ✅         |
+| Feature                | @wpackages/release-pkg  | pkg.pr.new             |
+| ---------------------- | ----------------------- | ---------------------- |
+| **Core Function**      | Integrated Release Tool | Dedicated Preview Tool |
+| **Publish Target**     | ✅ Standard Registries  | ❌ (Own Registry Only) |
+| **Monorepo Support**   | ✅ (Native)             | ✅                     |
+| **Usage Analytics**    | ✅                      | ❌                     |
+| **Self-Hostable**      | ✅                      | ❌                     |
+| **Rollback/Unpublish** | ✅                      | ❌                     |
+| **Programmatic API**   | ✅ (Type-Safe)          | ❌                     |
+| **Playground Links**   | ✅ (StackBlitz, etc.)   | ✅                     |
 
 ## Philosophy & Key Differences
 
@@ -42,4 +42,3 @@ While both tools aim to solve the problem of testing pull requests, they have fu
   - Your only need is to quickly generate preview links for PRs.
   - You are comfortable with a hosted, third-party solution.
   - You do not need analytics, rollback, or multi-registry support.
-

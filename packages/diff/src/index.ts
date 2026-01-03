@@ -1,4 +1,4 @@
 export { createDiff } from "./createDiff";
-export { isEqual } from "./isEqual";
 export { diff, type DiffResult } from "./diff";
+export { isEqual } from "./isEqual";
 export { patch, unpatch } from "./patch";

@@ -28,7 +28,7 @@ const program = Effect.gen(function*() {
 
 	yield* console.log("Running a simple command...");
 
-	const command = yield* parser.parse('ls');
+	const command = yield* parser.parse("ls");
 	yield* executor.execute(command);
 
 	yield* console.log("Done!");
