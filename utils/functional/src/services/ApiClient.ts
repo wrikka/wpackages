@@ -29,7 +29,7 @@ export const ApiClientLive = Layer.succeed(
 							? Effect.succeed(value)
 							: Effect.fail(
 								new ApplicationError({ message: "Missing API_BASE_URL" }),
-							),
+							)
 					),
 				),
 			);

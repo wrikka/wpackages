@@ -16,8 +16,8 @@ export type {
 } from "./types";
 
 export * from "./types/array";
-export * from "./types/literal";
 export * from "./types/boolean";
+export * from "./types/literal";
 export * from "./types/number";
 export * from "./types/object";
 export * from "./types/optional";

@@ -1,3 +1,3 @@
 export * from "./fromEither";
-export * from "./tryPromise";
 export * from "./fromZodError";
+export * from "./tryPromise";

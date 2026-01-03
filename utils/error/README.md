@@ -10,7 +10,7 @@
 - 🎣 **Type-Safe Catching**: Allows you to catch and handle specific error types using `Effect.catchTag`, avoiding messy `instanceof` checks.
 - 래퍼 **Safe Wrappers**: Includes helper functions like `tryPromise` to safely convert functions that might throw exceptions into `Effect`s.
 - ↔️ **`Either` Integration**: A `fromEither` utility to seamlessly convert an `Either` into an `Effect`, mapping the `Left` side to a custom `AppError`.
--  zod **Zod Integration**: A `fromZodError` utility to seamlessly convert `ZodError` into a `ValidationError` with a user-friendly message.
+- zod **Zod Integration**: A `fromZodError` utility to seamlessly convert `ZodError` into a `ValidationError` with a user-friendly message.
 
 ## Goal
 
@@ -77,17 +77,17 @@ const safeEffect = tryPromise(potentiallyThrowingFn, { statusCode: 500 });
 Use `fromZodError` to convert validation errors from Zod into a structured `ValidationError`.
 
 ```typescript
-import { z } from 'zod';
 import { fromZodError, ValidationError } from "@wpackages/error";
+import { z } from "zod";
 
 const schema = z.object({ name: z.string().min(5) });
 const result = schema.safeParse({ name: "test" });
 
 if (!result.success) {
-  const error = fromZodError(result.error);
-  // error is an instance of ValidationError
-  // error.message => "Validation failed: name - String must contain at least 5 character(s)"
-  // error.cause => ZodError(...)
+	const error = fromZodError(result.error);
+	// error is an instance of ValidationError
+	// error.message => "Validation failed: name - String must contain at least 5 character(s)"
+	// error.cause => ZodError(...)
 }
 ```
 

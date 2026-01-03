@@ -1,4 +1,3 @@
-
 import { Effect } from "effect";
 import { describe, expect, it, vi } from "vitest";
 import { Logger } from "./Logger";
@@ -10,7 +9,7 @@ describe("LoggerLive", () => {
 		try {
 			await Effect.runPromise(
 				Effect.gen(function*(_) {
-					const logger = yield* _(Effect.service(Logger));
+										const logger = yield* _(Logger);
 					yield* logger.log("hello");
 				}).pipe(Effect.provide(LoggerLive)),
 			);

@@ -26,22 +26,22 @@ export function createHistory(source: HistorySource): History {
 	 * @returns {() => void} A function to unsubscribe the listener.
 	 */
 	function listen(listener: Listener): () => void {
-			if (listeners.size === 0) {
-				sourceUnlisten = source.listen((location, action) => {
-					listeners.forEach(l => l(location, action));
-				});
+		if (listeners.size === 0) {
+			sourceUnlisten = source.listen((location, action) => {
+				listeners.forEach(l => l(location, action));
+			});
+		}
+
+		listeners.add(listener);
+
+		return () => {
+			listeners.delete(listener);
+
+			if (listeners.size === 0 && sourceUnlisten) {
+				sourceUnlisten();
+				sourceUnlisten = null;
 			}
-
-			listeners.add(listener);
-
-			return () => {
-				listeners.delete(listener);
-
-				if (listeners.size === 0 && sourceUnlisten) {
-					sourceUnlisten();
-					sourceUnlisten = null;
-				}
-			};
+		};
 	}
 
 	return {

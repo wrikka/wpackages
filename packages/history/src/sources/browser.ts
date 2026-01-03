@@ -1,9 +1,8 @@
+import { isBrowser } from "../dom";
 import { HistorySource } from "../history";
 import { Action, Location } from "../types";
 import { createKey, createPath, parsePath } from "../utils";
-import { isBrowser } from "../dom";
 import { createMockSource } from "./mock";
-
 
 export function createBrowserSource(): HistorySource {
 	if (!isBrowser) {

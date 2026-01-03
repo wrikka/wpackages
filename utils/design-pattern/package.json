@@ -1,29 +1,29 @@
 {
-  "name": "@wpackages/design-pattern",
-  "private": true,
-  "version": "0.1.0",
-  "description": "Design pattern implementations and utilities",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js"
-  },
-  "engines": {
-    "bun": ">=1.0.0"
-  },
-  "scripts": {
-    "lint": "oxlint --fix --type-aware",
-    "build": "tsdown src/index.ts --out-dir dist",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "effect": "^3.19.14"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "tsdown": "^0.18.4",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
-  }
+	"name": "@wpackages/design-pattern",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Design pattern implementations and utilities",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"scripts": {
+		"lint": "oxlint --fix --type-aware",
+		"build": "tsdown src/index.ts --out-dir dist",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"effect": "^3.19.14"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
 }

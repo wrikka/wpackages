@@ -1,4 +1,3 @@
-
 import { Effect, Layer } from "effect";
 import { describe, expect, it, vi } from "vitest";
 import { ApplicationError } from "../error";
@@ -30,9 +29,7 @@ describe("ApiClient", () => {
 		const prev = process.env.API_BASE_URL;
 		process.env.API_BASE_URL = "https://example.test";
 
-		const fetchMock = vi.fn(async () =>
-			new Response(JSON.stringify([{ id: 10, name: "Alice" }]), { status: 200 }),
-		);
+		const fetchMock = vi.fn(async () => new Response(JSON.stringify([{ id: 10, name: "Alice" }]), { status: 200 }));
 		vi.stubGlobal("fetch", fetchMock);
 
 		try {

@@ -85,7 +85,9 @@ class ReleaseOrchestrator {
 		const { git, version } = ctx.services;
 		if (!(await git.isGitRepository())) throw new Error("Not a git repository");
 		if (!ctx.options.noGit) {
-			if (!ctx.options.dryRun && (await git.hasUncommittedChanges())) throw new Error("Working directory has uncommitted changes.");
+			if (!ctx.options.dryRun && (await git.hasUncommittedChanges())) {
+				throw new Error("Working directory has uncommitted changes.");
+			}
 			if (!(await git.hasRemote())) throw new Error("No git remote configured");
 		}
 		await version.getPackageInfo();

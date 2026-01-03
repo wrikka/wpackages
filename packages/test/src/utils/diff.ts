@@ -1,1 +1,1 @@
-export { createDiff, isEqual } from '@wpackages/diff';
+export { createDiff, isEqual } from "@wpackages/diff";

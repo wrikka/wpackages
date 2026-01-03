@@ -1,8 +1,8 @@
-import type { PluginRegistry } from "../types";
-import { formatFileOperationError } from "../components";
-import { registryToJson, jsonToRegistry } from "../components";
 import { access, mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { formatFileOperationError } from "../components";
+import { jsonToRegistry, registryToJson } from "../components";
+import type { PluginRegistry } from "../types";
 
 export interface PluginStorage {
 	readonly save: (registry: PluginRegistry) => Promise<void>;

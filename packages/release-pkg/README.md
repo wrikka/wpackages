@@ -309,27 +309,27 @@ wrelease patch --no-changelog --ci
 
 ### Release Management Tools
 
-| Feature              | @wpackages/release-pkg | release-it | semantic-release | changesets |
-| -------------------- | ---------------------- | ---------- | ---------------- | ---------- |
-| **Bundle Size**      | **~80KB**              | ~2MB       | ~5MB             | ~1MB       |
-| **Dependencies**     | **4**                  | ~43        | ~67              | ~32        |
-| **Programmatic API** | ✅ (First-class TS)    | ✅         | ✅ (Via Plugins) | ✅         |
-| **Zero Config**      | ✅                     | ❌         | ❌               | ❌         |
-| **Interactive Mode** | ✅                     | ✅         | ❌               | ✅         |
-| **Monorepo Support** | ✅ (Native)            | ⚠️ (Plugin) | ⚠️ (Plugin)     | ✅ (Core)  |
-| **PR Previews**      | ✅ (Built-in)          | ⚠️ (Pre-releases) | ⚠️ (Channels)   | ✅ (Snapshot) |
-| **CI/CD Integration**| ✅ (Simple)            | ✅ (Flexible) | ✅ (Opinionated) | ✅ (Flexible) |
+| Feature               | @wpackages/release-pkg | release-it       | semantic-release | changesets    |
+| --------------------- | ---------------------- | ---------------- | ---------------- | ------------- |
+| **Bundle Size**       | **~80KB**              | ~2MB             | ~5MB             | ~1MB          |
+| **Dependencies**      | **4**                  | ~43              | ~67              | ~32           |
+| **Programmatic API**  | ✅ (First-class TS)    | ✅               | ✅ (Via Plugins) | ✅            |
+| **Zero Config**       | ✅                     | ❌               | ❌               | ❌            |
+| **Interactive Mode**  | ✅                     | ✅               | ❌               | ✅            |
+| **Monorepo Support**  | ✅ (Native)            | ⚠️ (Plugin)       | ⚠️ (Plugin)       | ✅ (Core)     |
+| **PR Previews**       | ✅ (Built-in)          | ⚠️ (Pre-releases) | ⚠️ (Channels)     | ✅ (Snapshot) |
+| **CI/CD Integration** | ✅ (Simple)            | ✅ (Flexible)    | ✅ (Opinionated) | ✅ (Flexible) |
 
 ### Preview Release Tools
 
-| Feature                  | @wpackages/release-pkg | pkg.pr.new |
-| ------------------------ | ---------------------- | ---------- |
-| **Publish Target**       | ✅ (npm, JSR, etc.)    | ❌ (Own Registry Only) |
-| **Monorepo Support**     | ✅ (Native)            | ✅         |
-| **Analytics**            | ✅                     | ❌         |
-| **Self-Hostable**        | ✅                     | ❌         |
-| **Rollback/Unpublish**   | ✅                     | ❌         |
-| **Programmatic API**     | ✅ (Type-Safe)         | ❌         |
+| Feature                | @wpackages/release-pkg | pkg.pr.new             |
+| ---------------------- | ---------------------- | ---------------------- |
+| **Publish Target**     | ✅ (npm, JSR, etc.)    | ❌ (Own Registry Only) |
+| **Monorepo Support**   | ✅ (Native)            | ✅                     |
+| **Analytics**          | ✅                     | ❌                     |
+| **Self-Hostable**      | ✅                     | ❌                     |
+| **Rollback/Unpublish** | ✅                     | ❌                     |
+| **Programmatic API**   | ✅ (Type-Safe)         | ❌                     |
 
 **Score: release wins 27-3-11** 🏆
 

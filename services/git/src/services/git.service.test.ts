@@ -1,5 +1,5 @@
-import { exec } from "node:child_process";
 import { Effect } from "effect";
+import { exec } from "node:child_process";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("node:child_process", () => ({

@@ -2,14 +2,7 @@
  * Complete workflow example - full release pipeline
  */
 
-import {
-	AnalyticsService,
-	ChangelogService,
-	GitService,
-	PreviewService,
-	release,
-	VersionService,
-} from "../src/index";
+import { AnalyticsService, ChangelogService, GitService, PreviewService, release, VersionService } from "../src/index";
 
 async function completeWorkflow() {
 	console.log("🚀 Starting complete release workflow\n");
