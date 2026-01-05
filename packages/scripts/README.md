@@ -2,6 +2,18 @@
 
 A functional script management package for running and managing scripts, built with TypeScript and following functional programming principles.
 
+## Comparison with Other Tools
+
+While `npm scripts` are great for simple tasks, `@wpackages/scripts` provides a more robust, functional, and type-safe way to manage complex script workflows. Here's how it compares to other popular tools:
+
+| Feature              | @wpackages/scripts          | Turborepo / Nx              | npm scripts         |
+| -------------------- | --------------------------- | --------------------------- | ------------------- |
+| **Core Philosophy**  | Functional script execution | Monorepo build optimization | Simple task running |
+| **Configuration**    | Type-safe `.ts` file        | `json` files                | `package.json`      |
+| **Advanced Control** | Retries, Timeouts, Dry-run  | Caching, Task pipelines     | Pre/Post hooks      |
+
+For a more detailed breakdown, see the [full comparison document](./docs/comparison.md).
+
 ## Features
 
 - Functional error handling with Effect-TS
@@ -160,41 +172,7 @@ Allow pipeline to continue even if a script fails:
 
 ## API
 
-### Types
-
-- `Script` - Script configuration interface
-- `ScriptResult` - Script execution result interface
-- `ScriptRunnerConfig` - Script runner configuration interface
-
-### Services
-
-- `ScriptRunnerService` - Main service for script execution
-- `runScript` - Run a single script
-- `runScripts` - Run multiple scripts
-- `runScriptByName` - Run a script by name
-- `listScripts` - List all available scripts
-
-### Components
-
-- `renderScriptInfo` - Render script information for CLI
-- `renderScriptResults` - Render script results for CLI
-- `renderScriptList` - Render script list for CLI
-- `renderHelp` - Render help information for CLI
-
-### Utilities
-
-- `isValidScript` - Validate script configuration
-- `formatScriptResult` - Format script result for display
-- `sortScriptsByDependencies` - Sort scripts by dependencies
-- `filterScriptsByName` - Filter scripts by name pattern
-
-### Advanced Services
-
-- `executeScriptWithTimeout` - Execute script with timeout support
-- `executeScriptWithRetry` - Execute script with automatic retry
-- `dryRunScript` - Simulate script execution
-- `validateAdvancedScriptConfig` - Validate advanced script options
-- `formatScriptExecutionInfo` - Format detailed script information
+For a detailed API reference, please see the [API Documentation](./docs/api.md).
 
 ## Examples
 

@@ -9,10 +9,7 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "tsdown --watch",
@@ -21,7 +18,7 @@
 		"test:coverage": "vitest run --coverage",
 		"format": "dprint fmt",
 		"lint": "oxlint --fix --type-aware",
-		"review": "bun run format && bun run lint && bun run test && bun run build"
+		"verify": "bun run format && bun run lint && bun run test && bun run build"
 	},
 	"dependencies": {
 		"@wpackages/config-manager": "workspace:*",
@@ -32,6 +29,7 @@
 		"@types/node": "^24.10.4",
 		"tsdown": "^0.15.12",
 		"typescript": "^5.9.3",
+		"vite-tsconfig-paths": "^4.3.2",
 		"vitest": "^4.0.16"
 	},
 	"keywords": [
