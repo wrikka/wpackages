@@ -1,6 +1,6 @@
+import { Database } from "@wpackages/database";
 import { Cause, Effect, Exit, Layer, Option } from "effect";
 import { describe, expect, test, vi } from "vitest";
-import { Database } from "../db/database.service";
 import { UserNotFoundError, UserService, UserServiceLive } from "./user.service";
 
 describe("UserService", () => {

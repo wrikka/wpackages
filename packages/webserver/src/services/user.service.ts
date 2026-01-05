@@ -1,46 +1,54 @@
+import { Database, users } from "@wpackages/database";
 import { eq } from "drizzle-orm";
-import { Context, Effect, Layer, Option } from "effect";
-import { users } from "../db";
-import { Database } from "../db/database.service";
+import { Context, Effect, Layer, Schema } from "effect";
 
 // --- Errors ---
-export class UserNotFoundError {
-	readonly _tag = "UserNotFoundError";
-	constructor(readonly userId: number) {}
-}
+export class UserNotFoundError extends Schema.TaggedError<UserNotFoundError>()(
+	"UserNotFoundError",
+	{
+		id: Schema.Number,
+	},
+) {}
 
-export class DatabaseError {
-	readonly _tag = "DatabaseError";
-	constructor(readonly error: unknown) {}
-}
+export class DatabaseError extends Schema.TaggedError<DatabaseError>()(
+	"DatabaseError",
+	{
+		error: Schema.Unknown,
+	},
+) {}
 
 // --- Service Definition ---
-export interface UserService {
-	readonly getUserById: (
-		id: number,
-	) => Effect.Effect<
-		typeof users.$inferSelect,
-		UserNotFoundError | DatabaseError
-	>;
-}
+const UserSchema = Schema.Struct({
+	id: Schema.Number,
+	name: Schema.String,
+});
+export type User = Schema.Schema.Type<typeof UserSchema>;
 
-export const UserService = Context.GenericTag<UserService>("UserService");
+export class UserService extends Context.Tag("UserService")<UserService, {
+	readonly getUser: (id: number) => Effect.Effect<User, UserNotFoundError | DatabaseError>;
+}>() {}
 
 // --- Live Implementation ---
 export const UserServiceLive = Layer.effect(
 	UserService,
 	Effect.map(Database, (database) =>
 		UserService.of({
-			getUserById: (id: number) =>
+			getUser: (id: number) =>
 				Effect.tryPromise({
 					try: () =>
 						database.db.query.users.findFirst({
 							where: eq(users.id, id),
 						}),
-					catch: (error) => new DatabaseError(error),
+					catch: (error) => new DatabaseError({ error }),
 				}).pipe(
-					Effect.flatMap(Option.fromNullable),
-					Effect.mapError(() => new UserNotFoundError(id)),
+					Effect.flatMap((user) => {
+						if (!user) {
+							return Effect.fail(new UserNotFoundError({ id }));
+						}
+						return Schema.decode(UserSchema)(user).pipe(
+							Effect.mapError((decodeError) => new DatabaseError({ error: decodeError })),
+						);
+					}),
 				),
 		})),
 );

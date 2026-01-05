@@ -6,7 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 const port = 30_000 + Math.floor(Math.random() * 10_000);
 const BASE_URL = `http://localhost:${port}`;
 
-const waitForServer = async () => {
+const waitForServer = async (getLogs: () => string) => {
 	const startedAt = Date.now();
 	while (Date.now() - startedAt < 10_000) {
 		try {
@@ -17,11 +17,13 @@ const waitForServer = async () => {
 		}
 		await new Promise((r) => setTimeout(r, 100));
 	}
-	throw new Error("Server did not start in time");
+	throw new Error(`Server did not start in time\n\nLogs:\n${getLogs()}`);
 };
 
 describe("Server", () => {
 	let proc: null | ChildProcess = null;
+	let logs = "";
+	const apiKey = "test-api-key";
 
 	beforeAll(async () => {
 		const testDir = dirname(fileURLToPath(import.meta.url));
@@ -31,11 +33,27 @@ describe("Server", () => {
 			env: {
 				...process.env,
 				PORT: String(port),
+				TEST_MODE: "1",
+				API_KEY: apiKey,
+				RATE_LIMIT_MAX: "2",
+				RATE_LIMIT_WINDOW_MS: "60000",
 			},
-			stdio: ["ignore", "ignore", "pipe"],
+			stdio: ["ignore", "pipe", "pipe"],
 		});
-		await waitForServer();
-	});
+
+		proc.stdout?.on("data", (chunk) => {
+			logs += chunk.toString();
+		});
+		proc.stderr?.on("data", (chunk) => {
+			logs += chunk.toString();
+		});
+
+		proc.on("exit", (code) => {
+			logs += `\n[process exited] code=${code ?? "null"}`;
+		});
+
+		await waitForServer(() => logs);
+	}, 30_000);
 
 	afterAll(() => {
 		proc?.kill();
@@ -50,10 +68,36 @@ describe("Server", () => {
 	});
 
 	it("should return JSON on /users/:id", async () => {
-		const response = await fetch(`${BASE_URL}/users/1`);
+		const response = await fetch(`${BASE_URL}/users/1`, {
+			headers: {
+				"x-api-key": apiKey,
+				"x-forwarded-for": "203.0.113.10",
+			},
+		});
 		expect(response.status).toBe(200);
 		const json = await response.json();
 		expect(json).toEqual({ user: { id: 1, name: "John Doe" } });
+	});
+
+	it("should return 401 on /users/:id when API key missing", async () => {
+		const response = await fetch(`${BASE_URL}/users/1`, {
+			headers: {
+				"x-forwarded-for": "203.0.113.11",
+			},
+		});
+		expect(response.status).toBe(401);
+	});
+
+	it("should return 429 when rate limit exceeded", async () => {
+		const url = `${BASE_URL}/users/1`;
+		const headers = { "x-api-key": apiKey, "x-forwarded-for": "203.0.113.12" };
+
+		const res1 = await fetch(url, { headers });
+		expect(res1.status).toBe(200);
+		const res2 = await fetch(url, { headers });
+		expect(res2.status).toBe(200);
+		const res3 = await fetch(url, { headers });
+		expect(res3.status).toBe(429);
 	});
 
 	it("should return 404 on unknown route", async () => {

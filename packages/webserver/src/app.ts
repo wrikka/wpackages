@@ -1,31 +1,57 @@
-import { Http, Router } from "@effect/platform";
+import { HttpServer } from "@effect/platform";
 import { BunHttpServer } from "@effect/platform-bun";
+import { DatabaseLive } from "@wpackages/database";
+import { ResponseFactoryLive } from "@wpackages/http";
+import { appMiddleware, HttpRoutingConfigLive } from "@wpackages/http-routing";
 import { Effect, Layer } from "effect";
-import { z } from "zod";
-import { DatabaseLive } from "./db/database.service";
-import { UserService, UserServiceLive } from "./services/user.service";
+import { ConfigLive } from "./config/config";
+import { getDatabaseUrl, isTestMode, loadEnv } from "./config/env";
+import { appRoutes } from "./http/routes";
+import { type User, UserNotFoundError, UserService, UserServiceLive } from "./services/user.service";
 
-const App = Http.router.empty.pipe(
-	Http.router.get("/", Effect.succeed(Http.response.text("Hello World"))),
-	Http.router.get(
-		"/users/:id",
-		Router.schemaPathParams(z.object({ id: z.string() })).pipe(
-			Effect.flatMap(({ id }) =>
-				UserService.pipe(
-					Effect.flatMap(userService => userService.getUserById(Number(id))),
-					Effect.map(user => Http.response.json({ user })),
-				)
-			),
-		),
-	),
-	Http.server.serve(),
+const UserServiceInMemory = Layer.succeed(
+	UserService,
+	UserService.of({
+		getUser: (id: number) => {
+			if (id === 1) {
+				const user: User = { id: 1, name: "John Doe" };
+				return Effect.succeed(user);
+			}
+			return Effect.fail(new UserNotFoundError({ id }));
+		},
+	}),
 );
 
-const AppLayer = UserServiceLive.pipe(Layer.provide(DatabaseLive));
+export const main = Layer.unwrapEffect(
+	Effect.sync(() => {
+		const env = loadEnv();
+		const dbUrl = getDatabaseUrl(env);
 
-const port = Number.parseInt(process.env.PORT ?? "3000", 10);
+		const responseFactoryLayer = ResponseFactoryLive({
+			withSecurityHeaders: env.ENABLE_SECURITY_HEADERS,
+		});
+		const httpRoutingConfigLayer = HttpRoutingConfigLive(env);
+		const serverLayer = BunHttpServer.layer({ port: env.PORT });
+		const databaseLayer = dbUrl ? DatabaseLive(dbUrl) : Layer.empty;
+		const userLayer = isTestMode(env) || !dbUrl ? UserServiceInMemory : UserServiceLive;
 
-export const main = App.pipe(
-	Layer.provide(AppLayer),
-	Layer.provide(BunHttpServer.layer({ port })),
+		const runtimeLayer = Layer.mergeAll(
+			ConfigLive,
+			httpRoutingConfigLayer,
+			responseFactoryLayer,
+			databaseLayer,
+			userLayer,
+			serverLayer,
+		);
+
+		const middleware = appMiddleware;
+
+		const router = appRoutes;
+		const app = router.pipe(
+			HttpServer.serve(middleware),
+			HttpServer.withLogAddress,
+		);
+
+		return Layer.provide(app, runtimeLayer);
+	}),
 );
