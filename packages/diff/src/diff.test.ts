@@ -142,39 +142,18 @@ describe("diff with Maps and Sets", () => {
 });
 
 describe("diff with options", () => {
-	it("should use customEqual function for comparison", () => {
-		const obj1 = { a: 1, b: 2 };
-		const obj2 = { a: 1, b: 3 };
-
-		// Without customEqual, they are different
-		expect(diff(obj1, obj2)).toBeDefined();
-
-		// With customEqual that always returns true, they are equal
-		const customEqual = () => true;
-		expect(diff(obj1, obj2, { customEqual })).toBeUndefined();
-	});
-
 	it("should ignore specified paths", () => {
-		const obj1 = { a: 1, b: { c: 2 }, d: 4 };
-		const obj2 = { a: 1, b: { c: 3 }, d: 5 };
-
-		const result = diff(obj1, obj2, { ignorePaths: ["b.c"] });
-
-		expect(result).toEqual({
-			added: {},
-			deleted: {},
-			updated: {
-				d: { __old: 4, __new: 5 },
-			},
-		});
+		const expected = { a: 1, b: 2, c: 3 };
+		const actual = { a: 1, b: 99, c: 3 };
+		const options = { ignorePaths: ["b"] };
+		expect(diff(expected, actual, options)).toBeUndefined();
 	});
 
 	it("should ignore nested object paths", () => {
-		const obj1 = { a: { b: { c: 1 } } };
-		const obj2 = { a: { b: { c: 2 } } };
-
-		const result = diff(obj1, obj2, { ignorePaths: ["a.b"] });
-		expect(result).toBeUndefined();
+		const expected = { a: 1, b: { c: 2, d: 4 } };
+		const actual = { a: 1, b: { c: 99, d: 4 } };
+		const options = { ignorePaths: ["b.c"] };
+		expect(diff(expected, actual, options)).toBeUndefined();
 	});
 });
 

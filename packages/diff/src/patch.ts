@@ -1,46 +1,22 @@
 import { type DiffResult } from "./diff";
+import { ChangeType } from "./lcs";
 
-function deepClone<T>(obj: T): T {
-	if (obj === null || typeof obj !== "object") {
-		return obj;
-	}
-	if (obj instanceof Date) {
-		return new Date(obj.getTime()) as any;
-	}
-	if (Array.isArray(obj)) {
-		return obj.map(item => deepClone(item)) as any;
-	}
-	if (obj instanceof Map) {
-		const newMap = new Map();
-		for (const [key, value] of obj.entries()) {
-			newMap.set(deepClone(key), deepClone(value));
-		}
-		return newMap as any;
-	}
-	if (obj instanceof Set) {
-		const newSet = new Set();
-		for (const value of obj.values()) {
-			newSet.add(deepClone(value));
-		}
-		return newSet as any;
-	}
-	const newObj = Object.create(Object.getPrototypeOf(obj));
-	for (const key in obj) {
-		if (Object.prototype.hasOwnProperty.call(obj, key)) {
-			newObj[key] = deepClone((obj as any)[key]);
-		}
-	}
-	return newObj;
-}
+import rfdc from "rfdc";
 
-function applyLcs<T>(lcs: Array<{ type: "common" | "added" | "deleted"; value: T }>, keep: "added" | "deleted"): T[] {
-	const result: T[] = [];
-	for (const change of lcs) {
-		if (change.type === "common" || change.type === keep) {
-			result.push(change.value);
-		}
-	}
-	return result;
+const deepClone = rfdc();
+
+function applyLcs<T>(source: T[], lcs: Array<{ type: ChangeType; value: T; indexA?: number; indexB?: number }>, keep: ChangeType.ADD | ChangeType.DELETE): T[] {
+    const result: T[] = [];
+    for (const change of lcs) {
+        if (change.type === ChangeType.COMMON) {
+            if (change.indexA !== undefined) {
+                result.push(source[change.indexA]);
+            }
+        } else if (change.type === keep) {
+            result.push(change.value);
+        }
+    }
+    return result;
 }
 
 function patchMap(source: Map<any, any>, diff: DiffResult): Map<any, any> {
@@ -91,7 +67,11 @@ export function patch<T>(source: T, diff: DiffResult): T {
 			if ("__old" in value && "__new" in value) {
 				result[key] = deepClone(value.__new);
 			} else if ("_lcs" in value) {
-				result[key] = applyLcs((value as any)._lcs, "added");
+				if (Array.isArray(result[key])) {
+					result[key] = applyLcs(result[key], (value as any)._lcs, ChangeType.ADD);
+				} else {
+					result[key] = patch(result[key], value as DiffResult);
+				}
 			} else {
 				result[key] = patch(result[key], value as DiffResult);
 			}
@@ -120,7 +100,7 @@ export function unpatch<T>(source: T, diff: DiffResult): T {
 			if ("__old" in value && "__new" in value) {
 				result[key] = deepClone(value.__old);
 			} else if ("_lcs" in value) {
-				result[key] = applyLcs((value as any)._lcs, "deleted");
+								result[key] = applyLcs(result[key], (value as any)._lcs, ChangeType.DELETE);
 			} else {
 				result[key] = unpatch(result[key], value as DiffResult);
 			}

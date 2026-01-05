@@ -1,5 +1,5 @@
-import { isEqual, type IsEqualOptions, isObjectLike } from "./isEqual";
-import { lcs } from "./lcs";
+import { isEqual, isObjectLike } from "./isEqual";
+import { lcs, ChangeType } from "./lcs";
 
 export interface DiffResult {
 	added: Record<string, any>;
@@ -7,7 +7,7 @@ export interface DiffResult {
 	updated: Record<string, any>;
 }
 
-export interface DiffOptions extends IsEqualOptions {
+export interface DiffOptions {
 	ignorePaths?: string[];
 }
 
@@ -25,7 +25,7 @@ function diffInternal(
 		return undefined;
 	}
 
-	if (isEqual(expected, actual, options)) {
+	if (isEqual(expected, actual)) {
 		return undefined;
 	}
 
@@ -53,8 +53,8 @@ function diffInternal(
 		const eIsArray = Array.isArray(expected);
 		const aIsArray = Array.isArray(actual);
 
-		if (eIsArray && aIsArray) {
-			return diffArrays(expected, actual, options);
+				if (eIsArray && aIsArray) {
+			return diffArrays(expected, actual);
 		}
 
 		if (eIsMap || aIsMap || eIsSet || aIsSet || eIsArray || aIsArray) {
@@ -86,7 +86,7 @@ function diffObjects(
 		const expectedValue = expected[key];
 		const actualValue = actual[key];
 
-		if (isEqual(expectedValue, actualValue, options)) {
+		if (isEqual(expectedValue, actualValue)) {
 			continue;
 		}
 
@@ -134,43 +134,42 @@ function diffMaps(
 		const expectedValue = expected.get(key);
 		const actualValue = actual.get(key);
 
-		if (isEqual(expectedValue, actualValue, options)) {
-			continue;
-		}
-
 		if (options.ignorePaths?.includes(newPath.join("."))) {
 			continue;
 		}
 
 		if (!actual.has(key)) {
-			result.deleted[key] = expectedValue;
+			result.deleted[String(key)] = expectedValue;
 		} else if (!expected.has(key)) {
-			result.added[key] = actualValue;
-		} else {
+			result.added[String(key)] = actualValue;
+		} else if (!isEqual(expectedValue, actualValue)) {
 			if (isObjectLike(expectedValue) && isObjectLike(actualValue)) {
 				const nestedDiff = diffInternal(expectedValue, actualValue, seen, options, newPath);
 				if (nestedDiff) {
-					result.updated[key] = nestedDiff;
+					result.updated[String(key)] = nestedDiff;
 				}
 			} else {
-				result.updated[key] = { __old: expectedValue, __new: actualValue };
+				result.updated[String(key)] = { __old: expectedValue, __new: actualValue };
 			}
 		}
 	}
+
 	if (
-		Object.keys(result.added).length === 0 && Object.keys(result.deleted).length === 0
-		&& Object.keys(result.updated).length === 0
+		Object.keys(result.added).length === 0 &&
+		Object.keys(result.deleted).length === 0 &&
+		Object.keys(result.updated).length === 0
 	) {
 		return undefined;
 	}
+
 	return result;
 }
 
-function diffArrays(expected: any[], actual: any[], options: DiffOptions): DiffResult | undefined {
-	const changes = lcs(expected, actual, options);
+function diffArrays(expected: any[], actual: any[]): DiffResult | undefined {
+	const changes = lcs(expected, actual);
 
 	// If there are no changes, return undefined
-	if (changes.every(c => c.type === "common")) {
+	if (changes.every(c => c.type === ChangeType.COMMON)) {
 		return undefined;
 	}
 
@@ -178,15 +177,21 @@ function diffArrays(expected: any[], actual: any[], options: DiffOptions): DiffR
 	return result;
 }
 
-function diffSets(expected: Set<any>, actual: Set<any>): DiffResult {
+function diffSets(expected: Set<any>, actual: Set<any>): DiffResult | undefined {
 	const result: DiffResult = { added: {}, deleted: {}, updated: {} };
 	const addedValues = new Set();
 	const deletedValues = new Set(expected);
 
 	for (const value of actual) {
-		if (deletedValues.has(value)) {
-			deletedValues.delete(value);
-		} else {
+		let found = false;
+		for (const v of deletedValues) {
+			if (isEqual(v, value)) {
+				deletedValues.delete(v);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
 			addedValues.add(value);
 		}
 	}
@@ -196,6 +201,10 @@ function diffSets(expected: Set<any>, actual: Set<any>): DiffResult {
 	}
 	if (addedValues.size > 0) {
 		result.added = { values: Array.from(addedValues) };
+	}
+
+	if (deletedValues.size === 0 && addedValues.size === 0) {
+		return undefined;
 	}
 
 	return result;
