@@ -3,9 +3,9 @@
  * Handles module resolution with monorepo workspace support
  */
 
+import { existsSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { existsSync } from "node:fs";
 
 export interface ResolveOptions {
 	readonly root: string;
@@ -35,7 +35,7 @@ export function createResolver(options: ResolveOptions): Resolver {
 		if (id.startsWith("@workspace/")) {
 			const packageName = id.replace("@workspace/", "");
 			const packagePath = join(root, "packages", packageName);
-			
+
 			if (existsSync(packagePath)) {
 				const packageJsonPath = join(packagePath, "package.json");
 				if (existsSync(packageJsonPath)) {
@@ -82,7 +82,7 @@ export function createResolver(options: ResolveOptions): Resolver {
 	// Try index files
 	const tryIndexFiles = (dirPath: string): string | null => {
 		if (!tryIndex) return null;
-		
+
 		for (const ext of extensions) {
 			const indexPath = join(dirPath, `index${ext}`);
 			if (existsSync(indexPath)) {
@@ -95,34 +95,34 @@ export function createResolver(options: ResolveOptions): Resolver {
 	// Resolve relative paths
 	const resolveRelative = (id: string, importer: string): string | null => {
 		if (!importer) return null;
-		
+
 		if (id.startsWith("./") || id.startsWith("../")) {
 			const importerDir = importer.substring(0, importer.lastIndexOf("/"));
 			const resolvedPath = resolve(importerDir, id);
-			
+
 			// Try as file
 			const withExt = tryExtensions(resolvedPath);
 			if (withExt) return withExt;
-			
+
 			// Try as directory
 			const indexFile = tryIndexFiles(resolvedPath);
 			if (indexFile) return indexFile;
 		}
-		
+
 		return null;
 	};
 
 	// Resolve node_modules
 	const resolveNodeModules = async (id: string, startDir: string): Promise<string | null> => {
 		let currentDir = startDir;
-		
+
 		while (currentDir !== resolve(currentDir, "..")) {
 			const nodeModulesPath = join(currentDir, "node_modules", id);
-			
+
 			// Try as file
 			const withExt = tryExtensions(nodeModulesPath);
 			if (withExt) return withExt;
-			
+
 			// Try package.json main field
 			const packageJsonPath = join(nodeModulesPath, "package.json");
 			if (existsSync(packageJsonPath)) {
@@ -140,14 +140,14 @@ export function createResolver(options: ResolveOptions): Resolver {
 					// Ignore
 				}
 			}
-			
+
 			// Try index file
 			const indexFile = tryIndexFiles(nodeModulesPath);
 			if (indexFile) return indexFile;
-			
+
 			currentDir = resolve(currentDir, "..");
 		}
-		
+
 		return null;
 	};
 

@@ -1,17 +1,20 @@
 import { createConsoleLogger } from "@wpackages/observability";
+import { Context, Effect, Layer } from "effect";
 import { Config } from "../config/app.config";
-import { Effect } from "../lib/functional";
 
 // Define the Logger interface based on the one from observability
 export type Logger = ReturnType<typeof createConsoleLogger>;
 
 // Create a context tag for the Logger service
-export const Logger = Effect.tag<Logger>("Logger");
+export const Logger = Context.GenericTag<Logger>("@wpackages/program/Logger");
 
 // Create a live layer that provides a real console logger, dependent on Config
-export const LoggerLive = Effect.map(Effect.get(Config), (config) => ({
-	[Logger.key]: createConsoleLogger({
-		minLevel: config.logLevel,
-		baseMeta: { service: "program" },
-	}),
-}));
+const makeLogger = Effect.map(Config, (config) =>
+	Logger.of(
+		createConsoleLogger({
+			minLevel: config.logLevel,
+			baseMeta: { service: "program" },
+		}),
+	));
+
+export const LoggerLive = Layer.effect(Logger, makeLogger);

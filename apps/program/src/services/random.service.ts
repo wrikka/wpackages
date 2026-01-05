@@ -1,8 +1,8 @@
+import { Context, Effect } from "effect";
 import type { RandomGenerationError } from "../error";
-import { Effect } from "../lib/functional";
 
 export interface Random {
-	readonly next: () => Effect<number, RandomGenerationError, never>;
+	readonly next: () => Effect.Effect<number, RandomGenerationError>;
 }
 
-export const Random = Effect.tag<Random>("Random");
+export const Random = Context.GenericTag<Random>("@wpackages/program/Random");

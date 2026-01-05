@@ -34,7 +34,7 @@
 		},
 		"test": {
 			"dependsOn": ["^lint"],
-			"cache" : true
+			"cache": true
 		},
 
 		"test:coverage": {

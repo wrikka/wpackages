@@ -54,4 +54,3 @@ setInterval(() => {
 
 // Start the server
 void startServer();
-

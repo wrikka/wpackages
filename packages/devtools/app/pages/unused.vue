@@ -1,4 +1,3 @@
 <template>
-	<PageShell title="Unused Page">
-	</PageShell>
+	<PageShell title="Unused Page"> </PageShell>
 </template>

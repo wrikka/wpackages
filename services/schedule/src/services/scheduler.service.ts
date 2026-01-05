@@ -33,12 +33,12 @@ export class SchedulerService extends Context.Tag(
 // Create a live implementation layer for the SchedulerService
 export const SchedulerLive = Layer.effect(
 	SchedulerService,
-	Effect.gen(function* () {
+	Effect.gen(function*() {
 		// Use Ref to manage the state of tasks in a functional way
 		const tasks = yield* Ref.make(new Map<string, ScheduledTask>());
 
 		const scheduleTask = (config: ScheduleConfig, task: Effect.Effect<void>) =>
-			Effect.gen(function* () {
+			Effect.gen(function*() {
 				const taskMap = yield* Ref.get(tasks);
 				if (config.name && taskMap.has(config.name)) {
 					return yield* new TaskAlreadyExists({ name: config.name });
@@ -58,7 +58,7 @@ export const SchedulerLive = Layer.effect(
 			});
 
 		const cancelTask = (name: string) =>
-			Effect.gen(function* () {
+			Effect.gen(function*() {
 				const taskMap = yield* Ref.get(tasks);
 				const task = taskMap.get(name);
 				if (!task) {
@@ -73,7 +73,7 @@ export const SchedulerLive = Layer.effect(
 			});
 
 		const listTasks = () =>
-			Effect.gen(function* () {
+			Effect.gen(function*() {
 				const taskMap = yield* Ref.get(tasks);
 				return Array.from(taskMap.keys());
 			});

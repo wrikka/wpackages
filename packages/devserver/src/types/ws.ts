@@ -71,7 +71,10 @@ export type AnyWsMessage =
 	| WsErrorMessage;
 
 export interface DevServerWs {
-	readonly on: (event: "connection", listener: (ws: WebSocket & { on: (event: "message", listener: (data: Buffer) => void) => void }) => void) => void;
+	readonly on: (
+		event: "connection",
+		listener: (ws: WebSocket & { on: (event: "message", listener: (data: Buffer) => void) => void }) => void,
+	) => void;
 	readonly send: (type: string, data: unknown) => void;
 	readonly broadcast: (message: WsMessage) => void;
 }

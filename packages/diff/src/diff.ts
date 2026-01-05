@@ -1,5 +1,5 @@
 import { isEqual, isObjectLike } from "./isEqual";
-import { lcs, ChangeType } from "./lcs";
+import { ChangeType, lcs } from "./lcs";
 
 export interface DiffResult {
 	added: Record<string, any>;
@@ -53,7 +53,7 @@ function diffInternal(
 		const eIsArray = Array.isArray(expected);
 		const aIsArray = Array.isArray(actual);
 
-				if (eIsArray && aIsArray) {
+		if (eIsArray && aIsArray) {
 			return diffArrays(expected, actual);
 		}
 
@@ -155,9 +155,9 @@ function diffMaps(
 	}
 
 	if (
-		Object.keys(result.added).length === 0 &&
-		Object.keys(result.deleted).length === 0 &&
-		Object.keys(result.updated).length === 0
+		Object.keys(result.added).length === 0
+		&& Object.keys(result.deleted).length === 0
+		&& Object.keys(result.updated).length === 0
 	) {
 		return undefined;
 	}

@@ -1,4 +1,3 @@
 <template>
-	<PageShell title="Lint Page">
-	</PageShell>
+	<PageShell title="Lint Page"> </PageShell>
 </template>

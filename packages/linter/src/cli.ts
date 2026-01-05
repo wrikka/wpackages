@@ -145,47 +145,47 @@ const parseBenchArgs = (
 };
 
 const main = Effect.gen(function*(_) {
-    const args = process.argv.slice(2);
+	const args = process.argv.slice(2);
 
-    if (args.includes("--help") || args.includes("-h")) {
-        yield* _(Effect.log(helpText));
-        return;
-    }
+	if (args.includes("--help") || args.includes("-h")) {
+		yield* _(Effect.log(helpText));
+		return;
+	}
 
-    if (args[0] === "bench") {
-        yield* _(Effect.log("Benchmark feature is temporarily disabled due to a dependency issue."));
-        return;
-    }
+	if (args[0] === "bench") {
+		yield* _(Effect.log("Benchmark feature is temporarily disabled due to a dependency issue."));
+		return;
+	}
 
-    const paths = args.filter((arg) => !arg.startsWith("--"));
-    if (paths.length === 0) {
-        return yield* _(Effect.fail(new Error("No paths specified")));
-    }
+	const paths = args.filter((arg) => !arg.startsWith("--"));
+	if (paths.length === 0) {
+		return yield* _(Effect.fail(new Error("No paths specified")));
+	}
 
-    let configFile: string | undefined;
-    const configIndex = args.indexOf("--config");
-    if (configIndex > -1 && args[configIndex + 1]) {
-        configFile = args[configIndex + 1];
-    }
+	let configFile: string | undefined;
+	const configIndex = args.indexOf("--config");
+	if (configIndex > -1 && args[configIndex + 1]) {
+		configFile = args[configIndex + 1];
+	}
 
-    const report = yield* _(lint({
-        paths,
-        fix: args.includes("--fix"),
-        silent: args.includes("--silent"),
-        configFile,
-    }));
+	const report = yield* _(lint({
+		paths,
+		fix: args.includes("--fix"),
+		silent: args.includes("--silent"),
+		configFile,
+	}));
 
-    if (report.errorCount > 0) {
-        return yield* _(Effect.fail(new Error("Linting failed with errors")));
-    }
+	if (report.errorCount > 0) {
+		return yield* _(Effect.fail(new Error("Linting failed with errors")));
+	}
 });
 
 Effect.runPromise(main).catch((error) => {
-    if (error instanceof Error && error.message.includes("Linting failed")) {
-        // Don't log the error message again, the reporter already did.
-        process.exit(1);
-    } else {
-        console.error(pc.red("Fatal error:"), error);
-        process.exit(1);
-    }
+	if (error instanceof Error && error.message.includes("Linting failed")) {
+		// Don't log the error message again, the reporter already did.
+		process.exit(1);
+	} else {
+		console.error(pc.red("Fatal error:"), error);
+		process.exit(1);
+	}
 });

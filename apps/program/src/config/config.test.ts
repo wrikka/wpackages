@@ -1,4 +1,4 @@
-import { Layer } from "../lib/functional";
+import { Layer } from "effect";
 import { Config } from "./app.config";
 
 // Create a mock implementation for the Config service for testing purposes

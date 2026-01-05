@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "A comprehensive config manager with support for multiple file formats, environment variables, and schema validation.",
+	"type": "module",
 	"main": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
 	"exports": {
@@ -14,11 +15,11 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsdown --exports --dts --minify",
+		"build": "tsdown",
 		"dev": "tsdown --watch",
 		"test": "vitest run",
 		"lint": "oxlint --fix --type-aware",
-		"review": "bun run lint && bun run test && bun run build"
+		"verify": "bun run lint && bun run test && bun run build"
 	},
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",

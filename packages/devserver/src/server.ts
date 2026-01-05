@@ -25,11 +25,11 @@ export function createServer(root: string = process.cwd()) {
 		eventHandler(async (event) => {
 			const url = new URL(event.request.url);
 			const filePath = join(root, url.pathname.slice(1));
-			
+
 			try {
 				const content = await readFile(filePath, "utf-8");
 				const ext = extname(filePath);
-				
+
 				let contentType = "text/plain";
 				if (ext === ".html") {
 					contentType = "text/html";
@@ -43,7 +43,7 @@ export function createServer(root: string = process.cwd()) {
 				} else if (ext === ".css") {
 					contentType = "text/css";
 				}
-				
+
 				return new Response(content, {
 					headers: { "Content-Type": contentType },
 				});
@@ -61,7 +61,7 @@ export function createServer(root: string = process.cwd()) {
 						// Index not found either
 					}
 				}
-				
+
 				return new Response("Not Found", { status: 404 });
 			}
 		}),

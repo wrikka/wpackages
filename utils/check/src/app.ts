@@ -39,7 +39,7 @@ const AllCheckerServicesLive = Layer.mergeAll(
 
 export const runChecker = (
 	partialOptions: Partial<CheckerOptions> = {},
-): Effect.Effect<CheckResults, Error> =>
+): Effect.Effect<CheckResults, Error, never> =>
 	Effect.gen(function*() {
 		const options = createCheckerConfig(partialOptions);
 		const results = yield* runChecks(options);
@@ -98,9 +98,14 @@ async function main() {
 			outro("All checks passed!");
 			process.exit(0);
 		})
-		.catch((error: any) => {
+		.catch((error: unknown) => {
 			s.stop("Checks failed.");
-			outro(`Error: ${error.message}`);
+			if (error instanceof Error) {
+				outro(`An unexpected error occurred: ${error.message}`);
+			} else {
+				outro("An unexpected error occurred. Please check the logs for more details.");
+			}
+			console.error(error);
 			process.exit(1);
 		});
 }

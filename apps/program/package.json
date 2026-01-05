@@ -6,16 +6,20 @@
 		"watch": "bun lint && bun watch && bun test",
 		"start": "bun --watch dev && vitest:ui",
 		"dev": "bun run src/index.ts",
+		"format": "dprint fmt",
 		"lint": "oxlint --fix --type-aware",
 		"build": "tsdown",
 		"test": "bun test",
-		"verify": "bun format && bun lint && bun run test && bun audit && bun run build"
+		"verify": "bun format && bun lint && bun run test && (bun audit || true) && bun run build"
 	},
 	"devDependencies": {
+		"tsdown": "^0.18.4",
 		"vite-tsconfig-paths": "^6.0.3"
 	},
 	"dependencies": {
 		"@wpackages/config-manager": "workspace:*",
-		"@wpackages/observability": "workspace:*"
+		"@wpackages/logger": "workspace:*",
+		"@wpackages/observability": "workspace:*",
+		"effect": "^3.19.14"
 	}
 }

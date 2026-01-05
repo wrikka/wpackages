@@ -18,44 +18,44 @@ Lightweight, zero-dependency tracing primitives designed to be the foundation fo
 
 Get started with tracing in just a few lines of code.
 
-1.  **Initialize the Provider**
+1. **Initialize the Provider**
 
-    Create a file (e.g., `tracing.ts`) to initialize the tracing system. This should be imported as early as possible in your application's lifecycle.
+   Create a file (e.g., `tracing.ts`) to initialize the tracing system. This should be imported as early as possible in your application's lifecycle.
 
-    ```typescript
-    // src/tracing.ts
-    import { init } from '@wpackages/tracing';
+   ```typescript
+   // src/tracing.ts
+   import { init } from "@wpackages/tracing";
 
-    // This sets up a tracer provider with:
-    // - A ConsoleSpanExporter to print traces to the console.
-    // - A BatchSpanProcessor for efficient exporting.
-    // - FetchInstrumentation to automatically trace HTTP requests.
-    export const provider = init();
-    ```
+   // This sets up a tracer provider with:
+   // - A ConsoleSpanExporter to print traces to the console.
+   // - A BatchSpanProcessor for efficient exporting.
+   // - FetchInstrumentation to automatically trace HTTP requests.
+   export const provider = init();
+   ```
 
-2.  **Get a Tracer and Create Spans**
+2. **Get a Tracer and Create Spans**
 
-    In your application code, get a tracer from the provider and start creating spans.
+   In your application code, get a tracer from the provider and start creating spans.
 
-    ```typescript
-    import { provider } from './tracing';
+   ```typescript
+   import { provider } from "./tracing";
 
-    const tracer = provider.getTracer('my-app');
+   const tracer = provider.getTracer("my-app");
 
-    async function doWork() {
-      await tracer.trace('doWork', async (span) => {
-        span.setAttribute('my.attribute', 'my-value');
-        console.log('Doing some work...');
-        // This fetch call will be automatically traced!
-        await fetch('https://example.com');
-      });
-    }
+   async function doWork() {
+   	await tracer.trace("doWork", async (span) => {
+   		span.setAttribute("my.attribute", "my-value");
+   		console.log("Doing some work...");
+   		// This fetch call will be automatically traced!
+   		await fetch("https://example.com");
+   	});
+   }
 
-    doWork().finally(() => {
-      // Gracefully shutdown the provider to flush any remaining spans
-      provider.shutdown();
-    });
-    ```
+   doWork().finally(() => {
+   	// Gracefully shutdown the provider to flush any remaining spans
+   	provider.shutdown();
+   });
+   ```
 
 ## Advanced Usage
 

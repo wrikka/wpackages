@@ -11,7 +11,7 @@
 		"dev": "bun --watch src/bin/cli.ts",
 		"lint": "oxlint --fix --type-aware",
 		"test": "vitest run",
-		"review": "bun lint && bun test && bun build"
+		"verify": "bun lint && bun test && bun build"
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.11.0",

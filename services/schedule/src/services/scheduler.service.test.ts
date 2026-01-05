@@ -1,16 +1,11 @@
 import { assert, describe, it } from "@effect/vitest";
 import { Effect, Ref } from "effect";
 import * as TestClock from "effect/TestClock";
-import {
-	SchedulerLive,
-	SchedulerService,
-	TaskAlreadyExists,
-	TaskNotFound,
-} from "./scheduler.service";
+import { SchedulerLive, SchedulerService, TaskAlreadyExists, TaskNotFound } from "./scheduler.service";
 
 describe("SchedulerService", () => {
 	it("should schedule and list a task", () =>
-		Effect.gen(function* () {
+		Effect.gen(function*() {
 			const service = yield* SchedulerService;
 			const config = { name: "test-task", enabled: true };
 			const task = Effect.void;
@@ -22,7 +17,7 @@ describe("SchedulerService", () => {
 		}).pipe(Effect.provide(SchedulerLive)));
 
 	it("should run a scheduled task after an interval", () =>
-		Effect.gen(function* () {
+		Effect.gen(function*() {
 			const service = yield* SchedulerService;
 			const ref = yield* Ref.make(0);
 			const task = Ref.update(ref, (n) => n + 1);
@@ -37,7 +32,7 @@ describe("SchedulerService", () => {
 		}).pipe(Effect.provide(SchedulerLive)));
 
 	it("should prevent scheduling duplicate tasks", () =>
-		Effect.gen(function* () {
+		Effect.gen(function*() {
 			const service = yield* SchedulerService;
 			const config = { name: "duplicate-task", enabled: true };
 			const task = Effect.void;
@@ -52,7 +47,7 @@ describe("SchedulerService", () => {
 		}).pipe(Effect.provide(SchedulerLive)));
 
 	it("should cancel a task", () =>
-		Effect.gen(function* () {
+		Effect.gen(function*() {
 			const service = yield* SchedulerService;
 			const config = { name: "cancel-task", enabled: true };
 			const task = Effect.void;
@@ -65,7 +60,7 @@ describe("SchedulerService", () => {
 		}).pipe(Effect.provide(SchedulerLive)));
 
 	it("should fail to cancel a non-existent task", () =>
-		Effect.gen(function* () {
+		Effect.gen(function*() {
 			const service = yield* SchedulerService;
 			const result = yield* Effect.flip(
 				service.cancelTask("non-existent-task"),

@@ -7,6 +7,6 @@ export class FileSystemError extends Data.TaggedError("FileSystemError")<{
 }> {}
 
 export class SemanticLinterError extends Data.TaggedError("SemanticLinterError")<{
-    readonly message: string;
-    readonly cause?: unknown;
+	readonly message: string;
+	readonly cause?: unknown;
 }> {}

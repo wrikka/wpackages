@@ -34,7 +34,6 @@
 		"@types/mustache": "^4.2.6",
 		"@vitest/coverage-v8": "^4.0.16",
 		"dprint": "^0.50.2",
-		"lefthook": "^2.0.13",
 		"oxlint": "^1.36.0",
 		"oxlint-tsgolint": "^0.10.1",
 		"release-it": "^19.2.2",

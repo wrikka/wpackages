@@ -30,7 +30,7 @@
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
 		"lint": "oxlint --fix --type-aware",
-		"review": "bun format && bun lint && bun test",
+		"verify": "bun format && bun lint && bun test",
 		"test": "vitest"
 	},
 	"type": "module",

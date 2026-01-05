@@ -45,8 +45,7 @@ export const parseCronExpression = (
 				});
 			}
 
-			const [minute = "", hour = "", day = "", month = "", weekday = ""] =
-				parts;
+			const [minute = "", hour = "", day = "", month = "", weekday = ""] = parts;
 
 			if (!isValidCronField(minute, 0, 59)) {
 				throw new CronParseError({
@@ -103,11 +102,11 @@ export const validateCronExpression = (cron: string): boolean => {
 		const weekday = parts[4] ?? "";
 
 		return (
-			isValidCronField(minute, 0, 59) &&
-			isValidCronField(hour, 0, 23) &&
-			isValidCronField(day, 1, 31) &&
-			isValidCronField(month, 1, 12) &&
-			isValidCronField(weekday, 0, 6)
+			isValidCronField(minute, 0, 59)
+			&& isValidCronField(hour, 0, 23)
+			&& isValidCronField(day, 1, 31)
+			&& isValidCronField(month, 1, 12)
+			&& isValidCronField(weekday, 0, 6)
 		);
 	} catch {
 		return false;

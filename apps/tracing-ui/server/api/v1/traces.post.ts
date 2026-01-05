@@ -1,15 +1,15 @@
 export default defineEventHandler(async (event) => {
-  const spans = await readBody(event);
-  const storage = event.context.storage;
+	const spans = await readBody(event);
+	const storage = event.context.storage;
 
-  if (Array.isArray(spans)) {
-    storage.spans.push(...spans);
-  }
+	if (Array.isArray(spans)) {
+		storage.spans.push(...spans);
+	}
 
-  // A simple mechanism to keep the array from growing indefinitely
-  if (storage.spans.length > 1000) {
-    storage.spans.splice(0, storage.spans.length - 1000);
-  }
+	// A simple mechanism to keep the array from growing indefinitely
+	if (storage.spans.length > 1000) {
+		storage.spans.splice(0, storage.spans.length - 1000);
+	}
 
-  return { received: spans.length };
+	return { received: spans.length };
 });

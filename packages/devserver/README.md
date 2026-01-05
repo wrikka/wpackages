@@ -7,6 +7,7 @@
 ## Features
 
 ### ✅ Implemented (Phase A + Phase B)
+
 - ⚡ **Core Runtime**: HTTP server + WebSocket + static file serving
 - 🔥 **HMR Protocol**: Custom WebSocket-based HMR with full-reload support
 - 🧠 **Transform Cache**: In-memory + disk caching for transformed modules
@@ -19,11 +20,13 @@
 - 🏗️ **Build System**: TypeScript compilation with type declarations
 
 ### 🚧 In Progress
+
 - 🎨 **Error Overlay**: Browser overlay for runtime errors
 - ⚡ **Partial HMR**: Module-level hot updates (vs full-reload)
 - 📦 **Optimize Deps**: Dependency pre-bundling strategy
 
 ### 📋 Planned
+
 - 🌐 **SSR Support**: Server-side rendering development story
 - 🔬 **Tracing Integration**: Performance tracing with `@wpackages/tracing`
 - 📊 **Benchmarks**: Performance comparison against Vite/Rsbuild
@@ -133,6 +136,7 @@ const myPlugin: DevServerPluginInstance = {
 Creates a new dev server instance.
 
 **Config Options:**
+
 - `port?: number` - Server port (default: 3000)
 - `hostname?: string` - Server hostname (default: "localhost")
 - `root?: string` - Project root directory
@@ -142,6 +146,7 @@ Creates a new dev server instance.
 - `watch?: WatchOptions` - File watching options
 
 **Server Methods:**
+
 - `start(): Promise<void>` - Start the server
 - `stop(): Promise<void>` - Stop the server
 - `onReload(callback): void` - Register reload callback
@@ -176,6 +181,7 @@ Current coverage: ~17% (growing with new features)
 ### Benchmarks (Coming Soon)
 
 We're working on comprehensive benchmarks comparing:
+
 - Cold start time
 - First page load
 - HMR latency
@@ -191,17 +197,17 @@ We're working on comprehensive benchmarks comparing:
 
 ## Comparison with Other Tools
 
-| Feature | @wpackages/devserver | Vite | Rsbuild | Rspack | Webpack |
-|---|---|---|---|---|---|
-| Core Runtime | ✅ | ✅ | ✅ | ✅ | ✅ |
-| HMR | ✅ (custom) | ✅ | ✅ | ✅ | ✅ |
-| Plugin API | ✅ (type-safe) | ✅ | ✅ | ✅ | ✅ |
-| Cache | ✅ (multi-layer) | ✅ | ✅ | ✅ | ✅ |
-| Module Graph | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Monorepo | ✅ (native) | ⚠️ | ✅ | ⚠️ | ⚠️ |
-| Error Overlay | 🚧 | ✅ | ✅ | ✅ | ✅ |
-| Performance | ✅ (monitoring) | ✅ | ✅ | ✅ | ⚠️ |
-| TypeScript | ✅ (native) | ✅ | ✅ | ✅ | ⚠️ |
+| Feature       | @wpackages/devserver | Vite | Rsbuild | Rspack | Webpack |
+| ------------- | -------------------- | ---- | ------- | ------ | ------- |
+| Core Runtime  | ✅                   | ✅   | ✅      | ✅     | ✅      |
+| HMR           | ✅ (custom)          | ✅   | ✅      | ✅     | ✅      |
+| Plugin API    | ✅ (type-safe)       | ✅   | ✅      | ✅     | ✅      |
+| Cache         | ✅ (multi-layer)     | ✅   | ✅      | ✅     | ✅      |
+| Module Graph  | ✅                   | ✅   | ✅      | ✅     | ✅      |
+| Monorepo      | ✅ (native)          | ⚠️    | ✅      | ⚠️      | ⚠️       |
+| Error Overlay | 🚧                   | ✅   | ✅      | ✅     | ✅      |
+| Performance   | ✅ (monitoring)      | ✅   | ✅      | ✅     | ⚠️       |
+| TypeScript    | ✅ (native)          | ✅   | ✅      | ✅     | ⚠️       |
 
 ## Contributing
 
@@ -220,8 +226,8 @@ MIT
 await server.start();
 
 console.log("Dev server running on http://localhost:3000");
-```
 
+````
 ### Example: Advanced Configuration
 
 ```typescript
@@ -247,7 +253,7 @@ server.onReload(() => {
 });
 
 await server.start();
-```
+````
 
 ## License
 

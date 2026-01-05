@@ -1,6 +1,6 @@
 import { createConfigManager } from "@wpackages/config-manager";
 import type { LogLevel } from "@wpackages/observability";
-import { Effect } from "../lib/functional";
+import { Context, Effect, Layer } from "effect";
 
 // 1. Define the application config interface
 export interface AppConfig extends Record<string, unknown> {
@@ -8,7 +8,7 @@ export interface AppConfig extends Record<string, unknown> {
 }
 
 // 2. Create a context tag for the AppConfig
-export const Config = Effect.tag<AppConfig>("Config");
+export const Config = Context.GenericTag<AppConfig>("@wpackages/program/Config");
 
 // 3. Create the config manager with a schema
 const configManager = createConfigManager<AppConfig>({
@@ -22,13 +22,15 @@ const configManager = createConfigManager<AppConfig>({
 });
 
 // 4. Create a layer that provides the loaded config
-const configEffect = Effect.fromPromise(() =>
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	configManager
-		.load()
-		.then((res: any) => res.config)
-);
+const configEffect = Effect.tryPromise({
+	try: async () => {
+		const res = await configManager.load();
+		return (res as { config: AppConfig }).config;
+	},
+	catch: (error) =>
+		error instanceof Error
+			? error
+			: new Error(`Failed to load config: ${String(error)}`),
+});
 
-export const ConfigLive = Effect.map(configEffect, (config) => ({
-	[Config.key]: config,
-}));
+export const ConfigLive = Layer.effect(Config, configEffect);

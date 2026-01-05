@@ -34,8 +34,7 @@ describe("loadCliConfig", () => {
 
 	it("should derive config name from package.json", async () => {
 		vi.spyOn(findUp, "findUp").mockResolvedValue("/fake/path/package.json");
-		// @ts-ignore
-		vi.spyOn(Bun, "file").mockReturnValue({ json: () => Promise.resolve({ name: "@scoped/my-awesome-cli" }) });
+		vi.spyOn(Bun as any, "file").mockReturnValue({ json: () => Promise.resolve({ name: "@scoped/my-awesome-cli" }) });
 		vi.spyOn(configManager, "loadConfig").mockResolvedValue({
 			config: { name: "my-awesome-cli", version: "1.2.3", commands: [] },
 		});

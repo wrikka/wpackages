@@ -1,7 +1,7 @@
 import { glob } from "glob";
 import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
-import { rimraf } from "rimraf";
+import trash from "trash";
 
 export interface CleanableItem {
 	path: string;
@@ -70,7 +70,7 @@ export const findCleanableItems = async (
 
 export const cleanup = async (targets: string[]): Promise<CleanupResult[]> => {
 	const results = await Promise.allSettled(
-		targets.map((path) => rimraf(path).then(() => path)),
+		targets.map((path) => trash(path).then(() => path)),
 	);
 
 	return results.map((result, index) => {

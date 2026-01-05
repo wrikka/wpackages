@@ -134,10 +134,10 @@ Inherit and merge configurations from other files.
 
 ```json
 {
-  "extends": "../../wmo.base.json",
-  "pipeline": {
-    "build": { "env": ["MY_VAR"] }
-  }
+	"extends": "../../wmo.base.json",
+	"pipeline": {
+		"build": { "env": ["MY_VAR"] }
+	}
 }
 ```
 
@@ -147,15 +147,13 @@ Define tag-based dependency rules. The `doctor` command will report violations.
 
 ```json
 {
-  "projects": {
-    "@scope/frontend": { "tags": ["frontend"] },
-    "@scope/backend": { "tags": ["backend"] }
-  },
-  "constraints": {
-    "deny": [
-      { "from_tag": "frontend", "to_tag": "backend" }
-    ]
-  }
+	"projects": {
+		"@scope/frontend": { "tags": ["frontend"] },
+		"@scope/backend": { "tags": ["backend"] }
+	},
+	"constraints": {
+		"deny": [{ "from_tag": "frontend", "to_tag": "backend" }]
+	}
 }
 ```
 
@@ -165,13 +163,13 @@ Run external commands on lifecycle events.
 
 ```json
 {
-  "plugins": [
-    {
-      "command": "node",
-      "args": ["scripts/my-plugin.js"],
-      "enabled": true
-    }
-  ]
+	"plugins": [
+		{
+			"command": "node",
+			"args": ["scripts/my-plugin.js"],
+			"enabled": true
+		}
+	]
 }
 ```
 

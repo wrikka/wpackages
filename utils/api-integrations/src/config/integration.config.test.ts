@@ -133,8 +133,7 @@ describe("Integration Config", () => {
 
 		it("should throw error for unknown pagination type", () => {
 			expect(() => {
-				// @ts-expect-error - testing invalid type
-				buildPaginationConfig("invalid");
+				buildPaginationConfig("invalid" as any);
 			}).toThrow("Unknown pagination type");
 		});
 	});

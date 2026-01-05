@@ -1,8 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { Cause, Effect, Exit, Layer, Option } from "effect";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { program } from "./app";
 import { TestConfigLive } from "./config/config.test";
 import { RandomGenerationError } from "./error";
-import { Effect, Layer } from "./lib/functional";
 import { Logger, Random } from "./services";
 
 describe("program", () => {
@@ -18,19 +18,26 @@ describe("program", () => {
 
 	const TestLoggerLive = Layer.succeed(Logger, mockLogger);
 
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
 	it("should log a random number on success", async () => {
 		// Arrange
 		const TestRandomLive = Layer.succeed(Random, {
 			next: () => Effect.succeed(0.5),
 		});
 		const TestLayer = Layer.merge(TestConfigLive, Layer.merge(TestLoggerLive, TestRandomLive));
-		const runnable = Effect.provideLayer(program, TestLayer);
+		const runnable = program.pipe(Effect.provide(TestLayer));
 
 		// Act
-		const result = await Effect.runPromise(runnable);
+		const result = await Effect.runPromiseExit(runnable);
 
 		// Assert
-		expect(result).toBeUndefined(); // program returns void on success
+		if (!Exit.isSuccess(result)) {
+			throw new Error("Expected success Exit");
+		}
+		expect(result.value).toBeUndefined(); // program returns void on success
 		expect(mockLogger.info).toHaveBeenCalledWith("random-number-generated", { number: 0.5 });
 	});
 
@@ -41,16 +48,20 @@ describe("program", () => {
 			next: () => Effect.fail(error),
 		});
 		const TestLayer = Layer.merge(TestConfigLive, Layer.merge(TestLoggerLive, TestRandomLive));
-		const runnable = Effect.provideLayer(program, TestLayer);
+		const runnable = program.pipe(Effect.provide(TestLayer));
 
 		// Act
-		const result = await Effect.runPromiseEither(runnable);
+		const result = await Effect.runPromiseExit(runnable);
 
 		// Assert
-		expect(result._tag).toBe("Left");
-		if (result._tag === "Left") {
-			expect(result.left).toBe(error);
+		if (!Exit.isFailure(result)) {
+			throw new Error("Expected failure Exit");
 		}
+		const failure = Cause.failureOption(result.cause);
+		if (!Option.isSome(failure)) {
+			throw new Error("Expected failure cause to contain a failure value");
+		}
+		expect(failure.value).toBe(error);
 		expect(mockLogger.info).not.toHaveBeenCalled();
 	});
 });

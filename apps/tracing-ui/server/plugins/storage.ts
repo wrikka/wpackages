@@ -4,9 +4,9 @@
 const receivedSpans: any[] = [];
 
 export default defineNitroPlugin((nitroApp) => {
-  nitroApp.hooks.hook('request', (event) => {
-    event.context.storage = {
-      spans: receivedSpans,
-    };
-  });
+	nitroApp.hooks.hook("request", (event) => {
+		event.context.storage = {
+			spans: receivedSpans,
+		};
+	});
 });

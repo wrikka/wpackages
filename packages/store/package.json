@@ -9,12 +9,7 @@
 		"test": "vitest",
 		"lint": "oxlint --fix --type-aware"
 	},
-	"keywords": [
-		"state-management",
-		"store",
-		"atomic",
-		"nanostore"
-	],
+	"keywords": ["state-management", "store", "atomic", "nanostore"],
 	"author": "newkub",
 	"license": "MIT",
 	"devDependencies": {

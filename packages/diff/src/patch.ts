@@ -5,18 +5,22 @@ import rfdc from "rfdc";
 
 const deepClone = rfdc();
 
-function applyLcs<T>(source: T[], lcs: Array<{ type: ChangeType; value: T; indexA?: number; indexB?: number }>, keep: ChangeType.ADD | ChangeType.DELETE): T[] {
-    const result: T[] = [];
-    for (const change of lcs) {
-        if (change.type === ChangeType.COMMON) {
-            if (change.indexA !== undefined) {
-                result.push(source[change.indexA]);
-            }
-        } else if (change.type === keep) {
-            result.push(change.value);
-        }
-    }
-    return result;
+function applyLcs<T>(
+	source: T[],
+	lcs: Array<{ type: ChangeType; value: T; indexA?: number; indexB?: number }>,
+	keep: ChangeType.ADD | ChangeType.DELETE,
+): T[] {
+	const result: T[] = [];
+	for (const change of lcs) {
+		if (change.type === ChangeType.COMMON) {
+			if (change.indexA !== undefined) {
+				result.push(source[change.indexA]);
+			}
+		} else if (change.type === keep) {
+			result.push(change.value);
+		}
+	}
+	return result;
 }
 
 function patchMap(source: Map<any, any>, diff: DiffResult): Map<any, any> {
@@ -100,7 +104,7 @@ export function unpatch<T>(source: T, diff: DiffResult): T {
 			if ("__old" in value && "__new" in value) {
 				result[key] = deepClone(value.__old);
 			} else if ("_lcs" in value) {
-								result[key] = applyLcs(result[key], (value as any)._lcs, ChangeType.DELETE);
+				result[key] = applyLcs(result[key], (value as any)._lcs, ChangeType.DELETE);
 			} else {
 				result[key] = unpatch(result[key], value as DiffResult);
 			}

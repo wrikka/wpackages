@@ -18,6 +18,4 @@ export const createCheckerConfig = (
 ): CheckerOptions => ({
 	...defaultCheckerOptions,
 	...options,
-	exclude: options.exclude ?? defaultCheckerOptions.exclude,
-	include: options.include ?? defaultCheckerOptions.include,
 });

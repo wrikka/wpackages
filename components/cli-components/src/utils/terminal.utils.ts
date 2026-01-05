@@ -19,10 +19,8 @@ export const getTerminalSize = (): {
  * Check if colors are supported
  */
 export const isColorSupported = (): boolean => {
-	// biome-ignore lint/complexity/useLiteralKeys: process.env requires bracket notation
-	const forceColor = process.env["FORCE_COLOR"];
-	// biome-ignore lint/complexity/useLiteralKeys: process.env requires bracket notation
-	const term = process.env["TERM"];
+	const forceColor = process.env.FORCE_COLOR;
+	const term = process.env.TERM;
 	return (
 		forceColor !== "0"
 		&& (forceColor === "1" || process.stdout?.isTTY === true || term !== "dumb")

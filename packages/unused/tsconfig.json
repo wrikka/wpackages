@@ -1,14 +1,19 @@
 {
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"target": "ES2020",
-		"module": "commonjs",
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
 		"outDir": "./dist",
-		"declaration": true
+		"paths": {},
+		"module": "ESNext", // Align with root config
+		"moduleResolution": "bundler" // Align with root config
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"]
+	"include": [
+		"src/**/*",
+		"src/*.d.ts",
+		"src/**/*.d.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"src/**/*.test.ts",
+		"dist"
+	]
 }

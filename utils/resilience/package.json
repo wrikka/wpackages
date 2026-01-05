@@ -10,17 +10,13 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
+	"files": ["dist", "README.md", "LICENSE"],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
 		"lint": "oxlint --fix --type-aware",
-		"review": "bun lint && bun test && bun build",
+		"verify": "bun lint && bun test && bun build",
 		"test": "vitest",
 		"test:coverage": "vitest --coverage",
 		"test:ui": "vitest --ui",

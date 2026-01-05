@@ -77,7 +77,7 @@ export function prompts() {
 			for (const question of questions) {
 				const answer = await new Promise<string>((resolve) => {
 					const prompt = question.default !== undefined
-						? `${question.message} [${question.default}] `
+						? `${question.message} [${String(question.default)}] `
 						: `${question.message} `;
 					rl.question(prompt, resolve);
 				});

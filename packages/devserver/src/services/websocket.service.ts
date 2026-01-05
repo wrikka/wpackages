@@ -3,8 +3,8 @@
  * No Vite coupling - pure devserver implementation
  */
 
-import { WebSocketServer } from "ws";
 import type { Server } from "node:http";
+import { WebSocketServer } from "ws";
 import type { DevServerWs, WsMessage } from "../types/ws";
 
 export function createWebSocketServer(httpServer: Server): DevServerWs {
@@ -35,7 +35,7 @@ export function createWebSocketServer(httpServer: Server): DevServerWs {
 		send: (type: string, data: unknown) => {
 			const message: WsMessage = { type, data };
 			const messageStr = JSON.stringify(message);
-			
+
 			for (const client of clients) {
 				if (client.readyState === WebSocket.OPEN) {
 					client.send(messageStr);
@@ -44,7 +44,7 @@ export function createWebSocketServer(httpServer: Server): DevServerWs {
 		},
 		broadcast: (message: WsMessage) => {
 			const messageStr = JSON.stringify(message);
-			
+
 			for (const client of clients) {
 				if (client.readyState === WebSocket.OPEN) {
 					client.send(messageStr);

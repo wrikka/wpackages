@@ -1,4 +1,3 @@
 <template>
-	<PageShell title="Preview Page">
-	</PageShell>
+	<PageShell title="Preview Page"> </PageShell>
 </template>

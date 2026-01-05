@@ -32,7 +32,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"lint": "oxlint --fix --type-aware",
-		"review": "bun run format && bun run lint && bun run test && bun run build"
+		"verify": "bun run format && bun run lint && bun run test && bun run build"
 	},
 	"dependencies": {},
 	"devDependencies": {

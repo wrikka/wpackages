@@ -27,7 +27,7 @@
 		"postbuild": "bun link",
 		"lint": "tsc --noEmit && oxlint --fix",
 		"release": "release-it",
-		"review": "bunx taze -r && bun run lint && bun run build",
+		"verify": "bunx taze -r && bun run lint && bun run build",
 		"test": "bun test"
 	},
 	"devDependencies": {

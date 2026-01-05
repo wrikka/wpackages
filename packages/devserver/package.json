@@ -20,10 +20,7 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "tsdown --dts --minify",
 		"dev": "tsc --noEmit --watch",

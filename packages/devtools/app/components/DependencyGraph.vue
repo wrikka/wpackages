@@ -115,5 +115,6 @@ onMounted(() => {
 	<div
 		ref="graphContainer"
 		class="w-full h-[800px] border rounded-lg bg-white dark:bg-gray-800"
-	></div>
+	>
+	</div>
 </template>

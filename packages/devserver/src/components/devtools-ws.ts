@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { resolve } from "node:path";
 import type { DevServerContext } from "../types/ws";
-import type { AnyWsMessage, WsConfigMessage, WsPackageInfoMessage, WsModuleGraphResponseMessage } from "../types/ws";
+import type { AnyWsMessage, WsConfigMessage, WsModuleGraphResponseMessage, WsPackageInfoMessage } from "../types/ws";
 
 export const handleWebSocket = (context: DevServerContext) => {
 	context.ws.on("connection", (ws) => {

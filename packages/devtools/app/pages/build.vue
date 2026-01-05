@@ -1,4 +1,3 @@
 <template>
-	<PageShell title="Build Page">
-	</PageShell>
+	<PageShell title="Build Page"> </PageShell>
 </template>

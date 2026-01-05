@@ -8,6 +8,8 @@ export { runBenchmark } from "./app";
  */
 export type { BenchmarkOptions, BenchmarkResult, ComparisonResult, Percentiles, Statistics } from "./types/index";
 
+export type { CommandDef, OptionDef, ProgramDef } from "./types/index";
+
 /**
  * CLI helpers
  */
@@ -18,6 +20,8 @@ export { parseCliArgs } from "./utils/cli-parser";
  * Display components
  */
 export * from "./components/display";
+
+export { generateCommandHelp, generateProgramHelp } from "./components/help";
 
 /**
  * Input components

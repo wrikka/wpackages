@@ -1,17 +1,17 @@
 import { toNodeListener } from "h3";
 import { createServer as createHttpServer, type Server } from "node:http";
 import { join } from "node:path";
+import { handleWebSocket } from "../components/devtools-ws";
 import { createDevServerConfig } from "../config";
 import { createServer as createApp } from "../server";
-import type { DevServerConfig, DevServerInstance, ServerStats, DevServerWs } from "../types";
+import type { DevServerConfig, DevServerInstance, DevServerWs, ServerStats } from "../types";
 import { createLogger } from "../utils/logger";
+import { createMetadataCache, createTransformCache } from "./cache.service";
+import { createModuleGraph } from "./module-graph.service";
 import { createPerformanceMonitor } from "./performance-monitor.service";
+import { createResolver } from "./resolver.service";
 import { createWatcherService } from "./watcher.service";
 import { createWebSocketServer } from "./websocket.service";
-import { handleWebSocket } from "../components/devtools-ws";
-import { createTransformCache, createMetadataCache } from "./cache.service";
-import { createModuleGraph } from "./module-graph.service";
-import { createResolver } from "./resolver.service";
 
 export const createDevServer = (
 	config: Partial<DevServerConfig> = {},
@@ -45,7 +45,7 @@ export const createDevServer = (
 			const app = createApp();
 			server = createHttpServer(toNodeListener(app));
 			wsServer = createWebSocketServer(server);
-			
+
 			// Setup WebSocket handlers
 			handleWebSocket({
 				root: finalConfig.root || process.cwd(),
@@ -53,7 +53,7 @@ export const createDevServer = (
 				hostname: finalConfig.hostname || "localhost",
 				ws: wsServer,
 			});
-			
+
 			server.listen(finalConfig.port || 3000, finalConfig.hostname || "localhost");
 			if (finalConfig.root) {
 				watcher.start(finalConfig.root);
@@ -89,7 +89,7 @@ export const createDevServer = (
 	const onReload = (callback: () => void | Promise<void>): void => {
 		watcher.on("all", (event, path) => {
 			logger.info(`File ${event}: ${path}. Triggering reload...`);
-			
+
 			// Send HMR update to all connected clients
 			if (wsServer) {
 				wsServer.broadcast({
@@ -100,7 +100,7 @@ export const createDevServer = (
 					},
 				});
 			}
-			
+
 			Promise.resolve(callback()).catch(err => logger.error(`Reload callback failed: ${err}`));
 		});
 	};

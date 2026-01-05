@@ -59,6 +59,7 @@ wmorepo run build --concurrency 4 --dry-run --print-graph --strict --no-cache --
 ### Remote Cache
 
 Set env vars:
+
 - `WMO_REMOTE_CACHE_TOKEN`
 - `WMO_REMOTE_CACHE_HEADERS_JSON`
 - `WMO_REMOTE_CACHE_TIMEOUT_MS`
@@ -69,7 +70,7 @@ Set env vars:
 
 ```yaml
 - uses: actions/checkout@v4
-- run: bun run verify  # runs fmt/lint/test/audit/build
+- run: bun run verify # runs fmt/lint/test/audit/build
 ```
 
 ## Development

@@ -206,7 +206,7 @@ async function rollbackWorkflow(
 		try {
 			await rollback();
 		} catch (error) {
-			log.error(`Rollback failed: ${error}`);
+			log.error(`Rollback failed: ${String(error)}`);
 		}
 	}
 }

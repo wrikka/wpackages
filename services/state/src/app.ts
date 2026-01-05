@@ -1,5 +1,5 @@
-import { Effect, Layer, Runtime } from "effect";
 import { createEffect, createSignal } from "@wpackages/signal";
+import { Effect, Layer, Runtime } from "effect";
 import { Box } from "./components/Box";
 import { Text } from "./components/Text";
 import { Renderer, RendererLive } from "./services/renderer.service";

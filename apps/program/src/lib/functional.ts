@@ -17,8 +17,7 @@ export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === "
 // ==================================
 // Effect
 // ==================================
-// biome-ignore lint/suspicious/noExplicitAny: Using any for simplified type erasure
-export type Effect<A, E = any, R = any> = (context: R) => Promise<Either<E, A>>;
+export type Effect<A, E = unknown, R = unknown> = (context: R) => Promise<Either<E, A>>;
 
 // ==================================
 // Runtime
@@ -126,15 +125,14 @@ async (ctx: Omit<R_In, keyof R>) => {
 // ==================================
 // Gen
 // ==================================
-// biome-ignore lint/suspicious/noExplicitAny: Using any for simplified type erasure
 async function runGenerator(
 	gen: Generator,
-	context: any,
-): Promise<Either<any, any>> {
+	context: unknown,
+): Promise<Either<unknown, unknown>> {
 	let result = gen.next();
 	while (!result.done) {
 		try {
-			const effect = result.value as Effect<any, any, any>;
+			const effect = result.value as Effect<unknown, unknown, unknown>;
 			const either = await effect(context);
 			if (isLeft(either)) {
 				return either;
@@ -147,7 +145,8 @@ async function runGenerator(
 	return right(result.value);
 }
 
-export const gen = <A>(f: () => Generator<any, A, any>): Effect<A, any, any> => (ctx) => runGenerator(f(), ctx);
+export const gen = <A>(f: () => Generator<unknown, A, unknown>): Effect<A, unknown, unknown> => (ctx) =>
+	runGenerator(f(), ctx);
 
 // ==================================
 // Consolidated Export

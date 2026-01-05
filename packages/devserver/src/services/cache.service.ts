@@ -4,7 +4,7 @@
  */
 
 import { createHash } from "node:crypto";
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export interface CacheEntry {
@@ -52,7 +52,7 @@ export function createTransformCache(cacheDir: string): TransformCache {
 				const cachePath = getCachePath(key);
 				const data = await readFile(cachePath, "utf-8");
 				const entry: CacheEntry = JSON.parse(data);
-				
+
 				// Store in memory
 				cache.set(key, entry);
 				return entry;
@@ -111,7 +111,7 @@ export function createMetadataCache(cacheDir: string): MetadataCache {
 				const cachePath = getCachePath(filePath);
 				const data = await readFile(cachePath, "utf-8");
 				const metadata: FileMetadata = JSON.parse(data);
-				
+
 				cache.set(filePath, metadata);
 				return metadata;
 			} catch {

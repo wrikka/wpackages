@@ -51,19 +51,19 @@ export async function injectHtml(
 </script>`;
 
 	// Inject before closing </body> tag or at the end
-	const bodyCloseIndex = html.lastIndexOf('</body>');
+	const bodyCloseIndex = html.lastIndexOf("</body>");
 	if (bodyCloseIndex !== -1) {
-		return html.slice(0, bodyCloseIndex) + hmrScript + '\n' + html.slice(bodyCloseIndex);
+		return html.slice(0, bodyCloseIndex) + hmrScript + "\n" + html.slice(bodyCloseIndex);
 	}
-	
+
 	// If no </body> tag, inject at the end
-	return html + '\n' + hmrScript;
+	return html + "\n" + hmrScript;
 }
 
 export async function loadAndInjectHtml(
 	filePath: string,
 	options: HtmlInjectOptions = { hmrClient: true, errorOverlay: true },
 ): Promise<string> {
-	const html = await readFile(filePath, 'utf-8');
+	const html = await readFile(filePath, "utf-8");
 	return injectHtml(html, options);
 }

@@ -39,7 +39,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 	const getModuleId = (url: string): string => {
 		const existing = urlToId.get(url);
 		if (existing) return existing;
-		
+
 		const id = createHash("md5").update(url).digest("hex").slice(0, 16);
 		urlToId.set(url, id);
 		return id;
@@ -47,7 +47,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 
 	const parseDependencies = (content: string, type: ModuleNode["type"]): string[] => {
 		const deps: string[] = [];
-		
+
 		if (type === "js" || type === "ts") {
 			// Simple regex-based dependency extraction
 			// Import statements
@@ -56,13 +56,13 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			while ((match = importRegex.exec(content)) !== null) {
 				deps.push(match[1]);
 			}
-			
+
 			// Dynamic imports
 			const dynamicImportRegex = /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 			while ((match = dynamicImportRegex.exec(content)) !== null) {
 				deps.push(match[1]);
 			}
-			
+
 			// Require calls (for CommonJS)
 			const requireRegex = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 			while ((match = requireRegex.exec(content)) !== null) {
@@ -76,7 +76,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 				deps.push(match[1]);
 			}
 		}
-		
+
 		return deps;
 	};
 
@@ -84,7 +84,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 		let content: string | undefined;
 		let lastModified = Date.now();
 		let hash = "";
-		
+
 		if (!url.startsWith("virtual:")) {
 			try {
 				const stats = await stat(url);

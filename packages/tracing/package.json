@@ -3,11 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "Lightweight, zero-dependency tracing primitives for wpackages",
-	"keywords": [
-		"tracing",
-		"observability",
-		"performance"
-	],
+	"keywords": ["tracing", "observability", "performance"],
 	"type": "module",
 	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
@@ -16,10 +12,7 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "bunx tsdown --dts --minify",
 		"dev": "bunx tsdown --watch",

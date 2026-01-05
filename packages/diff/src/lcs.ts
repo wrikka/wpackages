@@ -20,7 +20,7 @@ export function lcs(a: any[], b: any[]): LcsChange[] {
 
 	for (let i = 1; i <= m; i++) {
 		for (let j = 1; j <= n; j++) {
-							if (isEqual(a[i - 1], b[j - 1])) {
+			if (isEqual(a[i - 1], b[j - 1])) {
 				dp[i][j] = dp[i - 1][j - 1] + 1;
 			} else {
 				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -33,7 +33,7 @@ export function lcs(a: any[], b: any[]): LcsChange[] {
 	const result: LcsChange[] = [];
 
 	while (i > 0 || j > 0) {
-				if (i > 0 && j > 0 && isEqual(a[i - 1], b[j - 1])) {
+		if (i > 0 && j > 0 && isEqual(a[i - 1], b[j - 1])) {
 			result.unshift({ type: ChangeType.COMMON, value: a[i - 1], indexA: i - 1, indexB: j - 1 });
 			i--;
 			j--;

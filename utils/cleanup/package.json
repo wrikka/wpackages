@@ -12,7 +12,7 @@
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
 		"lint": "oxlint --fix --type-aware",
-		"build": "tsdown",
+		"build": "tsdown src/bin/cli.ts --out-dir dist",
 		"test": "vitest --run --config ./vitest.config.ts",
 		"verify": "bun format && bun lint && bun test && bun run build"
 	},
@@ -21,7 +21,7 @@
 		"effect": "^3.19.14",
 		"glob": "^13.0.0",
 		"picocolors": "^1.1.1",
-		"rimraf": "^6.1.2"
+		"trash": "^10.0.1"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",

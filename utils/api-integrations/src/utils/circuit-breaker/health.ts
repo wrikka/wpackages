@@ -1,8 +1,6 @@
-import { patterns } from "@w/design-pattern";
+import { createSelector } from "@wpackages/design-pattern";
 import { CircuitBreaker } from "./CircuitBreaker";
 import type { CircuitBreakerStats, CircuitState } from "./types";
-
-const { selectByCondition } = patterns.behavioral.conditionalSelector;
 
 /**
  * Calculate circuit breaker health score (0-100)
@@ -16,14 +14,13 @@ export const calculateHealthScore = (stats: CircuitBreakerStats): number => {
 
 	const successRate = (stats.successes / total) * 100;
 
-	return selectByCondition(
-		stats.state,
+	return createSelector(
 		[
 			{ condition: (state: CircuitState) => state === "open", result: 0 },
 			{ condition: (state: CircuitState) => state === "half_open", result: successRate * 0.7 },
 		],
 		successRate, // Default for "closed"
-	);
+	)(stats.state);
 };
 
 /**

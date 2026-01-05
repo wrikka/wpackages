@@ -2,12 +2,12 @@
 
 ## Introduction
 
-`@wpackages/program` is a small example application that demonstrates how to build a type-safe, testable, and composable program using a functional approach with dependency injection. It showcases the integration of the `@wpackages/config-manager` and `@wpackages/observability` packages to handle configuration and logging.
+`@wpackages/program` is a small example application that demonstrates how to build a type-safe, testable, and composable program using `Effect-TS` with dependency injection via `Context` and `Layer`. It showcases the integration of the `@wpackages/config-manager` and `@wpackages/observability` packages to handle configuration and logging.
 
 ## Features
 
-- ✨ **Functional Core**: Built using functional programming principles for clarity and correctness.
-- 💉 **Dependency Injection**: Leverages dependency injection to provide services like logging and configuration.
+- ✨ **Effect Runtime (Real)**: Uses `effect` (`Effect`, `Layer`, `Context`) for typed effects and orchestration.
+- 💉 **Dependency Injection**: Leverages `Context` + `Layer` to provide services like logging and configuration.
 - 🔧 **Configuration Management**: Uses `@wpackages/config-manager` to load and access configuration variables.
 - 📜 **Structured Logging**: Integrates with `@wpackages/observability` for structured and context-aware logging.
 - 🧪 **Testable by Design**: The separation of concerns makes the core logic easy to test in isolation.

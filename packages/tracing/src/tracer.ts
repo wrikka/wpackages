@@ -1,6 +1,6 @@
 import { Resource } from "./models/resource";
-import { SimpleSpanProcessor } from "./services/processor.service";
 import { InMemorySpanExporter } from "./services/exporter.service";
+import { SimpleSpanProcessor } from "./services/processor.service";
 import { ParentBasedSampler, TraceIdRatioBasedSampler } from "./services/sampler.service";
 import { TracerImpl as TracerImplBase } from "./services/tracer.service";
 import type { Span } from "./types/tracing";

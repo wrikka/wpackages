@@ -20,7 +20,7 @@
 		"chalk": "^5.6.2",
 		"execa": "^9.6.1",
 		"latest-version": "^9.0.0",
-		"npm-check-updates": "^19.2.1",
+		"npm-check-updates": "^19.3.0",
 		"package-json": "^10.0.1",
 		"prompts": "^2.4.2"
 	},

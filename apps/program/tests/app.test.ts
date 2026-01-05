@@ -1,8 +1,8 @@
 import { createLogger, type LogRecord } from "@wpackages/observability";
 import { describe, expect, jest, test } from "bun:test";
+import { Cause, Effect, Exit, Layer, Option } from "effect";
 import { program } from "../src/app";
 import { RandomGenerationError } from "../src/error";
-import { Effect, Layer } from "../src/lib/functional";
 import { Config, Logger, Random } from "../src/services";
 
 describe("Program", () => {
@@ -12,29 +12,29 @@ describe("Program", () => {
 		logLevel: "info",
 	});
 
-	const LoggerMock = Effect.map(Effect.get(Config), (config) => ({
-		[Logger.key]: createLogger({
-			minLevel: config.logLevel,
+	const LoggerMock = Layer.succeed(
+		Logger,
+		createLogger({
+			minLevel: "info",
 			sink: (record: LogRecord) => {
 				mockSink(record);
 			},
 		}),
-	}));
+	);
 
 	test("should run without errors and log a predictable number", async () => {
 		const RandomMock = Layer.succeed(Random, {
 			next: () => Effect.succeed(42),
 		});
 
-		const TestLayer = Layer.merge(
-			ConfigMock,
-			Layer.merge(LoggerMock, RandomMock),
-		);
-		const testableProgram = Effect.provideLayer(program, TestLayer);
+		const TestLayer = Layer.merge(ConfigMock, Layer.merge(LoggerMock, RandomMock));
+		const testableProgram = program.pipe(Effect.provide(TestLayer));
 
-		const result = await Effect.runPromiseEither(testableProgram);
+		const result = await Effect.runPromiseExit(testableProgram);
 
-		expect(result._tag).toBe("Right");
+		if (!Exit.isSuccess(result)) {
+			throw new Error("Expected success Exit");
+		}
 		expect(mockSink).toHaveBeenCalledWith(
 			expect.objectContaining({
 				level: "info",
@@ -50,18 +50,19 @@ describe("Program", () => {
 			next: () => Effect.fail(error),
 		});
 
-		const TestLayer = Layer.merge(
-			ConfigMock,
-			Layer.merge(LoggerMock, RandomMock),
-		);
-		const testableProgram = Effect.provideLayer(program, TestLayer);
+		const TestLayer = Layer.merge(ConfigMock, Layer.merge(LoggerMock, RandomMock));
+		const testableProgram = program.pipe(Effect.provide(TestLayer));
 
-		const result = await Effect.runPromiseEither(testableProgram);
+		const result = await Effect.runPromiseExit(testableProgram);
 
-		expect(result._tag).toBe("Left");
-		if (result._tag === "Left") {
-			expect(result.left).toBeInstanceOf(RandomGenerationError);
-			expect(result.left.reason).toBe("Test failure");
+		if (!Exit.isFailure(result)) {
+			throw new Error("Expected failure Exit");
 		}
+		const failure = Cause.failureOption(result.cause);
+		if (!Option.isSome(failure)) {
+			throw new Error("Expected failure cause to contain a failure value");
+		}
+		expect(failure.value).toBeInstanceOf(RandomGenerationError);
+		expect((failure.value as RandomGenerationError).reason).toBe("Test failure");
 	});
 });

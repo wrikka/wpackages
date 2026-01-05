@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
 		// From follow-tsconfig-json.md for bun
 		"types": ["bun-types"],
 		// General Best Practices for modern TS
@@ -25,18 +24,7 @@
 		"noPropertyAccessFromIndexSignature": true,
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		// Path aliases if needed later
-		"paths": {
-			"@wpackages/functional": ["../../utils/functional/dist/index.d.mts"],
-			"@wpackages/observability": [
-				"../../utils/observability/dist/index.d.mts"
-			],
-			"@wpackages/config-manager": [
-				"../../utils/config-manager/dist/index.d.mts"
-			],
-			"@wpackages/error": ["../../utils/error/dist/index.d.mts"]
-		}
+		"noUnusedParameters": true
 	},
 	"include": ["src"]
 }

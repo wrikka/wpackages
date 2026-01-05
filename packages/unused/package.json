@@ -2,16 +2,24 @@
 	"name": "@wpackages/unused",
 	"version": "0.1.0",
 	"description": "Find unused files, dependencies and exports in your JavaScript/TypeScript projects.",
+	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"bin": {
 		"unused": "./dist/cli.js"
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "bun build src/index.ts --external:@oxc-parser/binding-wasm32-wasi",
+		"postbuild": "bun link",
 		"dev": "tsc --watch",
-		"start": "node .",
-		"lint": "eslint . --ext .ts"
+		"lint": "oxlint --fix",
+		"format": "dprint fmt",
+		"scan": "bunx sg scan",
+		"check": "bun dist/cli.js",
+		"test": "bun test src/**/*.test.ts",
+		"test:coverage": "bun test --coverage src/**/*.test.ts",
+		"update:deps": "bunx taze -r -w && ni",
+		"review": "bun update:deps && bun format && bun lint && bun test"
 	},
 	"keywords": [
 		"unused",
@@ -24,15 +32,18 @@
 	"author": "newkub",
 	"license": "MIT",
 	"dependencies": {
-		"@typescript-eslint/typescript-estree": "^7.18.0",
+		"@oxc-parser/binding-wasm32-wasi": "0.106.0",
+		"@types/glob": "^9.0.0",
+		"@wpackages/config-manager": "workspace:*",
+		"@wpackages/parser": "workspace:*",
 		"commander": "^12.1.0",
-		"fast-glob": "^3.3.3"
+		"glob": "^13.0.0",
+		"picomatch": "^4.0.3",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@types/node": "^20.19.27",
-		"@typescript-eslint/eslint-plugin": "^7.18.0",
-		"@typescript-eslint/parser": "^7.18.0",
-		"eslint": "^8.57.0",
-		"typescript": "^5.9.3"
+		"@types/picomatch": "^2.3.4",
+		"@wpackages/test": "workspace:*"
 	}
 }

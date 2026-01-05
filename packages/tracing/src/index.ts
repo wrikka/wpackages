@@ -28,29 +28,33 @@ export { getActiveSpan, withActiveSpan } from "./services/context.service";
 export { NOOP_TRACER } from "./services/tracer.service";
 
 // Propagation
-export { W3cTraceContextPropagator, W3cBaggagePropagator, CompositePropagator } from "./services/propagation.service";
+export { CompositePropagator, W3cBaggagePropagator, W3cTraceContextPropagator } from "./services/propagation.service";
 
 // Baggage
 export { createBaggage } from "./models/baggage";
 export type { Baggage, BaggageEntry } from "./models/baggage";
 
 // Context
-export { getActiveBaggage, withActiveBaggage, getActiveContext, withActiveContext } from "./services/context.service";
+export { getActiveBaggage, getActiveContext, withActiveBaggage, withActiveContext } from "./services/context.service";
 
 // Instrumentations
 export { FetchInstrumentation } from "./services/instrumentation.service";
-export { HttpInstrumentation, ExpressInstrumentation } from "./services/instrumentation.service";
+export { ExpressInstrumentation, HttpInstrumentation } from "./services/instrumentation.service";
 
 // Samplers
 export { ParentBasedSampler, TraceIdRatioBasedSampler } from "./services/sampler.service";
 
 // Utils
-export { registerGracefulShutdown } from "./utils/shutdown.util";
 export { getTraceContext } from "./utils/log.util";
+export { registerGracefulShutdown } from "./utils/shutdown.util";
 
 // Metrics
-export { MeterProviderImpl as MeterProvider, ConsoleMetricExporter, InMemoryMetricReader } from "./services/metrics.service";
-export type { Meter, Counter, MetricExporter, MetricReader } from "./types/metrics";
+export {
+	ConsoleMetricExporter,
+	InMemoryMetricReader,
+	MeterProviderImpl as MeterProvider,
+} from "./services/metrics.service";
+export type { Counter, Meter, MetricExporter, MetricReader } from "./types/metrics";
 
 // All public types
 export type * from "./types/tracing";

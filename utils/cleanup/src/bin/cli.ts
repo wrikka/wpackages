@@ -8,7 +8,8 @@ const main = async () => {
 		await handleInit();
 	} else {
 		const dryRun = args.includes("--dry-run");
-		await runCleanupApp({ dryRun });
+		const skipConfirmation = args.includes("--yes") || args.includes("-y");
+		await runCleanupApp({ dryRun, skipConfirmation });
 	}
 };
 

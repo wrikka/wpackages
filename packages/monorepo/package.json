@@ -16,12 +16,7 @@
 		"audit": "cd packages/wmonorepo && cargo audit",
 		"verify": "bun run format && bun run lint && bun run test && bun run audit && bun run build"
 	},
-	"keywords": [
-		"monorepo",
-		"build-tool",
-		"task-runner",
-		"effect-ts"
-	],
+	"keywords": ["monorepo", "build-tool", "task-runner", "effect-ts"],
 	"author": "wrikka",
 	"license": "MIT",
 	"dependencies": {

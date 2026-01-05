@@ -1,8 +1,6 @@
-import { patterns } from "@w/design-pattern";
+import { createSelector } from "@wpackages/design-pattern";
 import { DEFAULT_RETRY_CONFIG, RETRYABLE_STATUS_CODES } from "../constant";
 import type { RetryConfig } from "../types";
-
-const { createSelector } = patterns.behavioral.conditionalSelector;
 
 /**
  * Retry utilities - Pure functions

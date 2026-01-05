@@ -89,6 +89,7 @@ This monorepo contains the following packages and applications:
 ### Packages
 
 - **`@wpackages/api-builder`**: A powerful and lightweight library for building robust, type-safe, and scalable APIs in TypeScript using Effect-TS.
+- **`@wpackages/styling`**: Generate CSS from utility classes using Tailwind CSS v4 (shortcuts, custom rules, icons, disk cache).
 
 ## Examples
 
