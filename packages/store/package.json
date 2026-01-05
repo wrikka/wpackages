@@ -6,16 +6,20 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc",
-		"lint": "eslint .",
-		"test": "vitest"
+		"test": "vitest",
+		"lint": "oxlint --fix --type-aware"
 	},
-	"keywords": ["state-management", "store", "atomic", "nanostore"],
+	"keywords": [
+		"state-management",
+		"store",
+		"atomic",
+		"nanostore"
+	],
 	"author": "newkub",
 	"license": "MIT",
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^7.18.0",
-		"@typescript-eslint/parser": "^7.18.0",
-		"eslint": "^8.57.0",
+		"oxlint": "^1.36.0",
+		"oxlint-tsgolint": "^0.10.1",
 		"typescript": "^5.9.3",
 		"vitest": "^1.6.1"
 	}
