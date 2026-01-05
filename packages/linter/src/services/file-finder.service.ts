@@ -39,12 +39,23 @@ export const findFiles = (
 	});
 
 export const findFilesInMultipleDirs = (
-	dirs: readonly string[],
+	paths: readonly string[],
 	ignore: readonly string[] = [],
 ): Effect.Effect<readonly string[], Error> =>
-	Effect.gen(function*() {
-		const results = yield* Effect.all(
-			dirs.map((dir) => findFiles(dir, ignore)),
-		);
+	Effect.gen(function*(_) {
+		const results = yield* _(Effect.all(
+			paths.map((path) =>
+				Effect.gen(function*(_) {
+					const stats = yield* _(FileSystemService.stat(path));
+					if (stats.isDirectory()) {
+						return yield* _(findFiles(path, ignore));
+					}
+					if (stats.isFile() && File.isLintableFile(path)) {
+						return [path];
+					}
+					return [];
+				})
+			),
+		));
 		return Arr.flatMap(results, (files) => files);
 	});

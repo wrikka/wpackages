@@ -1,8 +1,10 @@
 {
 	"extends": "./../../tsconfig.json",
 	"compilerOptions": {
-		"noEmit": true,
-		"rootDir": "../.."
+		"noEmit": false,
+		"outDir": "./dist",
+		"rootDir": "../..",
+		"moduleResolution": "bundler"
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]

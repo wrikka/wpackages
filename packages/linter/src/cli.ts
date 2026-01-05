@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { runBenchmark } from "@wpackages/bench";
-import type { BenchmarkOptions } from "@wpackages/bench";
+// import { runBenchmark } from "@wpackages/bench";
+// import type { BenchmarkOptions } from "@wpackages/bench";
 import { Effect } from "effect";
 import pc from "picocolors";
 import { lint } from "./app";
@@ -16,6 +16,7 @@ ${pc.bold("Usage:")}
 ${pc.bold("Options:")}
   --fix              Apply auto-fixes where possible
   --silent           Suppress output (exit code only)
+  --config <path>    Path to a custom configuration file
   --help, -h         Show this help message
 
 ${pc.bold("Bench Options:")}
@@ -143,58 +144,48 @@ const parseBenchArgs = (
 	return { options, selection, paths };
 };
 
-const main = async () => {
-	const args = process.argv.slice(2);
+const main = Effect.gen(function*(_) {
+    const args = process.argv.slice(2);
 
-	if (args.includes("--help") || args.includes("-h")) {
-		console.log(helpText);
-		return;
-	}
+    if (args.includes("--help") || args.includes("-h")) {
+        yield* _(Effect.log(helpText));
+        return;
+    }
 
-	if (args[0] === "bench") {
-		const { options, selection, paths } = parseBenchArgs(args.slice(1));
-		const targetPaths = paths.length > 0 ? paths : ["."];
-		const oxlintCmd = `bunx oxlint ${targetPaths.map(quoteArg).join(" ")}`;
-		const biomeCmd = `bunx biome lint ${targetPaths.map(quoteArg).join(" ")}`;
+    if (args[0] === "bench") {
+        yield* _(Effect.log("Benchmark feature is temporarily disabled due to a dependency issue."));
+        return;
+    }
 
-		const commands = selection.kind === "oxlint"
-			? [oxlintCmd]
-			: selection.kind === "biome"
-			? [biomeCmd]
-			: [oxlintCmd, biomeCmd];
+    const paths = args.filter((arg) => !arg.startsWith("--"));
+    if (paths.length === 0) {
+        return yield* _(Effect.fail(new Error("No paths specified")));
+    }
 
-		try {
-			await runBenchmark(commands, options);
-			process.exit(0);
-		} catch (error) {
-			if (!options.silent) {
-				const message = error instanceof Error ? error.message : String(error);
-				console.error(pc.red("Bench failed:"), message);
-			}
-			process.exit(1);
-		}
-	} else {
-		const paths = args.filter((arg) => !arg.startsWith("--"));
-		if (paths.length === 0) {
-			console.error(pc.red("Error: No paths specified"));
-			process.exit(1);
-		}
+    let configFile: string | undefined;
+    const configIndex = args.indexOf("--config");
+    if (configIndex > -1 && args[configIndex + 1]) {
+        configFile = args[configIndex + 1];
+    }
 
-		const program = lint({
-			paths,
-			fix: args.includes("--fix"),
-			silent: args.includes("--silent"),
-		});
+    const report = yield* _(lint({
+        paths,
+        fix: args.includes("--fix"),
+        silent: args.includes("--silent"),
+        configFile,
+    }));
 
-		const report = await Effect.runPromise(program);
+    if (report.errorCount > 0) {
+        return yield* _(Effect.fail(new Error("Linting failed with errors")));
+    }
+});
 
-		if (report.errorCount > 0) {
-			process.exit(1);
-		}
-	}
-};
-
-Effect.runPromise(Effect.catchAllCause(main(), (cause) => {
-	console.error(pc.red("Fatal error:"), cause);
-	process.exit(2);
-}));
+Effect.runPromise(main).catch((error) => {
+    if (error instanceof Error && error.message.includes("Linting failed")) {
+        // Don't log the error message again, the reporter already did.
+        process.exit(1);
+    } else {
+        console.error(pc.red("Fatal error:"), error);
+        process.exit(1);
+    }
+});

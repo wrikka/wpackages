@@ -1,4 +1,3 @@
 #!/usr/bin/env node
-import { run } from "./app";
-
-run().catch(console.error);
+export { lint } from "./app";
+export type { LintOptions } from "./app";

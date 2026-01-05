@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"bin": {
-		"wlint": "./dist/cli.js"
+		"wlint": "./dist/src/cli.js"
 	},
 	"type": "module",
 	"scripts": {
@@ -11,11 +11,12 @@
 		"start": "bun --watch dev && vitest:ui",
 		"dev": "bun run src/index.ts",
 		"lint": "oxlint --fix --type-aware",
-		"build": "tsdown",
+		"build": "tsc",
 		"test": "vitest --run",
 		"verify": "bun format && bun lint && bun test && bun audit && run build"
 	},
 	"dependencies": {
+		"@ast-grep/napi": "^0.23.1",
 		"@wpackages/bench": "workspace:*",
 		"@wpackages/parser": "workspace:*",
 		"citty": "^0.1.6",
@@ -27,6 +28,7 @@
 		"oxc-parser": "0.106.0",
 		"oxlint": "^1.36.0",
 		"tsdown": "^0.18.4",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
 	},

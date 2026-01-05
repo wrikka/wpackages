@@ -60,6 +60,18 @@ bun run lint
 turbo lint --filter=@wpackages/linter
 ```
 
+## Linter Comparison
+
+To understand how `@wpackages/linter` fits into the current tooling landscape, we've compiled a detailed comparison with other popular linters.
+
+| Feature                  | @wpackages/linter (Goal) | ESLint              | Biome.js          | Oxc (Oxlint)        |
+| ------------------------ | ------------------------ | ------------------- | ----------------- | ------------------- |
+| **Performance**          | 🚀 High                  | 🐌 Slow             | 🏎️ Very Fast      | 🚄 Extremely Fast   |
+| **Ecosystem**            | Internal                 | ✅ Mature & Extensive | 🟠 Growing        | 🟡 Nascent          |
+| **All-in-One**           | ❌ No                    | ❌ No               | ✅ Yes            | ✅ Yes              |
+
+For a more detailed breakdown, please see the [full comparison document](./docs/comparison.md).
+
 ## License
 
 This project is licensed under the MIT License.
