@@ -47,8 +47,7 @@ export const coerceNumber = <Output>(
 			]);
 		},
 		_metadata: schema._metadata,
-		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
-		_input: undefined as any,
+		_input: undefined as unknown as string | number,
 		_output: schema._output,
 	});
 };

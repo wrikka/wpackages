@@ -36,9 +36,7 @@ export const coerceBoolean = (
 			]);
 		},
 		_metadata: { name: "boolean" },
-		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
-		_input: undefined as any,
-		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
-		_output: undefined as any,
+		_input: undefined as unknown,
+		_output: undefined as unknown as boolean,
 	});
 };

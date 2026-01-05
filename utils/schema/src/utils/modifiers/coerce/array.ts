@@ -32,8 +32,7 @@ export const coerceArray = <Input, Output>(
 			return schema.parse(arr as Input[]);
 		},
 		_metadata: schema._metadata,
-		// biome-ignore lint/suspicious/noExplicitAny: Required for type inference
-		_input: undefined as any,
+		_input: undefined as unknown as Input | Input[] | string,
 		_output: schema._output,
 	});
 };
