@@ -1,34 +1,26 @@
 <script setup lang="ts">
-import MarkdownIt from "markdown-it";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
+import PageShell from "~/components/PageShell.vue";
+import ReadmePreview from "~/components/ReadmePreview.vue";
+import { useReadmePreview } from "~/composables/useReadmePreview";
 
-const readmeContent = ref("");
-const md = new MarkdownIt();
+const { readmeContent, fetchReadme } = useReadmePreview();
 
 // Placeholder for fetching README content
-const fetchReadme = async () => {
-	const markdown =
-		`# @wpackages/program\n\nThis is a sample README file.\n\n- Feature 1\n- Feature 2\n`;
-	readmeContent.value = md.render(markdown);
-};
-
 onMounted(() => {
 	fetchReadme();
 });
 </script>
 
 <template>
-	<div class="p-4 sm:p-6 lg:p-8">
-		<h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-			README Preview
-		</h1>
-		<div class="prose dark:prose-invert max-w-none" v-html="readmeContent">
-		</div>
-	</div>
+	<PageShell title="README Preview">
+		<ReadmePreview :html="readmeContent" />
+	</PageShell>
 </template>
 
 <style>
 .prose {
 	/* Add some basic prose styling if not covered by UnoCSS reset */
+	line-height: 1.6;
 }
 </style>
