@@ -1,22 +1,51 @@
 import { beforeAll, describe, expect, it, mock } from "bun:test";
-import { createBrowserHistory } from "../src/createBrowserHistory";
+import { Action } from "../src/types/history";
+import { createBrowserHistory } from "../src/services/browser";
 
 beforeAll(() => {
-	global.window = {
+	const locationMock = {
+		pathname: "/",
+		search: "",
+		hash: "",
+	};
+
+	const listeners = new Map<string, Set<() => void>>();
+
+	const windowMock = {
 		history: {
-			pushState: mock(() => {}),
-			replaceState: mock(() => {}),
-			back: mock(() => {}),
+			pushState: mock((state, title, url) => {
+				const newLocation = new URL(url, "http://localhost");
+				locationMock.pathname = newLocation.pathname;
+				locationMock.search = newLocation.search;
+				locationMock.hash = newLocation.hash;
+			}),
+			replaceState: mock((state, title, url) => {
+				const newLocation = new URL(url, "http://localhost");
+				locationMock.pathname = newLocation.pathname;
+				locationMock.search = newLocation.search;
+				locationMock.hash = newLocation.hash;
+			}),
+			back: mock(() => {
+				locationMock.pathname = "/";
+				listeners.get("popstate")?.forEach(fn => fn());
+			}),
 			go: mock(() => {}),
 			state: null,
 		},
-		location: {
-			pathname: "/",
-			search: "",
-			hash: "",
-		},
-		addEventListener: mock(() => {}),
-		removeEventListener: mock(() => {}),
+		location: locationMock,
+		addEventListener: mock((event, cb) => {
+			if (!listeners.has(event)) {
+				listeners.set(event, new Set());
+			}
+			listeners.get(event)!.add(cb);
+		}),
+		removeEventListener: mock((event, cb) => {
+			listeners.get(event)?.delete(cb);
+		}),
+	};
+	global.window = windowMock as any;
+	global.document = {
+		defaultView: windowMock,
 	} as any;
 });
 
@@ -38,7 +67,7 @@ describe("createBrowserHistory", () => {
 		const history = createBrowserHistory();
 		const listener = mock((location, action) => {
 			expect(location.pathname).toBe("/");
-			expect(action).toBe("POP");
+			expect(action).toBe(Action.Pop);
 			done();
 		});
 

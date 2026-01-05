@@ -1,76 +1,103 @@
 # @wpackages/history
 
-A library for managing session history in JavaScript applications.
+A modern, lightweight, and dependency-free library for managing session history in JavaScript applications. It provides a minimal, consistent API that works across different environments: browser, hash, and in-memory.
+
+This library is heavily inspired by the popular `history` package from Remix.
+
+## Features
+
+- ✅ **Minimal API**: Simple and intuitive API for managing history (`push`, `replace`, `go`, `listen`).
+-  môi trường **Multiple Environments**: Supports browser history (HTML5 API), hash history, and in-memory history.
+- 🚀 **Singleton Exports**: Provides singleton instances for browser and hash history for quick and easy setup.
+- 🖼️ **iFrame Support**: Allows passing a custom `window` object, making it suitable for use in iFrames.
+- 🔒 **Type-Safe**: Written in TypeScript with a type-safe `Action` enum.
 
 ## Installation
 
-This is an internal package and does not require installation from an external registry.
+This is an internal package within the `wpackages` monorepo and is not published to an external registry.
 
-## Basic Usage
+## Usage
 
 ### Browser History
 
-For most use cases, you can import the singleton browser history instance.
+Uses the HTML5 History API to keep your UI in sync with the URL.
+
+**Singleton Instance (Recommended)**
+
+For most web applications, you can import the pre-configured singleton instance.
 
 ```typescript
-import history from "@wpackages/history/browser";
+import history from '@wpackages/history/browser';
+
+history.push('/home');
 ```
 
-If you need to create your own instance (e.g., for an iframe), you can use the factory function:
+**Factory Function**
+
+If you need to manage history for a specific `window` (like an iFrame), use the factory function.
 
 ```typescript
-import { createBrowserHistory } from "@wpackages/history";
+import { createBrowserHistory } from '@wpackages/history';
 
-const history = createBrowserHistory();
-
-// Get the current location.
-const location = history.location;
-
-// Listen for changes to the current location.
-const unlisten = history.listen(({ location, action }) => {
-	console.log(action, location.pathname, location.state);
-});
-
-// Use push to push a new entry onto the history stack.
-history.push("/home", { some: "state" });
-
-// To stop listening, call the function returned from listen().
-unlisten();
+const history = createBrowserHistory({ window: myIframe.contentWindow });
+history.push('/profile');
 ```
 
 ### Hash History
 
-For most use cases, you can import the singleton hash history instance.
+Uses the hash (`#`) portion of the URL, suitable for older browsers or static file servers.
+
+**Singleton Instance (Recommended)**
 
 ```typescript
-import history from "@wpackages/history/hash";
+import history from '@wpackages/history/hash';
+
+history.push('/settings'); // URL becomes /#/settings
 ```
 
-If you need to create your own instance, you can use the factory function:
+**Factory Function**
 
 ```typescript
-import { createHashHistory } from "@wpackages/history";
+import { createHashHistory } from '@wpackages/history';
 
 const history = createHashHistory();
+history.push('/dashboard');
 ```
 
 ### Memory History
 
-```typescript
-import { createMemoryHistory } from "@wpackages/history";
+Useful for testing and non-browser environments (like React Native). It stores the history stack in an array in memory.
 
-const history = createMemoryHistory();
+```typescript
+import { createMemoryHistory } from '@wpackages/history';
+
+const history = createMemoryHistory({ initialEntries: ['/login'] });
+
+console.log(history.location.pathname); // -> /login
+console.log(history.index); // -> 0
+
+history.push('/dashboard');
+console.log(history.index); // -> 1
 ```
 
-## API
+## API Reference
 
-### `history` object
+### `history` Object
 
-- `location`: The current location.
-- `action`: The current navigation action (`PUSH`, `REPLACE`, or `POP`).
-- `push(path, [state])`: Pushes a new entry onto the history stack.
-- `replace(path, [state])`: Replaces the current entry on the history stack.
-- `go(delta)`: Navigates `delta` entries through the history stack.
-- `back()`: Navigates one entry back in the history stack.
-- `forward()`: Navigates one entry forward in the history stack.
-- `listen(listener)`: Subscribes a listener to history changes.
+All history objects share the following properties and methods:
+
+- `location: Location`: The current location object.
+- `action: Action`: The last action (`Action.Push`, `Action.Replace`, or `Action.Pop`).
+- `index?: number`: (Memory History only) The current index in the history stack.
+- `push(path: string, state?: unknown)`: Pushes a new entry onto the history stack.
+- `replace(path: string, state?: unknown)`: Replaces the current entry on the history stack.
+- `go(delta: number)`: Navigates `delta` entries forward or backward.
+- `back()`: Equivalent to `go(-1)`.
+- `forward()`: Equivalent to `go(1)`.
+- `listen(listener: Listener): () => void`: Subscribes to location changes. Returns a function to unsubscribe.
+
+### Core Utilities
+
+- `createHistory(source: HistorySource): History`: The core factory for creating custom history objects.
+- `createPath(pathParts: PathParts): string`: Builds a URL path string from its parts.
+- `parsePath(path: string): ParsedPath`: Parses a URL path string into its component parts.

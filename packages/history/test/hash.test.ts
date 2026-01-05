@@ -1,11 +1,12 @@
 import { beforeAll, describe, expect, it, mock } from "bun:test";
-import { createHashHistory } from "../src/createHashHistory";
+import { Action } from "../src/types/history";
+import { createHashHistory } from "../src/services/hash";
 
 beforeAll(() => {
 	let currentHash = "";
 	const listeners = new Map<string, Set<() => void>>();
 
-	global.window = {
+	const windowMock = {
 		history: {
 			go: mock(() => {}),
 		},
@@ -32,6 +33,10 @@ beforeAll(() => {
 		removeEventListener: mock((event, cb) => {
 			listeners.get(event)?.delete(cb);
 		}),
+	};
+	global.window = windowMock as any;
+	global.document = {
+		defaultView: windowMock,
 	} as any;
 });
 
@@ -53,7 +58,7 @@ describe("createHashHistory", () => {
 		const history = createHashHistory();
 		const listener = mock((location, action) => {
 			expect(location.pathname).toBe("/foo");
-			expect(action).toBe("POP");
+			expect(action).toBe(Action.Pop);
 			done();
 		});
 

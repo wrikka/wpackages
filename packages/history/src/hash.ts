@@ -1,3 +1,3 @@
-import { createHashHistory } from "./createHashHistory";
+import { createHashHistory } from "./services/hash";
 
 export default createHashHistory();

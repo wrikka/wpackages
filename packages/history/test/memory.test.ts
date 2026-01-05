@@ -1,5 +1,6 @@
 import { describe, expect, it, mock } from "bun:test";
-import { createMemoryHistory } from "../src/createMemoryHistory";
+import { Action } from "../src/types/history";
+import { createMemoryHistory } from "../src/services/memory";
 
 describe("createMemoryHistory", () => {
 	it("should initialize with a default entry", () => {
@@ -37,6 +38,6 @@ describe("createMemoryHistory", () => {
 		const listener = mock(() => {});
 		history.listen(listener);
 		history.push("/new");
-		expect(listener).toHaveBeenCalledWith(expect.objectContaining({ pathname: "/new" }), "PUSH");
+		expect(listener).toHaveBeenCalledWith(expect.objectContaining({ pathname: "/new" }), Action.Push);
 	});
 });

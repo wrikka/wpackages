@@ -1,4 +1,4 @@
-import { Action, History, Listener, Location } from "./types";
+import type { Action, History, Listener, Location } from "../types/history";
 
 export interface HistorySource {
 	readonly location: Location;
