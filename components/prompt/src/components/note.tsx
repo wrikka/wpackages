@@ -5,12 +5,12 @@ import { useInput } from "../hooks";
 import { NotePromptOptions, PromptDescriptor } from "../types";
 
 export const NoteComponent: React.FC<NotePromptOptions> = ({ title, message, type: noteType = "info" }) => {
-	const { submit } = usePrompt<void>();
+	const { submit } = usePrompt<undefined>();
 	const theme = useTheme();
 
 	useInput((_, key) => {
 		if (key.return) {
-			submit();
+			submit(undefined);
 		}
 	});
 
@@ -44,7 +44,7 @@ export const NoteComponent: React.FC<NotePromptOptions> = ({ title, message, typ
 
 export const note = (
 	options: NotePromptOptions,
-): PromptDescriptor<void, NotePromptOptions> => {
+): PromptDescriptor<undefined, NotePromptOptions> => {
 	return {
 		Component: NoteComponent,
 		props: options,

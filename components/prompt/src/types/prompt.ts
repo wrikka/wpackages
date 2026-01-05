@@ -1,9 +1,19 @@
 export type PromptState = "initial" | "active" | "submit" | "cancel" | "error";
 
+export type PromptResult<T> =
+	| { ok: true; value: T }
+	| { ok: false; reason: "cancel" };
+
+export const cancelResult = Object.freeze({ ok: false as const, reason: "cancel" as const });
+
+export const okResult = <T>(value: T): PromptResult<T> => ({ ok: true, value });
+
+export const isCancel = <T>(result: PromptResult<T>): result is { ok: false; reason: "cancel" } => !result.ok;
+
 export interface BasePromptOptions<T> {
 	message: string;
 	initialValue?: T;
-	validate?: (value: T) => string | void;
+	validate?: (value: T) => string | undefined;
 }
 
 export interface TextPromptOptions extends BasePromptOptions<string> {
@@ -58,7 +68,7 @@ export interface TogglePromptOptions extends BasePromptOptions<boolean> {
 	inactive?: string;
 }
 
-export interface NotePromptOptions extends BasePromptOptions<void> {
+export interface NotePromptOptions extends BasePromptOptions<undefined> {
 	title?: string;
 	type?: "info" | "success" | "warning" | "error";
 }
@@ -75,6 +85,31 @@ export interface SpinnerPromptOptions<T> {
 export interface AutocompletePromptOptions<T> extends BasePromptOptions<T> {
 	options: Option<T>[];
 	placeholder?: string;
+}
+
+export interface FileSystemPromptOptions extends BasePromptOptions<string> {
+	root?: string;
+}
+
+export interface TableRow<T> {
+	value: T;
+	data: Record<string, string | number>;
+}
+
+export interface TablePromptOptions<T> extends BasePromptOptions<T> {
+	headers: string[];
+	rows: TableRow<T>[];
+}
+
+export interface TreeNode<T> {
+	value: T;
+	label: string;
+	children?: TreeNode<T>[];
+	expanded?: boolean;
+}
+
+export interface TreeSelectPromptOptions<T> extends BasePromptOptions<T> {
+	nodes: TreeNode<T>[];
 }
 
 // We will add more component-specific options here later

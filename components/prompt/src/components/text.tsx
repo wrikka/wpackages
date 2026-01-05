@@ -1,9 +1,9 @@
-import { usePrompt, useTheme } from "@/context";
-import { useInput } from "@/hooks";
-import { PromptDescriptor, TextPromptOptions } from "@/types";
 import { Box, Text } from "ink";
 import picocolors from "picocolors";
 import React from "react";
+import { usePrompt, useTheme } from "../context";
+import { useInput } from "../hooks";
+import { PromptDescriptor, TextPromptOptions } from "../types";
 
 export const TextPromptComponent: React.FC<TextPromptOptions> = ({ message, placeholder }) => {
 	const { value, setValue, state, submit } = usePrompt<string>();

@@ -1,16 +1,17 @@
-import { renderer as legacyRenderer } from "@/services"; // Keep legacy for now
-import { PromptDescriptor, PromptTheme } from "@/types";
 import React, { createContext, PropsWithChildren, useContext, useState } from "react";
+import { type PromptTheme } from "../constant/theme";
+import { renderer as legacyRenderer } from "../services"; // Keep legacy for now
+import { cancelResult, okResult, PromptDescriptor, type PromptResult } from "../types";
 import { ThemeProvider } from "./theme-context";
 
 export type PromptState = "active" | "submitting" | "submitted" | "cancelled";
 
 interface PromptContextValue<T> {
 	value: T;
-	setValue: (value: T) => void;
+	setValue: (value: T) => unknown;
 	state: PromptState;
-	submit: (value: T) => void;
-	cancel: () => void;
+	submit: (value: T) => unknown;
+	cancel: () => unknown;
 }
 
 const PromptContext = createContext<PromptContextValue<any> | null>(null);
@@ -25,25 +26,27 @@ export function usePrompt<T>() {
 
 export function PromptProvider<T>(
 	{ children, initialValue, onCancel, onSubmit }: PropsWithChildren<
-		{ initialValue: T; onSubmit: (value: T) => void; onCancel: () => void }
+		{ initialValue: T; onSubmit: (value: T) => unknown; onCancel: () => unknown }
 	>,
 ) {
 	const [value, setValue] = useState<T>(initialValue);
 	const [state, setState] = useState<PromptState>("active");
 
-	const submit = (val: T) => {
+	const submit = (val: T): unknown => {
 		if (state === "active") {
 			setState("submitting");
 			onSubmit(val);
 			// The renderer will be unmounted by the calling function
 		}
+		return undefined;
 	};
 
-	const cancel = () => {
+	const cancel = (): unknown => {
 		if (state === "active") {
 			setState("cancelled");
 			onCancel();
 		}
+		return undefined;
 	};
 
 	return (
@@ -60,16 +63,16 @@ interface PromptOptions {
 export function prompt<T>(
 	descriptor: PromptDescriptor<T, any>,
 	options: PromptOptions = {},
-): Promise<T | symbol> {
+): Promise<PromptResult<T>> {
 	return new Promise((resolve) => {
 		const onCancel = () => {
 			legacyRenderer.unmount();
-			resolve(Symbol.for("cancel"));
+			resolve(cancelResult);
 		};
 
 		const onSubmit = (value: T) => {
 			legacyRenderer.unmount();
-			resolve(value);
+			resolve(okResult(value));
 		};
 
 		legacyRenderer.render(

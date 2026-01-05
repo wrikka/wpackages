@@ -13,7 +13,7 @@ export const useTheme = () => {
 };
 
 interface ThemeProviderProps {
-	theme?: Partial<PromptTheme>;
+	theme?: Partial<PromptTheme> | undefined;
 	children: React.ReactNode;
 }
 

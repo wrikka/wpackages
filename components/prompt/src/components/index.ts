@@ -1,6 +1,7 @@
 export * from "./autocomplete";
 export * from "./confirm";
 export * from "./date";
+export * from "./filesystem";
 export * from "./group";
 export * from "./multiselect";
 export * from "./note";
@@ -10,7 +11,8 @@ export * from "./rating";
 export * from "./select";
 export * from "./slider";
 export * from "./spinner";
-export * from "./text";
+export * from "./table";
 export * from "./text";
 export * from "./time";
 export * from "./toggle";
+export * from "./treeselect";

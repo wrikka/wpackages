@@ -1,6 +1,6 @@
 import pc from "picocolors";
 import { prompt } from "../src/context";
-import { text } from "../src/index";
+import { isCancel, text } from "../src/index";
 
 async function main() {
 	console.clear();
@@ -10,12 +10,12 @@ async function main() {
 		text({ message: "What is your name?", placeholder: "Type here..." }),
 	);
 
-	if (typeof name === "symbol") {
+	if (isCancel(name)) {
 		console.log(pc.yellow("Prompt cancelled."));
 		return;
 	}
 
-	console.log(pc.green(`Hello, ${String(name)}!`));
+	console.log(pc.green(`Hello, ${String(name.value)}!`));
 }
 
 main().catch(console.error);

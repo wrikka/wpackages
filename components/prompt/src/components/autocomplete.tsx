@@ -60,7 +60,7 @@ export const AutocompletePromptComponent = <T,>(
 					const coloredLabel = isSelected ? theme.colors.primary(label) : theme.colors.secondary(label);
 
 					return (
-						<Box key={option.label}>
+						<Box key={index}>
 							<Text>{coloredLabel}</Text>
 							{option.hint && isSelected && <Text>{theme.colors.secondary(`- ${option.hint}`)}</Text>}
 						</Box>

@@ -1,8 +1,8 @@
-import { usePrompt } from "@/context";
-import { useInput } from "@/hooks";
-import { MultiSelectPromptOptions, PromptDescriptor } from "@/types";
 import { Box, Text } from "ink";
 import React, { useState } from "react";
+import { usePrompt } from "../context";
+import { useInput } from "../hooks";
+import { MultiSelectPromptOptions, PromptDescriptor } from "../types";
 
 export const MultiSelectPromptComponent = <T,>({ message, options }: MultiSelectPromptOptions<T>) => {
 	const { submit } = usePrompt<T[]>();

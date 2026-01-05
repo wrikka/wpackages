@@ -1,22 +1,22 @@
-import { PromptDescriptor } from "@/types";
-import React, { createContext, PropsWithChildren, useContext, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { cancelResult, isCancel, okResult, PromptDescriptor, type PromptResult } from "../types";
 
 export type GroupStepState = "pending" | "active" | "submitted";
 
 interface GroupStep {
 	key: string;
 	state: GroupStepState;
-	value: any;
+	value: PromptResult<any> | undefined;
 	descriptor: PromptDescriptor<any, any>;
 }
 
 interface GroupContextValue {
 	steps: GroupStep[];
 	activeStepKey: string | null;
-	submitStep: (key: string, value: any) => void;
-	intro?: string;
-	outro?: string;
-	results: Record<string, any> | null;
+	submitStep: (key: string, value: PromptResult<any>) => unknown;
+	intro?: string | undefined;
+	outro?: string | undefined;
+	results: PromptResult<Record<string, any>> | null;
 }
 
 const GroupContext = createContext<GroupContextValue | null>(null);
@@ -33,9 +33,9 @@ export function GroupProvider(
 	{ children, prompts, onComplete, intro, outro }: PropsWithChildren<
 		{
 			prompts: Record<string, PromptDescriptor<any, any>>;
-			onComplete: (results: Record<string, any>) => void;
-			intro?: string;
-			outro?: string;
+			onComplete: (results: PromptResult<Record<string, any>>) => unknown;
+			intro?: string | undefined;
+			outro?: string | undefined;
 		}
 	>,
 ) {
@@ -45,38 +45,56 @@ export function GroupProvider(
 		value: undefined,
 		descriptor,
 	}));
-	if (initialSteps.length > 0) {
-		initialSteps[0].state = "active";
+	const firstStep = initialSteps[0];
+	if (firstStep) {
+		firstStep.state = "active";
 	}
 
 	const [steps, setSteps] = useState<GroupStep[]>(initialSteps);
-	const [results, setResults] = useState<Record<string, any> | null>(null);
+	const [results, setResults] = useState<PromptResult<Record<string, any>> | null>(null);
 	const activeStepKey = steps.find(s => s.state === "active")?.key ?? null;
 
-	const submitStep = (key: string, value: any) => {
+	const submitStep = (key: string, value: PromptResult<any>): unknown => {
 		setSteps(prevSteps => {
 			const newSteps = [...prevSteps];
 			const currentStepIndex = newSteps.findIndex(step => step.key === key);
 
 			if (currentStepIndex !== -1) {
-				newSteps[currentStepIndex].state = "submitted";
-				newSteps[currentStepIndex].value = value;
+				const currentStep = newSteps[currentStepIndex];
+				if (!currentStep) return newSteps;
+
+				currentStep.state = "submitted";
+				currentStep.value = value;
+
+				if (isCancel(value)) {
+					const cancel = cancelResult;
+					setResults(cancel);
+					onComplete(cancel);
+					return newSteps;
+				}
 
 				const nextStepIndex = currentStepIndex + 1;
 				if (nextStepIndex < newSteps.length) {
-					newSteps[nextStepIndex].state = "active";
+					const nextStep = newSteps[nextStepIndex];
+					if (nextStep) {
+						nextStep.state = "active";
+					}
 				} else {
 					// All steps are done
-					const results = newSteps.reduce((acc, step) => {
-						acc[step.key] = step.value;
+					const collected = newSteps.reduce((acc, step) => {
+						const stepValue = step.value;
+						if (!stepValue || isCancel(stepValue)) return acc;
+						acc[step.key] = stepValue.value;
 						return acc;
 					}, {} as Record<string, any>);
-					setResults(results);
-					onComplete(results);
+					const ok = okResult(collected);
+					setResults(ok);
+					onComplete(ok);
 				}
 			}
 			return newSteps;
 		});
+		return undefined;
 	};
 
 	return (

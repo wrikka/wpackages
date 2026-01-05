@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 import Spinner from "ink-spinner";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { usePrompt, useTheme } from "../context";
 import { PromptDescriptor, SpinnerPromptOptions } from "../types";
 
@@ -10,12 +10,18 @@ export const SpinnerComponent = <T,>({ message, type = "dots", action }: Spinner
 
 	useEffect(() => {
 		let isCancelled = false;
-
-		action().then(result => {
-			if (!isCancelled) {
-				submit(result);
+		(async () => {
+			try {
+				const result = await action();
+				if (!isCancelled) {
+					submit(result);
+				}
+			} catch {
+				if (!isCancelled) {
+					submit(undefined as any);
+				}
 			}
-		});
+		})();
 
 		return () => {
 			isCancelled = true;

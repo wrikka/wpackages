@@ -1,8 +1,9 @@
-import { PromptProvider, useTheme } from "@/context";
-import { GroupProvider, useGroup } from "@/context/group-context";
-import { renderer } from "@/services";
 import { Box, Text } from "ink";
 import React from "react";
+import { PromptProvider, useTheme } from "../context";
+import { GroupProvider, useGroup } from "../context/group-context";
+import { renderer } from "../services";
+import { cancelResult, isCancel, okResult, PromptDescriptor, type PromptResult } from "../types";
 
 const GroupComponent: React.FC = () => {
 	const { steps, submitStep, intro, outro, results } = useGroup();
@@ -17,9 +18,13 @@ const GroupComponent: React.FC = () => {
 
 			{steps.map(step => {
 				if (step.state === "submitted") {
+					const value = step.value;
+					const displayValue = !value
+						? "-"
+						: (isCancel(value) ? value.reason : String(value.value));
 					return (
 						<Text key={step.key}>
-							{theme.symbols.check} {step.key}: {theme.colors.secondary(String(step.value))}
+							{theme.symbols.check} {step.key}: {theme.colors.secondary(displayValue)}
 						</Text>
 					);
 				}
@@ -31,10 +36,10 @@ const GroupComponent: React.FC = () => {
 					key={activeStep.key}
 					initialValue={activeStep.descriptor.initialValue}
 					onSubmit={(value) => {
-						submitStep(activeStep.key, value);
+						submitStep(activeStep.key, okResult(value));
 					}}
 					onCancel={() => {
-						submitStep(activeStep.key, Symbol.for("cancel"));
+						submitStep(activeStep.key, cancelResult);
 					}}
 				>
 					<activeStep.descriptor.Component {...activeStep.descriptor.props} />
@@ -45,9 +50,6 @@ const GroupComponent: React.FC = () => {
 		</Box>
 	);
 };
-
-import { PromptDescriptor } from "../types";
-
 interface GroupOptions<T extends Record<string, PromptDescriptor<any, any>>> {
 	prompts: T;
 	intro?: string;
@@ -56,13 +58,13 @@ interface GroupOptions<T extends Record<string, PromptDescriptor<any, any>>> {
 
 export function group<T extends Record<string, PromptDescriptor<any, any>>>(
 	options: GroupOptions<T>,
-): Promise<{ [K in keyof T]: T[K] extends PromptDescriptor<infer V, any> ? V : never } | symbol> {
+): Promise<PromptResult<{ [K in keyof T]: T[K] extends PromptDescriptor<infer V, any> ? V : never }>> {
 	const { prompts, intro, outro } = options;
 
 	return new Promise(resolve => {
-		const onComplete = (results: Record<string, any>) => {
+		const onComplete = (results: PromptResult<Record<string, any>>) => {
 			renderer.unmount();
-			resolve(results as any);
+			resolve(results as PromptResult<any>);
 		};
 
 		renderer.render(

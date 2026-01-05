@@ -21,8 +21,8 @@ import {
 	time,
 	toggle,
 	treeselect,
-} from "../src/index";
-import { renderer } from "../src/services";
+} from "./index";
+import { renderer } from "./services";
 
 type FocusArea = "sidebar" | "preview";
 

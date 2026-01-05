@@ -4,7 +4,7 @@ import React from "react";
 class Renderer {
 	private instance: Instance | null = null;
 
-	public render(node: React.ReactElement): void {
+	public render(node: React.ReactElement) {
 		if (this.instance) {
 			this.instance.rerender(node);
 		} else {
@@ -12,12 +12,12 @@ class Renderer {
 		}
 	}
 
-	public unmount(): void {
+	public unmount() {
 		this.instance?.unmount();
 		this.instance = null;
 	}
 
-	public cleanup(): void {
+	public cleanup() {
 		this.instance?.cleanup();
 	}
 }

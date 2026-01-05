@@ -1,5 +1,5 @@
-import { Theme } from "@/types/theme";
 import pc from "picocolors";
+import { Theme } from "../types/theme";
 
 export const defaultTheme: Theme = {
 	message: pc.bold,
