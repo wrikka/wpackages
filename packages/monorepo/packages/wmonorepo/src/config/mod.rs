@@ -1,1 +1,1 @@
-pub use crate::types::config::{TaskConfig, WmoRepoConfig};
+pub use crate::types::config::{ProjectConfig, TaskConfig, WmoRepoConfig};

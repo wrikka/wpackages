@@ -1,7 +1,8 @@
-pub mod components;
 pub mod app;
+pub mod components;
 pub mod config;
 pub mod error;
+pub mod selector;
 pub mod services;
 pub mod types;
 

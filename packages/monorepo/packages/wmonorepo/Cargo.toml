@@ -42,6 +42,9 @@ tar = "0.4"
 # Glob
 glob = "0.3"
 
+# Watch (native file system notifications)
+notify = "6.1"
+
 # CLI
 clap = { version = "4.5", features = ["derive"] }
 

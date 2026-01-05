@@ -5,25 +5,27 @@ pub fn discover_workspaces(patterns: &[String]) -> Vec<Workspace> {
     let mut workspaces = vec![];
 
     for pattern in patterns {
-        let walker = ignore::WalkBuilder::new(pattern).build();
-        for result in walker {
-            match result {
-                Ok(entry) => {
-                    if entry.path().is_dir() {
-                        if entry.path().join("package.json").exists() {
-                            match Workspace::from_path(entry.path()) {
-                                Ok(ws) => workspaces.push(ws),
-                                Err(e) => eprintln!(
-                                    "Error loading workspace at {}: {}",
-                                    entry.path().display(),
-                                    e
-                                ),
+        match glob::glob(pattern) {
+            Ok(paths) => {
+                for path in paths {
+                    match path {
+                        Ok(path) => {
+                            if path.is_dir() && path.join("package.json").exists() {
+                                match Workspace::from_path(&path) {
+                                    Ok(ws) => workspaces.push(ws),
+                                    Err(e) => eprintln!(
+                                        "Error loading workspace at {}: {}",
+                                        path.display(),
+                                        e
+                                    ),
+                                }
                             }
                         }
+                        Err(e) => eprintln!("Error expanding glob pattern '{}': {}", pattern, e),
                     }
                 }
-                Err(e) => eprintln!("Error walking directory: {}", e),
             }
+            Err(e) => eprintln!("Invalid glob pattern '{}': {}", pattern, e),
         }
     }
 

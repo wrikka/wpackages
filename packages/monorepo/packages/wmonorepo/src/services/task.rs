@@ -4,30 +4,51 @@ use crate::types::config::TaskConfig;
 use crate::types::workspace::Workspace;
 use std::process::Command;
 
-pub fn run_task(workspace: &Workspace, task_name: &str, task_config: &TaskConfig, hash: &str) -> AppResult<()> {
-    if let Some(script) = workspace.package_json.scripts.get(task_name) {
-        println!("\nRunning '{}' in '{}'...", script, workspace.package_json.name);
-
-        let mut cmd = if cfg!(target_os = "windows") {
-            let mut cmd = Command::new("cmd");
-            cmd.args(&["/C", script]);
-            cmd
-        } else {
-            let mut cmd = Command::new("sh");
-            cmd.arg("-c");
-            cmd.arg(script);
-            cmd
-        };
-
-        let status = cmd.current_dir(&workspace.path).status()?;
-
-                if !status.success() {
-            return Err(AppError::Task(format!("Task '{}' failed in '{}'", task_name, workspace.package_json.name)));
-        } else {
-            cache::archive_outputs(workspace, task_config, hash)?;
+pub fn run_task(
+    workspace: &Workspace,
+    task_name: &str,
+    task_config: &TaskConfig,
+    hash: &str,
+    strict: bool,
+    no_cache: bool,
+) -> AppResult<()> {
+    if !workspace.package_json.scripts.contains_key(task_name) {
+        if strict {
+            return Err(AppError::Task(format!(
+                "Task '{}' not found in '{}'",
+                task_name, workspace.package_json.name
+            )));
         }
-    } else {
-        println!("\nTask '{}' not found in '{}'", task_name, workspace.package_json.name);
+
+        println!(
+            "\nTask '{}' not found in '{}'",
+            task_name, workspace.package_json.name
+        );
+        return Ok(());
+    }
+
+    // bun-first: do not execute raw script strings via shell, run through the package manager.
+    // This is more consistent across platforms (especially Windows) and matches repo conventions.
+    println!(
+        "\nRunning 'bun run {}' in '{}'...",
+        task_name, workspace.package_json.name
+    );
+
+    let status = Command::new("bun")
+        .arg("run")
+        .arg(task_name)
+        .current_dir(&workspace.path)
+        .status()?;
+
+    if !status.success() {
+        return Err(AppError::Task(format!(
+            "Task '{}' failed in '{}'",
+            task_name, workspace.package_json.name
+        )));
+    }
+
+    if !no_cache {
+        cache::archive_outputs(workspace, task_config, hash)?;
     }
 
     Ok(())

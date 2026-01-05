@@ -2,7 +2,9 @@ use crate::types::workspace::Workspace;
 use petgraph::graph::{DiGraph, NodeIndex};
 use std::collections::HashMap;
 
-pub fn build_dependency_graph(workspaces: &[Workspace]) -> (DiGraph<String, ()>, HashMap<String, NodeIndex>) {
+pub fn build_dependency_graph(
+    workspaces: &[Workspace],
+) -> (DiGraph<String, ()>, HashMap<String, NodeIndex>) {
     let mut graph = DiGraph::new();
     let mut node_map = HashMap::new();
 
