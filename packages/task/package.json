@@ -20,7 +20,10 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "src"],
+	"files": [
+		"dist",
+		"src"
+	],
 	"scripts": {
 		"dev": "tsdown --watch",
 		"build": "tsdown --exports --dts --minify",
@@ -28,7 +31,7 @@
 		"test:watch": "vitest",
 		"typecheck": "tsc --noEmit",
 		"lint": "oxlint --fix --type-aware",
-		"review": "knip && tsc --noEmit"
+		"verify": "knip && tsc --noEmit"
 	},
 	"dependencies": {
 		"@w/workflow": "workspace:*",
@@ -46,9 +49,17 @@
 		"vitest": "4.0.8"
 	},
 	"knip": {
-		"entry": ["src/index.ts", "**/*.test.ts"],
-		"ignore": ["**/*.usage.ts", "src/utils/worker.ts"],
-		"ignoreDependencies": ["program"]
+		"entry": [
+			"src/index.ts",
+			"**/*.test.ts"
+		],
+		"ignore": [
+			"**/*.usage.ts",
+			"src/utils/worker.ts"
+		],
+		"ignoreDependencies": [
+			"program"
+		]
 	},
 	"module": "./dist/index.mjs",
 	"publishConfig": {
