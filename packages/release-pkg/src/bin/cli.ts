@@ -113,10 +113,8 @@ function parseArgs(args: string[]): CliArgs {
 
 async function interactiveMode(): Promise<ReleaseOptions> {
 	try {
-		// Dynamic import to avoid type errors during build
-		// @ts-ignore - @wts/cli-components may not be available at build time
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const tui = await import("@wts/cli-components") as any;
+		// Dynamic import for TUI components
+		const tui = await import("@wts/cli-components");
 		const { select, confirm, input } = tui;
 
 		const type = await select({
