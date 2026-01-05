@@ -8,7 +8,7 @@ export function createResource<T>(
 ): Resource<T> {
 	const [data, setData] = createSignal<T | undefined>(initialValue);
 	const [loading, setLoading] = createSignal(false);
-	const [error, setError] = createSignal<unknown | undefined>(undefined);
+	const [error, setError] = createSignal<unknown>(undefined);
 
 	const fetcher = async () => {
 		setLoading(true);

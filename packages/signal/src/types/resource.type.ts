@@ -3,7 +3,7 @@ import type { Ref } from "./ref.type";
 
 export type ResourceActions<T> = {
 	loading: Computed<boolean>;
-	error: Ref<unknown | undefined>;
+	error: Ref<unknown>;
 	refetch: () => Promise<T | undefined>;
 };
 

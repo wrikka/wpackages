@@ -2,6 +2,18 @@
 
 A high-performance, compiler-friendly reactivity library inspired by SolidJS.
 
+## Comparison with Other Libraries
+
+`@wpackages/signal` is heavily inspired by SolidJS and shares its core philosophy of fine-grained, compiler-friendly reactivity. Here's a quick comparison with other popular libraries:
+
+| Feature               | @wpackages/signal  | SolidJS            | Vue Reactivity  | MobX         |
+| --------------------- | ------------------ | ------------------ | --------------- | ------------ |
+| **API Style**         | `[getter, setter]` | `[getter, setter]` | `ref()` objects | Proxies      |
+| **Performance**       | Fine-grained       | Fine-grained       | VDOM-based      | Fine-grained |
+| **Compiler-Friendly** | Yes                | Yes                | Less so         | No           |
+
+For a more detailed breakdown, see the [full comparison document](./docs/comparison.md).
+
 ## Philosophy
 
 This library provides a set of primitives for building reactive systems with a focus on performance and predictability. By separating read and write operations (`[getter, setter]`), it enables fine-grained reactivity and opens the door for future compile-time optimizations, similar to SolidJS.
@@ -21,7 +33,7 @@ This library provides a set of primitives for building reactive systems with a f
 Creates a new signal, the core reactive primitive. It returns a tuple with a getter and a setter.
 
 ```typescript
-import { createSignal, createEffect } from 'reactivity';
+import { createEffect, createSignal } from "reactivity";
 
 const [count, setCount] = createSignal(0);
 

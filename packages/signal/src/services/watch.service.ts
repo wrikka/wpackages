@@ -36,7 +36,7 @@ export function watchMultiple<T extends readonly Accessor<any>[]>(
 export function on<T, U>(
 	deps: Accessor<T> | Accessor<T>[],
 	fn: (value: T | T[], prevValue: T | T[] | undefined) => U,
-): () => U {
+): () => U | undefined {
 	let prevValue: T | T[] | undefined;
 	let inited = false;
 
@@ -44,15 +44,14 @@ export function on<T, U>(
 		const value = Array.isArray(deps) ? deps.map(d => d()) : deps();
 
 		if (inited && value === prevValue) {
-			return;
+			return undefined;
 		}
 
-		untrack(() => {
-			fn(value, prevValue);
-		});
+		const result = untrack(() => fn(value, prevValue));
 
 		prevValue = value;
 		inited = true;
+		return result;
 	};
 }
 

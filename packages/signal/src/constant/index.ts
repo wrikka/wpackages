@@ -2,4 +2,4 @@
  * Constants exports for reactivity
  */
 
-export { REACTIVITY_MESSAGES, ERROR_MESSAGES } from "./messages.const";
+export { ERROR_MESSAGES, REACTIVITY_MESSAGES } from "./messages.const";
