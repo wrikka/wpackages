@@ -42,7 +42,6 @@ bun computer-cleanup init
 
 This will create a `computer-cleanup.config.json` file in your home directory.
 
-
 To start the interactive cleanup wizard, run the `computer-cleanup` command from the monorepo root. Bun will automatically resolve the binary.
 
 ```bash
@@ -73,19 +72,17 @@ Example `computer-cleanup.config.json`:
 
 ```json
 {
-  "profiles": {
-    "default": {
-      "patterns": ["node_modules", "dist"],
-      "excludePatterns": ["**/.git/**"]
-    },
-    "frontend": {
-      "patterns": ["node_modules", ".cache", "build"],
-      "excludePatterns": []
-    }
-  },
-  "scanPaths": [
-    "/Users/your-user/projects"
-  ]
+	"profiles": {
+		"default": {
+			"patterns": ["node_modules", "dist"],
+			"excludePatterns": ["**/.git/**"]
+		},
+		"frontend": {
+			"patterns": ["node_modules", ".cache", "build"],
+			"excludePatterns": []
+		}
+	},
+	"scanPaths": ["/Users/your-user/projects"]
 }
 ```
 

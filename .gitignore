@@ -143,8 +143,12 @@ ehthumbs.db
 templates/*/dist/
 templates/*/build/
 templates/*/.env
-
-
-
+ 
+ 
 .qoder
 .wtest-coverage
+
+# Generated artifacts
+packages/styling/.styling-cache/
+packages/webserver/bench/result*.html
+packages/webserver/bench/result*.json

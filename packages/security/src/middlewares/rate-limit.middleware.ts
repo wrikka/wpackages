@@ -1,10 +1,10 @@
 import { HttpMiddleware, HttpServerRequest } from "@effect/platform";
-import { Effect, Layer, Option } from "effect";
-import { getPathnameFromUrl } from "@wpackages/utils";
 import { ResponseFactory } from "@wpackages/http";
+import { getPathnameFromUrl } from "@wpackages/utils";
+import { Effect, Layer, Option } from "effect";
 import { RateLimiter } from "../services/rate-limit.service";
-import type { SecurityEnv } from "../types";
 import { InMemoryRateLimiterStorage } from "../storage/memory.storage";
+import type { SecurityEnv } from "../types";
 
 export const RateLimiterLive = (env: SecurityEnv) =>
 	Layer.succeed(
@@ -46,9 +46,6 @@ export const rateLimitMiddleware = (options: RateLimitMiddlewareOptions) =>
 			return yield* app;
 		}).pipe(
 			Effect.catchTag("RateLimitError", () =>
-				Effect.flatMap(ResponseFactory.Current, (r) =>
-					r.text("Rate limit exceeded", { status: 429 })
-				)
-			)
+				Effect.flatMap(ResponseFactory.Current, (r) => r.text("Rate limit exceeded", { status: 429 }))),
 		)
 	);

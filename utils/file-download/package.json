@@ -15,10 +15,7 @@
 		"./cli": "./dist/cli.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"dev": "bun --watch src/cli.ts",
 		"lint": "oxlint --fix --type-aware",

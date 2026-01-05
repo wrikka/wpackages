@@ -1,19 +1,18 @@
 import { HttpMiddleware, HttpServerResponse } from "@effect/platform";
-import { Cause, Effect, Option } from "effect";
 import { ResponseFactory } from "@wpackages/http";
 import { AuthError, RateLimitError } from "@wpackages/security";
+import { Cause, Effect, Option } from "effect";
 
 const mapErrorToHttpResponse = (
 	error: unknown,
 	response: ResponseFactory,
 ): Effect.Effect<HttpServerResponse.HttpServerResponse> => {
-	const tag =
-		error &&
-		typeof error === "object" &&
-		"_tag" in error &&
-		typeof (error as { readonly _tag?: unknown })._tag === "string"
-			? (error as { readonly _tag: string })._tag
-			: null;
+	const tag = error
+			&& typeof error === "object"
+			&& "_tag" in error
+			&& typeof (error as { readonly _tag?: unknown })._tag === "string"
+		? (error as { readonly _tag: string })._tag
+		: null;
 
 	if (error instanceof AuthError) {
 		return response.text(error.message, { status: 401 });

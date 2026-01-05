@@ -1,38 +1,38 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { loadConfig } from '@wpackages/config-manager';
-import { findUnused, findUnusedWorkspace } from './index';
-import { report } from './reporter';
-import { defaultUnusedConfig, type UnusedConfig } from './config';
-import { applyBaseline, loadBaseline, writeBaseline } from './baseline';
+import { loadConfig } from "@wpackages/config-manager";
+import { Command } from "commander";
+import { applyBaseline, loadBaseline, writeBaseline } from "./baseline";
+import { defaultUnusedConfig, type UnusedConfig } from "./config";
+import { findUnused, findUnusedWorkspace } from "./index";
+import { report } from "./reporter";
 
 const program = new Command();
 
 program
-	.version('0.1.0')
-	.description('A tool to find unused files, dependencies, and exports in your project.')
-    .option('-c, --cwd <path>', 'The current working directory', process.cwd())
-    .option('-e, --entry <files...>', 'Entry points to consider as used')
-    .option('-i, --ignore <patterns...>', 'Glob patterns to ignore')
-	.option('-w, --workspace', 'Analyze all workspace packages (monorepo mode)')
-	.option('-f, --format <format>', 'Output format: text|json|sarif', 'text')
-	.option('-o, --output <file>', 'Write output to a file instead of stdout')
-	.option('-b, --baseline <file>', 'Baseline JSON file to suppress known issues')
-	.option('--update-baseline', 'Update baseline file from current results')
-	.option('--cache', 'Enable disk cache (default)', true)
-	.option('--no-cache', 'Disable disk cache')
-	.option('--cache-file <file>', 'Cache file path (default: .unused-cache.json)')
-	.option('--ignore-unused-files <patterns...>', 'Ignore unused file results by glob pattern')
-	.option('--ignore-exports <names...>', 'Ignore unused export results by export name (supports *)')
-	.option('--ignore-deps <names...>', 'Ignore unused dependency results by package name')
+	.version("0.1.0")
+	.description("A tool to find unused files, dependencies, and exports in your project.")
+	.option("-c, --cwd <path>", "The current working directory", process.cwd())
+	.option("-e, --entry <files...>", "Entry points to consider as used")
+	.option("-i, --ignore <patterns...>", "Glob patterns to ignore")
+	.option("-w, --workspace", "Analyze all workspace packages (monorepo mode)")
+	.option("-f, --format <format>", "Output format: text|json|sarif", "text")
+	.option("-o, --output <file>", "Write output to a file instead of stdout")
+	.option("-b, --baseline <file>", "Baseline JSON file to suppress known issues")
+	.option("--update-baseline", "Update baseline file from current results")
+	.option("--cache", "Enable disk cache (default)", true)
+	.option("--no-cache", "Disable disk cache")
+	.option("--cache-file <file>", "Cache file path (default: .unused-cache.json)")
+	.option("--ignore-unused-files <patterns...>", "Ignore unused file results by glob pattern")
+	.option("--ignore-exports <names...>", "Ignore unused export results by export name (supports *)")
+	.option("--ignore-deps <names...>", "Ignore unused dependency results by package name")
 	.action(async (options) => {
-        try {
-            const { config: loadedConfig } = await loadConfig<UnusedConfig>({
-                name: 'unused',
-                cwd: options.cwd,
-                defaultConfig: defaultUnusedConfig,
-            });
+		try {
+			const { config: loadedConfig } = await loadConfig<UnusedConfig>({
+				name: "unused",
+				cwd: options.cwd,
+				defaultConfig: defaultUnusedConfig,
+			});
 
 			const resolvedOptions: UnusedConfig = {
 				...loadedConfig,
@@ -44,7 +44,7 @@ program
 				ignoreDependencies: options.ignoreDeps ?? loadedConfig.ignoreDependencies,
 				baseline: options.baseline ?? loadedConfig.baseline,
 				updateBaseline: Boolean(options.updateBaseline) || Boolean(loadedConfig.updateBaseline),
-				cache: typeof options.cache === 'boolean' ? options.cache : loadedConfig.cache,
+				cache: typeof options.cache === "boolean" ? options.cache : loadedConfig.cache,
 				cacheFile: options.cacheFile ?? loadedConfig.cacheFile,
 			};
 
@@ -62,20 +62,20 @@ program
 			}
 
 			if (resolvedOptions.updateBaseline) {
-				const baselinePath = resolvedOptions.baseline ?? 'unused.baseline.json';
+				const baselinePath = resolvedOptions.baseline ?? "unused.baseline.json";
 				await writeBaseline(baselinePath, rawResult, resolvedOptions.cwd);
 			}
-    
-            const exitCode = await report(result, {
-                cwd: options.cwd,
-                format: options.format,
-                outputFile: options.output,
-            });
-            process.exit(exitCode);
-        } catch (error) {
-            console.error('An unexpected error occurred:', error);
-            process.exit(2);
-        }
+
+			const exitCode = await report(result, {
+				cwd: options.cwd,
+				format: options.format,
+				outputFile: options.output,
+			});
+			process.exit(exitCode);
+		} catch (error) {
+			console.error("An unexpected error occurred:", error);
+			process.exit(2);
+		}
 	});
 
 program.parse(process.argv);

@@ -1,87 +1,90 @@
-import type { Config } from 'tailwindcss';
-import type { FontOptions } from './fonts';
+import type { Config } from "tailwindcss";
+import type { FontOptions } from "./fonts";
 
 // A custom rule can be a RegExp and a function that returns the CSS, or just the CSS string.
 export type RuleHandler = (match: RegExpExecArray) => string | Record<string, string>;
 export type StylingRule = [RegExp, RuleHandler | string];
 
 export interface UserOptions {
-  /**
-   * The base preset to use.
-   * @default 'wind4'
-   */
-  preset?: 'wind4' | 'react' | 'vue' | 'svelte';
+	/**
+	 * The base preset to use.
+	 * @default 'wind4'
+	 */
+	preset?: "wind4" | "react" | "vue" | "svelte";
 
-  /**
-   * Enable icon sets from Iconify.
-   * Provide the prefix of the icon set.
-   * @example ['mdi', 'fa-solid']
-   */
-  icons?: string[];
+	/**
+	 * Enable icon sets from Iconify.
+	 * Provide the prefix of the icon set.
+	 * @example ['mdi', 'fa-solid']
+	 */
+	icons?: string[];
 
-  /**
-   * Define custom fonts.
-   */
-  fonts?: FontOptions[];
+	/**
+	 * Define custom fonts.
+	 */
+	fonts?: FontOptions[];
 
-  /**
-   * Backward compatible field name.
-   */
-  font?: any[];
+	/**
+	 * Backward compatible field name.
+	 */
+	font?: any[];
 
-  /**
-   * Optional content paths/globs for scanning classes.
-   */
-  content?: string[];
+	/**
+	 * Optional content paths/globs for scanning classes.
+	 */
+	content?: string[];
 
-  /**
-   * Root directory (cwd) for content scanning.
-   */
-  root?: string;
+	/**
+	 * Root directory (cwd) for content scanning.
+	 */
+	root?: string;
 
-  cache?: {
-    enabled?: boolean;
-    dir?: string;
-  };
+	cache?: {
+		enabled?: boolean;
+		dir?: string;
+	};
 
-  minify?: boolean;
+	minify?: boolean;
 
-  stylingPlugins?: Array<{
-    transformClasses?: (classes: ReadonlySet<string>, options: Readonly<UserOptions>) => Promise<Set<string>> | Set<string>;
-    transformCss?: (css: string, options: Readonly<UserOptions>) => Promise<string> | string;
-  }>;
+	stylingPlugins?: Array<{
+		transformClasses?: (
+			classes: ReadonlySet<string>,
+			options: Readonly<UserOptions>,
+		) => Promise<Set<string>> | Set<string>;
+		transformCss?: (css: string, options: Readonly<UserOptions>) => Promise<string> | string;
+	}>;
 
-  /**
-   * Enable different modes.
-   * 'attributify' mode is not implemented yet.
-   * @default ['class']
-   */
-  mode?: ('class' | 'attributify')[];
+	/**
+	 * Enable different modes.
+	 * 'attributify' mode is not implemented yet.
+	 * @default ['class']
+	 */
+	mode?: ("class" | "attributify")[];
 
-  /**
-   * Strategy for dark mode.
-   * @default 'media'
-   */
-  darkMode?: 'class' | 'media' | false;
+	/**
+	 * Strategy for dark mode.
+	 * @default 'media'
+	 */
+	darkMode?: "class" | "media" | false;
 
-  /**
-   * Extend or override the default theme.
-   */
-  theme?: Config['theme'];
+	/**
+	 * Extend or override the default theme.
+	 */
+	theme?: Config["theme"];
 
-  /**
-   * Define custom utility rules.
-   */
-  rules?: StylingRule[];
+	/**
+	 * Define custom utility rules.
+	 */
+	rules?: StylingRule[];
 
-  /**
-   * Define shortcuts for commonly used utilities.
-   * @example { 'btn': 'p-2 rounded bg-blue-500 text-white' }
-   */
-  shortcuts?: Record<string, string>;
+	/**
+	 * Define shortcuts for commonly used utilities.
+	 * @example { 'btn': 'p-2 rounded bg-blue-500 text-white' }
+	 */
+	shortcuts?: Record<string, string>;
 
-  /**
-   * Add custom plugins.
-   */
-  plugins?: NonNullable<Config['plugins']>;
+	/**
+	 * Add custom plugins.
+	 */
+	plugins?: NonNullable<Config["plugins"]>;
 }

@@ -17,12 +17,7 @@
 		"test": "vitest --run --passWithNoTests",
 		"verify": "bun format && bun lint && bun test && bun audit && run build"
 	},
-	"keywords": [
-		"git",
-		"cli",
-		"interactive",
-		"typescript"
-	],
+	"keywords": ["git", "cli", "interactive", "typescript"],
 	"author": "",
 	"license": "MIT",
 	"dependencies": {

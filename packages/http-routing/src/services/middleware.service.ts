@@ -1,9 +1,9 @@
 import { HttpMiddleware, HttpServerRequest } from "@effect/platform";
-import { Effect } from "effect";
-import { authMiddleware, rateLimitMiddleware } from "@wpackages/security";
 import { ResponseFactory } from "@wpackages/http";
-import { errorMiddleware } from "./error-mapper.service";
+import { authMiddleware, rateLimitMiddleware } from "@wpackages/security";
+import { Effect } from "effect";
 import { HttpRoutingConfig } from "../config";
+import { errorMiddleware } from "./error-mapper.service";
 
 const bodyLimitMiddleware = HttpMiddleware.make((app) =>
 	Effect.gen(function*() {

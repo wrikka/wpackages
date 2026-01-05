@@ -22,7 +22,7 @@
 
 - 🧩 **Single Responsibility**: แยก generator logic เป็นโมดูลย่อยใน `src/services/generator/*`
 - ✅ **Type-safe**: ใช้ TypeScript types สำหรับ options/rules
-- 🚫 **No *-ignore**: ไม่พึ่ง `@vite-ignore`/`@ts-expect-error` เพื่อให้ผ่านการตรวจคุณภาพ
+- 🚫 *_No _-ignore__: ไม่พึ่ง `@vite-ignore`/`@ts-expect-error` เพื่อให้ผ่านการตรวจคุณภาพ
 
 ## Installation
 
@@ -47,20 +47,20 @@ bun run build
 ## Examples
 
 ```ts
-import { generateCss } from '@wpackages/styling'
+import { generateCss } from "@wpackages/styling";
 
-const css = await generateCss(new Set(['p-4', 'bg-blue-500']), {
-  cache: { enabled: false },
-})
+const css = await generateCss(new Set(["p-4", "bg-blue-500"]), {
+	cache: { enabled: false },
+});
 ```
 
 ```ts
-import { generateCssFromContent } from '@wpackages/styling'
+import { generateCssFromContent } from "@wpackages/styling";
 
 const css = await generateCssFromContent({
-  root: process.cwd(),
-  content: ['src/**/*.{ts,tsx,js,jsx,html}'],
-})
+	root: process.cwd(),
+	content: ["src/**/*.{ts,tsx,js,jsx,html}"],
+});
 ```
 
 ## License

@@ -1,12 +1,11 @@
 import { HttpMiddleware, HttpServerRequest } from "@effect/platform";
-import { Effect, Layer } from "effect";
-import { getPathnameFromUrl } from "@wpackages/utils";
 import * as Response from "@wpackages/http";
-import { AuthService, AuthError } from "../services/auth.service";
+import { getPathnameFromUrl } from "@wpackages/utils";
+import { Effect, Layer } from "effect";
+import { AuthError, AuthService } from "../services/auth.service";
 import type { SecurityEnv } from "../types";
 
-export const AuthLive = (env: SecurityEnv) =>
-	Layer.succeed(AuthService.Current, new AuthService(env.JWT_SECRET));
+export const AuthLive = (env: SecurityEnv) => Layer.succeed(AuthService.Current, new AuthService(env.JWT_SECRET));
 
 const getTokenFromRequest = (req: HttpServerRequest.HttpServerRequest): string | null => {
 	const header = req.headers["authorization"];

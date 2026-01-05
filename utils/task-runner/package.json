@@ -21,10 +21,7 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "tsdown --watch",

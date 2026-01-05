@@ -1,39 +1,37 @@
 {
-  "name": "@wpackages/styling",
-  "version": "0.0.1",
-  "type": "module",
-  "main": "./dist/styling.umd.cjs",
-  "module": "./dist/styling.js",
-  "exports": {
-    ".": {
-      "import": "./dist/styling.js",
-      "require": "./dist/styling.umd.cjs"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "oxlint .",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "verify": "bun run lint && bun run typecheck && bun run test"
-  },
-  "devDependencies": {
-    "@iconify-json/mdi": "^1.2.3",
-    "@types/bun": "latest",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.0",
-    "vitest": "^4.0.16"
-  },
-  "dependencies": {
-    "@iconify/tailwind": "^1.2.0",
-    "@tailwindcss/node": "^4.1.18",
-    "@tailwindcss/postcss": "^4.1.18",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.18"
-  }
+	"name": "@wpackages/styling",
+	"version": "0.0.1",
+	"type": "module",
+	"main": "./dist/styling.umd.cjs",
+	"module": "./dist/styling.js",
+	"exports": {
+		".": {
+			"import": "./dist/styling.js",
+			"require": "./dist/styling.umd.cjs"
+		}
+	},
+	"files": ["dist"],
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"lint": "oxlint .",
+		"typecheck": "tsc -p tsconfig.json --noEmit",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"verify": "bun run lint && bun run typecheck && bun run test"
+	},
+	"devDependencies": {
+		"@iconify-json/mdi": "^1.2.3",
+		"@types/bun": "latest",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.0",
+		"vitest": "^4.0.16"
+	},
+	"dependencies": {
+		"@iconify/tailwind": "^1.2.0",
+		"@tailwindcss/node": "^4.1.18",
+		"@tailwindcss/postcss": "^4.1.18",
+		"postcss": "^8.5.6",
+		"tailwindcss": "^4.1.18"
+	}
 }

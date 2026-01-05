@@ -31,7 +31,7 @@ export function prompts() {
 				name,
 				type: "text",
 				message: options.message,
-				placeholder: options.placeholder || '',
+				placeholder: options.placeholder || "",
 				validate: (v: unknown) => options.validate?.(v as string) ?? true,
 			});
 			return this;

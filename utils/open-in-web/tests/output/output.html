@@ -13,98 +13,100 @@
 			margin: 0 auto;
 		}
 		</style>
-	<style>/* Base styles */
-body {
-	transition: background-color 0.3s, color 0.3s;
-}
+		<style>
+		/* Base styles */
+		body {
+			transition: background-color 0.3s, color 0.3s;
+		}
 
-/* Light mode */
-:root {
-	--bg-color: #ffffff;
-	--text-color: #212529;
-	--link-color: #007bff;
-}
+		/* Light mode */
+		:root {
+			--bg-color: #ffffff;
+			--text-color: #212529;
+			--link-color: #007bff;
+		}
 
-/* Dark mode */
-[data-theme="dark"] {
-	--bg-color: #212529;
-	--text-color: #f8f9fa;
-	--link-color: #80bfff;
-}
+		/* Dark mode */
+		[data-theme="dark"] {
+			--bg-color: #212529;
+			--text-color: #f8f9fa;
+			--link-color: #80bfff;
+		}
 
-body {
-	background-color: var(--bg-color);
-	color: var(--text-color);
-}
+		body {
+			background-color: var(--bg-color);
+			color: var(--text-color);
+		}
 
-a {
-	color: var(--link-color);
-}
+		a {
+			color: var(--link-color);
+		}
 
-/* Top bar */
-.top-bar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0.5rem 1rem;
-	background-color: var(--bg-color);
-	border-bottom: 1px solid var(--text-color);
-	z-index: 1000;
-}
+		/* Top bar */
+		.top-bar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0.5rem 1rem;
+			background-color: var(--bg-color);
+			border-bottom: 1px solid var(--text-color);
+			z-index: 1000;
+		}
 
-body {
-	padding-top: 4rem; /* Adjust for fixed top bar */
-}
+		body {
+			padding-top: 4rem; /* Adjust for fixed top bar */
+		}
 
-/* Search container */
-.search-container {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-}
+		/* Search container */
+		.search-container {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
 
-#search-input {
-	padding: 0.25rem;
-}
+		#search-input {
+			padding: 0.25rem;
+		}
 
-/* Highlighted search result */
-.highlight {
-	background-color: yellow;
-	color: black;
-}
+		/* Highlighted search result */
+		.highlight {
+			background-color: yellow;
+			color: black;
+		}
 
-.highlight.active {
-	background-color: orange;
-}
+		.highlight.active {
+			background-color: orange;
+		}
 
-/* Theme toggle button */
-.theme-toggle {
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	cursor: pointer;
-	border: 1px solid var(--text-color);
-	background-color: var(--bg-color);
-	color: var(--text-color);
-	padding: 0.5rem;
-	border-radius: 5px;
-}
+		/* Theme toggle button */
+		.theme-toggle {
+			position: fixed;
+			top: 1rem;
+			right: 1rem;
+			cursor: pointer;
+			border: 1px solid var(--text-color);
+			background-color: var(--bg-color);
+			color: var(--text-color);
+			padding: 0.5rem;
+			border-radius: 5px;
+		}
 
-/* Print styles */
-@media print {
-	.top-bar {
-		display: none;
-	}
+		/* Print styles */
+		@media print {
+			.top-bar {
+				display: none;
+			}
 
-	body {
-		padding-top: 20px; /* Reset padding for print */
-	}
-}
-</style></head>
+			body {
+				padding-top: 20px; /* Reset padding for print */
+			}
+		}
+		</style>
+	</head>
 	<body>
 		<div class="top-bar">
 			<div class="search-container">
@@ -117,126 +119,145 @@ body {
 		</div>
 		<div id="content">
 			<h1>Example Markdown</h1>
-<p>This is a sample markdown file for testing.</p>
-<h2>Section 1</h2>
-<p>Some content here.</p>
-<h3>Subsection 1.1</h3>
-<p>More content.</p>
-<pre class="shiki shiki-themes vitesse-dark vitesse-dark" style="background-color:#121212;--shiki-dark-bg:#121212;color:#dbd7caee;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-javascript"><span class="line"><span style="color:#BD976A;--shiki-dark:#BD976A">console</span><span style="color:#666666;--shiki-dark:#666666">.</span><span style="color:#80A665;--shiki-dark:#80A665">log</span><span style="color:#666666;--shiki-dark:#666666">(</span><span style="color:#C98A7D77;--shiki-dark:#C98A7D77">"</span><span style="color:#C98A7D;--shiki-dark:#C98A7D">Hello, world!</span><span style="color:#C98A7D77;--shiki-dark:#C98A7D77">"</span><span style="color:#666666;--shiki-dark:#666666">);</span></span></code></pre>
-
+			<p>This is a sample markdown file for testing.</p>
+			<h2>Section 1</h2>
+			<p>Some content here.</p>
+			<h3>Subsection 1.1</h3>
+			<p>More content.</p>
+			<pre
+				class="shiki shiki-themes vitesse-dark vitesse-dark"
+				style="background-color: #121212; --shiki-dark-bg: #121212; color: #dbd7caee; --shiki-dark: #dbd7caee"
+				tabindex="0"
+			><code class="language-javascript"><span class="line"><span style="color:#BD976A;--shiki-dark:#BD976A">console</span><span style="color:#666666;--shiki-dark:#666666">.</span><span style="color:#80A665;--shiki-dark:#80A665">log</span><span style="color:#666666;--shiki-dark:#666666">(</span><span style="color:#C98A7D77;--shiki-dark:#C98A7D77">"</span><span style="color:#C98A7D;--shiki-dark:#C98A7D">Hello, world!</span><span style="color:#C98A7D77;--shiki-dark:#C98A7D77">"</span><span style="color:#666666;--shiki-dark:#666666">);</span></span></code></pre>
 		</div>
-	
-<script>
-    const themeToggle = document.querySelector('.theme-toggle');
-    const html = document.documentElement;
 
-    function applyTheme(theme) {
-        html.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    }
+		<script>
+		const themeToggle = document.querySelector(".theme-toggle");
+		const html = document.documentElement;
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        applyTheme(currentTheme);
-    });
+		function applyTheme(theme) {
+			html.setAttribute("data-theme", theme);
+			localStorage.setItem("theme", theme);
+		}
 
-    // Apply saved theme on load
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
-</script>
+		themeToggle.addEventListener("click", () => {
+			const currentTheme = html.getAttribute("data-theme") === "dark"
+				? "light"
+				: "dark";
+			applyTheme(currentTheme);
+		});
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const searchPrev = document.getElementById('search-prev');
-    const searchNext = document.getElementById('search-next');
-    const searchCount = document.getElementById('search-count');
-    const content = document.getElementById('content');
-    let matches = [];
-    let currentIndex = -1;
+		// Apply saved theme on load
+		const savedTheme = localStorage.getItem("theme") || "light";
+		applyTheme(savedTheme);
+		</script>
 
-    function removeHighlights() {
-        const highlights = content.querySelectorAll('mark.highlight');
-        highlights.forEach(mark => {
-            const parent = mark.parentNode;
-            parent.replaceChild(document.createTextNode(mark.textContent), mark);
-            parent.normalize();
-        });
-    }
+		<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const searchInput = document.getElementById("search-input");
+			const searchPrev = document.getElementById("search-prev");
+			const searchNext = document.getElementById("search-next");
+			const searchCount = document.getElementById("search-count");
+			const content = document.getElementById("content");
+			let matches = [];
+			let currentIndex = -1;
 
-    function performSearch() {
-        removeHighlights();
-        const query = searchInput.value;
-        if (query.length < 2) {
-            matches = [];
-            currentIndex = -1;
-            updateCount();
-            return;
-        }
+			function removeHighlights() {
+				const highlights = content.querySelectorAll("mark.highlight");
+				highlights.forEach(mark => {
+					const parent = mark.parentNode;
+					parent.replaceChild(document.createTextNode(mark.textContent), mark);
+					parent.normalize();
+				});
+			}
 
-        const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null, false);
-        let node;
-        const regex = new RegExp(query, 'gi');
-        while (node = walker.nextNode()) {
-            const text = node.textContent;
-            let match;
-            let lastIndex = 0;
-            const fragment = document.createDocumentFragment();
+			function performSearch() {
+				removeHighlights();
+				const query = searchInput.value;
+				if (query.length < 2) {
+					matches = [];
+					currentIndex = -1;
+					updateCount();
+					return;
+				}
 
-            while ((match = regex.exec(text)) !== null) {
-                fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
-                const mark = document.createElement('mark');
-                mark.className = 'highlight';
-                mark.textContent = match[0];
-                fragment.appendChild(mark);
-                lastIndex = regex.lastIndex;
-            }
-            if (lastIndex > 0) {
-                fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
-                node.parentNode.replaceChild(fragment, node);
-            }
-        }
-        matches = Array.from(content.querySelectorAll('mark.highlight'));
-        currentIndex = matches.length > 0 ? 0 : -1;
-        navigateToCurrent();
-        updateCount();
-    }
+				const walker = document.createTreeWalker(
+					content,
+					NodeFilter.SHOW_TEXT,
+					null,
+					false,
+				);
+				let node;
+				const regex = new RegExp(query, "gi");
+				while (node = walker.nextNode()) {
+					const text = node.textContent;
+					let match;
+					let lastIndex = 0;
+					const fragment = document.createDocumentFragment();
 
-    function navigateToCurrent() {
-        matches.forEach((match, index) => {
-            match.classList.toggle('active', index === currentIndex);
-        });
-        if (currentIndex !== -1) {
-            matches[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
+					while ((match = regex.exec(text)) !== null) {
+						fragment.appendChild(
+							document.createTextNode(text.slice(lastIndex, match.index)),
+						);
+						const mark = document.createElement("mark");
+						mark.className = "highlight";
+						mark.textContent = match[0];
+						fragment.appendChild(mark);
+						lastIndex = regex.lastIndex;
+					}
+					if (lastIndex > 0) {
+						fragment.appendChild(
+							document.createTextNode(text.slice(lastIndex)),
+						);
+						node.parentNode.replaceChild(fragment, node);
+					}
+				}
+				matches = Array.from(content.querySelectorAll("mark.highlight"));
+				currentIndex = matches.length > 0 ? 0 : -1;
+				navigateToCurrent();
+				updateCount();
+			}
 
-    function updateCount() {
-        searchCount.textContent = matches.length > 0 ? (currentIndex + 1) + '/' + matches.length : '0/0';
-    }
+			function navigateToCurrent() {
+				matches.forEach((match, index) => {
+					match.classList.toggle("active", index === currentIndex);
+				});
+				if (currentIndex !== -1) {
+					matches[currentIndex].scrollIntoView({
+						behavior: "smooth",
+						block: "center",
+					});
+				}
+			}
 
-    searchInput.addEventListener('input', performSearch);
-    searchNext.addEventListener('click', () => {
-        if (matches.length > 0) {
-            currentIndex = (currentIndex + 1) % matches.length;
-            navigateToCurrent();
-            updateCount();
-        }
-    });
-    searchPrev.addEventListener('click', () => {
-        if (matches.length > 0) {
-            currentIndex = (currentIndex - 1 + matches.length) % matches.length;
-            navigateToCurrent();
-            updateCount();
-        }
-    });
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            searchNext.click();
-        }
-    });
-});
-</script>
-</body>
+			function updateCount() {
+				searchCount.textContent = matches.length > 0
+					? (currentIndex + 1) + "/" + matches.length
+					: "0/0";
+			}
+
+			searchInput.addEventListener("input", performSearch);
+			searchNext.addEventListener("click", () => {
+				if (matches.length > 0) {
+					currentIndex = (currentIndex + 1) % matches.length;
+					navigateToCurrent();
+					updateCount();
+				}
+			});
+			searchPrev.addEventListener("click", () => {
+				if (matches.length > 0) {
+					currentIndex = (currentIndex - 1 + matches.length) % matches.length;
+					navigateToCurrent();
+					updateCount();
+				}
+			});
+			searchInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					searchNext.click();
+				}
+			});
+		});
+		</script>
+	</body>
 </html>

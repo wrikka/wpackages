@@ -19,7 +19,7 @@ export class AuthService {
 
 	// Placeholder for JWT validation
 	validateToken(token: string): Effect.Effect<object, AuthError> {
-		const parts = token.split('.');
+		const parts = token.split(".");
 		if (parts.length !== 2 || parts[1] !== this.secret) {
 			return Effect.fail(new AuthError("Invalid token"));
 		}

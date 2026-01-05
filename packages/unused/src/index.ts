@@ -1,12 +1,18 @@
-import { findSourceFiles } from './file-finder';
-import { analyzeFile } from './ast-parser';
-import { DependencyGraph, AnalyzeOptions, AnalysisResult, PackageAnalysisResult, WorkspaceAnalysisResult } from './types';
-import { analyzeGraph } from './analyzer';
-import { loadTsConfig, getResolvedAliases } from './tsconfig-loader';
-import { findMonorepoRoot, listWorkspacePackages } from './workspace';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { DiskCache } from './disk-cache';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { analyzeGraph } from "./analyzer";
+import { analyzeFile } from "./ast-parser";
+import { DiskCache } from "./disk-cache";
+import { findSourceFiles } from "./file-finder";
+import { getResolvedAliases, loadTsConfig } from "./tsconfig-loader";
+import {
+	AnalysisResult,
+	AnalyzeOptions,
+	DependencyGraph,
+	PackageAnalysisResult,
+	WorkspaceAnalysisResult,
+} from "./types";
+import { findMonorepoRoot, listWorkspacePackages } from "./workspace";
 
 type PackageJson = {
 	main?: unknown;
@@ -17,11 +23,11 @@ type PackageJson = {
 };
 
 function collectExportStrings(value: unknown): string[] {
-	if (typeof value === 'string') return [value];
+	if (typeof value === "string") return [value];
 	if (Array.isArray(value)) {
 		return value.flatMap(v => collectExportStrings(v));
 	}
-	if (value && typeof value === 'object') {
+	if (value && typeof value === "object") {
 		return Object.values(value as Record<string, unknown>).flatMap(v => collectExportStrings(v));
 	}
 	return [];
@@ -29,13 +35,13 @@ function collectExportStrings(value: unknown): string[] {
 
 async function detectEntrypointsFromPackageJson(cwd: string): Promise<string[]> {
 	try {
-		const pkgPath = path.join(cwd, 'package.json');
-		const raw = await fs.readFile(pkgPath, 'utf-8');
+		const pkgPath = path.join(cwd, "package.json");
+		const raw = await fs.readFile(pkgPath, "utf-8");
 		const pkg = JSON.parse(raw) as PackageJson;
 
 		const candidates = new Set<string>();
 		const addIfString = (v: unknown) => {
-			if (typeof v === 'string' && v.length > 0) {
+			if (typeof v === "string" && v.length > 0) {
 				candidates.add(v);
 			}
 		};
@@ -44,9 +50,9 @@ async function detectEntrypointsFromPackageJson(cwd: string): Promise<string[]> 
 		addIfString(pkg.module);
 		addIfString(pkg.types);
 
-		if (typeof pkg.bin === 'string') {
+		if (typeof pkg.bin === "string") {
 			addIfString(pkg.bin);
-		} else if (pkg.bin && typeof pkg.bin === 'object') {
+		} else if (pkg.bin && typeof pkg.bin === "object") {
 			for (const v of Object.values(pkg.bin as Record<string, unknown>)) {
 				addIfString(v);
 			}
@@ -57,7 +63,7 @@ async function detectEntrypointsFromPackageJson(cwd: string): Promise<string[]> 
 		}
 
 		return [...candidates]
-			.filter(p => p.startsWith('.') || p.startsWith('/') || /^[a-zA-Z]:/.test(p))
+			.filter(p => p.startsWith(".") || p.startsWith("/") || /^[a-zA-Z]:/.test(p))
 			.map(p => path.resolve(cwd, p));
 	} catch {
 		return [];
@@ -81,16 +87,16 @@ export async function findUnused(options: Partial<AnalyzeOptions>): Promise<Anal
 		...options,
 	};
 
-	console.log('Starting analysis...');
+	console.log("Starting analysis...");
 
-    const tsconfig = await loadTsConfig(config.cwd);
-    const aliases = getResolvedAliases(tsconfig, config.cwd);
+	const tsconfig = await loadTsConfig(config.cwd);
+	const aliases = getResolvedAliases(tsconfig, config.cwd);
 
 	const allFiles = await findSourceFiles(config.cwd, config.ignore);
 	console.log(`Found ${allFiles.length} source files to analyze.`);
 
 	const cacheEnabled = options.cache !== false;
-	const cacheFile = typeof options.cacheFile === 'string' ? options.cacheFile : '.unused-cache.json';
+	const cacheFile = typeof options.cacheFile === "string" ? options.cacheFile : ".unused-cache.json";
 	const cache = cacheEnabled ? await DiskCache.load(config.cwd, cacheFile) : null;
 
 	const analysisResults = await Promise.all(
@@ -116,15 +122,15 @@ export async function findUnused(options: Partial<AnalyzeOptions>): Promise<Anal
 		}
 	}
 
-	console.log('Dependency graph built. Analyzing for unused code...');
+	console.log("Dependency graph built. Analyzing for unused code...");
 
-    const result = await analyzeGraph(graph, config, aliases);
+	const result = await analyzeGraph(graph, config, aliases);
 
 	if (cache) {
 		await cache.save();
 	}
 
-	console.log('\n✨ Analysis complete!');
+	console.log("\n✨ Analysis complete!");
 
 	return result;
 }
@@ -150,10 +156,8 @@ export async function findUnusedWorkspace(options: Partial<AnalyzeOptions>): Pro
 	);
 
 	return {
-		mode: 'workspace',
+		mode: "workspace",
 		root,
 		packages,
 	};
 }
-
-
