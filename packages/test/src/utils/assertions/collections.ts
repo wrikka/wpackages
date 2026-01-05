@@ -2,8 +2,8 @@
  * Collection assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { AssertionError, throwIfFails } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export function toContain<T>(actual: T, item: unknown, options?: AssertionOptions): void {
 	if (!Array.isArray(actual)) {

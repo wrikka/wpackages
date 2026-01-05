@@ -1,8 +1,8 @@
-import { AssertionError } from "../../error";
 import { diff } from "@wpackages/diff";
+import { AssertionError } from "../../error";
 
 function isObject(value: any): value is Record<string, any> {
-	return value !== null && typeof value === 'object' && !Array.isArray(value);
+	return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 function deepSubset(subset: any, superset: any): boolean {
@@ -26,10 +26,11 @@ export function toMatchObject(actual: any, expected: any) {
 
 	if (!deepSubset(expected, actual)) {
 		const difference = diff(expected, actual);
+		const differenceText = difference ? JSON.stringify(difference, null, 2) : "";
 		throw new AssertionError(
-			`Object does not match subset.\n${difference}`,
+			`Object does not match subset.\n${differenceText}`,
 			expected,
-			actual
+			actual,
 		);
 	}
 }

@@ -1,6 +1,6 @@
 import { ConsoleReporter } from "../services/reporter/console";
-import { clearSuites, getSuites } from "./registry";
 import type { TestSuite } from "../types";
+import { clearSuites, getSuites } from "./registry";
 
 async function runSuite(suite: TestSuite, reporter: ConsoleReporter): Promise<void> {
 	// Run beforeAll hooks

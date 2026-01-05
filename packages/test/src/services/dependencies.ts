@@ -1,8 +1,8 @@
-import { glob } from 'glob';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
+import { parse } from "@babel/parser";
+import traverse from "@babel/traverse";
+import { glob } from "glob";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 export class DependencyService {
 	private graph = new Map<string, Set<string>>(); // Key: file, Value: files that import key
@@ -11,10 +11,10 @@ export class DependencyService {
 	constructor(private projectRoot: string) {}
 
 	async buildGraph() {
-		const files = await glob('src/**/*.ts', { cwd: this.projectRoot, absolute: true });
+		const files = await glob("src/**/*.ts", { cwd: this.projectRoot, absolute: true });
 
 		for (const file of files) {
-			const content = await fs.readFile(file, 'utf-8');
+			const content = await fs.readFile(file, "utf-8");
 			const imports = this.parseImports(content, path.dirname(file));
 			this.fileImports.set(file, new Set());
 
@@ -52,10 +52,10 @@ export class DependencyService {
 		return dependents;
 	}
 
-		private parseImports(code: string, _dir: string): string[] {
+	private parseImports(code: string, _dir: string): string[] {
 		const imports: string[] = [];
 		try {
-			const ast = parse(code, { sourceType: 'module', plugins: ['typescript'] });
+			const ast = parse(code, { sourceType: "module", plugins: ["typescript"] });
 			traverse(ast, {
 				ImportDeclaration({ node }) {
 					imports.push(node.source.value);
@@ -78,9 +78,9 @@ export class DependencyService {
 	}
 
 	private async resolveImport(importPath: string, dir: string): Promise<string | null> {
-		if (!importPath.startsWith('.')) return null; // Ignore node_modules for now
+		if (!importPath.startsWith(".")) return null; // Ignore node_modules for now
 
-		const extensions = ['.ts', '.tsx', '/index.ts', '/index.tsx'];
+		const extensions = [".ts", ".tsx", "/index.ts", "/index.tsx"];
 		const baseResolved = path.resolve(dir, importPath);
 
 		const potentialPaths = [

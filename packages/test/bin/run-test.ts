@@ -2,13 +2,13 @@
 
 // This script runs a single test file and reports results as JSON to stdout.
 
+import fs from "node:fs/promises";
 import path from "node:path";
 import v8 from "node:v8";
-import fs from "node:fs/promises";
-import { clearSuites, getSuites } from "../src/services/suite.registry";
 import { setTestContext } from "../src/services/context.service";
 import { SnapshotService } from "../src/services/snapshot";
-import type { TestSuite, TestResult, SerializableError } from "../src/types";
+import { clearSuites, getSuites } from "../src/services/suite.registry";
+import type { SerializableError, TestResult, TestSuite } from "../src/types";
 
 function getArgValue(args: string[], key: string): string | undefined {
 	const index = args.indexOf(key);
@@ -16,7 +16,7 @@ function getArgValue(args: string[], key: string): string | undefined {
 	return args[index + 1];
 }
 
-function createTestNameMatcher(pattern: string | undefined): ((fullName: string) => boolean) {
+function createTestNameMatcher(pattern: string | undefined): (fullName: string) => boolean {
 	if (!pattern) return () => true;
 	try {
 		const regexp = new RegExp(pattern);
@@ -74,8 +74,8 @@ async function runAndReport() {
 	const retries = retriesValue ? Number(retriesValue) : 0;
 	const testFile = [...args]
 		.reverse()
-		.find((arg) => arg.endsWith(".test.ts") || arg.endsWith(".spec.ts")) ??
-		[...args].reverse().find((arg) => arg.endsWith(".ts") && arg !== import.meta.path);
+		.find((arg) => arg.endsWith(".test.ts") || arg.endsWith(".spec.ts"))
+		?? [...args].reverse().find((arg) => arg.endsWith(".ts") && arg !== import.meta.path);
 	// Bun does not support v8.startCoverage(). Use NODE_V8_COVERAGE + v8.takeCoverage() instead.
 
 	if (!testFile) {

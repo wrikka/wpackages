@@ -1,11 +1,11 @@
-import path from "node:path";
-import fs from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import v8toIstanbul from "v8-to-istanbul";
 import libCoverage from "istanbul-lib-coverage";
 import libReport from "istanbul-lib-report";
 import reports from "istanbul-reports";
+import { existsSync } from "node:fs";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import v8toIstanbul from "v8-to-istanbul";
 
 export async function generateCoverageReport(coverageData: any[], cwd: string) {
 	console.log("\nGenerating coverage report...");

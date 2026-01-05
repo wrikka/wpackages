@@ -70,10 +70,21 @@ export function testBun(name: string, fn: TestFunction): void {
 }
 
 // Re-export the correct function bindings based on mode
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const it = useBunTest ? ((name: string, fn: TestFunction) => itBun(name, fn)) : addTest;
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const test = useBunTest ? ((name: string, fn: TestFunction) => testBun(name, fn)) : addTest;
+export function it(name: string, fn: TestFunction): void {
+	if (useBunTest) {
+		itBun(name, fn);
+		return;
+	}
+	addTest(name, fn);
+}
+
+export function test(name: string, fn: TestFunction): void {
+	if (useBunTest) {
+		testBun(name, fn);
+		return;
+	}
+	addTest(name, fn);
+}
 
 export function beforeAll(fn: TestFunction): void {
 	if (bunTest) {

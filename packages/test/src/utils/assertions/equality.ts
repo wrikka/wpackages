@@ -2,9 +2,9 @@
  * Equality assertions
  */
 
+import { throwIfFails } from "../../error";
 import type { AssertionOptions } from "../../types";
 import { isEqual } from "../diff";
-import { throwIfFails } from "../../error";
 
 export function toEqual<T>(actual: T, expected: T, options?: AssertionOptions): void {
 	const pass = isEqual(actual, expected);

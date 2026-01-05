@@ -1,8 +1,8 @@
 import chokidar from "chokidar";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { ConsoleReporter } from "../reporter/console";
 import { DependencyService } from "../dependencies";
+import { ConsoleReporter } from "../reporter/console";
 
 async function runTestFiles(filePaths: string[], cwd: string) {
 	console.log(`\nRe-running ${filePaths.length} test file(s)...`);
@@ -23,7 +23,10 @@ async function runTestFiles(filePaths: string[], cwd: string) {
 
 		if (exitCode === 0) {
 			try {
-				const result = JSON.parse(stdout);
+				const marker = "__WTEST_RESULT__";
+				const markerIndex = stdout.lastIndexOf(marker);
+				const jsonText = markerIndex >= 0 ? stdout.slice(markerIndex + marker.length).trim() : stdout.trim();
+				const result = JSON.parse(jsonText);
 				if (result.error) {
 					console.error(`Error in test file ${filePath}: ${result.error}`);
 				} else {

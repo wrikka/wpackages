@@ -2,8 +2,8 @@
  * Promise assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { AssertionError } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export async function toResolve(actual: unknown, options?: AssertionOptions): Promise<void> {
 	if (!(actual instanceof Promise)) {

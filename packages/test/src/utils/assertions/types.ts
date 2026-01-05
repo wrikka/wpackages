@@ -2,8 +2,8 @@
  * Type assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { throwIfFails } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export function toBeType<T>(actual: T, type: string, options?: AssertionOptions): void {
 	const pass = typeof actual === type;

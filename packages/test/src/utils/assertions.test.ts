@@ -1,5 +1,5 @@
-import { describe, expect, it } from "../index";
 import { AssertionError } from "../error";
+import { describe, expect, it } from "../index";
 
 describe("Assertions", () => {
 	describe("toBe", () => {

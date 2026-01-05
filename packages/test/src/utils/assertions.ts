@@ -3,19 +3,19 @@
  */
 
 import type { ZodSchema } from "zod";
+import { AssertionError } from "../error";
 import type { AssertionOptions } from "../types";
 import { toContain, toContainString } from "./assertions/collections";
-import { toMatchSnapshot } from "./assertions/snapshot";
 import { toBe, toEqual } from "./assertions/equality";
 import { toBeInstanceOf } from "./assertions/instance";
 import { toHaveBeenCalled, toHaveBeenCalledWith } from "./assertions/mock";
 import { toMatchObject } from "./assertions/object";
 import { toReject, toResolve } from "./assertions/promises";
 import { toMatchSchema } from "./assertions/schema";
+import { toMatchSnapshot } from "./assertions/snapshot";
 import { toThrow, toThrowAsync } from "./assertions/throws";
 import { toBeFalsy, toBeNull, toBeTruthy, toBeUndefined } from "./assertions/truthiness";
 import { toBeType } from "./assertions/types";
-import { AssertionError } from "../error";
 
 /**
  * Fluent assertion builder
@@ -90,7 +90,7 @@ export class Assertion<T> {
 	}
 
 	toHaveBeenCalled(options?: AssertionOptions): void {
-			toHaveBeenCalled(this._value as any, options);
+		toHaveBeenCalled(this._value as any, options);
 	}
 
 	toHaveBeenCalledWith(...args: any[]): void {
@@ -233,15 +233,15 @@ class NotAssertion<T> extends Assertion<T> {
 	override toHaveBeenCalledWith(...args: any[]): void {
 		this._negateSync(
 			() => super.toHaveBeenCalledWith(...args),
-			`Expected mock function to not have been called with arguments: ${JSON.stringify(args)}`
+			`Expected mock function to not have been called with arguments: ${JSON.stringify(args)}`,
 		);
 	}
 
 	override toMatchObject(expected: object): void {
 		this._negateSync(
 			() => super.toMatchObject(expected),
-			'Expected object to not match subset',
-			expected
+			"Expected object to not match subset",
+			expected,
 		);
 	}
 }

@@ -7,8 +7,8 @@ import {
 	it as wIt,
 	test as wTest,
 } from "../core/globals";
-import { expect as wExpect } from "../utils/assertions";
 import { w as wW } from "../core/w";
+import { expect as wExpect } from "../utils/assertions";
 
 declare global {
 	interface GlobalThis {

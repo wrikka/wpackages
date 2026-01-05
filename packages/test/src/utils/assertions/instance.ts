@@ -2,8 +2,8 @@
  * Instance assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { throwIfFails } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export function toBeInstanceOf<T>(actual: T, expected: any, options?: AssertionOptions): void {
 	const pass = actual instanceof expected;

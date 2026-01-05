@@ -2,8 +2,8 @@
  * Error throwing assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { AssertionError } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export function toThrow(actual: unknown, options?: AssertionOptions): void {
 	if (typeof actual !== "function") {

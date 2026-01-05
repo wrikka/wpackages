@@ -1,7 +1,7 @@
-import path from 'node:path';
-import fs from 'node:fs/promises';
+import fs from "node:fs/promises";
+import path from "node:path";
 
-const SNAPSHOT_DIR = '__snapshots__';
+const SNAPSHOT_DIR = "__snapshots__";
 
 export class SnapshotService {
 	private snapshotPath: string;
@@ -16,12 +16,12 @@ export class SnapshotService {
 
 	async load() {
 		try {
-			const content = await fs.readFile(this.snapshotPath, 'utf-8');
+			const content = await fs.readFile(this.snapshotPath, "utf-8");
 			// A simple parser, could be improved to handle escaped backticks
-			this.snapshots = content.split('\n`\n').reduce((acc, part) => {
+			this.snapshots = content.split("\n`\n").reduce((acc, part) => {
 				if (part.trim()) {
-					const [key, ...valueParts] = part.split('` = `');
-					acc[key.slice(1)] = valueParts.join('` = `').slice(0, -1);
+					const [key, ...valueParts] = part.split("` = `");
+					acc[key.slice(1)] = valueParts.join("` = `").slice(0, -1);
 				}
 				return acc;
 			}, {} as Record<string, string>);
@@ -35,7 +35,7 @@ export class SnapshotService {
 
 		const content = Object.entries(this.snapshots)
 			.map(([key, value]) => `exports[\`${key}\`] = \`\n${value}\n\`;`)
-			.join('\n\n');
+			.join("\n\n");
 
 		await fs.mkdir(path.dirname(this.snapshotPath), { recursive: true });
 		await fs.writeFile(this.snapshotPath, content);

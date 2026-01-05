@@ -12,9 +12,9 @@ export const findTestFiles = async (
 	exclude: string[],
 	cwd: string = process.cwd(),
 ): Promise<string[]> => {
-	return glob(include, { 
+	return glob(include, {
 		cwd,
 		absolute: true,
-		ignore: exclude 
+		ignore: exclude,
 	});
 };

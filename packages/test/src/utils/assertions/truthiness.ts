@@ -2,8 +2,8 @@
  * Truthiness assertions
  */
 
-import type { AssertionOptions } from "../../types";
 import { throwIfFails } from "../../error";
+import type { AssertionOptions } from "../../types";
 
 export function toBeTruthy<T>(actual: T, options?: AssertionOptions): void {
 	const pass = !!actual;

@@ -1,6 +1,6 @@
-import { addMockedModule } from "./mockRegistry";
 import { createMock } from "../utils/mock";
 import { spyOn } from "../utils/spy";
+import { addMockedModule } from "./mockRegistry";
 
 export const w = {
 	fn: createMock,

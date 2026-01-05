@@ -1,6 +1,6 @@
+import { diff } from "@wpackages/diff";
 import { AssertionError } from "../../error";
 import { getTestContext } from "../../services/context.service";
-import { diff } from "@wpackages/diff";
 
 export function toMatchSnapshot(received: any, hint?: string) {
 	const { snapshotService, currentTestName, updateSnapshots } = getTestContext();
@@ -20,10 +20,11 @@ export function toMatchSnapshot(received: any, hint?: string) {
 
 	if (actual !== expected) {
 		const difference = diff(expected, actual);
+		const differenceText = difference ? JSON.stringify(difference, null, 2) : "";
 		throw new AssertionError(
-			`Snapshot does not match.\n${difference}`,
+			`Snapshot does not match.\n${differenceText}`,
 			expected,
-			actual
+			actual,
 		);
 	}
 }
