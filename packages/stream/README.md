@@ -109,6 +109,20 @@ const value = optional.orElse(0);
 console.log(value); // 0
 ```
 
+## Comparison with Other Libraries
+
+`@w/stream` is designed to be a lightweight, type-safe, and efficient library for synchronous, lazy stream processing in TypeScript, heavily inspired by the Java 8 Stream API.
+
+While many excellent data processing libraries exist in the JavaScript ecosystem, `@w/stream` fills a specific niche. Here's a brief comparison:
+
+- **vs. RxJS**: RxJS is the standard for complex **asynchronous** event streams (e.g., UI events, WebSockets). `@w/stream` focuses exclusively on **synchronous** data collections.
+- **vs. Lodash**: Lodash is a general-purpose utility library. While it offers chaining for array manipulation, it is not fundamentally built around lazy evaluation, which can be less performant for large datasets.
+- **vs. Lazy.js**: A powerful lazy evaluation library. However, it is not actively maintained. `@w/stream` provides a modern, TypeScript-first alternative.
+
+`@w/stream` is the ideal choice when you need a zero-dependency, high-performance, synchronous stream processing tool with a clean, fluent API and built-in null safety.
+
+A more detailed, feature-by-feature comparison can be found in [`docs/comparison.md`](./docs/comparison.md).
+
 ## License
 
 ISC
