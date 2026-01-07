@@ -2,7 +2,7 @@
  * Pure configuration validation functions
  */
 
-import type { VitextConfig, ServerConfig, BuildConfig } from "../types/config";
+import type { BuildConfig, ServerConfig, VitextConfig } from "../types/config";
 
 /**
  * Validate server configuration

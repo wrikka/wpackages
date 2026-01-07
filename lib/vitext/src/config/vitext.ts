@@ -1,6 +1,6 @@
 import { DEFAULT_VITEXT_CONFIG } from "../constant/defaults";
 import { ConfigLoader } from "../services/config-loader";
-import { configError, err, ok, isSuccess, type Result, type VitextError } from "../services/error-handler";
+import { configError, err, isSuccess, ok, type Result, type VitextError } from "../services/error-handler";
 import type { VitextConfig } from "../types/config";
 
 /**

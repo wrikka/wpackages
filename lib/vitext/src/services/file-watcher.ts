@@ -1,5 +1,5 @@
 import { watch } from "@wpackages/watch";
-import type { WatchEvent, WatcherInstance } from "@wpackages/watch";
+import type { WatcherInstance, WatchEvent } from "@wpackages/watch";
 import { logError, logInfo } from "../utils/logger";
 
 /**

@@ -115,7 +115,6 @@ export const unwrapOrLog = <T>(result: Result<VitextError, T>, defaultValue: T):
 	return defaultValue;
 };
 
-
 /**
  * Convert a Result to a Promise that throws on error
  */
