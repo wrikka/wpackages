@@ -17,13 +17,7 @@
 		"format": "dprint fmt",
 		"verify": "bun format && bun lint && bun test && bun audit && bun build"
 	},
-	"keywords": [
-		"cli",
-		"prompt",
-		"tui",
-		"terminal",
-		"clack"
-	],
+	"keywords": ["cli", "prompt", "tui", "terminal", "clack"],
 	"author": "wrikka",
 	"license": "MIT",
 	"devDependencies": {

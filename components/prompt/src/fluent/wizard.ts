@@ -32,7 +32,11 @@ const createWizardBuilder = <T extends WizardPrompts>(state: WizardState<T>): Wi
 			return createWizardBuilder({ ...state, prompts: nextPrompts });
 		},
 		run: async () => {
-			return group({ prompts: state.prompts, ...(state.intro && { intro: state.intro }), ...(state.outro && { outro: state.outro }) }) as Promise<
+			return group({
+				prompts: state.prompts,
+				...(state.intro && { intro: state.intro }),
+				...(state.outro && { outro: state.outro }),
+			}) as Promise<
 				PromptResult<WizardResult<T>>
 			>;
 		},
