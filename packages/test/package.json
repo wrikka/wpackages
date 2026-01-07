@@ -13,11 +13,7 @@
 	"bin": {
 		"wtest": "./bin/wtest.mjs"
 	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
+	"files": ["dist", "README.md", "LICENSE"],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
