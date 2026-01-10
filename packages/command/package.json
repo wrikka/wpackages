@@ -1,0 +1,25 @@
+{
+	"name": "@wpackages/command",
+	"version": "0.0.1",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"dependencies": {
+		"@effect/schema": "^0.75.5",
+		"effect": "^3.19.14"
+	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"private": true,
+	"scripts": {
+		"lint": "oxlint --fix --type-aware",
+		"test": "bun test"
+	},
+	"type": "module",
+	"devDependencies": {
+		"oxlint": "^1.38.0"
+	}
+}
