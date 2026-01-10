@@ -1,6 +1,7 @@
 import { Effect } from "effect";
 import {
   SearchService,
+  SearchEngineProgressEvent,
   ContentExtractorService,
   QueryEnhancementService,
   ResultSummarizationService,
@@ -15,9 +16,18 @@ import {
   CategorySearchService,
   ContentFormatterService,
 } from "./services";
-import { SearchQuery, SearchConfig, SearchQuerySchema, SearchHistoryEntry, SearchMetric, ExtendedSearchQuery } from "./types";
+import { SearchQuery, SearchConfig, SearchQuerySchema, SearchHistoryEntry, SearchMetric } from "./types";
 import { createSearchConfig } from "./config";
 import { randomUUID } from "node:crypto";
+
+export type SearchWorkflowEvent =
+  | { type: "workflow:start"; at: string; query: string }
+  | { type: "workflow:stage:start"; at: string; stage: "enhance" | "search" | "summarize" | "cluster" }
+  | { type: "workflow:stage:success"; at: string; stage: "enhance" | "search" | "summarize" | "cluster"; durationMs: number }
+  | { type: "workflow:stage:error"; at: string; stage: "enhance" | "search" | "summarize" | "cluster"; durationMs: number; error: string }
+  | { type: "workflow:complete"; at: string; durationMs: number }
+  | { type: "workflow:error"; at: string; durationMs: number; error: string }
+  | SearchEngineProgressEvent;
 
 export class WebSearchApp {
   private searchService: SearchService;
@@ -57,7 +67,7 @@ export class WebSearchApp {
   }
 
   search(query: SearchQuery | string): Effect.Effect<unknown, Error> {
-    return Effect.gen(function* () {
+    return Effect.gen(this, function* () {
       const parsedQuery = typeof query === "string" ? SearchQuerySchema.parse({ query }) : SearchQuerySchema.parse(query);
 
       const enhancement = yield* this.queryEnhancer.enhance(parsedQuery);
@@ -107,6 +117,199 @@ export class WebSearchApp {
         },
       };
     });
+  }
+
+  searchWithProgress(
+    query: SearchQuery | string,
+    options?: { onProgress?: (event: SearchWorkflowEvent) => void },
+  ): Effect.Effect<unknown, Error> {
+    const workflowStartAt = Date.now();
+
+    return Effect.gen(this, function* () {
+      const parsedQuery = typeof query === "string" ? SearchQuerySchema.parse({ query }) : SearchQuerySchema.parse(query);
+
+      const onProgress = options?.onProgress;
+
+      yield* Effect.sync(() => {
+        onProgress?.({ type: "workflow:start", at: new Date().toISOString(), query: parsedQuery.query });
+      });
+
+      const stageEnhanceStartedAt = Date.now();
+      yield* Effect.sync(() => {
+        onProgress?.({ type: "workflow:stage:start", at: new Date().toISOString(), stage: "enhance" });
+      });
+
+      const enhancement = yield* this.queryEnhancer.enhance(parsedQuery).pipe(
+        Effect.tap(() =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:success",
+              at: new Date().toISOString(),
+              stage: "enhance",
+              durationMs: Date.now() - stageEnhanceStartedAt,
+            });
+          })
+        ),
+        Effect.tapError((error) =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:error",
+              at: new Date().toISOString(),
+              stage: "enhance",
+              durationMs: Date.now() - stageEnhanceStartedAt,
+              error: error.message,
+            });
+          })
+        ),
+      );
+
+      const stageSearchStartedAt = Date.now();
+      yield* Effect.sync(() => {
+        onProgress?.({ type: "workflow:stage:start", at: new Date().toISOString(), stage: "search" });
+      });
+
+      const searchResponse = yield* this.searchService.searchWithProgress(parsedQuery, {
+        onProgress: (event: SearchEngineProgressEvent) => onProgress?.(event),
+      }).pipe(
+        Effect.tap(() =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:success",
+              at: new Date().toISOString(),
+              stage: "search",
+              durationMs: Date.now() - stageSearchStartedAt,
+            });
+          })
+        ),
+        Effect.tapError((error: Error) =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:error",
+              at: new Date().toISOString(),
+              stage: "search",
+              durationMs: Date.now() - stageSearchStartedAt,
+              error: error.message,
+            });
+          })
+        ),
+      );
+
+      const stageSummarizeStartedAt = Date.now();
+      yield* Effect.sync(() => {
+        onProgress?.({ type: "workflow:stage:start", at: new Date().toISOString(), stage: "summarize" });
+      });
+
+      const summary = yield* this.resultSummarizer.summarize(searchResponse.results, 1000, 5).pipe(
+        Effect.tap(() =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:success",
+              at: new Date().toISOString(),
+              stage: "summarize",
+              durationMs: Date.now() - stageSummarizeStartedAt,
+            });
+          })
+        ),
+        Effect.tapError((error: Error) =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:error",
+              at: new Date().toISOString(),
+              stage: "summarize",
+              durationMs: Date.now() - stageSummarizeStartedAt,
+              error: error.message,
+            });
+          })
+        ),
+      );
+
+      const stageClusterStartedAt = Date.now();
+      yield* Effect.sync(() => {
+        onProgress?.({ type: "workflow:stage:start", at: new Date().toISOString(), stage: "cluster" });
+      });
+
+      const clusters = yield* this.topicClusterer.cluster(searchResponse.results, 10).pipe(
+        Effect.tap(() =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:success",
+              at: new Date().toISOString(),
+              stage: "cluster",
+              durationMs: Date.now() - stageClusterStartedAt,
+            });
+          })
+        ),
+        Effect.tapError((error: Error) =>
+          Effect.sync(() => {
+            onProgress?.({
+              type: "workflow:stage:error",
+              at: new Date().toISOString(),
+              stage: "cluster",
+              durationMs: Date.now() - stageClusterStartedAt,
+              error: error.message,
+            });
+          })
+        ),
+      );
+
+      const historyEntry: SearchHistoryEntry = {
+        id: randomUUID(),
+        query: searchResponse.query,
+        timestamp: new Date().toISOString(),
+        resultsCount: searchResponse.totalResults,
+        enginesUsed: searchResponse.enginesUsed,
+        searchTime: searchResponse.searchTime,
+        cached: searchResponse.cached,
+      };
+
+      yield* this.historyService.addEntry(historyEntry);
+
+      for (const engine of searchResponse.enginesUsed) {
+        const metric: SearchMetric = {
+          query: searchResponse.query,
+          timestamp: new Date().toISOString(),
+          engine,
+          resultsCount: searchResponse.totalResults,
+          searchTime: searchResponse.searchTime,
+          cached: searchResponse.cached,
+          success: true,
+        };
+        yield* this.analyticsService.recordMetric(metric);
+      }
+
+      yield* Effect.sync(() => {
+        onProgress?.({
+          type: "workflow:complete",
+          at: new Date().toISOString(),
+          durationMs: Date.now() - workflowStartAt,
+        });
+      });
+
+      return {
+        query: searchResponse.query,
+        enhancement,
+        results: searchResponse.results,
+        summary,
+        clusters,
+        metadata: {
+          totalResults: searchResponse.totalResults,
+          enginesUsed: searchResponse.enginesUsed,
+          searchTime: searchResponse.searchTime,
+          cached: searchResponse.cached,
+        },
+      };
+    }).pipe(
+      Effect.tapError((error: Error) =>
+        Effect.sync(() => {
+          options?.onProgress?.({
+            type: "workflow:error",
+            at: new Date().toISOString(),
+            durationMs: Date.now() - workflowStartAt,
+            error: error.message,
+          });
+        })
+      ),
+    );
   }
 
   extractContent(url: string) {

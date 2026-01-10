@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { Effect } from 'effect';
 import { AnalyticsClient } from '../src/app.js';
 import { AnalyticsConfigError } from '../src/error.js';
@@ -161,7 +161,7 @@ describe('AnalyticsClient', () => {
     it('should add middleware', () => {
       const middleware = {
         name: 'test-middleware',
-        process: (event: any) => event,
+        process: (_event: any) => _event,
       };
       client.addMiddleware(middleware);
       expect(client).toBeInstanceOf(AnalyticsClient);
@@ -183,7 +183,7 @@ describe('AnalyticsClient', () => {
     it('should add filter', () => {
       const filter = {
         name: 'test-filter',
-        shouldBlock: (event: any) => false,
+        shouldBlock: (_event: any) => false,
       };
       client.addFilter(filter);
       expect(client).toBeInstanceOf(AnalyticsClient);
@@ -214,7 +214,7 @@ describe('AnalyticsClient', () => {
           name: 'test',
         }),
       );
-      await expect(result).rejects.toThrow();
+      await expect(result).rejects.toThrow('AnalyticsClient has been destroyed');
     });
   });
 });

@@ -9,3 +9,4 @@ export * from './offline.service.js';
 export * from './auto-tracking.service.js';
 export * from './session.service.js';
 export * from './analytics-advanced.service.js';
+export * from './ab-testing.service.js';

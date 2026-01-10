@@ -7,6 +7,10 @@ import { FilterManager } from './services/filter.service.js';
 import { shouldSampleEvent, markEventAsSampled } from './services/sampling.service.js';
 import { NetworkAwareness } from './services/network.service.js';
 import { OfflineQueue } from './services/offline.service.js';
+import { AutoTracker, type AutoTrackingConfig } from './services/auto-tracking.service.js';
+import { SessionManager } from './services/session.service.js';
+import { FunnelTracker, type FunnelConfig, CohortTracker, type CohortConfig } from './services/analytics-advanced.service.js';
+import { ABTestingTracker, type Experiment } from './services/ab-testing.service.js';
 import { AnalyticsConfigError } from './error.js';
 
 export class AnalyticsClient {
@@ -18,6 +22,11 @@ export class AnalyticsClient {
   private filterManager: FilterManager;
   private networkAwareness: NetworkAwareness;
   private offlineQueue: OfflineQueue;
+  private autoTracker: AutoTracker | null = null;
+  private sessionManager: SessionManager | null = null;
+  private funnelTracker: FunnelTracker | null = null;
+  private cohortTracker: CohortTracker | null = null;
+  private abTestingTracker: ABTestingTracker | null = null;
   private destroyed: boolean = false;
 
   constructor(config: AnalyticsConfig) {
@@ -37,6 +46,7 @@ export class AnalyticsClient {
     });
 
     this.setupDefaultProviders();
+    this.initializeAdvancedServices();
     this.startFlushTimer();
     this.setupNetworkListener();
   }
@@ -78,6 +88,17 @@ export class AnalyticsClient {
         });
       }
     }
+  }
+
+  private initializeAdvancedServices(): void {
+    this.sessionManager = new SessionManager({
+      sessionTimeout: 30 * 60 * 1000,
+      enableSessionTracking: true,
+    });
+
+    this.funnelTracker = new FunnelTracker();
+    this.cohortTracker = new CohortTracker();
+    this.abTestingTracker = new ABTestingTracker();
   }
 
   private setupNetworkListener(): void {
@@ -293,8 +314,89 @@ export class AnalyticsClient {
     return this.queue.length;
   }
 
-  getOfflineQueueSize(): Effect.Effect<number, never> {
+  getOfflineQueueSize(): Effect.Effect<number, Error> {
     return this.offlineQueue.size();
+  }
+
+  enableAutoTracking(config: AutoTrackingConfig): void {
+    if (this.autoTracker) {
+      this.autoTracker.destroy();
+    }
+    this.autoTracker = new AutoTracker(config, (event: Event) => {
+      Effect.runPromise(this.track(event)).catch((error: unknown) => {
+        if (this.config.enableDebug) {
+          console.error('Failed to track auto event:', error);
+        }
+      });
+    });
+    this.autoTracker.initialize();
+  }
+
+  disableAutoTracking(): void {
+    if (this.autoTracker) {
+      this.autoTracker.destroy();
+      this.autoTracker = null;
+    }
+  }
+
+  getSessionId(): string | null {
+    return this.sessionManager?.getSessionId() ?? null;
+  }
+
+  getSessionInfo(): { sessionId: string | null; duration: number; startTime: number | null } | null {
+    return this.sessionManager?.getSessionInfo() ?? null;
+  }
+
+  addFunnel(config: FunnelConfig): void {
+    this.funnelTracker?.addFunnel(config);
+  }
+
+  getFunnelProgress(funnelName: string): { completed: number; total: number; percentage: number } | null {
+    return this.funnelTracker?.getFunnelProgress(funnelName) ?? null;
+  }
+
+  resetFunnel(funnelName: string): void {
+    this.funnelTracker?.resetFunnel(funnelName);
+  }
+
+  addCohort(config: CohortConfig): void {
+    this.cohortTracker?.addCohort(config);
+  }
+
+  getCohortSize(cohortName: string): number {
+    return this.cohortTracker?.getCohortSize(cohortName) ?? 0;
+  }
+
+  addExperiment(experiment: Experiment): void {
+    this.abTestingTracker?.addExperiment(experiment);
+  }
+
+  assignVariant(experimentId: string, userId: string) {
+    return this.abTestingTracker?.assignVariant(experimentId, userId) ?? null;
+  }
+
+  trackExperimentExposure(experimentId: string, userId: string): void {
+    this.abTestingTracker?.trackExposure(experimentId, userId, (event: Event) => {
+      Effect.runPromise(this.track(event)).catch((error: unknown) => {
+        if (this.config.enableDebug) {
+          console.error('Failed to track experiment exposure:', error);
+        }
+      });
+    });
+  }
+
+  trackExperimentConversion(experimentId: string, userId: string): void {
+    this.abTestingTracker?.trackConversion(experimentId, userId, (event: Event) => {
+      Effect.runPromise(this.track(event)).catch((error: unknown) => {
+        if (this.config.enableDebug) {
+          console.error('Failed to track experiment conversion:', error);
+        }
+      });
+    });
+  }
+
+  getExperiment(experimentId: string) {
+    return this.abTestingTracker?.getExperiment(experimentId) ?? null;
   }
 
   destroy(): void {
@@ -305,7 +407,7 @@ export class AnalyticsClient {
       this.flushTimer = null;
     }
 
-    Effect.runPromise(this.flush()).catch((error) => {
+    Effect.runPromise(this.flush()).catch((error: unknown) => {
       if (this.config.enableDebug) {
         console.error('Failed to flush on destroy:', error);
       }
