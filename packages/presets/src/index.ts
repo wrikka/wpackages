@@ -1,11 +1,17 @@
 import { Effect } from "effect";
-import { Logger, LoggerLive } from "./services";
+import { createLogger } from "@wpackages/observability";
 
 /**
- * Creates and runs an Effect program, providing it with the necessary services.
- * @param program The Effect program to run. It must require a Logger service.
+ * Creates and runs an Effect program with logging support.
+ * @param program The Effect program to run.
  */
-export const createApp = <A, E>(program: Effect.Effect<A, E, Logger>) => {
-	const runnable = Effect.provide(program, LoggerLive);
+export const createApp = <A, E>(program: Effect.Effect<A, E>) => {
+	const logger = createLogger();
+	logger.info("Application starting");
+
+	const runnable = Effect.tapError(program, (error) =>
+		Effect.sync(() => logger.error("Application error", { error })),
+	);
+
 	return Effect.runPromise(runnable);
 };

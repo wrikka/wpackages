@@ -1,11 +1,11 @@
-import { Effect } from "effect";
-import { Logger } from "./services";
+import { createLogger } from "@wpackages/observability";
+import { AppError } from "@wpackages/error";
 
-export class CustomError extends Error {
-	constructor(message: string) {
-		super(message);
-		this.name = "CustomError";
-	}
-}
+const logger = createLogger();
 
-export const logError = (error: Error) => Effect.flatMap(Logger, (logger) => logger.log(`[Error] ${error.message}`));
+export const logError = (error: Error) => {
+	logger.error(error.message, {
+		name: error.name,
+		cause: error instanceof AppError ? error.cause : undefined,
+	});
+};
