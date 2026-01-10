@@ -1,5 +1,5 @@
 {
-	"name": "@wpackages/tui",
+	"name": "@wpackages/tui-react",
 	"version": "0.0.1",
 	"private": true,
 	"description": "A blazing fast library for building interactive command-line apps, inspired by React and Ink.",
@@ -28,8 +28,6 @@
 		"verify": "bun format && bun lint && bun test && bun build"
 	},
 	"dependencies": {
-		"@wpackages/schema": "workspace:*",
-		"@wpackages/signal": "workspace:*",
 		"effect": "^2.4.19",
 		"ink": "^6.6.0",
 		"picocolors": "^1.1.1",
@@ -43,8 +41,6 @@
 		"@types/react": "^18.3.27",
 		"@types/react-reconciler": "^0.32.3",
 		"@vitejs/plugin-react": "^4.7.0",
-		"@wpackages/ui": "workspace:*",
-		"hyperfine": "^1.0.0",
 		"tsdown": "^0.17.4",
 		"vitest": "^2.1.9",
 		"vitest-tsconfig-paths": "^3.4.1"
