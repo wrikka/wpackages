@@ -1,0 +1,44 @@
+{
+	"name": "@wpackages/orm",
+	"private": true,
+	"version": "0.2.0",
+	"description": "Type-safe ORM with Effect integration - Custom SQL Builder Engine",
+	"type": "module",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./core": "./src/core/index.ts",
+		"./schema": "./src/schema/index.ts",
+		"./query": "./src/query/index.ts",
+		"./migration": "./src/migration/index.ts",
+		"./effect": "./src/effect/index.ts",
+		"./adapters": "./src/adapters/index.ts",
+		"./services": "./src/services/index.ts",
+		"./types": "./src/types/index.ts",
+		"./utils": "./src/utils/index.ts"
+	},
+	"scripts": {
+		"build": "tsdown src/index.ts --out-dir dist",
+		"dev": "tsdown src/index.ts --watch",
+		"lint": "oxlint --fix --type-aware",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"verify": "bun run lint && bun run build && bun run test"
+	},
+	"dependencies": {
+		"effect": "^3.19.14",
+		"pg": "^8.16.3",
+		"mysql2": "^3.11.5",
+		"better-sqlite3": "^11.8.1"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/pg": "^8.16.0",
+		"@types/better-sqlite3": "^7.6.12",
+		"oxlint": "^1.38.0",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
+}
