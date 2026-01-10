@@ -1,0 +1,55 @@
+{
+	"name": "@wpackages/tui",
+	"version": "0.0.1",
+	"private": true,
+	"description": "A blazing fast library for building interactive command-line apps, inspired by React and Ink.",
+	"keywords": [
+		"cli",
+		"ui",
+		"bun",
+		"react",
+		"ink"
+	],
+	"author": "",
+	"license": "MIT",
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "bun run src/app.ts",
+		"lint": "tsc --noEmit && biome lint --write src",
+		"format": "biome format --write src",
+		"test": "vitest --run",
+		"verify": "bun format && bun lint && bun test && bun build"
+	},
+	"dependencies": {
+		"@wpackages/schema": "workspace:*",
+		"@wpackages/signal": "workspace:*",
+		"effect": "^2.4.19",
+		"ink": "^6.6.0",
+		"picocolors": "^1.1.1",
+		"react": "^18.3.1",
+		"react-reconciler": "^0.33.0",
+		"yoga-layout-prebuilt": "^1.10.0"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/node": "^25.0.5",
+		"@types/react": "^18.3.27",
+		"@types/react-reconciler": "^0.32.3",
+		"@vitejs/plugin-react": "^4.7.0",
+		"@wpackages/ui": "workspace:*",
+		"hyperfine": "^1.0.0",
+		"tsdown": "^0.17.4",
+		"vitest": "^2.1.9",
+		"vitest-tsconfig-paths": "^3.4.1"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}
