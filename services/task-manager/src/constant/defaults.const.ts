@@ -1,11 +1,6 @@
 /**
  * Default configuration values
  */
-export const TERMINAL_DEFAULTS = {
-	DEFAULT_ROWS: 24,
-	DEFAULT_COLUMNS: 80,
-} as const;
-
 export const TASK_DEFAULTS = {
 	SUPPORTED_FILES: ["wtask.config.json", "tasks.toml", "tasks.ini"],
 	EXAMPLES_PATH: "examples",

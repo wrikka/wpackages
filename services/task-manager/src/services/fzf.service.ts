@@ -1,6 +1,6 @@
 import { Context, Effect, Layer, Ref } from "effect";
+import { fuzzySearch } from "@wpackages/tui-react";
 import type { Task } from "../types";
-import { fuzzySearch } from "../utils/fuzzy-search";
 
 export class FzfState extends Context.Tag("FzfState")<FzfState, {
 	readonly query: Ref.Ref<string>;

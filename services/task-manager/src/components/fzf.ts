@@ -1,9 +1,9 @@
 import { Effect, Option, Ref, Stream } from "effect";
-import { MESSAGES } from "../constant";
+import { MESSAGES, UI_DEFAULTS } from "../constant";
 import { pc } from "../lib";
 import { FzfState, type Key, Terminal } from "../services";
 import type { Task } from "../types";
-import { calculateListHeight, calculateVisibleRange, formatTaskDisplay } from "./terminal-utils";
+import { calculateListHeight, calculateVisibleRange, formatDisplayWithPadding } from "@wpackages/tui-react";
 
 const renderFzf = Effect.gen(function*() {
 	const terminal = yield* Terminal;
@@ -14,7 +14,7 @@ const renderFzf = Effect.gen(function*() {
 	const results = yield* fzf.results;
 	const { rows, columns } = yield* terminal.getTerminalSize;
 
-	const listHeight = calculateListHeight(rows);
+	const listHeight = calculateListHeight(rows, UI_DEFAULTS.HEADER_HEIGHT, UI_DEFAULTS.FOOTER_HEIGHT);
 	const { startIndex, endIndex } = calculateVisibleRange(selectedIndex, listHeight, results.length);
 	const visibleResults = results.slice(startIndex, endIndex);
 
@@ -29,7 +29,7 @@ const renderFzf = Effect.gen(function*() {
 			const task = visibleResults[i];
 			if (task) {
 				const isSelected = startIndex + i === selectedIndex;
-				const { padding } = formatTaskDisplay(task.name, task.command, maxNameLength);
+				const { padding } = formatDisplayWithPadding(task.name, task.command, maxNameLength);
 
 				if (isSelected) {
 					output += `${pc.magenta(`> ${task.name}`)}${pc.dim(`${padding}${task.command}`)}\n`;
