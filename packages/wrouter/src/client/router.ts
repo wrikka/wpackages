@@ -20,7 +20,7 @@ export class Router {
 		this.routes = routes;
 		this.history = history ?? (typeof window !== "undefined" ? new BrowserHistory() : new MemoryHistory());
 
-		this.history.listen((location) => {
+		this.history.listen((location: Location) => {
 			this.handleLocationChange(location);
 		});
 
@@ -40,17 +40,18 @@ export class Router {
 	}
 
 	navigate(path: string, options: NavigationOptions = {}): Effect.Effect<void, never> {
+		const self = this;
 		return Effect.gen(function* () {
 			if (options.replace) {
-				yield* this.history.replace(path, options.state);
+				yield* self.history.replace(path, options.state);
 			} else {
-				yield* this.history.push(path, options.state);
+				yield* self.history.push(path, options.state);
 			}
 
 			if (options.scroll !== false) {
 				window.scrollTo(0, 0);
 			}
-		}.bind(this));
+		});
 	}
 
 	push(path: string, state?: unknown): Effect.Effect<void, never> {

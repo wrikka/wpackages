@@ -11,6 +11,8 @@ import { runTransformClasses, runTransformCss } from "./generator/plugin-pipelin
 import { compileRulesToCss } from "./generator/rules";
 import { expandShortcuts } from "./generator/shortcuts";
 import { buildTailwindCssWithCandidates } from "./generator/tailwind-builder";
+import { generateCssVariables } from "./generator/css-variables";
+import { optimizeCss } from "./generator/css-optimizer";
 
 let cachedCss = "";
 let lastCacheKey = "";
@@ -58,7 +60,8 @@ export async function generateCss(classes: Set<string>, userOptions: UserOptions
 	const cssInput = "@import \"tailwindcss\";";
 
 	const fontCss = generateFontCss(options);
-	const finalCssInput = `${fontCss}\n${cssInput}`;
+	const cssVarsCss = options.cssVariables ? generateCssVariables(options.cssVariables) : "";
+	const finalCssInput = `${fontCss}\n${cssVarsCss}\n${cssInput}`;
 
 	const tailwindCss = await buildTailwindCssWithCandidates(
 		finalCssInput,
@@ -83,6 +86,11 @@ export async function generateCss(classes: Set<string>, userOptions: UserOptions
 		}
 	}
 
+	if (options.optimizer) {
+		const optimized = optimizeCss(cachedCss, options.optimizer);
+		cachedCss = optimized.css;
+	}
+
 	if (options.minify) {
 		cachedCss = minifyCss(cachedCss);
 	}
@@ -98,6 +106,7 @@ export async function generateCssFromContent(userOptions: UserOptions = {}): Pro
 	const classes = await collectClassesFromContent({
 		patterns: options.content,
 		cwd: options.root,
+		mode: options.mode,
 	});
 	return await generateCss(classes, options);
 }
@@ -112,6 +121,7 @@ export async function generateCssBundlesFromContent(
 		const classes = await collectClassesFromContent({
 			patterns: bundle.patterns,
 			cwd: options.root,
+			mode: options.mode,
 		});
 		out[bundle.name] = await generateCss(classes, options);
 	}

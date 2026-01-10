@@ -2,10 +2,12 @@ import { readFile } from "node:fs/promises";
 import { glob } from "node:fs/promises";
 import { join } from "node:path";
 import { extractClasses } from "./class-extractor.service";
+import { extractAttributes } from "./attribute-extractor.service";
 
 export interface ScanContentOptions {
 	readonly patterns: readonly string[];
 	readonly cwd: string;
+	readonly mode?: ("class" | "attributify")[];
 }
 
 export async function collectFiles(patterns: readonly string[], cwd: string): Promise<string[]> {
@@ -29,6 +31,8 @@ export async function collectFiles(patterns: readonly string[], cwd: string): Pr
 export async function collectClassesFromContent(options: ScanContentOptions): Promise<Set<string>> {
 	const classes = new Set<string>();
 	const files = await collectFiles(options.patterns, options.cwd);
+	const modes = options.mode ?? ["class"];
+	const useAttributify = modes.includes("attributify");
 
 	await Promise.all(
 		files.map(async filePath => {
@@ -36,6 +40,11 @@ export async function collectClassesFromContent(options: ScanContentOptions): Pr
 				const code = await readFile(filePath, "utf-8");
 				for (const cls of extractClasses(code)) {
 					classes.add(cls);
+				}
+				if (useAttributify) {
+					for (const attr of extractAttributes(code)) {
+						classes.add(attr);
+					}
 				}
 			} catch {
 				// ignore unreadable files

@@ -3,7 +3,9 @@ import { resolve } from "node:path";
 import type { DevServerContext } from "../types/ws";
 import type { AnyWsMessage, WsConfigMessage, WsModuleGraphResponseMessage, WsPackageInfoMessage } from "../types/ws";
 
-export const handleWebSocket = (context: DevServerContext) => {
+export const handleWebSocket = (
+	context: DevServerContext & { moduleGraph?: { getStats: () => { modules: number; edges: number } } },
+) => {
 	context.ws.on("connection", (ws) => {
 		ws.on("message", (data: Buffer) => {
 			const message: AnyWsMessage = JSON.parse(data.toString());
@@ -33,12 +35,15 @@ export const handleWebSocket = (context: DevServerContext) => {
 			}
 
 			if (message.type === "wdev:get-module-graph") {
-				// TODO: Implement module graph when we have it
+				const stats = context.moduleGraph?.getStats() || { modules: 0, edges: 0 };
 				const graphMessage: WsModuleGraphResponseMessage = {
 					type: "wdev:module-graph",
 					data: {
-						nodes: [],
-						edges: [],
+						nodes: [
+							{ id: "root", label: "Root" },
+							{ id: "stats", label: `Modules: ${stats.modules}, Edges: ${stats.edges}` },
+						],
+						edges: [{ from: "root", to: "stats" }],
 					},
 				};
 				context.ws.send(graphMessage.type, graphMessage.data);

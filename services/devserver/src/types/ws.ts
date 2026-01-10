@@ -75,6 +75,7 @@ export interface DevServerWs {
 		event: "connection",
 		listener: (ws: WebSocket & { on: (event: "message", listener: (data: Buffer) => void) => void }) => void,
 	) => void;
+	readonly getClientCount: () => number;
 	readonly send: (type: string, data: unknown) => void;
 	readonly broadcast: (message: WsMessage) => void;
 }

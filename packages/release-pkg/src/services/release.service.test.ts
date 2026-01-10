@@ -2,40 +2,48 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Plugin, ReleaseOptions } from "../types";
 import { release } from "./release.service";
 
-const mockGitService = {
-	isGitRepository: vi.fn().mockResolvedValue(true),
-	hasUncommittedChanges: vi.fn().mockResolvedValue(false),
-	hasRemote: vi.fn().mockResolvedValue(true),
-	commit: vi.fn().mockResolvedValue(undefined),
-	tag: vi.fn().mockResolvedValue(undefined),
-	push: vi.fn().mockResolvedValue(undefined),
-	getLastTag: vi.fn().mockResolvedValue("v1.0.0"),
-	getCommits: vi.fn().mockResolvedValue([]),
-};
-const mockVersionService = {
-	getPackageInfo: vi.fn().mockResolvedValue({ name: "test-pkg", version: "1.0.0" }),
-	bumpVersion: vi.fn().mockResolvedValue({ from: "1.0.0", to: "1.0.1", type: "patch" }),
-	updatePackageJson: vi.fn().mockResolvedValue(undefined),
-};
-const mockChangelogService = {
-	generate: vi.fn().mockResolvedValue("changelog content"),
-	update: vi.fn().mockResolvedValue(undefined),
-};
-const mockPublishService = {
-	isPublished: vi.fn().mockResolvedValue(false),
-	publish: vi.fn().mockResolvedValue(undefined),
-};
-const mockMonorepoService = {
-	isMonorepo: vi.fn().mockResolvedValue(false),
-	getPackages: vi.fn().mockResolvedValue([]),
-	getChangedPackages: vi.fn().mockResolvedValue([]),
-};
+vi.mock("./index", () => {
+	class MockGitService {
+		isGitRepository = vi.fn().mockResolvedValue(true);
+		hasUncommittedChanges = vi.fn().mockResolvedValue(false);
+		hasRemote = vi.fn().mockResolvedValue(true);
+		commit = vi.fn().mockResolvedValue(undefined);
+		tag = vi.fn().mockResolvedValue(undefined);
+		push = vi.fn().mockResolvedValue(undefined);
+		getLastTag = vi.fn().mockResolvedValue("v1.0.0");
+		getCommits = vi.fn().mockResolvedValue([]);
+	}
 
-vi.mock("./git.service", () => ({ GitService: vi.fn(() => mockGitService) }));
-vi.mock("./version.service", () => ({ VersionService: vi.fn(() => mockVersionService) }));
-vi.mock("./changelog.service", () => ({ ChangelogService: vi.fn(() => mockChangelogService) }));
-vi.mock("./publish.service", () => ({ PublishService: vi.fn(() => mockPublishService) }));
-vi.mock("./monorepo.service", () => ({ MonorepoService: vi.fn(() => mockMonorepoService) }));
+	class MockVersionService {
+		getPackageInfo = vi.fn().mockResolvedValue({ name: "test-pkg", version: "1.0.0" });
+		bumpVersion = vi.fn().mockResolvedValue({ from: "1.0.0", to: "1.0.1", type: "patch" });
+		updatePackageJson = vi.fn().mockResolvedValue(undefined);
+	}
+
+	class MockChangelogService {
+		generate = vi.fn().mockResolvedValue("changelog content");
+		update = vi.fn().mockResolvedValue(undefined);
+	}
+
+	class MockPublishService {
+		isPublished = vi.fn().mockResolvedValue(false);
+		publish = vi.fn().mockResolvedValue(undefined);
+	}
+
+	class MockMonorepoService {
+		isMonorepo = vi.fn().mockResolvedValue(false);
+		getPackages = vi.fn().mockResolvedValue([]);
+		getChangedPackages = vi.fn().mockResolvedValue([]);
+	}
+
+	return {
+		ChangelogService: MockChangelogService,
+		GitService: MockGitService,
+		MonorepoService: MockMonorepoService,
+		PublishService: MockPublishService,
+		VersionService: MockVersionService,
+	};
+});
 
 describe("release service (Orchestrator)", () => {
 	beforeEach(() => {

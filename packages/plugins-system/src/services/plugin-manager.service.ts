@@ -1,6 +1,6 @@
 import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry, PluginState } from "../types";
 import { createEventEmitter } from "../utils";
-import { disablePlugin, enablePlugin, installPlugin, uninstallPlugin, updatePlugin } from "./manager/lifecycle";
+import { disablePlugin, enablePlugin, installPlugin, uninstallPlugin, updatePlugin } from "./manager/lifecycles";
 import {
 	countPlugins,
 	getAllPlugins,

@@ -10,6 +10,11 @@
 /.vercel
 .tsbuildinfo
 
+# Rust build artifacts
+/target/
+**/*.rs.bk
+Cargo.lock
+
 # Logs
 logs
 *.log
@@ -41,4 +46,5 @@ pids
 coverage
 .nyc_output
 
+# Turbo
 .turbo

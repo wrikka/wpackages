@@ -1,4 +1,4 @@
-import type { PluginEventEmitter, PluginRegistry } from "../../types";
+import type { PluginEventEmitter, PluginRegistry } from "../../../types";
 import type { PluginResult } from "../plugin-manager.service";
 
 export const disablePlugin = async (

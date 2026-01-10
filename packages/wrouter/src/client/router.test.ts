@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Router, MemoryHistory } from "../router";
-import type { WRouteRecord } from "../../types";
+import { Effect } from "effect";
+import { Router, MemoryHistory } from "./router";
+import type { WRouteRecord } from "../types";
 
 describe("Router", () => {
 	it("creates router with routes", () => {

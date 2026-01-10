@@ -24,7 +24,11 @@ logger.error("Request failed", { error: "Database error" });
 ### Metrics
 
 ```typescript
-import { createCounter, createGauge, createHistogram } from "@wpackages/observability";
+import {
+	createCounter,
+	createGauge,
+	createHistogram,
+} from "@wpackages/observability";
 
 // Counter
 const requestCounter = createCounter("http_requests_total", { method: "GET" });
@@ -38,7 +42,17 @@ activeConnections.increment();
 activeConnections.decrement();
 
 // Histogram
-const requestDuration = createHistogram("http_request_duration_ms", [1, 5, 10, 25, 50, 100, 250, 500, 1000]);
+const requestDuration = createHistogram("http_request_duration_ms", [
+	1,
+	5,
+	10,
+	25,
+	50,
+	100,
+	250,
+	500,
+	1000,
+]);
 requestDuration.observe(45);
 requestDuration.observe(120);
 ```

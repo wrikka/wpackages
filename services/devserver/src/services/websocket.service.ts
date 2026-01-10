@@ -4,14 +4,14 @@
  */
 
 import type { Server } from "node:http";
-import { WebSocketServer } from "ws";
+import WebSocket, { WebSocketServer } from "ws";
 import type { DevServerWs, WsMessage } from "../types/ws";
 
 export function createWebSocketServer(httpServer: Server): DevServerWs {
 	const wss = new WebSocketServer({ server: httpServer });
 	const clients = new Set<WebSocket>();
 
-	wss.on("connection", (ws) => {
+	wss.on("connection", (ws: WebSocket) => {
 		clients.add(ws);
 		console.log("WebSocket client connected");
 
@@ -31,6 +31,9 @@ export function createWebSocketServer(httpServer: Server): DevServerWs {
 			if (event === "connection") {
 				wss.on("connection", listener);
 			}
+		},
+		getClientCount: () => {
+			return clients.size;
 		},
 		send: (type: string, data: unknown) => {
 			const message: WsMessage = { type, data };

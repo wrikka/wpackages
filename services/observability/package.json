@@ -1,5 +1,5 @@
 {
-	"name": "@wpackages/observability-service",
+	"name": "@wpackages/observability",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Observability utilities (logging, metrics, tracing helpers) for Wrikka packages",
@@ -16,11 +16,13 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsdown --dts --minify",
-		"dev": "tsdown --watch",
+		"watch": "bun --watch verify",
+		"dev": "bun run src/index.ts",
+		"format": "dprint fmt",
+		"lint": "tsc --noEmit",
+		"build": "bun build",
 		"test": "vitest run",
-		"lint": "oxlint --fix --type-aware",
-		"verify": "bun run lint && bun run test && bun run build"
+		"verify": "bun run format && bun audit && bun run lint && bun run test && bun run build && bun run dev"
 	},
 	"dependencies": {},
 	"devDependencies": {

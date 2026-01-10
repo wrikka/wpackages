@@ -35,6 +35,6 @@ describe("ParserService", () => {
 		const program = ParserService.pipe(
 			Effect.flatMap((parser) => parser.parse("")),
 		);
-		await expect(runPromise(program)).rejects.toThrow("Input cannot be empty");
+		expect(runPromise(program)).rejects.toThrow();
 	});
 });

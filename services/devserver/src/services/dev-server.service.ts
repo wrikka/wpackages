@@ -52,6 +52,7 @@ export const createDevServer = (
 				port: finalConfig.port || 3000,
 				hostname: finalConfig.hostname || "localhost",
 				ws: wsServer,
+				moduleGraph,
 			});
 
 			server.listen(finalConfig.port || 3000, finalConfig.hostname || "localhost");
@@ -106,13 +107,12 @@ export const createDevServer = (
 	};
 
 	const getStats = (): ServerStats => {
-		// const graphStats = moduleGraph.getStats(); // TODO: expose in stats
 		return {
 			performance: performanceMonitor.getStats(),
-			hmr: { active: !!wsServer, connectedClients: 0 }, // TODO: track connected clients
+			hmr: { active: !!wsServer, connectedClients: wsServer ? wsServer.getClientCount() : 0 },
 			server: server ? { status: "running" } : { status: "stopped" },
 			watcher: { active: !!server },
-			cache: { active: true }, // Cache is always active now
+			cache: { active: true },
 		};
 	};
 

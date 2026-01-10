@@ -1,6 +1,6 @@
 import { HttpRouter } from "@effect/platform";
 import { Database } from "@wpackages/database";
-import { ResponseFactory } from "@wpackages/http";
+import { ResponseFactory } from "@wpackages/http-server";
 import { Effect, Option } from "effect";
 import { api } from "../api";
 

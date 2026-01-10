@@ -1,4 +1,4 @@
-import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry } from "../../types";
+import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry } from "../../../types";
 import type { PluginResult } from "../plugin-manager.service";
 
 export const updatePlugin = async (

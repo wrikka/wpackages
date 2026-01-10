@@ -1,6 +1,6 @@
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
-import stylingPlugin from "../../src/index";
+import { stylingPlugin } from "../../src/index";
 
 // https://vitejs.dev/config/
 export default defineConfig({

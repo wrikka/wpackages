@@ -1,5 +1,5 @@
 import { HttpRouter } from "@effect/platform";
-import { ResponseFactory } from "@wpackages/http";
+import { ResponseFactory } from "@wpackages/http-server";
 import { Effect } from "effect";
 
 export const docsRoute = HttpRouter.get(

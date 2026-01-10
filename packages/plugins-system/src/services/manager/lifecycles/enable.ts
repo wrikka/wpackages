@@ -1,4 +1,4 @@
-import type { PluginEventEmitter, PluginManagerConfig, PluginRegistry } from "../../types";
+import type { PluginEventEmitter, PluginManagerConfig, PluginRegistry } from "../../../types";
 import { createPluginAPI } from "../api";
 import type { PluginResult } from "../plugin-manager.service";
 

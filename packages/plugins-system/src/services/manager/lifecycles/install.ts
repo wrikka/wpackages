@@ -1,5 +1,5 @@
-import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry, PluginState } from "../../types";
-import { buildDependencyGraph, detectCircularDependencies } from "../../utils";
+import type { Plugin, PluginEventEmitter, PluginManagerConfig, PluginRegistry, PluginState } from "../../../types";
+import { buildDependencyGraph, detectCircularDependencies } from "../../../utils";
 import type { PluginResult } from "../plugin-manager.service";
 
 export const installPlugin = async (

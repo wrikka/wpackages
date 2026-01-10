@@ -107,29 +107,31 @@ turbo lint --filter=@wpackages/cache
 
 Framework kits are meta-packages that aggregate related tools for specific development needs:
 
-| Package | Description | Platform | Use Case | Status | Documentation | Testing | Bench | Size |
-|---------|-------------|----------|----------|--------|--------------|---------|-------|------|
-| `@wpackages/cli-kit` | Unified interface for CLI builder, TUI components, prompts, and config management | Bun, Node.js | CLI Development | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/web-kit` | Unified interface for API builder, HTTP, routing, server, plugins, and tracing | Bun, Node.js | Web/API Development | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/utils-kit` | Unified interface for error handling, schema validation, signals, store, and diff | Bun, Node.js, Browser | Utility Libraries | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/dev-kit` | Unified interface for testing, TypeScript build, formatting, and reporting | Bun, Node.js | Development Tools | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| Package | Description | Platform | Use Case | Plugins | Status | Documentation | Testing | Bench | Size |
+|---------|-------------|----------|----------|---------|--------|--------------|---------|-------|------|
+| `@wpackages/cli-kit` | Unified interface for CLI builder, TUI components, prompts, and config management | Bun, Node.js | CLI Development | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/web-kit` | Unified interface for API builder, HTTP, routing, server, plugins, and tracing | Bun, Node.js | Web/API Development | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/utils-kit` | Unified interface for error handling, schema validation, signals, store, and diff | Bun, Node.js, Browser | Utility Libraries | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/dev-kit` | Unified interface for testing, TypeScript build, formatting, and reporting | Bun, Node.js | Development Tools | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
 
 ### Packages
 
-| Package | Description | Platform | Use Case | Status | Documentation | Testing | Bench | Size |
-|---------|-------------|----------|----------|--------|--------------|---------|-------|------|
-| `@wpackages/api-builder` | Build robust, type-safe APIs with Effect-TS | Bun, Node.js | API Development | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/http-server` | Complete HTTP server stack with routing and response handling | Bun, Node.js | HTTP Server | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/plugins-system` | Plugin system for building extensible applications | Bun, Node.js, Browser | Plugin Architecture | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/tracing` | Distributed tracing utilities for observability | Bun, Node.js | Observability | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | S |
+| Package | Description | Platform | Use Case | Plugins | Status | Documentation | Testing | Bench | Size |
+|---------|-------------|----------|----------|---------|--------|--------------|---------|-------|------|
+| `@wpackages/api-builder` | Build robust, type-safe APIs with Effect-TS | Bun, Node.js | API Development | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/http-server` | Complete HTTP server stack with routing and response handling | Bun, Node.js | HTTP Server | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/plugins-system` | Plugin system for building extensible applications | Bun, Node.js, Browser | Plugin Architecture | Custom | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/tracing` | Distributed tracing utilities for observability | Bun, Node.js | Observability | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | S |
+| `@wpackages/vitext-vite` | Nuxt-like plugin preset for Vite | Bun, Node.js | Vite Plugins | Vite | ✅ Stable | 📝 Partial | ✅ Vitest | ❌ None | M |
+| `@wpackages/vitext-kit` | Utilities for Vitext (Nuxt-like kit layer) | Bun, Node.js | Kit Utilities | - | ✅ Stable | 📝 Partial | ✅ Vitest | ❌ None | M |
 
 ### Services
 
-| Package | Description | Platform | Use Case | Status | Documentation | Testing | Bench | Size |
-|---------|-------------|----------|----------|--------|--------------|---------|-------|------|
-| `@wpackages/cache` | Caching service with multiple backends | Bun, Node.js | Caching | ✅ Stable | ✅ Full | ✅ Vitest | ✅ Bench | M |
-| `@wpackages/config-manager` | Configuration management with validation and hot-reload | Bun, Node.js, Browser | Config Management | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
-| `@wpackages/api-integrations` | API integration utilities | Bun, Node.js | API Integration | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | S |
+| Package | Description | Platform | Use Case | Plugins | Status | Documentation | Testing | Bench | Size |
+|---------|-------------|----------|----------|---------|--------|--------------|---------|-------|------|
+| `@wpackages/cache` | Caching service with multiple backends | Bun, Node.js | Caching | - | ✅ Stable | ✅ Full | ✅ Vitest | ✅ Bench | M |
+| `@wpackages/config-manager` | Configuration management with validation and hot-reload | Bun, Node.js, Browser | Config Management | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/api-integrations` | API integration utilities | Bun, Node.js | API Integration | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | S |
 
 ### Libraries
 

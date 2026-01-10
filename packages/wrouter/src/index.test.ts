@@ -24,7 +24,7 @@ describe("wrouter/generateRoutes", () => {
 describe("wrouter/virtual module", () => {
 	it("generates a module that exports routes", () => {
 		const code = generateVirtualRoutesModuleCode([
-			{ name: "index", path: "/", file: "/abs/index.ts" },
+			{ name: "index", path: "/", file: "/abs/index.ts", params: [], methods: ["GET"] as const },
 		]);
 		expect(code).toContain("export const routes");
 	});

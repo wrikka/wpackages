@@ -28,6 +28,11 @@
 	},
 	"dependencies": {
 		"@wpackages/parser": "workspace:*",
+		"@wpackages/error": "workspace:*",
+		"@wpackages/schema": "workspace:*",
+		"@wpackages/cache": "workspace:*",
+		"@wpackages/logger": "workspace:*",
+		"@wpackages/observability": "workspace:*",
 		"effect": "^3.12.5",
 		"@effect/schema": "^0.75.5"
 	},

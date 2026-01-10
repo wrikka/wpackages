@@ -174,7 +174,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			}
 
 			// Clear transform cache
-			transformCache.invalidate(id);
+			void transformCache.invalidate(id);
 		},
 
 		getDependents(id: string): readonly ModuleNode[] {

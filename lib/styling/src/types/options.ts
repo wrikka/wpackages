@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 import type { FontOptions } from "./fonts";
+import type { CssVariableOptions } from "./css-variables";
+import type { ThemePresetOptions } from "./theme-presets";
+import type { CssOptimizerOptions } from "../services/generator/css-optimizer";
 
 // A custom rule can be a RegExp and a function that returns the CSS, or just the CSS string.
 export type RuleHandler = (match: RegExpExecArray) => string | Record<string, string>;
@@ -56,7 +59,6 @@ export interface UserOptions {
 
 	/**
 	 * Enable different modes.
-	 * 'attributify' mode is not implemented yet.
 	 * @default ['class']
 	 */
 	mode?: ("class" | "attributify")[];
@@ -87,4 +89,19 @@ export interface UserOptions {
 	 * Add custom plugins.
 	 */
 	plugins?: NonNullable<Config["plugins"]>;
+
+	/**
+	 * Define CSS variables.
+	 */
+	cssVariables?: CssVariableOptions;
+
+	/**
+	 * Load theme presets.
+	 */
+	themePreset?: ThemePresetOptions;
+
+	/**
+	 * CSS optimization options.
+	 */
+	optimizer?: CssOptimizerOptions;
 }

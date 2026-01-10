@@ -41,7 +41,9 @@ export const SchedulerLive = Layer.effect(
 			Effect.gen(function* () {
 				const taskMap = yield* Ref.get(tasks);
 				if (config.name && taskMap.has(config.name)) {
-					return yield* new TaskAlreadyExists({ name: config.name });
+					return yield* Effect.fail(
+						new TaskAlreadyExists({ name: config.name }),
+					);
 				}
 
 				// In a real implementation, parse cron and use Effect's scheduling capabilities
@@ -50,7 +52,7 @@ export const SchedulerLive = Layer.effect(
 				);
 
 				if (config.name) {
-					yield* Ref.update(tasks, (map) => {
+					yield* Ref.update(tasks, (map: Map<string, ScheduledTask>) => {
 						map.set(config.name, { config, fiber: scheduledFiber });
 						return map;
 					});
@@ -62,11 +64,11 @@ export const SchedulerLive = Layer.effect(
 				const taskMap = yield* Ref.get(tasks);
 				const task = taskMap.get(name);
 				if (!task) {
-					return yield* new TaskNotFound({ name });
+					return yield* Effect.fail(new TaskNotFound({ name }));
 				}
 
 				yield* Fiber.interrupt(task.fiber);
-				yield* Ref.update(tasks, (map) => {
+				yield* Ref.update(tasks, (map: Map<string, ScheduledTask>) => {
 					map.delete(name);
 					return map;
 				});

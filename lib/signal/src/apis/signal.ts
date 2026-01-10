@@ -14,12 +14,13 @@ export function createSignal<T>(
 		return signal.value;
 	};
 
-	const setter = (newValue: T): T => {
-		if (!options?.equals || !options.equals(signal.value, newValue)) {
-			signal.value = newValue;
+	const setter = (newValue: T | ((prev: T) => T)): T => {
+		const resolvedValue = typeof newValue === "function" ? (newValue as (prev: T) => T)(signal.value) : newValue;
+		if (!options?.equals || !options.equals(signal.value, resolvedValue)) {
+			signal.value = resolvedValue;
 			trigger(signal, "value");
 		}
-		return newValue;
+		return signal.value;
 	};
 
 	return [getter, setter];

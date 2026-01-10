@@ -1,21 +1,47 @@
-export * from "./add";
-export * from "./checkout";
-export * from "./clone";
-export * from "./commit";
-export * from "./deleteBranch";
-export * from "./fetch";
-export * from "./getBlame";
-export * from "./getBranches";
-export * from "./getCommitDetails";
-export * from "./getCurrentBranch";
-export * from "./getDiff";
-export * from "./getLog";
-export * from "./getReflog";
-export * from "./getRemotes";
-export * from "./getStashes";
-export * from "./getStatus";
-export * from "./isGitRepository";
-export * from "./pull";
-export * from "./push";
-export * from "./reset";
-export * from "./runGitCommand";
+// Core operations
+export * from "./core/init";
+export * from "./core/isGitRepository";
+export * from "./core/runGitCommand";
+
+// Basic operations
+export * from "./basic/add";
+export * from "./basic/clone";
+export * from "./basic/commit";
+export * from "./basic/fetch";
+export * from "./basic/pull";
+export * from "./basic/push";
+export * from "./basic/reset";
+
+// Branch operations
+export * from "./branch/checkout";
+export * from "./branch/deleteBranch";
+export * from "./branch/getBranches";
+export * from "./branch/getCurrentBranch";
+export * from "./branch/renameBranch";
+
+// Info operations
+export * from "./info/getBlame";
+export * from "./info/getCommitDetails";
+export * from "./info/getDiff";
+export * from "./info/getLog";
+export * from "./info/getReflog";
+export * from "./info/getRemotes";
+export * from "./info/getStatus";
+
+// Stash operations
+export * from "./stash/stash";
+
+// Tag operations
+export * from "./tag/tag";
+
+// Remote operations
+export * from "./remote/remote";
+
+// Config operations
+export * from "./config/config";
+
+// Advanced operations
+export * from "./advanced/advanced";
+
+// Clean operations
+export * from "./clean/clean";

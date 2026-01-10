@@ -5,6 +5,14 @@ export type CacheConfig = {
 	readonly enabled?: boolean | undefined;
 };
 
+export type ProxyConfig = {
+	readonly context: readonly string[];
+	readonly target: string;
+	readonly changeOrigin?: boolean;
+	readonly pathRewrite?: Record<string, string>;
+	readonly secure?: boolean;
+};
+
 import type { WdevOptions } from "./wdev";
 
 export type DevServerConfig = {
@@ -18,6 +26,11 @@ export type DevServerConfig = {
 	readonly watch?: Partial<ChokidarWatchOptions>;
 	readonly server?: {
 		readonly middleware?: Array<(req: Request, res: Response, next: () => Promise<void>) => Promise<void>>;
+		readonly proxy?: readonly ProxyConfig[];
+		readonly https?: {
+			readonly key: string;
+			readonly cert: string;
+		};
 	};
 };
 

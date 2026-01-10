@@ -1,5 +1,5 @@
 import { HttpRouter } from "@effect/platform";
-import { ResponseFactory } from "@wpackages/http";
+import { ResponseFactory } from "@wpackages/http-server";
 import { Effect, Schema } from "effect";
 import { UserService } from "../../services/user.service";
 import { api } from "../api";

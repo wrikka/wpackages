@@ -87,7 +87,13 @@ export function createTransformCache(cacheDir: string): TransformCache {
 
 		async clear(): Promise<void> {
 			cache.clear();
-			// TODO: Clear disk cache
+			try {
+				const cachePath = join(cacheDir, "transform");
+				const { rm } = await import("node:fs/promises");
+				await rm(cachePath, { recursive: true, force: true });
+			} catch {
+				// Ignore errors when clearing disk cache
+			}
 		},
 	};
 }
@@ -143,7 +149,13 @@ export function createMetadataCache(cacheDir: string): MetadataCache {
 
 		async clear(): Promise<void> {
 			cache.clear();
-			// TODO: Clear disk cache
+			try {
+				const cachePath = join(cacheDir, "metadata");
+				const { rm } = await import("node:fs/promises");
+				await rm(cachePath, { recursive: true, force: true });
+			} catch {
+				// Ignore errors when clearing disk cache
+			}
 		},
 	};
 }

@@ -4,16 +4,16 @@ import { MiddlewareError } from "../error";
 
 export const createMiddleware = (
 	name: string,
-	execute: (context: MiddlewareContext) => Effect.Effect<Response, Error>,
+	execute: (context: MiddlewareContext) => Effect.Effect<Response, MiddlewareError>,
 ): Middleware => Object.freeze({ name, execute });
 
 export const composeMiddleware = (
 	middlewares: readonly Middleware[],
-): (context: MiddlewareContext) => Effect.Effect<Response, Error> => {
+): (context: MiddlewareContext) => Effect.Effect<Response, MiddlewareError> => {
 	return (context) => {
 		let index = 0;
 
-		const next = (): Effect.Effect<Response, Error> => {
+		const next = (): Effect.Effect<Response, MiddlewareError> => {
 			if (index >= middlewares.length) {
 				return Effect.succeed(new Response("OK", { status: 200 }));
 			}
@@ -22,7 +22,7 @@ export const composeMiddleware = (
 			index++;
 
 			if (!middleware) {
-				return Effect.fail(new Error("Middleware not found"));
+				return Effect.fail(new MiddlewareError("unknown", new Error("Middleware not found")));
 			}
 
 			return Effect.catchAll(
