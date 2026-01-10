@@ -1,0 +1,29 @@
+{
+	"name": "@wpackages/code-translate",
+	"version": "0.0.1",
+	"private": true,
+	"description": "CLI tool for translating code between programming languages",
+	"type": "module",
+	"engines": {
+		"bun": ">=1.3.5"
+	},
+	"scripts": {
+		"watch": "bun --watch verify",
+		"dev": "bun run src/index.ts",
+		"format": "bunx dprint fmt",
+		"lint": "bunx tsc --noEmit",
+		"build": "bun build src/index.ts --outdir dist --target bun",
+		"test": "bunx vitest run",
+		"verify": "bun run format && bun run lint && bun run test && bun run build"
+	},
+	"dependencies": {
+		"effect": "^3.19.14",
+		"@effect/schema": "^0.75.5"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"dprint": "^0.51.1",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
+}
