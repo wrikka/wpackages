@@ -41,4 +41,18 @@ describe("radixSort", () => {
 		const arr = [100, 1, 1000, 10];
 		expect(radixSort(arr)).toEqual([1, 10, 100, 1000]);
 	});
+
+	it("should throw for negative numbers", () => {
+		const arr = [3, -1, 2];
+		expect(() => radixSort(arr)).toThrow(
+			"radixSort only supports non-negative integers",
+		);
+	});
+
+	it("should throw for non-integer numbers", () => {
+		const arr = [3.1, 2, 1];
+		expect(() => radixSort(arr)).toThrow(
+			"radixSort only supports non-negative integers",
+		);
+	});
 });

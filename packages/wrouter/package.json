@@ -2,6 +2,9 @@
 	"name": "@wpackages/wrouter",
 	"version": "0.0.1",
 	"type": "module",
+	"engines": {
+		"bun": ">=1.0.0"
+	},
 	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
@@ -9,22 +12,28 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "src"],
+	"files": [
+		"dist",
+		"src"
+	],
 	"scripts": {
-		"build": "tsdown --exports --dts --minify",
-		"dev": "bun --watch src/index.ts",
+		"watch": "bun --watch verify",
+		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit",
+		"build": "bun build src/index.ts --outdir dist --target bun --minify",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
-		"verify": "bun run format && bun run lint && bun run test:coverage && bun run build"
+		"verify": "bun run format && bun audit && bun run lint && bun run test && bun run build && bun run dev"
 	},
 	"dependencies": {
-		"@wpackages/parser": "workspace:*"
+		"@wpackages/parser": "workspace:*",
+		"effect": "^3.12.5",
+		"@effect/schema": "^0.75.5"
 	},
 	"devDependencies": {
 		"@types/bun": "1.3.5",
-		"@types/node": "^25.0.3",
+		"@types/node": "^25.0.5",
 		"@vitest/coverage-v8": "4.0.16",
 		"tsdown": "0.18.4",
 		"typescript": "^5.9.3",

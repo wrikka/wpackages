@@ -65,6 +65,12 @@ export function radixSort(arr: number[]): number[] {
 		return [...arr];
 	}
 
+	for (const num of arr) {
+		if (!Number.isInteger(num) || num < 0) {
+			throw new Error("radixSort only supports non-negative integers");
+		}
+	}
+
 	// Create a copy to avoid modifying the original array
 	const array = [...arr];
 

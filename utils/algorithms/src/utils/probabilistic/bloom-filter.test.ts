@@ -45,7 +45,7 @@ describe("BloomFilter", () => {
 		// 'd' was not added, but it might return true (false positive).
 		// It will never return false for 'a', 'b', or 'c' (no false negatives).
 		const hasD = filter.has("d");
-		console.log(`False positive for 'd'? ${hasD}`);
 		// We cannot assert hasD is false, because it might be true.
+		expect(typeof hasD).toBe("boolean");
 	});
 });

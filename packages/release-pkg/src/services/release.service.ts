@@ -1,16 +1,18 @@
 import pc from "picocolors";
 import { createReleaseConfig } from "../config/index";
-import type { Plugin, ReleaseContext, ReleaseOptions, ReleaseResult } from "../types/index";
-import { ChangelogService, GitService, PublishService, VersionService } from "./index";
+import type { PackageReleaseResult, Plugin, ReleaseContext, ReleaseOptions, ReleaseResult } from "../types/index";
+import { ChangelogService, GitService, MonorepoService, PublishService, VersionService } from "./index";
 import { PipelineService } from "./pipeline.service";
 
 class ReleaseOrchestrator {
 	private pipeline: PipelineService;
 	private context: ReleaseContext;
+	private monorepoService: MonorepoService;
 
 	constructor(options: Partial<ReleaseOptions>) {
 		const config = createReleaseConfig(options);
 		this.pipeline = new PipelineService([...(config.plugins || []), this.createCorePlugin()]);
+		this.monorepoService = new MonorepoService();
 
 		this.context = {
 			options: config,
@@ -20,6 +22,7 @@ class ReleaseOrchestrator {
 				git: new GitService(),
 				changelog: new ChangelogService(),
 				publish: new PublishService(),
+				monorepo: this.monorepoService,
 			},
 			state: new Map(),
 		};
@@ -28,24 +31,247 @@ class ReleaseOrchestrator {
 	async run(): Promise<ReleaseResult> {
 		const startTime = Date.now();
 		try {
-			await this.pipeline.executeHook("start", this.context);
+			// Check if monorepo
+			const isMonorepo = await this.monorepoService.isMonorepo();
+			this.context.result.isMonorepo = isMonorepo;
 
-			await this.pipeline.executeHook("end", this.context);
-
-			const duration = Date.now() - startTime;
-			this.context.result.duration = duration;
-			this.context.result.success = true;
-
-			if (!this.context.options.silent) {
-				console.log(pc.green(`\n✨ Successfully released ${pc.bold(this.context.result.version)} in ${duration}ms\n`));
+			if (isMonorepo && this.context.options.workspace) {
+				// Release specific workspace
+				return await this._releaseWorkspace();
+			} else if (isMonorepo && this.context.options.changedOnly) {
+				// Release changed packages only
+				return await this._releaseChangedPackages();
+			} else if (isMonorepo) {
+				// Release all packages in monorepo
+				return await this._releaseAllPackages();
+			} else {
+				// Single package release
+				return await this._releaseSinglePackage();
 			}
-
-			return this.context.result as ReleaseResult;
 		} catch (error) {
 			if (!this.context.options.silent) {
 				console.error(pc.red("\n❌ Release failed:"), error);
 			}
 			throw error;
+		}
+	}
+
+	private async _releaseSinglePackage(): Promise<ReleaseResult> {
+		await this.pipeline.executeHook("start", this.context);
+
+		await this.pipeline.executeHook("before:validate", this.context);
+		await this._validate(this.context);
+		await this.pipeline.executeHook("after:validate", this.context);
+
+		await this.pipeline.executeHook("before:bumpVersion", this.context);
+		await this._bumpVersion(this.context);
+		await this.pipeline.executeHook("after:bumpVersion", this.context);
+
+		await this.pipeline.executeHook("end", this.context);
+
+		await this._updatePackageJson(this.context);
+
+		await this.pipeline.executeHook("before:changelog", this.context);
+		await this._generateChangelog(this.context);
+		await this.pipeline.executeHook("after:changelog", this.context);
+
+		await this.pipeline.executeHook("before:gitCommit", this.context);
+		await this._gitCommit(this.context);
+		await this.pipeline.executeHook("after:gitCommit", this.context);
+
+		await this.pipeline.executeHook("before:publish", this.context);
+		await this._publish(this.context);
+		await this.pipeline.executeHook("after:publish", this.context);
+
+		const duration = Date.now() - this.context.result.startTime || 0;
+		this.context.result.duration = duration;
+		this.context.result.success = true;
+
+		if (!this.context.options.silent) {
+			console.log(pc.green(`\n✨ Successfully released ${pc.bold(this.context.result.version)} in ${duration}ms\n`));
+		}
+
+		return this.context.result as ReleaseResult;
+	}
+
+	private async _releaseAllPackages(): Promise<ReleaseResult> {
+		const packages = await this.monorepoService.getPackages();
+		const filteredPackages = this.context.options.ignorePrivate
+			? packages.filter((p) => !p.private)
+			: packages;
+
+		if (!this.context.options.silent) {
+			console.log(pc.cyan(`\n📦 Releasing ${filteredPackages.length} packages in monorepo\n`));
+		}
+
+		const packageResults: PackageReleaseResult[] = [];
+
+		for (const pkg of filteredPackages) {
+			if (!this.context.options.silent) {
+				console.log(pc.dim(`\n  → ${pkg.name} (${pkg.path})`));
+			}
+
+			// Change to package directory
+			const originalCwd = process.cwd();
+			process.chdir(pkg.path);
+
+			try {
+				const result = await this._releaseSinglePackage();
+				packageResults.push({
+					name: pkg.name,
+					version: result.version,
+					previousVersion: result.previousVersion,
+					path: pkg.path,
+					published: result.published,
+					success: result.success,
+				});
+			} catch (error) {
+				if (!this.context.options.silent) {
+					console.error(pc.red(`  ✗ Failed to release ${pkg.name}:`), String(error));
+				}
+				packageResults.push({
+					name: pkg.name,
+					version: pkg.version,
+					previousVersion: pkg.version,
+					path: pkg.path,
+					published: false,
+					success: false,
+				});
+			} finally {
+				process.chdir(originalCwd);
+			}
+		}
+
+		const duration = Date.now() - this.context.result.startTime || 0;
+		const successCount = packageResults.filter((r) => r.success).length;
+
+		if (!this.context.options.silent) {
+			console.log(pc.cyan(`\n📊 Summary: ${successCount}/${packageResults.length} packages released in ${duration}ms\n`));
+		}
+
+		return {
+			success: successCount === packageResults.length,
+			version: "monorepo",
+			previousVersion: "monorepo",
+			duration,
+			published: successCount > 0,
+			packages: packageResults,
+			isMonorepo: true,
+		};
+	}
+
+	private async _releaseChangedPackages(): Promise<ReleaseResult> {
+		const changedPackages = await this.monorepoService.getChangedPackages();
+		const filteredPackages = this.context.options.ignorePrivate
+			? changedPackages.filter((p) => !p.private)
+			: changedPackages;
+
+		if (!this.context.options.silent) {
+			console.log(pc.cyan(`\n📦 Releasing ${filteredPackages.length} changed packages\n`));
+		}
+
+		if (filteredPackages.length === 0) {
+			if (!this.context.options.silent) {
+				console.log(pc.yellow("  No packages have changed\n"));
+			}
+			return {
+				success: true,
+				version: "monorepo",
+				previousVersion: "monorepo",
+				duration: 0,
+				published: false,
+				packages: [],
+				isMonorepo: true,
+			};
+		}
+
+		const packageResults: PackageReleaseResult[] = [];
+
+		for (const pkg of filteredPackages) {
+			if (!this.context.options.silent) {
+				console.log(pc.dim(`  → ${pkg.name} (${pkg.path})`));
+			}
+
+			const originalCwd = process.cwd();
+			process.chdir(pkg.path);
+
+			try {
+				const result = await this._releaseSinglePackage();
+				packageResults.push({
+					name: pkg.name,
+					version: result.version,
+					previousVersion: result.previousVersion,
+					path: pkg.path,
+					published: result.published,
+					success: result.success,
+				});
+			} catch (error) {
+				if (!this.context.options.silent) {
+					console.error(pc.red(`  ✗ Failed to release ${pkg.name}:`), String(error));
+				}
+				packageResults.push({
+					name: pkg.name,
+					version: pkg.version,
+					previousVersion: pkg.version,
+					path: pkg.path,
+					published: false,
+					success: false,
+				});
+			} finally {
+				process.chdir(originalCwd);
+			}
+		}
+
+		const duration = Date.now() - this.context.result.startTime || 0;
+		const successCount = packageResults.filter((r) => r.success).length;
+
+		if (!this.context.options.silent) {
+			console.log(pc.cyan(`\n📊 Summary: ${successCount}/${packageResults.length} packages released in ${duration}ms\n`));
+		}
+
+		return {
+			success: successCount === packageResults.length,
+			version: "monorepo",
+			previousVersion: "monorepo",
+			duration,
+			published: successCount > 0,
+			packages: packageResults,
+			isMonorepo: true,
+		};
+	}
+
+	private async _releaseWorkspace(): Promise<ReleaseResult> {
+		const workspacePath = this.context.options.workspace!;
+		const packages = await this.monorepoService.getPackages();
+		const targetPackage = packages.find((p) => p.path === workspacePath || p.name === workspacePath);
+
+		if (!targetPackage) {
+			throw new Error(`Workspace/package not found: ${workspacePath}`);
+		}
+
+		if (!this.context.options.silent) {
+			console.log(pc.cyan(`\n📦 Releasing workspace: ${targetPackage.name}\n`));
+		}
+
+		const originalCwd = process.cwd();
+		process.chdir(targetPackage.path);
+
+		try {
+			const result = await this._releaseSinglePackage();
+			return {
+				...result,
+				packages: [{
+					name: targetPackage.name,
+					version: result.version,
+					previousVersion: result.previousVersion,
+					path: targetPackage.path,
+					published: result.published,
+					success: result.success,
+				}],
+				isMonorepo: true,
+			};
+		} finally {
+			process.chdir(originalCwd);
 		}
 	}
 

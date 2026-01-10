@@ -152,3 +152,7 @@ templates/*/.env
 packages/styling/.styling-cache/
 packages/webserver/bench/result*.html
 packages/webserver/bench/result*.json
+
+# Design pattern test outputs
+utils/design-pattern/test-output.txt
+utils/design-pattern/verify-output.txt

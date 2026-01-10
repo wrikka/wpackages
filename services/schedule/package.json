@@ -31,7 +31,6 @@
 		"test": "bun test"
 	},
 	"dependencies": {
-		"@wpackages/functional": "workspace:*",
 		"effect": "^3.19.14"
 	},
 	"devDependencies": {

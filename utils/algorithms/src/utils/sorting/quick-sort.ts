@@ -36,7 +36,7 @@ function quickSortRecursive<T extends number | string>(
 
 export function quickSort<T extends number | string>(arr: T[]): T[] {
 	if (arr.length <= 1) {
-		return arr;
+		return [...arr];
 	}
 	const array = [...arr]; // Create a shallow copy
 	quickSortRecursive(array, 0, array.length - 1);

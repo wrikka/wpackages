@@ -1,20 +1,16 @@
 {
+	"extends": "../../../tsconfig.json",
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"strict": true,
-		"jsx": "preserve",
-		"sourceMap": true,
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"lib": ["ESNext", "DOM"],
-		"types": ["unplugin-vue-macros/macros-global"],
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"]
-		}
+		"moduleDetection": "force",
+		"incremental": true,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"composite": true,
+		"downlevelIteration": true,
+		"jsx": "react-jsx",
+		"allowSyntheticDefaultImports": true,
+		"allowJs": true,
+		"types": ["bun-types"]
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-	"exclude": ["node_modules"]
+	"include": ["src"]
 }

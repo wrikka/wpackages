@@ -1,4 +1,2 @@
-node_modules
-dist
-bun.lockb
-.DS_Store
+dist/
+node_modules/

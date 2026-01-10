@@ -18,7 +18,12 @@
 		"audit": "bun audit --production",
 		"verify": "bun format && bun lint && bun test && bun run build"
 	},
-	"keywords": ["git", "cli", "interactive", "typescript"],
+	"keywords": [
+		"git",
+		"cli",
+		"interactive",
+		"typescript"
+	],
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
@@ -26,7 +31,7 @@
 		"@wpackages/git": "workspace:*",
 		"commander": "^14.0.2",
 		"execa": "^9.6.1",
-		"openai": "^6.15.0",
+		"openai": "^6.16.0",
 		"picocolors": "^1.1.1",
 		"zod": "^4.3.5"
 	},

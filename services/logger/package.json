@@ -10,7 +10,10 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md"],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
@@ -22,7 +25,7 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",
-		"@types/node": "^20.19.27",
+		"@types/node": "^20.19.28",
 		"effect": "^3.19.14",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",

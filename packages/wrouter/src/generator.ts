@@ -1,34 +1,28 @@
 import { extname, relative } from "node:path";
+import { Effect } from "effect";
 import { toPosixPath } from "./path";
 import { normalizeRoutePath, routeNameFromPath } from "./route-utils";
-import { walkFiles } from "./walk";
-
-export type WRouteRecord = {
-	readonly path: string;
-	readonly file: string;
-	readonly name: string;
-};
-
-export type GenerateRoutesOptions = {
-	readonly pagesDir: string;
-	readonly extensions?: readonly string[];
-	readonly base?: string;
-};
-
-const defaultExtensions = Object.freeze([".vue", ".tsx", ".jsx", ".ts", ".js"] as const);
+import { walkDirectory } from "./services";
+import { parseRouteParams } from "./utils";
+import type { GenerateRoutesOptions, WRouteRecord, HttpMethod } from "./types";
+import { DEFAULT_ROUTE_EXTENSIONS } from "./constant";
 
 export const generateRoutes = (options: GenerateRoutesOptions): readonly WRouteRecord[] => {
-	const extensions = options.extensions ?? defaultExtensions;
-	const files = walkFiles(options.pagesDir).filter((f) => extensions.includes(extname(f)));
+	const extensions = options.extensions ?? DEFAULT_ROUTE_EXTENSIONS;
+	const files = Effect.runSync(walkDirectory(options.pagesDir));
 
 	const routes = files
+		.filter((f) => extensions.includes(extname(f)))
 		.map((file) => {
 			const rel = toPosixPath(relative(options.pagesDir, file));
 			const withoutExt = rel.replace(new RegExp(`${extname(rel)}$`), "");
 			const base = options.base ?? "";
 			const routePath = normalizeRoutePath(`${base}${withoutExt}`.replaceAll("//", "/").replace(/^\//, ""));
 			const name = routeNameFromPath(withoutExt);
-			return Object.freeze({ path: routePath, file, name });
+			const params = parseRouteParams(routePath);
+			const methods: HttpMethod[] = ["GET"];
+
+			return Object.freeze({ path: routePath, file, name, params, methods });
 		})
 		.sort((a, b) => a.path.localeCompare(b.path));
 

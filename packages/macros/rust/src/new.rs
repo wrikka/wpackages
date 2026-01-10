@@ -2,6 +2,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput};
 
+/// Implementation of the New derive macro.
 pub fn derive_new_impl(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = &input.ident;
@@ -9,7 +10,10 @@ pub fn derive_new_impl(input: TokenStream) -> TokenStream {
     let fields = if let syn::Data::Struct(syn::DataStruct { fields: syn::Fields::Named(syn::FieldsNamed { ref named, .. }), .. }) = input.data {
         named
     } else {
-        unimplemented!();
+        return syn::Error::new_spanned(
+            &input.ident,
+            "New derive macro only supports structs with named fields"
+        ).to_compile_error().into();
     };
 
     let params = fields.iter().map(|f| {

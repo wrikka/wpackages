@@ -1,1 +1,36 @@
-{"name": "@wpackages/http-server", "version": "0.1.0", "private": true, "description": "Complete HTTP server stack with routing and response handling", "keywords": ["http", "server", "routing", "middleware", "effect"], "type": "module", "main": "./dist/index.js", "types": "./dist/index.d.ts", "exports": {".": {"types": "./dist/index.d.ts", "default": "./dist/index.js"}}, "scripts": {"dev": "bun run src/index.ts", "lint": "tsc --noEmit", "build": "bun build src/index.ts --outdir dist --target bun", "test": "vitest run", "verify": "bun run lint && bun run build"}, "dependencies": {"effect": "^3.19.14"}, "devDependencies": {"typescript": "^5.9.3", "vitest": "^4.0.16"}}
+{
+  "name": "@wpackages/http-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Complete HTTP server stack with routing and response handling",
+  "keywords": [
+    "http",
+    "server",
+    "routing",
+    "middleware",
+    "effect"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "lint": "tsc --noEmit",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "test": "vitest run",
+    "verify": "bun run lint && bun run build"
+  },
+  "dependencies": {
+    "effect": "^3.19.14"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  }
+}

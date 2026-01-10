@@ -1,3 +1,6 @@
+use crate::error::AppResult;
+use crate::types::config_merger::merge_configs;
+use crate::types::config_validator::validate_config;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -15,6 +18,23 @@ pub struct TaskConfig {
 
     #[serde(default)]
     pub depends_on: Vec<String>,
+
+    #[serde(default)]
+    pub retry_on_failure: bool,
+
+    #[serde(default = "default_max_retries")]
+    pub max_retries: usize,
+
+    #[serde(default = "default_retry_delay_ms")]
+    pub retry_delay_ms: u64,
+}
+
+fn default_max_retries() -> usize {
+    2
+}
+
+fn default_retry_delay_ms() -> u64 {
+    1000
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -101,51 +121,7 @@ impl WmoRepoConfig {
     }
 
     pub fn validate(&self) -> AppResult<()> {
-        if self.workspaces.is_empty() {
-            return Err(crate::error::AppError::Doctor(
-                "Configuration validation failed: 'workspaces' array cannot be empty.".to_string(),
-            ));
-        }
-
-        for ext in &self.extends {
-            if ext.trim().is_empty() {
-                return Err(crate::error::AppError::Doctor(
-                    "Configuration validation failed: 'extends' cannot contain empty string"
-                        .to_string(),
-                ));
-            }
-        }
-
-        for rule in &self.constraints.deny {
-            if rule.from_tag.trim().is_empty() || rule.to_tag.trim().is_empty() {
-                return Err(crate::error::AppError::Doctor(
-                    "Configuration validation failed: constraints.deny requires from_tag and to_tag"
-                        .to_string(),
-                ));
-            }
-        }
-
-        for plugin in &self.plugins {
-            if plugin.command.trim().is_empty() {
-                return Err(crate::error::AppError::Doctor(
-                    "Configuration validation failed: plugins[].command cannot be empty"
-                        .to_string(),
-                ));
-            }
-        }
-
-        for (task_name, task_config) in &self.pipeline {
-            for dep in &task_config.depends_on {
-                if dep.is_empty() {
-                    return Err(crate::error::AppError::Doctor(format!(
-                        "Configuration validation failed: pipeline.{}.depends_on contains empty string",
-                        task_name
-                    )));
-                }
-            }
-        }
-
-        Ok(())
+        validate_config(self)
     }
 }
 
@@ -213,86 +189,6 @@ fn load_config_recursive(
     merged = merge_configs(merged, current.clone());
     visited.remove(&canonical);
     Ok(merged)
-}
-
-fn merge_task_config(base: TaskConfig, overlay: TaskConfig) -> TaskConfig {
-    TaskConfig {
-        inputs: if overlay.inputs.is_empty() {
-            base.inputs
-        } else {
-            overlay.inputs
-        },
-        outputs: if overlay.outputs.is_empty() {
-            base.outputs
-        } else {
-            overlay.outputs
-        },
-        env: if overlay.env.is_empty() {
-            base.env
-        } else {
-            overlay.env
-        },
-        depends_on: if overlay.depends_on.is_empty() {
-            base.depends_on
-        } else {
-            overlay.depends_on
-        },
-    }
-}
-
-fn merge_project_config(base: ProjectConfig, overlay: ProjectConfig) -> ProjectConfig {
-    ProjectConfig {
-        tags: if overlay.tags.is_empty() {
-            base.tags
-        } else {
-            overlay.tags
-        },
-    }
-}
-
-fn merge_configs(mut base: WmoRepoConfig, overlay: WmoRepoConfig) -> WmoRepoConfig {
-    if overlay.schema.is_some() {
-        base.schema = overlay.schema;
-    }
-
-    if overlay.remote_cache_url.is_some() {
-        base.remote_cache_url = overlay.remote_cache_url;
-    }
-
-    if !overlay.workspaces.is_empty() {
-        base.workspaces = overlay.workspaces;
-    }
-
-    // keep extends for debugging/inspection (current top-level already applied)
-    base.extends = overlay.extends;
-
-    for (k, v) in overlay.pipeline {
-        base.pipeline
-            .entry(k)
-            .and_modify(|existing| {
-                *existing = merge_task_config(existing.clone(), v.clone());
-            })
-            .or_insert(v);
-    }
-
-    for (k, v) in overlay.projects {
-        base.projects
-            .entry(k)
-            .and_modify(|existing| {
-                *existing = merge_project_config(existing.clone(), v.clone());
-            })
-            .or_insert(v);
-    }
-
-    if !overlay.constraints.deny.is_empty() {
-        base.constraints = overlay.constraints;
-    }
-
-    if !overlay.plugins.is_empty() {
-        base.plugins = overlay.plugins;
-    }
-
-    base
 }
 
 fn read_first_existing_config(files: &[&str]) -> AppResult<Option<(PathBuf, String)>> {

@@ -1,11 +1,17 @@
-# release
+# @wpackages/release-pkg
 
 > Modern release automation tool - The complete solution: versioning, changelogs, preview releases, and more
 
-[![npm version](https://img.shields.io/npm/v/release.svg)](https://www.npmjs.com/package/release)
+[![npm version](https://img.shields.io/npm/v/@wpackages/release-pkg.svg)](https://www.npmjs.com/package/@wpackages/release-pkg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Why release?
+## Introduction
+
+@wpackages/release-pkg is a modern, lightweight, and extensible release automation tool designed for JavaScript/TypeScript projects. It provides a complete solution for managing package releases with zero configuration required out of the box. Built with a plugin-based architecture and full TypeScript support, it offers unparalleled flexibility while maintaining simplicity and performance. With only 4 dependencies and a bundle size of ~80KB, it's significantly faster and lighter than alternatives like release-it (~2MB, 43 deps) or semantic-release (~5MB, 67 deps).
+
+The tool supports both traditional release workflows and modern preview releases, making it perfect for libraries, applications, and monorepos. Its powerful plugin system with 16 lifecycle hooks allows you to customize every aspect of the release process, from validation to publishing.
+
+## Features
 
 ### Core Release Management
 
@@ -15,6 +21,10 @@
 - 🔒 **Type-Safe** - Full TypeScript support with exported types
 - 🚀 **Modern** - Built with latest ES features, async/await
 - ✨ **Smart** - Built-in semver, no external dependencies
+- 🎮 **Interactive Mode** - User-friendly prompts or CLI flags
+- 🔍 **Dry Run** - Preview changes before applying
+- ✅ **Validation** - Pre-release checks and validation
+- 🎨 **Custom Semver** - Built-in implementation, no dependencies
 
 ### Preview Releases (Better than pkg.pr.new)
 
@@ -24,41 +34,107 @@
 - 📊 **Analytics** - Track preview package usage
 - 🔄 **Rollback Support** - Unpublish preview packages
 - 🛠️ **Self-Hostable** - Run your own registry
+- ⏰ **TTL Support** - Auto-expire preview packages
+- 💬 **PR Comments** - Auto-generate preview comments
 
-## Features
+### Plugin System
 
-### Release Management
+- 🔌 **16 Lifecycle Hooks** - Extensive customization options
+- 🎯 **Context Sharing** - Shared state between hooks
+- 📦 **Service Injection** - Access to core services
+- 🎨 **Custom Renderers** - Customizable changelog generation
+- 🔧 **Hook Composition** - Multiple plugins per hook
+
+### Version Management
 
 - 📦 **Version Bumping** - Semantic versioning (major, minor, patch, prerelease)
 - 📝 **Changelog Generation** - Auto-generate from conventional commits
 - 🏷️ **Git Tags** - Create and push tags automatically
 - 📤 **NPM Publishing** - Publish to npm registry
-- 🎯 **Interactive Mode** - User-friendly prompts or CLI flags
-- 🔍 **Dry Run** - Preview changes before applying
-- ✅ **Validation** - Pre-release checks and validation
-- 🎨 **Custom Semver** - Built-in implementation, no dependencies
+- 🔄 **Pre-release Support** - Beta, alpha, RC versions
+- 🎯 **Custom Versions** - Set specific versions manually
 
-### Preview Releases
+### Conventional Commits
 
-- 🎯 **PR Integration** - Auto-publish on pull requests
-- 🏢 **Monorepo Support** - Auto-detect and publish changed packages
-- 🌐 **Multi-Registry** - npm, JSR, GitHub Packages, custom
-- 🎮 **Playgrounds** - Generate StackBlitz/CodeSandbox links
-- 📊 **Analytics** - Track downloads and usage
-- 🔄 **Rollback** - Unpublish previews easily
-- ⏰ **TTL** - Auto-expire preview packages
+- ✨ **Features** (`feat:`)
+- 🐛 **Bug Fixes** (`fix:`)
+- 📝 **Documentation** (`docs:`)
+- ♻️ **Refactoring** (`refactor:`)
+- ⚡ **Performance** (`perf:`)
+- ✅ **Tests** (`test:`)
+- 🔧 **Chores** (`chore:`)
+- 🚨 **Breaking Changes** - `feat!:` or `BREAKING CHANGE:` detection
+
+## Goal
+
+- 🎯 **Simplify Release Process** - Make releasing packages painless and automated
+- ⚡ **Maximize Performance** - Minimal dependencies and bundle size
+- 🔒 **Ensure Type Safety** - Full TypeScript support for better developer experience
+- 🔌 **Provide Extensibility** - Plugin system for unlimited customization
+- 🏢 **Support Monorepos** - Native support for complex project structures
+- 🚀 **Enable Preview Releases** - Fast feedback loops with preview packages
+- 📊 **Improve Visibility** - Analytics and tracking for releases
+- 🛠️ **Maintain Simplicity** - Zero-config approach with optional configuration
+- 🎨 **Modern Design** - Built with modern patterns and best practices
+- 🌐 **Multi-Platform** - Support for multiple registries and platforms
+
+## Design Principles
+
+- 🎯 **Zero-Config First** - Works out of the box, configure only when needed
+- ⚡ **Performance Matters** - Minimal dependencies, fast execution
+- 🔒 **Type Safety** - Full TypeScript with exported types
+- 🔌 **Plugin-Based** - Extensible architecture with lifecycle hooks
+- 🎨 **Composition Over Configuration** - Composable services and utilities
+- 📦 **Small Bundle** - Keep the tool lightweight and fast
+- 🚀 **Modern Standards** - Use latest ES features and patterns
+- 🔄 **Functional Patterns** - Immutable data, pure functions where possible
+- 🎮 **Developer Experience** - Interactive mode, clear errors, helpful output
+- 🌐 **Platform Agnostic** - Works with any registry and platform
+- 🏢 **Monorepo Native** - Built-in support for monorepo workflows
+- 📊 **Observable** - Analytics and tracking capabilities
+- 🛠️ **Extensible** - Easy to add custom functionality
+- 🎯 **Focused** - Do one thing well: release automation
+- 🔧 **Pragmatic** - Practical solutions to real-world problems
 
 ## Quick Start
 
 ### Installation
 
+<details>
+<summary><b>Install with Bun</b></summary>
+
 ```bash
-bun add -D release
-# or
-npm install -D release
-# or
-pnpm add -D release
+bun add -D @wpackages/release-pkg
 ```
+
+</details>
+
+<details>
+<summary><b>Install with npm</b></summary>
+
+```bash
+npm install -D @wpackages/release-pkg
+```
+
+</details>
+
+<details>
+<summary><b>Install with pnpm</b></summary>
+
+```bash
+pnpm add -D @wpackages/release-pkg
+```
+
+</details>
+
+<details>
+<summary><b>Install with Yarn</b></summary>
+
+```bash
+yarn add -D @wpackages/release-pkg
+```
+
+</details>
 
 ## Usage
 
@@ -103,7 +179,7 @@ wrelease patch --message "chore: release v{version}"
 ### Programmatic API
 
 ```typescript
-import { createReleaseApp } from "release";
+import { createReleaseApp } from "@wpackages/release-pkg";
 
 const app = createReleaseApp();
 
@@ -115,7 +191,18 @@ const result = await app.release({
 console.log(`Released ${result.version}`);
 ```
 
-See [API Documentation](./docs/api.md) for detailed usage.
+### Using the release function directly
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+const result = await release({
+	type: "minor",
+	dryRun: true,
+});
+
+console.log(`Would release ${result.version}`);
+```
 
 ## Extensibility
 
@@ -217,6 +304,193 @@ wrelease preview --changed-only
 
 See [Preview Releases Guide](./docs/preview-releases.md) for more details.
 
+## Examples
+
+### Basic Release
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+// Simple patch release
+const result = await release({ type: "patch" });
+
+console.log(`Released ${result.version}`);
+console.log(`Duration: ${result.duration}ms`);
+console.log(`Published: ${result.published}`);
+```
+
+### Dry Run
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+// Preview changes without applying them
+const result = await release({
+	type: "minor",
+	dryRun: true,
+});
+
+console.log(`Would release ${result.previousVersion} → ${result.version}`);
+```
+
+### Prerelease
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+// Create a beta release
+const result = await release({
+	type: "prepatch",
+	preid: "beta",
+});
+
+console.log(`Released ${result.version}`);
+```
+
+### Custom Version
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+// Set a specific version
+const result = await release({
+	version: "2.0.0",
+});
+
+console.log(`Released ${result.version}`);
+```
+
+### No Publish
+
+```typescript
+import { release } from "@wpackages/release-pkg";
+
+// Release without publishing to npm
+const result = await release({
+	type: "patch",
+	noPublish: true,
+});
+
+console.log(`Released ${result.version} (not published)`);
+```
+
+### Using Plugins
+
+```typescript
+import { release, type Plugin } from "@wpackages/release-pkg";
+
+const myPlugin: Plugin = {
+	name: "my-plugin",
+	hooks: {
+		"before:publish": async (ctx) => {
+			console.log("About to publish!", ctx.result.version);
+		},
+	},
+};
+
+await release({
+	type: "patch",
+	plugins: [myPlugin],
+});
+```
+
+### Custom Changelog Renderer
+
+```typescript
+import { release, type ChangelogRenderer } from "@wpackages/release-pkg";
+
+const jsonChangelogRenderer: ChangelogRenderer = (context) => {
+	return JSON.stringify({
+		version: context.version,
+		date: context.date,
+		features: context.features.map((f) => f.subject),
+		fixes: context.fixes.map((f) => f.subject),
+	}, null, 2);
+};
+
+await release({
+	type: "patch",
+	changelog: jsonChangelogRenderer,
+});
+```
+
+### Preview Release
+
+```typescript
+import { PreviewService } from "@wpackages/release-pkg";
+
+const previewService = new PreviewService();
+
+const result = await previewService.publishPreview({
+	prNumber: 123,
+	ttl: 7, // 7 days
+});
+
+console.log(`Preview URL: ${result.url}`);
+console.log(`Install: ${result.installCommand}`);
+```
+
+### Application Composition
+
+```typescript
+import { createReleaseApp } from "@wpackages/release-pkg";
+
+const app = createReleaseApp();
+
+// Use the app instance
+const result1 = await app.release({ type: "patch" });
+const result2 = await app.release({ type: "minor" });
+```
+
+### Using Individual Services
+
+```typescript
+import { VersionService, GitService, ChangelogService } from "@wpackages/release-pkg";
+
+const versionService = new VersionService();
+const gitService = new GitService();
+const changelogService = new ChangelogService();
+
+// Get current version
+const version = await versionService.getCurrentVersion();
+console.log(`Current version: ${version}`);
+
+// Get commits
+const commits = await gitService.getCommits();
+console.log(`Found ${commits.length} commits`);
+
+// Generate changelog
+const changelog = await changelogService.generate("1.0.0", commits);
+console.log(changelog);
+```
+
+### CI/CD Integration
+
+```bash
+# Non-interactive release for CI/CD
+wrelease patch --no-changelog --ci
+```
+
+```yaml
+# GitHub Actions example
+name: Release
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - run: bun run build
+      - run: bunx wrelease patch --ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
+
 ## Workflow
 
 1. **Validate** - Check for uncommitted changes
@@ -226,152 +500,6 @@ See [Preview Releases Guide](./docs/preview-releases.md) for more details.
 5. **Git Tag** - Create version tag
 6. **Git Push** - Push commits and tags
 7. **Publish** - Publish to npm
-
-## Features
-
-### Conventional Commits
-
-Automatically categorizes commits by type:
-
-- ✨ Features (`feat:`)
-- 🐛 Bug Fixes (`fix:`)
-- 📝 Documentation (`docs:`)
-- ♻️ Refactoring (`refactor:`)
-- ⚡ Performance (`perf:`)
-- ✅ Tests (`test:`)
-- 🔧 Chores (`chore:`)
-
-### Breaking Changes
-
-Detects breaking changes:
-
-- `feat!:` or `fix!:` syntax
-- `BREAKING CHANGE:` in commit body
-
-### Custom Semver
-
-Built-in semver implementation:
-
-- No external dependencies
-- Full semantic versioning support
-- Prerelease support
-
-## Options
-
-```bash
-Options:
-  --type <type>         Release type (major, minor, patch, prerelease)
-  --preid <id>          Prerelease identifier (beta, alpha, rc)
-  --dry-run             Simulate release without changes
-  --no-git              Skip git operations
-  --no-changelog        Skip changelog generation
-  --no-publish          Skip npm publish
-  --message <msg>       Custom commit message
-  --tag <prefix>        Custom tag prefix (default: v)
-  -v, --verbose         Verbose output
-  -s, --silent          Silent mode
-  -h, --help            Show help
-```
-
-## Examples
-
-### Standard Release
-
-```bash
-# Patch release (1.0.0 → 1.0.1)
-wrelease patch
-
-# Minor release (1.0.0 → 1.1.0)
-wrelease minor
-
-# Major release (1.0.0 → 2.0.0)
-wrelease major
-```
-
-### Prerelease
-
-```bash
-# First prerelease (1.0.0 → 1.0.1-beta.0)
-wrelease prepatch --preid beta
-
-# Increment prerelease (1.0.1-beta.0 → 1.0.1-beta.1)
-wrelease prerelease
-```
-
-### CI/CD Integration
-
-```bash
-# Non-interactive release
-wrelease patch --no-changelog --ci
-```
-
-## Comparison with Alternatives
-
-### Release Management Tools
-
-| Feature               | @wpackages/release-pkg | release-it       | semantic-release | changesets    |
-| --------------------- | ---------------------- | ---------------- | ---------------- | ------------- |
-| **Bundle Size**       | **~80KB**              | ~2MB             | ~5MB             | ~1MB          |
-| **Dependencies**      | **4**                  | ~43              | ~67              | ~32           |
-| **Programmatic API**  | ✅ (First-class TS)    | ✅               | ✅ (Via Plugins) | ✅            |
-| **Zero Config**       | ✅                     | ❌               | ❌               | ❌            |
-| **Interactive Mode**  | ✅                     | ✅               | ❌               | ✅            |
-| **Monorepo Support**  | ✅ (Native)            | ⚠️ (Plugin)       | ⚠️ (Plugin)       | ✅ (Core)     |
-| **PR Previews**       | ✅ (Built-in)          | ⚠️ (Pre-releases) | ⚠️ (Channels)     | ✅ (Snapshot) |
-| **CI/CD Integration** | ✅ (Simple)            | ✅ (Flexible)    | ✅ (Opinionated) | ✅ (Flexible) |
-
-### Preview Release Tools
-
-| Feature                | @wpackages/release-pkg | pkg.pr.new             |
-| ---------------------- | ---------------------- | ---------------------- |
-| **Publish Target**     | ✅ (npm, JSR, etc.)    | ❌ (Own Registry Only) |
-| **Monorepo Support**   | ✅ (Native)            | ✅                     |
-| **Analytics**          | ✅                     | ❌                     |
-| **Self-Hostable**      | ✅                     | ❌                     |
-| **Rollback/Unpublish** | ✅                     | ❌                     |
-| **Programmatic API**   | ✅ (Type-Safe)         | ❌                     |
-
-**Score: release wins 27-3-11** 🏆
-
-See detailed comparisons:
-
-- [vs release-it, semantic-release, changesets](./docs/comparison.md)
-- [vs pkg.pr.new](./docs/pkgprnew-comparison.md)
-
-## Examples
-
-### Release Management
-
-- [Basic Usage](./examples/basic-usage.ts) - Simple patch release
-- [Dry Run](./examples/dry-run.ts) - Preview without changes
-- [Prerelease](./examples/prerelease.ts) - Beta/alpha releases
-- [Custom Version](./examples/custom-version.ts) - Specific version
-- [No Publish](./examples/no-publish.ts) - Release without publishing
-- [API Usage](./examples/api-usage.ts) - Advanced programmatic usage
-
-### Preview Releases
-
-- [Basic Preview](./examples/preview-basic.ts) - Simple preview publish
-- [Monorepo Preview](./examples/preview-monorepo.ts) - Auto-detect changed packages
-- [Multi-Registry](./examples/preview-multi-registry.ts) - Publish to multiple registries
-- [Analytics](./examples/preview-analytics.ts) - Track preview usage
-
-## Documentation
-
-### Guides
-
-- [Preview Releases Guide](./docs/preview-releases.md) - Complete preview releases documentation
-- [API Documentation](./docs/api.md) - Full API reference
-- [Migration from pkg.pr.new](./docs/migration-pkgprnew.md) - Step-by-step migration guide
-
-### Comparisons
-
-- [vs release-it, semantic-release, changesets](./docs/comparison.md)
-- [vs pkg.pr.new (In-depth)](./docs/pkgprnew-comparison.md) - 27-3-11 score breakdown
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

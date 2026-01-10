@@ -24,9 +24,7 @@
 		"lint": "oxlint --fix --type-aware",
 		"verify": "bun run format && bun run lint && bun run test:coverage && bun run build"
 	},
-	"dependencies": {
-		"@wpackages/functional": "workspace:*"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/bun": "^1.3.5",
 		"@vitest/coverage-istanbul": "^4.0.16",

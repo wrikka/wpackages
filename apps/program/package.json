@@ -14,7 +14,7 @@
 	},
 	"devDependencies": {
 		"tsdown": "^0.18.4",
-		"vite-tsconfig-paths": "^6.0.3"
+		"vite-tsconfig-paths": "^6.0.4"
 	},
 	"dependencies": {
 		"@wpackages/config-manager": "workspace:*",

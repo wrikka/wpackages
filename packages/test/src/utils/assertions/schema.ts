@@ -1,10 +1,10 @@
-import type { ZodSchema } from "zod";
+import type { Schema } from "@wpackages/schema";
 import type { MatcherResult } from "../../types";
 
 import type { AssertionOptions } from "../../types";
 
-export function toMatchSchema(received: unknown, schema: ZodSchema<any>, options?: AssertionOptions): MatcherResult {
-	const result = schema.safeParse(received);
+export function toMatchSchema(received: unknown, schema: Schema<unknown, unknown>, options?: AssertionOptions): MatcherResult {
+	const result = schema.parse(received);
 
 	if (result.success) {
 		return {
@@ -13,7 +13,7 @@ export function toMatchSchema(received: unknown, schema: ZodSchema<any>, options
 		};
 	}
 
-	const issues = result.error.issues
+	const issues = result.issues
 		.map((issue) => `  - ${issue.path.join(".")}: ${issue.message}`)
 		.join("\n");
 

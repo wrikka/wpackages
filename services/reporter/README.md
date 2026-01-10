@@ -1,3 +1,0 @@
-# reporter
-
-Report formatting utilities.

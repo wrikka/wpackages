@@ -2,10 +2,10 @@
 
 import { loadConfig } from "@wpackages/config-manager";
 import { Command } from "commander";
+import { report } from "@wpackages/reporter";
 import { applyBaseline, loadBaseline, writeBaseline } from "./baseline";
 import { defaultUnusedConfig, type UnusedConfig } from "./config";
 import { findUnused, findUnusedWorkspace } from "./index";
-import { report } from "./reporter";
 
 const program = new Command();
 

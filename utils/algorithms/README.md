@@ -55,9 +55,21 @@ if (index !== -1) {
 | ------------------- | -------------------------- |
 | Compression         | Huffman Coding             |
 | Compression         | LZW Compression            |
+| Concurrency         | MapReduce                  |
+| Concurrency         | Parallel Search            |
+| Concurrency         | Parallel Sort              |
+| Concurrency         | Worker Pool                |
+| Crypto              | AES Encryption/Decryption  |
+| Crypto              | HMAC                       |
+| Crypto              | PBKDF2                     |
+| Crypto              | SHA-256                    |
+| Crypto              | SHA-512                    |
 | Dynamic Programming | Kadane's Algorithm         |
 | Dynamic Programming | Longest Common Subsequence |
 | Dynamic Programming | Knapsack Problem           |
+| File System         | Directory Traversal        |
+| File System         | File Compression           |
+| File System         | File Search                |
 | Graph               | Bellman-Ford               |
 | Graph               | Depth First Search         |
 | Graph               | Dijkstra's Algorithm       |
@@ -83,6 +95,9 @@ if (index !== -1) {
 | Sorting             | Quick Sort                 |
 | Sorting             | Radix Sort                 |
 | Sorting             | Selection Sort             |
+| Stream              | Backpressure Control       |
+| Stream              | Buffer Pool                |
+| Stream              | Stream Chunking            |
 | String              | Knuth-Morris-Pratt         |
 | String              | Levenshtein Distance       |
 | String              | Rabin-Karp                 |

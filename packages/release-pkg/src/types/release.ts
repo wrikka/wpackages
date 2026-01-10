@@ -78,6 +78,19 @@ export type ReleaseOptions = {
 	silent?: boolean | undefined;
 	plugins?: Plugin[] | undefined;
 	changelog?: ChangelogRenderer | undefined;
+	// Monorepo options
+	workspace?: string | undefined;
+	changedOnly?: boolean | undefined;
+	ignorePrivate?: boolean | undefined;
+};
+
+export type PackageReleaseResult = {
+	name: string;
+	version: string;
+	previousVersion: string;
+	path: string;
+	published: boolean;
+	success: boolean;
 };
 
 export type ReleaseResult = {
@@ -89,4 +102,8 @@ export type ReleaseResult = {
 	published: boolean;
 	duration: number;
 	commitHash?: string | undefined;
+	startTime?: number | undefined;
+	// Monorepo results
+	packages?: PackageReleaseResult[] | undefined;
+	isMonorepo?: boolean | undefined;
 };

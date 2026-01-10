@@ -33,12 +33,22 @@ ${pc.bold("Options:")}
   -s, --silent          Silent mode
   -h, --help            Show this help
 
+${pc.bold("Monorepo Options:")}
+  --workspace <path>    Release specific workspace/package
+  --changed-only        Release only changed packages
+  --ignore-private      Skip private packages
+
 ${pc.bold("Examples:")}
   wrelease patch
   wrelease minor --dry-run
   wrelease prepatch --preid beta
   wrelease --version 1.2.3 --no-publish
   wrelease major --message "chore: release v{version}"
+
+${pc.bold("Monorepo Examples:")}
+  wrelease patch --changed-only
+  wrelease minor --workspace packages/my-package
+  wrelease patch --ignore-private
 
 ${pc.bold("Documentation:")}
   https://github.com/wrikka/wts/tree/main/apps/release
@@ -58,6 +68,10 @@ interface CliArgs {
 	verbose?: boolean;
 	silent?: boolean;
 	help?: boolean;
+	// Monorepo options
+	workspace?: string;
+	changedOnly?: boolean;
+	ignorePrivate?: boolean;
 }
 
 function parseArgs(args: string[]): CliArgs {

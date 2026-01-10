@@ -1,5 +1,5 @@
+use crate::components::Selector;
 use crate::config::WmoRepoConfig;
-use crate::selector::Selector;
 use crate::services::cache::{cache_dir, clean_cache, gc_cache, inspect_cache, list_cache_entries};
 use crate::services::doctor::run_doctor_checks;
 use crate::services::git::changed_files;
