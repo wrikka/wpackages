@@ -30,6 +30,7 @@ export * from "./info/getStatus";
 
 // Stash operations
 export * from "./stash/stash";
+export { stashList as getStashes } from "./stash/stash";
 
 // Tag operations
 export * from "./tag/tag";
@@ -42,6 +43,7 @@ export * from "./config/config";
 
 // Advanced operations
 export * from "./advanced/advanced";
+export * from "./advanced/merge";
 
 // Clean operations
 export * from "./clean/clean";
