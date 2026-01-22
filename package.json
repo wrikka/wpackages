@@ -46,6 +46,7 @@
 		"oxlint-tsgolint": "^0.10.1",
 		"taze": "^19.9.2",
 		"turbo": "^2.7.5",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.17"
 	}
 }

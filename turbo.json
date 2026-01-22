@@ -8,7 +8,6 @@
 		"turbo.json",
 		"bun.lockb"
 	],
-	"concurrency": "100",
 	"tasks": {
 		"watch": {
 			"cache": false,
