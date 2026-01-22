@@ -22,26 +22,15 @@
 			"cache": false
 		},
 		"format": {
-			"dependsOn": ["^prepare"],
-			"cache": false
+			"dependsOn": ["^prepare"]
 		},
 		"lint": {
 			"dependsOn": ["^format"],
 			"cache": false
 		},
-		"typecheck": {
-			"dependsOn": ["^lint"]
-		},
 		"test": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["^lint"],
 			"cache": true
-		},
-
-		"test:coverage": {
-			"dependsOn": ["^lint"]
-		},
-		"wtest": {
-			"dependsOn": ["^lint"]
 		},
 		"build": {
 			"dependsOn": ["^lint"],
@@ -51,6 +40,15 @@
 		"verify": {
 			"dependsOn": ["^test"],
 			"cache": false
+		},
+		"test:coverage": {
+			"dependsOn": ["^lint"]
+		},
+		"test:project": {
+			"dependsOn": ["^lint"]
+		},
+		"wtest": {
+			"dependsOn": ["^lint"]
 		},
 		"preview": {
 			"dependsOn": ["^verify"]
