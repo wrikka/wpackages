@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
-import { findUp, ProcessError, spawnAsync } from "./utils";
 import type { FormatOptions, FormatterEngine } from "./types/formatter";
+import { findUp, ProcessError, spawnAsync } from "./utils";
 
 const detectEngine = (cwd: string): Exclude<FormatterEngine, "auto"> => {
 	const biomeConfig = findUp(cwd, ["biome.json", "biome.jsonc"]);
@@ -70,5 +70,5 @@ export const format = async (
 	return { stdout: res.stdout, stderr: res.stderr };
 };
 
-export { ProcessError } from "./utils/process";
 export type { FormatOptions, FormatterEngine } from "./types/formatter";
+export { ProcessError } from "./utils/process";

@@ -3,9 +3,7 @@ import { h } from "../types/vnode";
 
 type ListComponentProps = ListProps;
 
-export const List = (
-	props: ListComponentProps,
-): ReturnType<typeof h> => {
+export const List = (props: ListComponentProps): ReturnType<typeof h> => {
 	const {
 		items,
 		selectedIndex = 0,
@@ -21,7 +19,11 @@ export const List = (
 		return h(
 			"box",
 			{ flexDirection: "row", padding: { left: 1 } },
-			h("text", { color: isSelected ? selectedColor : color, bold: isSelected }, `${prefix}${item}`),
+			h(
+				"text",
+				{ color: isSelected ? selectedColor : color, bold: isSelected },
+				`${prefix}${item}`,
+			),
 		);
 	});
 

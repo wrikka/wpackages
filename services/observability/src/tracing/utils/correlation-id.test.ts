@@ -1,13 +1,13 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
-	generateCorrelationId,
-	setCorrelationId,
-	getCorrelationId,
 	clearCorrelationId,
-	withCorrelationId,
-	getCorrelationIdHeader,
 	extractCorrelationIdFromHeaders,
+	generateCorrelationId,
+	getCorrelationId,
+	getCorrelationIdHeader,
 	injectCorrelationIdToHeaders,
+	setCorrelationId,
+	withCorrelationId,
 } from "./correlation-id";
 
 describe("correlation-id", () => {

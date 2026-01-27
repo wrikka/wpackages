@@ -1,4 +1,4 @@
-export interface Graph {
+export interface SimpleGraph {
 	[key: string]: string[];
 }
 

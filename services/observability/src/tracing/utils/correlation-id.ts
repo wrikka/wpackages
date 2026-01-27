@@ -42,7 +42,9 @@ export function getCorrelationIdHeader(): string {
 	return CORRELATION_ID_HEADER;
 }
 
-export function extractCorrelationIdFromHeaders(headers: Record<string, string | string[] | undefined>): string | undefined {
+export function extractCorrelationIdFromHeaders(
+	headers: Record<string, string | string[] | undefined>,
+): string | undefined {
 	const header = headers[CORRELATION_ID_HEADER];
 	if (typeof header === "string") {
 		return header;
@@ -53,7 +55,9 @@ export function extractCorrelationIdFromHeaders(headers: Record<string, string |
 	return undefined;
 }
 
-export function injectCorrelationIdToHeaders(headers: Record<string, string | string[] | undefined>): Record<string, string | string[]> {
+export function injectCorrelationIdToHeaders(
+	headers: Record<string, string | string[] | undefined>,
+): Record<string, string | string[]> {
 	const id = getCorrelationId() || generateCorrelationId();
 	return {
 		...headers,

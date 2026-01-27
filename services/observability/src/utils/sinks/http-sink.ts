@@ -10,7 +10,13 @@ export interface HttpSinkConfig {
 }
 
 class HttpSinkImpl {
-	private config: HttpSinkConfig & { headers: Record<string, string>; batchSize: number; flushInterval: number; timeout: number; retries: number };
+	private config: HttpSinkConfig & {
+		headers: Record<string, string>;
+		batchSize: number;
+		flushInterval: number;
+		timeout: number;
+		retries: number;
+	};
 	private buffer: LogRecord[] = [];
 	private flushTimer: ReturnType<typeof setInterval> | null = null;
 

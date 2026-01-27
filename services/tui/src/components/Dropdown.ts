@@ -16,12 +16,22 @@ export const Dropdown = (
 		...rest
 	} = props;
 
-	const selectedItem = selectedIndex >= 0 && selectedIndex < items.length ? items[selectedIndex] : null;
+	const selectedItem =
+		selectedIndex >= 0 && selectedIndex < items.length
+			? items[selectedIndex]
+			: null;
 	const displayText = selectedItem ?? placeholder;
 	const arrow = isOpen ? DROPDOWN_ARROW.open : DROPDOWN_ARROW.closed;
 
 	const children = [
-		h("box", { flexDirection: "row", borderStyle: "single", borderColor: color, padding: { left: 1, right: 1 } },
+		h(
+			"box",
+			{
+				flexDirection: "row",
+				borderStyle: "single",
+				borderColor: color,
+				padding: { left: 1, right: 1 },
+			},
 			h("text", { color }, `${displayText} ${arrow}`),
 		),
 	];
@@ -32,10 +42,20 @@ export const Dropdown = (
 			return h(
 				"box",
 				{ flexDirection: "row", padding: { left: 1 } },
-				h("text", { color: isSelected ? "blue" : color, bold: isSelected }, `${isSelected ? "► " : "  "}${item}`),
+				h(
+					"text",
+					{ color: isSelected ? "blue" : color, bold: isSelected },
+					`${isSelected ? "► " : "  "}${item}`,
+				),
 			);
 		});
-		children.push(h("box", { flexDirection: "column", borderStyle: "single", borderColor: color }, ...itemsList));
+		children.push(
+			h(
+				"box",
+				{ flexDirection: "column", borderStyle: "single", borderColor: color },
+				...itemsList,
+			),
+		);
 	}
 
 	return h("box", { ...rest, flexDirection: "column" }, ...children);

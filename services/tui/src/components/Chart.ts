@@ -4,9 +4,7 @@ import { CHART_CHARS } from "../constant/widget.const";
 
 type ChartComponentProps = ChartProps;
 
-export const Chart = (
-	props: ChartComponentProps,
-): ReturnType<typeof h> => {
+export const Chart = (props: ChartComponentProps): ReturnType<typeof h> => {
 	const {
 		data,
 		labels = [],
@@ -52,7 +50,9 @@ export const Chart = (
 			if (type === "line" && isPoint) {
 				row.push(CHART_CHARS.point);
 			} else if (type === "bar") {
-				const barHeight = Math.floor(((dataValue - minDataValue) / range) * height);
+				const barHeight = Math.floor(
+					((dataValue - minDataValue) / range) * height,
+				);
 				row.push(y <= barHeight ? CHART_CHARS.filled : CHART_CHARS.empty);
 			} else {
 				row.push(" ");
@@ -63,13 +63,21 @@ export const Chart = (
 	}
 
 	if (labels.length > 0) {
-		const labelRow = labels.slice(0, width).map((label) => label[0]).join(" ");
+		const labelRow = labels
+			.slice(0, width)
+			.map((label) => label[0])
+			.join(" ");
 		rows.push(" " + labelRow);
 	}
 
 	return h(
 		"box",
-		{ ...rest, flexDirection: "column", borderStyle: showAxes ? "single" : undefined, borderColor: color },
+		{
+			...rest,
+			flexDirection: "column",
+			borderStyle: showAxes ? "single" : undefined,
+			borderColor: color,
+		},
 		...rows.map((row) => h("text", { color }, row)),
 	);
 };

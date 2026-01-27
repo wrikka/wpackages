@@ -28,6 +28,10 @@ export const Progress = (
 	return h(
 		"box",
 		{ ...rest, flexDirection: "row", alignItems: "center" },
-		h("text", { color }, `${labelText}[${filledBar}${emptyBar}]${percentageText}`),
+		h(
+			"text",
+			{ color },
+			`${labelText}[${filledBar}${emptyBar}]${percentageText}`,
+		),
 	);
 };

@@ -53,7 +53,10 @@ export class ErrorTracker {
 				this.originalHandlers.unhandledRejection = listeners[0] as (reason: unknown, promise: Promise<unknown>) => void;
 			}
 			globalProcess.removeAllListeners("unhandledRejection");
-			globalProcess.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => this.handleUnhandledRejection(reason, promise));
+			globalProcess.on(
+				"unhandledRejection",
+				(reason: unknown, promise: Promise<unknown>) => this.handleUnhandledRejection(reason, promise),
+			);
 		}
 	}
 
@@ -66,7 +69,10 @@ export class ErrorTracker {
 			globalProcess.on("uncaughtException", this.originalHandlers.uncaughtException);
 		}
 		if (this.originalHandlers.unhandledRejection) {
-			globalProcess.removeListener("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => this.handleUnhandledRejection(reason, promise));
+			globalProcess.removeListener(
+				"unhandledRejection",
+				(reason: unknown, promise: Promise<unknown>) => this.handleUnhandledRejection(reason, promise),
+			);
 			globalProcess.on("unhandledRejection", this.originalHandlers.unhandledRejection);
 		}
 	}

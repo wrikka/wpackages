@@ -5,7 +5,7 @@ import {
 	heapExtract,
 	heapInsert,
 	heapIsEmpty,
-} from "@wpackages/data-structure";
+} from "../data-structures";
 
 export function heapSort<T extends number | string>(arr: T[]): T[] {
 	if (arr.length <= 1) {
@@ -18,17 +18,16 @@ export function heapSort<T extends number | string>(arr: T[]): T[] {
 		return 0;
 	};
 
-	let minHeap: Heap<T> = createHeap<T>();
+	const minHeap: Heap<T> = createHeap<T>(comparator);
 
 	for (const item of arr) {
-		minHeap = heapInsert(minHeap, item, comparator);
+		heapInsert(minHeap, item);
 	}
 
 	const result: T[] = [];
 	while (!heapIsEmpty(minHeap)) {
-		const [min, newHeap] = heapExtract(minHeap, comparator);
-		minHeap = newHeap;
-		if (min !== null) {
+		const min = heapExtract(minHeap);
+		if (min !== undefined) {
 			result.push(min);
 		}
 	}

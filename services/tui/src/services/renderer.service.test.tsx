@@ -21,7 +21,7 @@ describe("RendererLive with Layout", () => {
 
 		const testLayer = Layer.provide(RendererLive, MockTerminal);
 
-		const program = Effect.gen(function*(_) {
+		const program = Effect.gen(function* (_) {
 			const renderer = yield* _(Renderer);
 			const component = Box(
 				{ flexDirection: "column", width: 50, height: 10 },

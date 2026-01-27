@@ -31,7 +31,7 @@
 		"test": "bun test"
 	},
 	"dependencies": {
-		"effect": "^3.19.14"
+		"effect": "^3.19.15"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

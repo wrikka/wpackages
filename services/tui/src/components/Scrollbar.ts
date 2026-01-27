@@ -17,8 +17,14 @@ export const Scrollbar = (
 	} = props;
 
 	const height = 10;
-	const thumbSize = Math.min(Math.max(Math.floor((visible / total) * height), 1), height);
-	const thumbPosition = Math.min(Math.floor((position / (total - visible)) * (height - thumbSize)), height - thumbSize);
+	const thumbSize = Math.min(
+		Math.max(Math.floor((visible / total) * height), 1),
+		height,
+	);
+	const thumbPosition = Math.min(
+		Math.floor((position / (total - visible)) * (height - thumbSize)),
+		height - thumbSize,
+	);
 
 	const scrollbar: string[] = [];
 
@@ -32,7 +38,12 @@ export const Scrollbar = (
 
 	return h(
 		"box",
-		{ ...rest, flexDirection: "column", borderStyle: "single", borderColor: color },
+		{
+			...rest,
+			flexDirection: "column",
+			borderStyle: "single",
+			borderColor: color,
+		},
 		h("text", { color }, scrollbar.join("")),
 	);
 };

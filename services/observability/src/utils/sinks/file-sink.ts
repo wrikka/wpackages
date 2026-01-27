@@ -1,7 +1,7 @@
+import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, unlinkSync, writeFileSync } from "fs";
+import { basename, dirname, extname, join } from "path";
 import type { LogRecord } from "../logger";
 import type { RotationConfig, RotationState } from "./rotation-config";
-import { existsSync, mkdirSync, readFileSync, statSync, unlinkSync, writeFileSync, appendFileSync } from "fs";
-import { dirname, join, extname, basename } from "path";
 
 const DEFAULT_CONFIG: Required<RotationConfig> = {
 	maxBytes: 10 * 1024 * 1024,

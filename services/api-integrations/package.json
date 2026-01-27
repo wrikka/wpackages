@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17"
+		"vitest": "^4.0.18"
 	},
 	"publishConfig": {
 		"access": "public"

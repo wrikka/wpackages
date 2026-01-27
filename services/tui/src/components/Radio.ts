@@ -4,19 +4,14 @@ import { RADIO_SYMBOLS } from "../constant/widget.const";
 
 type RadioComponentProps = RadioProps;
 
-export const Radio = (
-	props: RadioComponentProps,
-): ReturnType<typeof h> => {
-	const {
-		options,
-		selectedIndex = 0,
-		color = "green",
-		...rest
-	} = props;
+export const Radio = (props: RadioComponentProps): ReturnType<typeof h> => {
+	const { options, selectedIndex = 0, color = "green", ...rest } = props;
 
 	const children = options.map((option, index) => {
 		const isSelected = index === selectedIndex;
-		const symbol = isSelected ? RADIO_SYMBOLS.selected : RADIO_SYMBOLS.unselected;
+		const symbol = isSelected
+			? RADIO_SYMBOLS.selected
+			: RADIO_SYMBOLS.unselected;
 		return h(
 			"box",
 			{ flexDirection: "row", alignItems: "center" },

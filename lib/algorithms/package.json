@@ -27,7 +27,9 @@
 		"update:deps": "bunx taze -r -w && ni",
 		"review": "bun update:deps && bun format && bun lint && bun test"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@wpackages/data-structure": "*"
+	},
 	"devDependencies": {
 		"@types/bun": "^1.3.6",
 		"tsdown": "^0.18.4",

@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { FileSinkImpl } from "./file-sink";
-import type { LogRecord } from "../logger";
 import { existsSync, unlinkSync } from "fs";
 import { join } from "path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { LogRecord } from "../logger";
+import { FileSinkImpl } from "./file-sink";
 
 describe("FileSink", () => {
 	let sink: (record: LogRecord) => void;

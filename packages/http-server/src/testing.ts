@@ -18,7 +18,7 @@ export const createMockRequest = (options: MockRequestOptions): Request => {
 	return new Request(options.url, {
 		method: options.method,
 		headers,
-		body: options.body ? JSON.stringify(options.body) : undefined,
+		body: options.body ? JSON.stringify(options.body) : null,
 	});
 };
 
@@ -34,4 +34,4 @@ export const createMockResponse = (data: unknown, status = 200, headers?: Header
 
 export const mockParams = (params: Record<string, string | number | boolean>): RouteParams => params;
 
-export const waitFor = (ms: number): Effect.Effect<void> => Effect.sleep(`${ms}ms`);
+export const waitFor = (ms: number): Effect.Effect<void> => Effect.sleep(`${ms} millis`);

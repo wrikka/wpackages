@@ -10,11 +10,7 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
+	"files": ["dist", "README.md", "LICENSE"],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
@@ -28,7 +24,7 @@
 		"prepublishOnly": "bun run clean && bun run build"
 	},
 	"dependencies": {
-		"effect": "^3.19.14"
+		"effect": "^3.19.15"
 	},
 	"devDependencies": {
 		"@effect/vitest": "^0.27.0",
@@ -36,7 +32,7 @@
 		"@types/node": "^25.0.10",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17"
+		"vitest": "^4.0.18"
 	},
 	"peerDependencies": {
 		"effect": "^3.19.13"

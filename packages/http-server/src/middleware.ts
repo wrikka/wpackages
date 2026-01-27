@@ -8,21 +8,21 @@ export type MiddlewareContext = {
 
 export type Middleware = {
 	readonly name: string;
-	readonly execute: (context: MiddlewareContext) => Effect.Effect<Response, Error>;
+	readonly execute: (context: MiddlewareContext) => Effect.Effect<Response, never>;
 };
 
 export const createMiddleware = (
 	name: string,
-	execute: (context: MiddlewareContext) => Effect.Effect<Response, Error>,
+	execute: (context: MiddlewareContext) => Effect.Effect<Response, never>,
 ): Middleware => Object.freeze({ name, execute });
 
 export const composeMiddleware = (
 	middlewares: readonly Middleware[],
-): (context: MiddlewareContext) => Effect.Effect<Response, Error> => {
+): (context: MiddlewareContext) => Effect.Effect<Response, never> => {
 	return (context) => {
 		let index = 0;
 
-		const next = (): Effect.Effect<Response, Error> => {
+		const next = (): Effect.Effect<Response, never> => {
 			if (index >= middlewares.length) {
 				return Effect.succeed(new Response("OK", { status: 200 }));
 			}
@@ -31,7 +31,7 @@ export const composeMiddleware = (
 			index++;
 
 			if (!middleware) {
-				return Effect.fail(new Error("Middleware not found"));
+				return Effect.die(new Error("Middleware not found"));
 			}
 
 			return middleware.execute({ ...context, next });

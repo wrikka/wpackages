@@ -1,4 +1,4 @@
-import { createPriorityQueue, pqDequeue, pqEnqueue, pqSize } from "@wpackages/data-structure";
+import { createPriorityQueue, pqDequeue, pqEnqueue, pqSize } from "../data-structures";
 
 interface HuffmanNode {
 	char: string | null;

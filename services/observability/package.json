@@ -11,10 +11,7 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"keywords": [
 		"observability",
 		"logging",
@@ -47,10 +44,10 @@
 	"devDependencies": {
 		"@types/bun": "^1.3.6",
 		"@types/node": "^25.0.10",
-		"@vitest/coverage-v8": "^4.0.17",
-		"oxlint": "^1.41.0",
+		"@vitest/coverage-v8": "^4.0.18",
+		"oxlint": "^1.42.0",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17"
+		"vitest": "^4.0.18"
 	}
 }

@@ -34,7 +34,7 @@
 		"@wpackages/observability": "workspace:*",
 		"@wpackages/parser": "workspace:*",
 		"@wpackages/schema": "workspace:*",
-		"effect": "^3.19.14"
+		"effect": "^3.19.15"
 	},
 	"devDependencies": {
 		"@types/bun": "1.3.5",

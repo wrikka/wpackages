@@ -21,9 +21,8 @@ export interface LayoutService {
 	) => Effect.Effect<Layout, never>;
 }
 
-export const LayoutService: Context.Tag<LayoutService, LayoutService> = Context.GenericTag<LayoutService>(
-	"LayoutService",
-);
+export const LayoutService: Context.Tag<LayoutService, LayoutService> =
+	Context.GenericTag<LayoutService>("LayoutService");
 
 const flexDirectionMap = {
 	row: yoga.FLEX_DIRECTION_ROW,

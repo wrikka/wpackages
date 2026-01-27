@@ -1,4 +1,4 @@
-import { type WeightedGraph } from "@wpackages/data-structure";
+import { type WeightedGraph } from "../data-structures";
 
 export interface BellmanFordResult {
 	distances: Record<string, number>;
@@ -7,7 +7,7 @@ export interface BellmanFordResult {
 }
 
 export function bellmanFord(
-	graph: WeightedGraph<string>,
+	graph: WeightedGraph,
 	startNode: string,
 ): BellmanFordResult {
 	const distances: Record<string, number> = {};

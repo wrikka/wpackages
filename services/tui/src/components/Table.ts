@@ -3,9 +3,7 @@ import { h } from "../types/vnode";
 
 type TableComponentProps = TableProps;
 
-export const Table = (
-	props: TableComponentProps,
-): ReturnType<typeof h> => {
+export const Table = (props: TableComponentProps): ReturnType<typeof h> => {
 	const {
 		headers,
 		rows,
@@ -19,7 +17,11 @@ export const Table = (
 
 	const headerRow = h(
 		"box",
-		{ flexDirection: "row", borderStyle: showBorders ? "single" : undefined, borderColor: headerColor },
+		{
+			flexDirection: "row",
+			borderStyle: showBorders ? "single" : undefined,
+			borderColor: headerColor,
+		},
 		...headers.map((header) =>
 			h("text", { color: headerColor, bold: true }, ` ${header} `),
 		),
@@ -29,9 +31,17 @@ export const Table = (
 		const isSelected = rowIndex === selectedIndex;
 		return h(
 			"box",
-			{ flexDirection: "row", borderStyle: showBorders ? "single" : undefined, borderColor: isSelected ? selectedColor : undefined },
+			{
+				flexDirection: "row",
+				borderStyle: showBorders ? "single" : undefined,
+				borderColor: isSelected ? selectedColor : undefined,
+			},
 			...row.map((cell) =>
-				h("text", { color: isSelected ? selectedColor : "white", bold: isSelected }, ` ${cell} `),
+				h(
+					"text",
+					{ color: isSelected ? selectedColor : "white", bold: isSelected },
+					` ${cell} `,
+				),
 			),
 		);
 	});

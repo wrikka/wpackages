@@ -31,14 +31,14 @@
   ],
   "devDependencies": {
     "@types/node": "^22.19.7",
-    "oxlint": "^1.41.0",
-    "oxlint-tsgolint": "^0.11.1",
+    "oxlint": "^1.42.0",
+    "oxlint-tsgolint": "^0.11.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@effect/schema": "^0.75.0",
     "arktype": "^2.1.29",
-    "effect": "^3.19.14",
+    "effect": "^3.19.15",
     "joi": "^17.13.3",
     "yup": "^1.7.1",
     "zod": "^3.25.76"

@@ -47,17 +47,17 @@
 		"@effect/schema": "^",
 		"@wpackages/http-server": "workspace:*",
 		"@wpackages/schema": "workspace:*",
-		"effect": "^3.19.14"
+		"effect": "^3.19.15"
 	},
 	"devDependencies": {
 		"@types/bun": "1.3.6",
 		"@types/node": "^25.0.10",
 		"autocannon": "^8.0.0",
-		"oxlint": "^1.41.0",
-		"oxlint-tsgolint": "^0.11.1",
+		"oxlint": "^1.42.0",
+		"oxlint-tsgolint": "^0.11.2",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1",
-		"vitest": "^4.0.17"
+		"vitest": "^4.0.18"
 	},
 	"publishConfig": {
 		"access": "restricted"

@@ -14,7 +14,9 @@ export const Checkbox = (
 		...rest
 	} = props;
 
-	const symbol = checked ? CHECKBOX_SYMBOLS.checked : CHECKBOX_SYMBOLS.unchecked;
+	const symbol = checked
+		? CHECKBOX_SYMBOLS.checked
+		: CHECKBOX_SYMBOLS.unchecked;
 
 	return h(
 		"box",

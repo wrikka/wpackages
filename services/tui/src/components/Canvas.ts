@@ -3,17 +3,12 @@ import { h } from "../types/vnode";
 
 type CanvasComponentProps = CanvasProps;
 
-export const Canvas = (
-	props: CanvasComponentProps,
-): ReturnType<typeof h> => {
-	const {
-		width,
-		height,
-		onDraw,
-		...rest
-	} = props;
+export const Canvas = (props: CanvasComponentProps): ReturnType<typeof h> => {
+	const { width, height, onDraw, ...rest } = props;
 
-	const grid: string[][] = Array.from({ length: height }, () => Array(width).fill(" "));
+	const grid: string[][] = Array.from({ length: height }, () =>
+		Array(width).fill(" "),
+	);
 
 	const ctx = {
 		width,
@@ -30,7 +25,13 @@ export const Canvas = (
 				grid[y][x] = char;
 			}
 		},
-		drawLine: (x1: number, y1: number, x2: number, y2: number, char: string) => {
+		drawLine: (
+			x1: number,
+			y1: number,
+			x2: number,
+			y2: number,
+			char: string,
+		) => {
 			const dx = Math.abs(x2 - x1);
 			const dy = Math.abs(y2 - y1);
 			const sx = x1 < x2 ? 1 : -1;

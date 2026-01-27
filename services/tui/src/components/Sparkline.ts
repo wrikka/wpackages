@@ -24,13 +24,15 @@ export const Sparkline = (
 	const range = max - min || 1;
 	const chars = Object.values(SPARKLINE_CHARS);
 
-	const sparkline = data.map((value, index) => {
-		const normalized = ((value - min) / range) * (chars.length - 1);
-		const charIndex = Math.round(normalized);
-		const char = chars[charIndex] || chars[0];
-		const dot = showDots && index === data.length - 1 ? "●" : "";
-		return char + dot;
-	}).join("");
+	const sparkline = data
+		.map((value, index) => {
+			const normalized = ((value - min) / range) * (chars.length - 1);
+			const charIndex = Math.round(normalized);
+			const char = chars[charIndex] || chars[0];
+			const dot = showDots && index === data.length - 1 ? "●" : "";
+			return char + dot;
+		})
+		.join("");
 
 	const _line = showLine ? "─".repeat(data.length) : "";
 

@@ -4,14 +4,19 @@ import { BORDER_STYLES } from "../constant/border.const";
 import type { Color } from "../constant/color.const";
 import type { BoxProps, TextProps } from "../types/schema";
 import type { VNode } from "../types/vnode";
-import { type Layout, LayoutService, LayoutServiceLive } from "./layout.service";
+import {
+	type Layout,
+	LayoutService,
+	LayoutServiceLive,
+} from "./layout.service";
 import { Terminal } from "./terminal.service";
 
 export interface Renderer {
 	readonly render: (node: VNode) => Effect.Effect<void, never, Terminal>;
 }
 
-export const Renderer: Context.Tag<Renderer, Renderer> = Context.GenericTag<Renderer>("Renderer");
+export const Renderer: Context.Tag<Renderer, Renderer> =
+	Context.GenericTag<Renderer>("Renderer");
 
 const isColor = (key: string): key is Color => key in p;
 
@@ -31,9 +36,9 @@ const drawLayoutToGrid = (layout: Layout, grid: ScreenCell[][]) => {
 		const border = BORDER_STYLES[borderStyle];
 		let style = (s: string) => s;
 		if (
-			"borderColor" in props
-			&& props.borderColor
-			&& isColor(props.borderColor)
+			"borderColor" in props &&
+			props.borderColor &&
+			isColor(props.borderColor)
 		) {
 			const color = props.borderColor as keyof typeof p;
 			style = p[color] as (s: string) => string;
@@ -100,37 +105,39 @@ const drawLayoutToGrid = (layout: Layout, grid: ScreenCell[][]) => {
 	}
 };
 
-export const RendererLive: Layer.Layer<Renderer, never, Terminal> = Layer.effect(
-	Renderer,
-	Effect.gen(function*(_) {
-		const terminal = yield* _(Terminal);
-		const layoutService = yield* _(LayoutService);
+export const RendererLive: Layer.Layer<Renderer, never, Terminal> =
+	Layer.effect(
+		Renderer,
+		Effect.gen(function* (_) {
+			const terminal = yield* _(Terminal);
+			const layoutService = yield* _(LayoutService);
 
-		const render = (node: VNode) =>
-			Effect.gen(function*(_) {
-				const { columns, rows } = yield* _(terminal.getSize);
-				const layout = yield* _(
-					layoutService.calculateLayout(node, columns, rows),
-				);
+			const render = (node: VNode) =>
+				Effect.gen(function* (_) {
+					const { columns, rows } = yield* _(terminal.getSize);
+					const layout = yield* _(
+						layoutService.calculateLayout(node, columns, rows),
+					);
 
-				// Create a 2D grid
-				const grid: ScreenCell[][] = Array.from({ length: rows }, () =>
-					Array.from({ length: columns }, () => ({
-						char: " ",
-						style: (s) => s,
-					})));
+					// Create a 2D grid
+					const grid: ScreenCell[][] = Array.from({ length: rows }, () =>
+						Array.from({ length: columns }, () => ({
+							char: " ",
+							style: (s) => s,
+						})),
+					);
 
-				drawLayoutToGrid(layout, grid);
+					drawLayoutToGrid(layout, grid);
 
-				// Convert grid to a single string
-				const output = grid
-					.map((row) => row.map((cell) => cell.style(cell.char)).join(""))
-					.join("\n");
+					// Convert grid to a single string
+					const output = grid
+						.map((row) => row.map((cell) => cell.style(cell.char)).join(""))
+						.join("\n");
 
-				yield* _(terminal.clear);
-				yield* _(terminal.write(output));
-			});
+					yield* _(terminal.clear);
+					yield* _(terminal.write(output));
+				});
 
-		return { render };
-	}),
-).pipe(Layer.provide(LayoutServiceLive));
+			return { render };
+		}),
+	).pipe(Layer.provide(LayoutServiceLive));

@@ -53,13 +53,13 @@
 		"@types/chokidar": "^1.7.5",
 		"@types/node": "^25.0.10",
 		"@types/ws": "^8.18.1",
-		"@vitest/coverage-istanbul": "^4.0.17",
+		"@vitest/coverage-istanbul": "^4.0.18",
 		"chokidar": "^5.0.0",
 		"oxlint": "1.36.0",
 		"oxlint-tsgolint": "0.10.1",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17",
+		"vitest": "^4.0.18",
 		"ws": "^8.19.0"
 	}
 }

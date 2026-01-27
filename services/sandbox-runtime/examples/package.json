@@ -12,6 +12,6 @@
 		"@wpackages/sandbox-runtime": "file:../pkg"
 	},
 	"devDependencies": {
-		"nuxt": "^4.2.2"
+		"nuxt": "^4.3.0"
 	}
 }

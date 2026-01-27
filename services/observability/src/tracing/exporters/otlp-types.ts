@@ -206,7 +206,10 @@ export interface OtlpExemplar {
 	traceId: string;
 }
 
-export type OtlpAggregationTemporality = "AGGREGATION_TEMPORALITY_UNSPECIFIED" | "AGGREGATION_TEMPORALITY_DELTA" | "AGGREGATION_TEMPORALITY_CUMULATIVE";
+export type OtlpAggregationTemporality =
+	| "AGGREGATION_TEMPORALITY_UNSPECIFIED"
+	| "AGGREGATION_TEMPORALITY_DELTA"
+	| "AGGREGATION_TEMPORALITY_CUMULATIVE";
 
 export interface OtlpExportMetricsServiceRequest {
 	resourceMetrics: OtlpResourceMetrics[];

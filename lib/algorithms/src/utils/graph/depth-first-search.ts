@@ -1,20 +1,23 @@
-import { type Graph } from "@wpackages/data-structure";
+import { type Graph } from "../data-structures";
 
-export function depthFirstSearch<T>(graph: Graph<T>, startNode: T): T[] {
+export function depthFirstSearch(graph: Graph, startNode: string): string[] {
 	if (!graph.has(startNode)) {
 		return [];
 	}
 
-	const visited = new Set<T>();
-	const result: T[] = [];
+	const visited = new Set<string>();
+	const result: string[] = [];
 
-	const dfsRecursive = (vertex: T) => {
+	const dfsRecursive = (vertex: string) => {
 		visited.add(vertex);
 		result.push(vertex);
-		const neighbors = graph.get(vertex) || [];
-		for (const neighbor of neighbors) {
-			if (!visited.has(neighbor)) {
-				dfsRecursive(neighbor);
+
+		const neighbors = graph.get(vertex);
+		if (neighbors) {
+			for (const neighbor of neighbors) {
+				if (!visited.has(neighbor)) {
+					dfsRecursive(neighbor);
+				}
 			}
 		}
 	};

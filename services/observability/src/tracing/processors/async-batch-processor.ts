@@ -1,4 +1,4 @@
-import type { SpanProcessor, Span } from "../types/tracing";
+import type { Span, SpanProcessor } from "../types/tracing";
 
 export interface AsyncBatchProcessorConfig {
 	maxQueueSize: number;
@@ -13,7 +13,10 @@ export class AsyncBatchProcessor implements SpanProcessor {
 	private flushTimer: ReturnType<typeof setTimeout> | null = null;
 	private isShutdown = false;
 
-	constructor(config: Partial<AsyncBatchProcessorConfig> | undefined, private exporter: (spans: Span[]) => Promise<void>) {
+	constructor(
+		config: Partial<AsyncBatchProcessorConfig> | undefined,
+		private exporter: (spans: Span[]) => Promise<void>,
+	) {
 		this.config = {
 			maxQueueSize: 2048,
 			maxExportBatchSize: 512,
@@ -78,7 +81,7 @@ export class AsyncBatchProcessor implements SpanProcessor {
 			await Promise.race([
 				this.exporter(batch),
 				new Promise((_, reject) =>
-					setTimeout(() => reject(new Error("Export timeout")), this.config.exportTimeoutMillis),
+					setTimeout(() => reject(new Error("Export timeout")), this.config.exportTimeoutMillis)
 				),
 			]);
 		} catch (error) {

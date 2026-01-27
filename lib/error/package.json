@@ -15,13 +15,13 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"effect": "^3.19.14"
+		"effect": "^3.19.15"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17",
+		"vitest": "^4.0.18",
 		"zod": "^3.25.76"
 	}
 }

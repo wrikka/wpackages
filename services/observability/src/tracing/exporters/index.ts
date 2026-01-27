@@ -1,2 +1,2 @@
-export * from "./otlp-types";
 export * from "./otlp-exporter";
+export * from "./otlp-types";

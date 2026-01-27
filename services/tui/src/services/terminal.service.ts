@@ -22,9 +22,11 @@ export interface Terminal {
 	readonly cleanup: Effect.Effect<void>;
 }
 
-export const Terminal: Context.Tag<Terminal, Terminal> = Context.GenericTag<Terminal>("Terminal");
+export const Terminal: Context.Tag<Terminal, Terminal> =
+	Context.GenericTag<Terminal>("Terminal");
 
-const write = (text: string): Effect.Effect<void> => Effect.sync(() => process.stdout.write(text));
+const write = (text: string): Effect.Effect<void> =>
+	Effect.sync(() => process.stdout.write(text));
 
 const getSize = (): { rows: number; columns: number } => ({
 	rows: process.stdout.rows || TERMINAL_DEFAULTS.DEFAULT_ROWS,
@@ -40,12 +42,12 @@ const disableRawMode = (): Effect.Effect<void> =>
 
 export const TerminalLive: Layer.Layer<Terminal> = Layer.effect(
 	Terminal,
-	Effect.gen(function*() {
+	Effect.gen(function* () {
 		const rl = yield* Effect.sync(() =>
 			readline.createInterface({
 				input: process.stdin,
 				output: process.stdout,
-			})
+			}),
 		);
 
 		const keyQueue = yield* Queue.unbounded<Key>();
@@ -88,13 +90,13 @@ export const TerminalLive: Layer.Layer<Terminal> = Layer.effect(
 			hideCursor: write(ANSI.HIDE_CURSOR),
 			getTerminalSize: Effect.sync(getSize),
 			render: (content: string) =>
-				Effect.gen(function*() {
+				Effect.gen(function* () {
 					yield* write(ANSI.CLEAR_SCREEN);
 					yield* write(ANSI.moveCursor(1, 1));
 					yield* write(content);
 				}),
 			readKey: Queue.take(keyQueue),
-			cleanup: Effect.gen(function*() {
+			cleanup: Effect.gen(function* () {
 				yield* disableRawMode();
 				yield* write(ANSI.SHOW_CURSOR);
 				yield* Effect.sync(() => rl.close());

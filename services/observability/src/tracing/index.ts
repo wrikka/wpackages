@@ -17,10 +17,10 @@ export { SimpleSpanProcessor } from "./services/processor.service";
 export { BatchSpanProcessor } from "./services/processor.service";
 
 // Exporters
+export { createOTLPSpanExporter, OTLPSpanExporter } from "./exporters";
 export { ConsoleSpanExporter } from "./services/exporter.service";
 export { InMemorySpanExporter } from "./services/exporter.service";
 export { WebUiExporter } from "./services/exporter.service";
-export { OTLPSpanExporter, createOTLPSpanExporter } from "./exporters";
 
 // Context
 export { getActiveSpan, withActiveSpan } from "./services/context.service";
@@ -46,38 +46,38 @@ export { ExpressInstrumentation, HttpInstrumentation } from "./services/instrume
 export { ParentBasedSampler, TraceIdRatioBasedSampler } from "./services/sampler.service";
 
 // Utils
+export {
+	clearCorrelationId,
+	extractCorrelationIdFromHeaders,
+	generateCorrelationId,
+	getCorrelationId,
+	getCorrelationIdHeader,
+	injectCorrelationIdToHeaders,
+	setCorrelationId,
+	withCorrelationId,
+} from "./utils/correlation-id";
 export { getTraceContext } from "./utils/log.util";
 export { registerGracefulShutdown } from "./utils/shutdown.util";
-export {
-	generateCorrelationId,
-	setCorrelationId,
-	getCorrelationId,
-	clearCorrelationId,
-	withCorrelationId,
-	getCorrelationIdHeader,
-	extractCorrelationIdFromHeaders,
-	injectCorrelationIdToHeaders,
-} from "./utils/correlation-id";
 
 // Metrics
+export { createNestedContextManager, NestedContextManager } from "./context/nested-context";
+export type { ContextLevel } from "./context/nested-context";
+export { AttributeEnricher, createAttributeEnricher } from "./enrichment/enricher";
+export type { EnrichmentConfig } from "./enrichment/enricher";
+export { createHistogram, Histogram } from "./metrics/aggregation/histogram";
+export type { HistogramConfig, HistogramData } from "./metrics/aggregation/histogram";
+export { createRateCalculator, RateCalculator } from "./metrics/aggregation/rate";
+export type { RateData } from "./metrics/aggregation/rate";
+export { createHealthMetricsCollector, HealthMetricsCollector } from "./metrics/health-metrics";
+export type { HealthMetrics } from "./metrics/health-metrics";
+export { AsyncBatchProcessor, createAsyncBatchProcessor } from "./processors/async-batch-processor";
+export type { AsyncBatchProcessorConfig } from "./processors/async-batch-processor";
 export {
 	ConsoleMetricExporter,
 	InMemoryMetricReader,
 	MeterProviderImpl as MeterProvider,
 } from "./services/metrics.service";
 export type { Counter, Meter, MetricExporter, MetricReader } from "./types/metrics";
-export { HealthMetricsCollector, createHealthMetricsCollector } from "./metrics/health-metrics";
-export type { HealthMetrics } from "./metrics/health-metrics";
-export { AttributeEnricher, createAttributeEnricher } from "./enrichment/enricher";
-export type { EnrichmentConfig } from "./enrichment/enricher";
-export { NestedContextManager, createNestedContextManager } from "./context/nested-context";
-export type { ContextLevel } from "./context/nested-context";
-export { AsyncBatchProcessor, createAsyncBatchProcessor } from "./processors/async-batch-processor";
-export type { AsyncBatchProcessorConfig } from "./processors/async-batch-processor";
-export { Histogram, createHistogram } from "./metrics/aggregation/histogram";
-export type { HistogramConfig, HistogramData } from "./metrics/aggregation/histogram";
-export { RateCalculator, createRateCalculator } from "./metrics/aggregation/rate";
-export type { RateData } from "./metrics/aggregation/rate";
 
 // All public types
 export type * from "./types/tracing";

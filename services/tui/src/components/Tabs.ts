@@ -3,9 +3,7 @@ import { h } from "../types/vnode";
 
 type TabsComponentProps = TabsProps;
 
-export const Tabs = (
-	props: TabsComponentProps,
-): ReturnType<typeof h> => {
+export const Tabs = (props: TabsComponentProps): ReturnType<typeof h> => {
 	const {
 		tabs,
 		selectedIndex = 0,
@@ -25,5 +23,14 @@ export const Tabs = (
 		);
 	});
 
-	return h("box", { ...rest, flexDirection: "row", borderStyle: "single", padding: { left: 1, right: 1 } }, ...tabElements);
+	return h(
+		"box",
+		{
+			...rest,
+			flexDirection: "row",
+			borderStyle: "single",
+			padding: { left: 1, right: 1 },
+		},
+		...tabElements,
+	);
 };

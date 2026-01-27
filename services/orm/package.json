@@ -28,17 +28,17 @@
 	},
 	"dependencies": {
 		"better-sqlite3": "^11.10.0",
-		"effect": "^3.19.14",
-		"mysql2": "^3.16.1",
+		"effect": "^3.19.15",
+		"mysql2": "^3.16.2",
 		"pg": "^8.17.2"
 	},
 	"devDependencies": {
 		"@types/better-sqlite3": "^7.6.13",
 		"@types/bun": "latest",
 		"@types/pg": "^8.16.0",
-		"oxlint": "^1.41.0",
+		"oxlint": "^1.42.0",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.17"
+		"vitest": "^4.0.18"
 	}
 }

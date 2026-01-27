@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { OTLPSpanExporter } from "./otlp-exporter";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Span } from "../types/tracing";
+import { OTLPSpanExporter } from "./otlp-exporter";
 
 describe("OTLPSpanExporter", () => {
 	let exporter: OTLPSpanExporter;

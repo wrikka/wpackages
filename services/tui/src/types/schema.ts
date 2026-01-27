@@ -36,11 +36,11 @@ export const BoxPropsSchema: Schema.Schema<{
 	readonly flexGrow?: number | undefined;
 	readonly padding?:
 		| {
-			readonly top?: number | undefined;
-			readonly bottom?: number | undefined;
-			readonly left?: number | undefined;
-			readonly right?: number | undefined;
-		}
+				readonly top?: number | undefined;
+				readonly bottom?: number | undefined;
+				readonly left?: number | undefined;
+				readonly right?: number | undefined;
+		  }
 		| undefined;
 	readonly borderStyle?: keyof typeof BORDER_STYLES | undefined;
 	readonly borderColor?: keyof typeof COLORS | undefined;
@@ -332,7 +332,10 @@ export const DropdownPropsSchema: Schema.Schema<{
 	isOpen: Schema.optional(Schema.Boolean),
 	selectedIndex: Schema.optional(Schema.Number),
 	onSelect: Schema.optional(
-		Schema.Function({ args: [Schema.Number, Schema.String], returns: Schema.Void }),
+		Schema.Function({
+			args: [Schema.Number, Schema.String],
+			returns: Schema.Void,
+		}),
 	),
 	color: Schema.optional(
 		Schema.Literal(...(Object.keys(COLORS) as Array<keyof typeof COLORS>)),
@@ -409,8 +412,20 @@ export const CanvasContextSchema: Schema.Schema<{
 	readonly height: number;
 	readonly clear: () => void;
 	readonly drawPixel: (x: number, y: number, char: string) => void;
-	readonly drawLine: (x1: number, y1: number, x2: number, y2: number, char: string) => void;
-	readonly drawRect: (x: number, y: number, width: number, height: number, char: string) => void;
+	readonly drawLine: (
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number,
+		char: string,
+	) => void;
+	readonly drawRect: (
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		char: string,
+	) => void;
 	readonly drawText: (x: number, y: number, text: string) => void;
 }> = Schema.Struct({
 	width: Schema.Number,

@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { Redactor, createRedactor, redactValue } from "./redactor";
+import { describe, expect, it } from "vitest";
+import { createRedactor, Redactor, redactValue } from "./redactor";
 
 describe("Redactor", () => {
 	it("should redact password field", () => {

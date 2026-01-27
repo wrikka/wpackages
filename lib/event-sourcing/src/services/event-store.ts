@@ -18,10 +18,14 @@ export class InMemoryEventStore<E> implements EventStore<E> {
 
 	async append(aggregateId: string, events: Event<E>[]): Promise<void> {
 		const existing = this.events.get(aggregateId) || [];
-		const lastVersion = existing.length > 0 ? existing[existing.length - 1].version : 0;
+		const lastVersion = existing.length > 0 ? existing[existing.length - 1]?.version ?? 0 : 0;
 
 		events.forEach((event, index) => {
-			event.version = lastVersion + index + 1;
+			const updatedEvent = {
+				...event,
+				version: lastVersion + index + 1
+			};
+			events[index] = updatedEvent;
 		});
 
 		this.events.set(aggregateId, [...existing, ...events]);

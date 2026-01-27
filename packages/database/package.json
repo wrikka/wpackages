@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.3.6",
-    "oxlint": "^1.41.0"
+    "oxlint": "^1.42.0"
   },
   "publishConfig": {
     "access": "restricted"

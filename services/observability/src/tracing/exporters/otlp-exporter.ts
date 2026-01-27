@@ -1,18 +1,18 @@
 import type { Span } from "../types/tracing";
 import type { SpanExporter } from "../types/tracing";
 import type {
+	OtlpAnyValue,
 	OtlpExporterConfig,
 	OtlpExportSpansRequest,
+	OtlpInstrumentationLibrary,
+	OtlpKeyValue,
+	OtlpResource,
 	OtlpResourceSpans,
 	OtlpSpan,
-	OtlpSpanKind,
-	OtlpStatusCode,
-	OtlpKeyValue,
-	OtlpAnyValue,
 	OtlpSpanEvent,
+	OtlpSpanKind,
 	OtlpSpanLink,
-	OtlpInstrumentationLibrary,
-	OtlpResource,
+	OtlpStatusCode,
 } from "./otlp-types";
 
 const DEFAULT_CONFIG: Partial<OtlpExporterConfig> = {
