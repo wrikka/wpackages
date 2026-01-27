@@ -64,7 +64,7 @@ export const TranslationResult = Schema.Struct({
 
 export type TranslationResult = Schema.Schema.Type<typeof TranslationResult>;
 
-export const TranslationError = Schema.Union(
+export const TranslationErrorSchema = Schema.Union(
 	Schema.Struct({
 		_tag: Schema.Literal("UnsupportedLanguage"),
 		message: Schema.String,
@@ -86,4 +86,4 @@ export const TranslationError = Schema.Union(
 	}),
 );
 
-export type TranslationError = Schema.Schema.Type<typeof TranslationError>;
+export type TranslationErrorSchema = Schema.Schema.Type<typeof TranslationErrorSchema>;

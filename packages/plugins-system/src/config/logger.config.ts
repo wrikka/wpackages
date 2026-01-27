@@ -84,7 +84,7 @@ export const createPluginLogger = (
 			formatted += ` ${JSON.stringify(context)}`;
 		}
 		if (error) {
-			formatted += `\n${error instanceof Error ? (error.stack ?? error.message) : String(error)}`;
+			formatted += `\n${error instanceof Error ? (error.stack ?? error.message) : error?.toString() ?? 'Unknown error'}`;
 		}
 		return formatted;
 	};

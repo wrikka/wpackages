@@ -1,4 +1,4 @@
-import { picocolors } from "picocolors";
+import picocolors from "picocolors";
 
 export const printSuccess = (message: string): void => {
 	console.log(picocolors.green("✓"), message);

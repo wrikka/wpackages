@@ -1,7 +1,6 @@
 import type {
 	CLICommand,
 	CLIConfig,
-	CLIOption,
 	CLIRunResult,
 	CLITool,
 } from "../types/cli.types";

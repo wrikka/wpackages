@@ -17,7 +17,7 @@ export const createTelemetryManager = (
 	const events: TelemetryEvent[] = [];
 	const usageStats: Map<string, UsageStats> = new Map();
 	const featureUsage: Map<string, FeatureUsage[]> = new Map();
-	let flushTimer: ReturnType<typeof setInterval> | null = null;
+	let _flushTimer: ReturnType<typeof setInterval> | null = null;
 
 	const track = async (event: TelemetryEvent): Promise<void> => {
 		if (!config.enabled) return;
@@ -40,9 +40,12 @@ export const createTelemetryManager = (
 			lastUsedAt: new Date(),
 		};
 
-		stats.errorCount++;
-		stats.lastUsedAt = new Date();
-		usageStats.set(pluginId, stats);
+		const updatedStats = {
+			...stats,
+			errorCount: stats.errorCount + 1,
+			lastUsedAt: new Date(),
+		};
+		usageStats.set(pluginId, updatedStats);
 
 		await track({
 			pluginId,
@@ -60,8 +63,12 @@ export const createTelemetryManager = (
 		const existing = features.find((f) => f.feature === feature);
 
 		if (existing) {
-			existing.usageCount++;
-			existing.lastUsedAt = new Date();
+			const updated = {
+				...existing,
+				usageCount: existing.usageCount + 1,
+				lastUsedAt: new Date(),
+			};
+			features[features.indexOf(existing)] = updated;
 		} else {
 			features.push({
 				pluginId,
@@ -139,7 +146,7 @@ export const createTelemetryManager = (
 	};
 
 	if (config.flushIntervalMs > 0) {
-		flushTimer = setInterval(flush, config.flushIntervalMs);
+		_flushTimer = setInterval(flush, config.flushIntervalMs);
 	}
 
 	return Object.freeze({

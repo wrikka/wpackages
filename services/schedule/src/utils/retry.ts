@@ -1,4 +1,4 @@
-import { Effect, Option } from "effect";
+import { Effect } from "effect";
 import type { RetryConfig } from "../types/job";
 
 export const calculateBackoffDelay = (
@@ -23,14 +23,14 @@ export const calculateBackoffDelay = (
 export const withRetry = <A, E>(
 	effect: Effect.Effect<A, E>,
 	config: RetryConfig,
-): Effect.Effect<A, E> => {
+): Effect.Effect<A, E | Error> => {
 	return Effect.gen(function* () {
-		let lastError: E | undefined;
+		let lastError: E | Error | undefined;
 
 		for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
 			const result = yield* Effect.either(effect);
 
-			if (Effect.isEitherSuccess(result)) {
+			if (result._tag === "Right") {
 				return result.right;
 			}
 
@@ -42,10 +42,7 @@ export const withRetry = <A, E>(
 			}
 		}
 
-		return yield* Option.match(Option.fromNullable(lastError), {
-			onNone: () => Effect.fail(new Error("Retry failed without error")),
-			onSome: (err: E) => Effect.fail(err),
-		});
+		return yield* Effect.fail(lastError || new Error("Max retries exceeded"));
 	});
 };
 

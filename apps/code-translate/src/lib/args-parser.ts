@@ -20,47 +20,52 @@ export const parseArgs = (args: readonly string[]): Effect.Effect<ParsedArgs, ne
 				return result;
 			}
 
-			if (arg === "--analyze") {
-				result.analyze = true;
-				continue;
-			}
+      if (arg === "--analyze") {
+        result.analyze = true;
+        continue;
+      }
 
-			if (arg === "--from" && args[i + 1]) {
-				if (!result.request) result.request = {} as TranslationRequest;
-				result.request.sourceLanguage = args[i + 1] as any;
-				i++;
-				continue;
-			}
+      if (arg === "--from" && args[i + 1]) {
+        if (!result.request) result.request = {} as TranslationRequest;
+        (result.request as any).sourceLanguage = args[i + 1] as any;
+        i++;
+        continue;
+      }
 
-			if (arg === "--to" && args[i + 1]) {
-				if (!result.request) result.request = {} as TranslationRequest;
-				result.request.targetLanguage = args[i + 1] as any;
-				i++;
-				continue;
-			}
+      if (arg === "--to" && args[i + 1]) {
+        if (!result.request) result.request = {} as TranslationRequest;
+        (result.request as any).targetLanguage = args[i + 1] as any;
+        i++;
+        continue;
+      }
 
-			if (arg === "--code" && args[i + 1]) {
-				if (!result.request) result.request = {} as TranslationRequest;
-				result.request.sourceCode = args[i + 1];
-				i++;
-				continue;
-			}
+      if (arg === "--code" && args[i + 1]) {
+        if (!result.request) result.request = {} as TranslationRequest;
+        (result.request as any).sourceCode = args[i + 1];
+        i++;
+        continue;
+      }
 
-			if (arg === "--file" && args[i + 1]) {
-				if (!result.request) result.request = {} as TranslationRequest;
-				try {
-					result.request.sourceCode = Bun.file(args[i + 1]).text();
-				} catch {
-					printError(`Failed to read file: ${args[i + 1]}`);
-					process.exit(1);
-				}
-				i++;
-				continue;
-			}
-		}
+      if (arg === "--file" && args[i + 1]) {
+        if (!result.request) result.request = {} as TranslationRequest;
+        try {
+          const filePath = args[i + 1];
+          if (!filePath) {
+            printError("File path is required");
+            process.exit(1);
+          }
+          (result.request as any).sourceCode = Bun.file(filePath).text();
+        } catch {
+          printError(`Failed to read file: ${args[i + 1]}`);
+          process.exit(1);
+        }
+        i++;
+        continue;
+      }
+    }
 
-		return result;
-	});
+    return result;
+  });
 };
 
 export const printHelp = (): void => {

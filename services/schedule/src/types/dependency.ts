@@ -2,14 +2,14 @@ import type { Job } from "./job";
 
 export type DependencyType = "success" | "completion" | "failure";
 
-export interface JobDependency {
+export interface JobDependencyRelation {
 	readonly jobId: string;
 	readonly type: DependencyType;
 }
 
 export interface DependencyGraph {
 	readonly nodes: ReadonlyMap<string, Job>;
-	readonly edges: ReadonlyMap<string, ReadonlyArray<JobDependency>>;
+	readonly edges: ReadonlyMap<string, ReadonlyArray<JobDependencyRelation>>;
 }
 
 export interface DependencyResolution {

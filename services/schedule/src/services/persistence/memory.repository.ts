@@ -246,7 +246,7 @@ const makeMetricsRepository = Effect.gen(function* () {
 				map.set(jobId, updated);
 				return map;
 			});
-		});
+		}).pipe(Effect.mapError(() => new Error("Failed to update metrics")) as any);
 
 	const resetMetrics = (jobId: string) =>
 		Ref.update(metrics, (map) => {

@@ -3,7 +3,9 @@ export const extractImports = (code: string): string[] => {
 	const imports: string[] = [];
 	let match;
 	while ((match = importRegex.exec(code)) !== null) {
-		imports.push(match[1]);
+		if (match[1]) {
+			imports.push(match[1]);
+		}
 	}
 	return imports;
 };
@@ -13,7 +15,9 @@ export const extractComments = (code: string): string[] => {
 	const comments: string[] = [];
 	let match;
 	while ((match = commentRegex.exec(code)) !== null) {
-		comments.push(match[1].trim());
+		if (match[1]) {
+			comments.push(match[1].trim());
+		}
 	}
 	return comments;
 };
@@ -43,7 +47,9 @@ export const extractClasses = (code: string): string[] => {
 	const classes: string[] = [];
 	let match;
 	while ((match = classRegex.exec(code)) !== null) {
-		classes.push(match[1]);
+		if (match[1]) {
+			classes.push(match[1]);
+		}
 	}
 	return classes;
 };
@@ -53,7 +59,9 @@ export const extractInterfaces = (code: string): string[] => {
 	const interfaces: string[] = [];
 	let match;
 	while ((match = interfaceRegex.exec(code)) !== null) {
-		interfaces.push(match[1]);
+		if (match[1]) {
+			interfaces.push(match[1]);
+		}
 	}
 	return interfaces;
 };
@@ -72,7 +80,7 @@ export const countWords = (code: string): number => {
 
 export const detectIndentation = (code: string): string => {
 	const match = code.match(/^(\s*)/m);
-	if (!match) return "  ";
+	if (!match || !match[1]) return "  ";
 	const indent = match[1];
 	if (indent.includes("\t")) return "\t";
 	return " ".repeat(Math.max(2, indent.length));

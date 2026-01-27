@@ -120,12 +120,12 @@ export const createAdvancedEventBus = (): AdvancedEventBus => {
 		persistenceEnabled = true;
 	};
 
-	const disablePersistence = (): void => {
+	const disablePersistence = async (): Promise<void> => {
 		persistenceEnabled = false;
 		storageDir = null;
 	};
 
-	const persistEvent = async (event: PersistedEvent): Promise<void> => {
+	const persistEvent = async (_event: PersistedEvent): Promise<void> => {
 	};
 
 	const replay = async (options: EventReplayOptions): Promise<readonly PersistedEvent[]> => {

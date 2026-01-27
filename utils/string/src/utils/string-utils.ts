@@ -139,7 +139,7 @@ export const shuffle = (s: string): string => {
 	const arr = s.split("");
 	for (let i = arr.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		[arr[i], arr[j]] = [arr[j], arr[i]];
+		[arr[i]!, arr[j]!] = [arr[j]!, arr[i]!];
 	}
 	return arr.join("");
 };
@@ -429,20 +429,24 @@ export const distance = (s1: string, s2: string): number => {
 	const n = s2.length;
 	const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
 
-	for (let i = 0; i <= m; i++) dp[i][0] = i;
-	for (let j = 0; j <= n; j++) dp[0][j] = j;
+	for (let i = 0; i <= m; i++) dp[i]![0] = i;
+	for (let j = 0; j <= n; j++) dp[0]![j] = j;
 
 	for (let i = 1; i <= m; i++) {
 		for (let j = 1; j <= n; j++) {
 			if (s1[i - 1] === s2[j - 1]) {
-				dp[i][j] = dp[i - 1][j - 1];
+				dp[i]![j] = dp[i - 1]![j - 1];
 			} else {
-				dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+				dp[i]![j] = Math.min(
+					dp[i - 1]![j]! + 1,
+					dp[i]![j - 1]! + 1,
+					dp[i - 1]![j - 1]! + 1,
+				);
 			}
 		}
 	}
 
-	return dp[m][n];
+	return dp[m]![n]!;
 };
 
 export const similarity = (s1: string, s2: string): number => {
@@ -481,11 +485,11 @@ export const soundex = (s: string): string => {
 	const cleaned = s.toUpperCase().replace(/[^A-Z]/g, "");
 	if (cleaned.length === 0) return "";
 
-	let result = cleaned[0];
-	let previousCode = soundexMap[cleaned[0]] ?? "";
+	let result = cleaned[0]!;
+	let previousCode = soundexMap[cleaned[0]!] ?? "";
 
 	for (let i = 1; i < cleaned.length; i++) {
-		const char = cleaned[i];
+		const char = cleaned[i]!;
 		const code = soundexMap[char] ?? "";
 		if (code !== "" && code !== previousCode) {
 			result += code;
@@ -659,7 +663,7 @@ export const crc32 = (s: string): number => {
 	let crc = 0 ^ -1;
 	for (let i = 0; i < s.length; i++) {
 		const byte = s.charCodeAt(i);
-		crc = (crc >>> 8) ^ crc32Table[(crc ^ byte) & 0xff];
+		crc = (crc >>> 8) ^ crc32Table[(crc ^ byte) & 0xff]!];
 	}
 	return (crc ^ -1) >>> 0;
 };

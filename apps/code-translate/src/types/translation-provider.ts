@@ -1,16 +1,16 @@
 import { Effect } from "effect";
-import type { TranslationRequest, TranslationResult, TranslationError } from "./translation";
+import type { TranslationRequest, TranslationResult, TranslationErrorSchema } from "./translation";
 
 export interface TranslationProvider {
 	readonly name: string;
-	readonly translate: (request: TranslationRequest) => Effect.Effect<TranslationResult, TranslationError>;
+	readonly translate: (request: TranslationRequest) => Effect.Effect<TranslationResult, TranslationErrorSchema>;
 }
 
 export class MockTranslationProvider implements TranslationProvider {
 	readonly name = "Mock";
 
-	translate(request: TranslationRequest): Effect.Effect<TranslationResult, TranslationError> {
-		return Effect.gen(function* () {
+	translate(request: TranslationRequest): Effect.Effect<TranslationResult, TranslationErrorSchema> {
+		return Effect.gen(function* (this: MockTranslationProvider) {
 			yield* Effect.logInfo(`Translating from ${request.sourceLanguage} to ${request.targetLanguage} using ${this.name}`);
 
 			const translatedCode = yield* this.performTranslation(request);
@@ -28,7 +28,7 @@ export class MockTranslationProvider implements TranslationProvider {
 		}).pipe(Effect.provideService(this));
 	}
 
-	private performTranslation(request: TranslationRequest): Effect.Effect<string, TranslationError> {
+	private performTranslation(request: TranslationRequest): Effect.Effect<string, TranslationErrorSchema> {
 		return Effect.tryPromise({
 			try: async () => {
 				await new Promise((resolve) => setTimeout(resolve, 100));

@@ -76,9 +76,9 @@ describe("Retry Utils", () => {
 		}).pipe(Effect.runSync));
 
 	it("should determine if should retry", () => {
-		assert.strictEqual(shouldRetry(new Error("test"), fixedConfig), true);
+		assert.strictEqual(shouldRetry(fixedConfig), true);
 		assert.strictEqual(
-			shouldRetry(new Error("test"), { ...fixedConfig, maxRetries: 0 }),
+			shouldRetry({ ...fixedConfig, maxRetries: 0 }),
 			false,
 		);
 	});
