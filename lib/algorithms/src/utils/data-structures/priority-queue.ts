@@ -30,3 +30,7 @@ export const pqDequeue = <T>(queue: PriorityQueue<T>): T | undefined => {
 export const pqSize = <T>(queue: PriorityQueue<T>): number => {
 	return queue.size();
 };
+
+export const pqIsEmpty = <T>(queue: PriorityQueue<T>): boolean => {
+	return queue.size() === 0;
+};

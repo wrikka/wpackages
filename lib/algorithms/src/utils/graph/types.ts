@@ -2,6 +2,10 @@ export interface SimpleGraph {
 	[key: string]: string[];
 }
 
+export interface Graph {
+	[key: string]: string[];
+}
+
 export interface Edge {
 	from: string;
 	to: string;

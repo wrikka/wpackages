@@ -4,8 +4,8 @@ import {
 	pqEnqueue,
 	pqIsEmpty,
 	type PriorityQueue,
-	type WeightedGraph,
-} from "@wpackages/data-structure";
+} from "../data-structures";
+import { type WeightedGraph } from "../data-structures";
 
 export interface DijkstraResult {
 	distances: Record<string, number>;

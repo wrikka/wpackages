@@ -23,18 +23,16 @@ const calculateFrequencies = (text: string): Map<string, number> => {
 
 // Build the Huffman Tree
 const buildHuffmanTree = (freqMap: Map<string, number>): HuffmanNode | null => {
-	let pq = createPriorityQueue<HuffmanNode>();
+	const pq = createPriorityQueue<HuffmanNode>();
 
 	for (const [char, freq] of freqMap.entries()) {
 		const node: HuffmanNode = { char, freq, left: null, right: null };
-		pq = pqEnqueue(pq, node, freq);
+		pqEnqueue(pq, node, freq);
 	}
 
 	while (pqSize(pq) > 1) {
-		let leftNode: any, rightNode: any;
-
-		[leftNode, pq] = pqDequeue(pq);
-		[rightNode, pq] = pqDequeue(pq);
+		const leftNode = pqDequeue(pq);
+		const rightNode = pqDequeue(pq);
 
 		if (leftNode && rightNode && 'freq' in leftNode && 'freq' in rightNode) {
 			const newNode: HuffmanNode = {
@@ -43,11 +41,11 @@ const buildHuffmanTree = (freqMap: Map<string, number>): HuffmanNode | null => {
 				left: leftNode as HuffmanNode,
 				right: rightNode as HuffmanNode,
 			};
-			pq = pqEnqueue(pq, newNode, newNode.freq);
+			pqEnqueue(pq, newNode, newNode.freq);
 		}
 	}
 
-	const [rootNode] = pqDequeue(pq);
+	const rootNode = pqDequeue(pq);
 	return rootNode as HuffmanNode ?? null;
 };
 
