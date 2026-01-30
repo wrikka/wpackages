@@ -1,0 +1,10 @@
+{
+    "extends": [
+        "../../.oxlintrc.json"
+    ],
+    "rules": {
+        "no-console": "warn",
+        "prefer-const": "error",
+        "no-var": "error"
+    }
+}

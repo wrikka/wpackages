@@ -1,0 +1,11 @@
+{
+	"extends": "./../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"paths": {
+			"@w/design-pattern": ["../../utils/design-pattern/src"]
+		}
+	},
+	"include": ["src/**/*", "src"],
+	"exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.usage.ts"]
+}

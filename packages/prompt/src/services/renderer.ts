@@ -1,0 +1,25 @@
+import { Instance, render } from "ink";
+import React from "react";
+
+class Renderer {
+	private instance: Instance | null = null;
+
+	public render(node: React.ReactElement) {
+		if (this.instance) {
+			this.instance.rerender(node);
+		} else {
+			this.instance = render(node);
+		}
+	}
+
+	public unmount() {
+		this.instance?.unmount();
+		this.instance = null;
+	}
+
+	public cleanup() {
+		this.instance?.cleanup();
+	}
+}
+
+export const renderer = new Renderer();

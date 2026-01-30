@@ -1,0 +1,58 @@
+{
+	"name": "@wpackages/devserver",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"description": "Advanced development server with hot module replacement, built to be better than Vite's dev server",
+	"keywords": [
+		"dev-server",
+		"hot-reload",
+		"development",
+		"server",
+		"typescript"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": ["dist", "README.md"],
+	"scripts": {
+		"build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --external @wpackages/webserver && tsc --emitDeclarationOnly",
+		"dev": "tsc --noEmit --watch",
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"test:coverage": "bun test --coverage",
+		"lint": "oxlint --fix --type-aware",
+		"verify": "bun run lint && bun run test:coverage && bun run build"
+	},
+	"dependencies": {
+		"@shikijs/markdown-it": "^3.21.0",
+		"@wpackages/webserver": "workspace:*",
+		"glob": "^13.0.0",
+		"h3": "^1.15.5",
+		"jose": "^6.1.3",
+		"markdown-it": "^14.1.0",
+		"node-cron": "^4.2.1",
+		"picocolors": "^1.1.1",
+		"shiki": "^3.21.0",
+		"unocss": "^66.6.0",
+		"unplugin-icons": "^22.5.0",
+		"unstorage": "^1.17.4",
+		"ws": "^8.19.0"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.3.7",
+		"@types/chokidar": "^1.7.5",
+		"@types/node": "^25.1.0",
+		"@types/ws": "^8.18.1",
+		"chokidar": "^5.0.0",
+		"oxlint": "1.36.0",
+		"oxlint-tsgolint": "0.10.1",
+		"typescript": "^5.9.3"
+	}
+}

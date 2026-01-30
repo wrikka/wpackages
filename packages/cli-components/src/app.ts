@@ -1,0 +1,1 @@
+export { runBenchmark } from "./benchmark";

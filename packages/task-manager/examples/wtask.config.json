@@ -1,0 +1,30 @@
+{
+	"paths": ["~/.gitconfig", "./package.json"],
+	"tasks": [
+		{
+			"id": "node-info",
+			"type": "command",
+			"name": "Node.js Info",
+			"description": "Show Node.js and npm versions",
+			"command": "node --version && npm --version || echo N/A",
+			"category": "system"
+		},
+		{
+			"id": "web-search",
+			"type": "browser",
+			"name": "Web Search",
+			"description": "Search on various websites",
+			"options": [
+				{
+					"name": "Google",
+					"url": "https://www.google.com/search?q=%query%"
+				},
+				{
+					"name": "YouTube",
+					"url": "https://www.youtube.com/results?search_query=%query%"
+				}
+			],
+			"category": "web"
+		}
+	]
+}

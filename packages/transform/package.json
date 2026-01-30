@@ -1,0 +1,47 @@
+{
+	"name": "@wpackages/transform",
+	"version": "0.1.0",
+	"description": "Universal document transformer - Convert between MD, TS, TOML, JSON formats using OXC parser",
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"keywords": [
+		"transform",
+		"parser",
+		"ast",
+		"oxc",
+		"markdown",
+		"typescript",
+		"toml",
+		"json",
+		"converter",
+		"functional"
+	],
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "bun --watch src/index.ts",
+		"lint": "oxlint --fix --type-aware",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"verify": "bun run format && bun run lint && bun run build && bun run test"
+	},
+	"dependencies": {
+		"@iarna/toml": "^2.2.5",
+		"@wpackages/parser": "workspace:*",
+		"effect": "^3.19.15",
+		"markdown-it": "^14.1.0"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/markdown-it": "^14.1.2",
+		"@types/node": "^24.10.9",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.18"
+	}
+}
