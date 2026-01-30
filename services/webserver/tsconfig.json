@@ -10,7 +10,8 @@
     "rootDir": "./src"
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/generated/auto-imports.d.ts"
   ],
   "exclude": [
     "node_modules",
@@ -19,7 +20,11 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../../packages/schema" },
-    { "path": "../../packages/http-server" }
+    {
+      "path": "../../packages/schema"
+    },
+    {
+      "path": "../../packages/http-server"
+    }
   ]
 }
