@@ -1,5 +1,13 @@
 {
-	"name": "@wpackages/example-native-lib",
-	"version": "0.0.0",
-	"private": true
+  "name": "@wpackages/example-native-lib",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "watch": "bun --watch src/index.ts",
+    "dev": "bun run src/index.ts",
+    "format": "dprint fmt",
+    "lint": "oxlint --fix",
+    "test": "vitest run",
+    "build": "tsdown --exports --dts --minify"
+  }
 }

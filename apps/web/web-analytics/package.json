@@ -1,5 +1,5 @@
 {
-	"name": "@wpackages/analytics-app",
+	"name": "@wpackages/web-analytics",
 	"version": "0.0.1",
 	"private": true,
 	"description": "Analytics service with Effect-TS for event tracking and batch sending",
@@ -10,7 +10,10 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md"],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"watch": "bun --watch verify",
 		"dev": "bun run src/main.ts",

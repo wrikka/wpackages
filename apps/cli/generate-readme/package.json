@@ -1,20 +1,23 @@
 {
-	"name": "@wpackages/generate-readme",
-	"version": "1.0.0",
-	"private": true,
-	"description": "",
-	"main": "src/index.ts",
-	"scripts": {
-		"dev": "bun run src/index.ts",
-		"build": "bun build src/index.ts --outdir dist",
-		"start": "bun run dist/index.js",
-		"lint": "oxlint --fix --type-aware"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"@types/node": "^20.19.30",
-		"typescript": "^5.9.3"
-	}
+  "name": "@wpackages/generate-readme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "start": "bun run dist/index.js",
+    "lint": "oxlint --fix --type-aware",
+    "watch": "bun --watch src/index.ts",
+    "format": "dprint fmt",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.19.30",
+    "typescript": "^5.9.3"
+  }
 }

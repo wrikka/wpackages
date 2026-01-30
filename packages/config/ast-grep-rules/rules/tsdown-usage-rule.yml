@@ -1,0 +1,10 @@
+id: tsdown-usage-rule
+language: typescript
+rule:
+  pattern: import { $$$IMPORTS } from "tsdown"
+
+  message: |
+    When building Vite plugins with Node.js built-in modules, use tsdown for proper bundling.
+    This ensures compatibility with Node.js environments and proper module resolution.
+
+severity: suggestion

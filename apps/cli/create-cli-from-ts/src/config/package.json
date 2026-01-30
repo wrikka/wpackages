@@ -30,7 +30,8 @@
     "binary": "bun run build && bun run binary:prepare && bun run binary:package",
     "sea:prepare": "node --experimental-sea-config sea-config.json",
     "sea:package": "npx postject ./dist/index.js NODE_SEA_BLOB ./dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2",
-    "sea": "bun run build && bun run sea:prepare && bun run sea:package"
+    "sea": "bun run build && bun run sea:prepare && bun run sea:package",
+    "watch": "bun --watch src/index.ts"
   },
   "dependencies": {
     "@wpackages/cli-builder": "workspace:*"

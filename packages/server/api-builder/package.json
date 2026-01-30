@@ -1,25 +1,27 @@
 {
-	"name": "@wpackages/api-builder",
-	"version": "0.0.1",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"dev": "bun run examples/app.ts",
-		"build": "bun build src/index.ts --outdir dist",
-		"lint": "echo 'lint not configured'",
-		"test": "bun test"
-	},
-	"dependencies": {
-		"@effect/schema": "^0.75.5",
-		"effect": "^3.19.15"
-	},
-	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^8.54.0",
-		"@typescript-eslint/parser": "^8.54.0",
-		"bun-types": "latest",
-		"eslint": "^9.39.2"
-	},
-	"engines": {
-		"bun": ">= 1.0.0"
-	}
+  "name": "@wpackages/api-builder",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run examples/app.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "lint": "echo 'lint not configured'",
+    "test": "bun test",
+    "watch": "bun --watch src/index.ts",
+    "format": "dprint fmt"
+  },
+  "dependencies": {
+    "@effect/schema": "^0.75.5",
+    "effect": "^3.19.15"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "bun-types": "latest",
+    "eslint": "^9.39.2"
+  },
+  "engines": {
+    "bun": ">= 1.0.0"
+  }
 }

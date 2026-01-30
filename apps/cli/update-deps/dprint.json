@@ -1,0 +1,15 @@
+{
+  "typescript": {
+    "semiColons": "asi",
+    "quoteStyle": "alwaysSingle",
+    "trailingCommas": "onlyMultiLine"
+  },
+  "json": {
+    "indentWidth": 2
+  },
+  "markdown": {
+    "lineWidth": 100
+  },
+  "includes": ["**/*.{ts,tsx,js,jsx,json,md}"],
+  "excludes": ["**/node_modules", "**/dist", "**/coverage"]
+}

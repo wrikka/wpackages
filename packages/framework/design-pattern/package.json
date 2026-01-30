@@ -9,7 +9,10 @@
     "lint": "oxlint --fix",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "check": "oxlint && vitest run"
+    "check": "oxlint && vitest run",
+    "watch": "bun --watch src/index.ts",
+    "dev": "bun run src/index.ts",
+    "build": "tsdown --exports --dts --minify"
   },
   "dependencies": {},
   "devDependencies": {}

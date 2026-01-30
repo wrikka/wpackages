@@ -1,0 +1,30 @@
+{
+  "name": "@wpackages/update-deps",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Update dependencies CLI - Better than taze using bun native API",
+  "bin": {
+    "update-deps": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "bun build --compile --outfile ./dist/update-deps ./src/index.ts",
+    "dev": "bun run --hot ./src/index.ts",
+    "format": "dprint fmt",
+    "lint": "oxlint --fix --type-aware",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:cov": "vitest --coverage",
+    "check": "oxlint --fix --type-aware && vitest run",
+    "watch": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "cli-table3": "^0.6.5",
+    "ora": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.8",
+    "oxlint": "^1.42.0",
+    "vitest": "^4.0.18"
+  }
+}

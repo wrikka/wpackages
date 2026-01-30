@@ -1,49 +1,50 @@
 {
-	"name": "@wpackages/github",
-	"version": "0.0.1",
-	"private": true,
-	"type": "module",
-	"main": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
-	"bin": {
-		"github-sync": "./dist/index.mjs"
-	},
-	"scripts": {
-		"start": "bun run dev",
-		"dev": "bun run src/index.ts",
-		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
-		"audit": "bun audit --production",
-		"build": "tsdown",
-		"test": "vitest --run",
-		"verify": "bun run format && bun run lint && bun run test && bun run build"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@clack/prompts": "^0.11.0",
-		"@wpackages/cli-components": "workspace:*",
-		"@wpackages/prompt": "workspace:*",
-		"commander": "^14.0.2",
-		"dotenv": "^17.2.3",
-		"octokit": "^5.0.5",
-		"openai": "^6.17.0",
-		"picocolors": "^1.1.1"
-	},
-	"devDependencies": {
-		"@types/node": "^25.1.0",
-		"dprint": "^0.50.2",
-		"oxlint": "^1.42.0",
-		"tsdown": "^0.18.4",
-		"tsx": "^4.21.0",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.18"
-	},
-	"module": "./dist/index.mjs",
-	"exports": {
-		".": "./dist/index.mjs",
-		"./package.json": "./package.json"
-	},
-	"packageManager": "bun@1.3.8"
+  "name": "@wpackages/github-cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "bin": {
+    "github-sync": "./dist/index.mjs"
+  },
+  "scripts": {
+    "start": "bun run dev",
+    "dev": "bun run src/index.ts",
+    "format": "dprint fmt",
+    "lint": "oxlint --fix --type-aware",
+    "audit": "bun audit --production",
+    "build": "tsdown",
+    "test": "vitest --run",
+    "verify": "bun run format && bun run lint && bun run test && bun run build",
+    "watch": "bun --watch src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "@wpackages/cli-components": "workspace:*",
+    "@wpackages/prompt": "workspace:*",
+    "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
+    "octokit": "^5.0.5",
+    "openai": "^6.17.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "dprint": "^0.50.2",
+    "oxlint": "^1.42.0",
+    "tsdown": "^0.18.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "packageManager": "bun@1.3.8"
 }

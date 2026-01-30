@@ -32,7 +32,7 @@
 		"verify": "bun run format && bun audit && bun run lint && bun run test:coverage && bun run build"
 	},
 	"dependencies": {
-		"@wpackages/github": "workspace:*",
+		"@wpackages/github-cli": "workspace:*",
 		"effect": "^3.19.15"
 	},
 	"devDependencies": {

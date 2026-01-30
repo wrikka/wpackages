@@ -1,5 +1,5 @@
 {
-	"name": "@wpackages/macros-vue",
+	"name": "@wpackages/vue",
 	"description": "A collection of useful Vue macros",
 	"version": "0.0.1",
 	"private": true,

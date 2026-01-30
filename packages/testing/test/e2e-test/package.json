@@ -1,5 +1,5 @@
 {
-  "name": "e2e-test",
+  "name": "@wpackages/e2e-test",
   "private": true,
   "type": "module",
   "bin": {
@@ -7,7 +7,12 @@
   },
   "scripts": {
     "test": "bun run ./src/cli.ts test",
-    "ui": "bun run ./src/cli.ts ui"
+    "ui": "bun run ./src/cli.ts ui",
+    "watch": "bun --watch src/index.ts",
+    "dev": "bun run src/index.ts",
+    "format": "dprint fmt",
+    "lint": "oxlint --fix",
+    "build": "tsdown --exports --dts --minify"
   },
   "devDependencies": {
     "fast-glob": "^3.3.3",

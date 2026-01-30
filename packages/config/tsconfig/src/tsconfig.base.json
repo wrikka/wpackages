@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    // Language and Environment - Modern
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext"
+    ],
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    // Type Safety - Strict Mode
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useUnknownInCatchVariables": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noUncheckedSideEffectImports": true,
+    // Module & Interop
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    // Performance & Productivity
+    "skipLibCheck": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    // Emit
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    // Unused Code
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnreachableCode": false,
+    "allowUnusedLabels": false,
+    // Monorepo Paths
+    "paths": {
+      "@wpackages/*": [
+        "../../../packages/*/src",
+        "../../../utils/*/src",
+        "../../../services/*/src",
+        "../../../apps/*/src"
+      ],
+      "@w/*": [
+        "../../../rules/*"
+      ]
+    }
+  }
+}

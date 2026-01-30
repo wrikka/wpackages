@@ -1,0 +1,22 @@
+{
+	"extends": "./../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strict": false,
+		"strictNullChecks": true,
+		"skipLibCheck": true,
+		"noEmit": true
+	},
+	"exclude": [
+		"node_modules",
+		"dist",
+		"test"
+	],
+	"include": [
+		"package.json",
+		"scripts.config.ts",
+		"src/check"
+	]
+}
