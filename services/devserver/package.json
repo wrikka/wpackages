@@ -20,16 +20,13 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
-		"build": "tsdown --dts --minify",
+		"build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --sourcemap inline --minify --external @wpackages/webserver",
 		"dev": "tsc --noEmit --watch",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"test:coverage": "vitest run --coverage",
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"test:coverage": "bun test --coverage",
 		"lint": "oxlint --fix --type-aware",
 		"verify": "bun run lint && bun run test:coverage && bun run build"
 	},
@@ -53,13 +50,9 @@
 		"@types/chokidar": "^1.7.5",
 		"@types/node": "^25.1.0",
 		"@types/ws": "^8.18.1",
-		"@vitest/coverage-istanbul": "^4.0.18",
 		"chokidar": "^5.0.0",
 		"oxlint": "1.36.0",
 		"oxlint-tsgolint": "0.10.1",
-		"tsdown": "^0.18.4",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.18",
-		"ws": "^8.19.0"
+		"typescript": "^5.9.3"
 	}
 }

@@ -2,8 +2,18 @@
 	"extends": "./../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "./dist",
-		"rootDir": "./src"
+		"rootDir": "./src",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true
 	},
-	"include": ["src/**/*", "src"],
-	"exclude": ["node_modules", "dist", "coverage", "vitest.config.ts"]
+	"include": [
+		"src/**/*",
+		"src"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"coverage"
+	]
 }
