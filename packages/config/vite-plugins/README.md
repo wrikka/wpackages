@@ -1,104 +1,35 @@
-# @wpackages/vite-plugins
+# vite-plugins
 
-Collection of Vite plugins organized by category, following @[/follow-vite] workflow.
+Package for vite-plugins
 
 ## Installation
 
 ```bash
 bun install
-bun run build
 ```
-
-## Structure
-
-- `base.ts` - Base plugins used in all projects
-- `checker.ts` - Code checking plugins (TypeScript, ESLint, Oxlint)
-- `development.ts` - Development plugins (TurboConsole, Terminal, Inspect)
-- `build.ts` - Build plugins (Analyzer, Unused)
 
 ## Usage
 
-### Use All Plugins
-
-```ts
-import { defineConfig } from 'vite';
-import { allPlugins } from '@wpackages/vite-plugins';
-
-export default defineConfig({
-  plugins: allPlugins({
-    base: {
-      framework: 'vue',
-      autoImportImports: ['vue', 'vue-router'],
-      autoImportDts: true,
-      iconsAutoInstall: true,
-    },
-    checker: {
-      typescript: true,
-      eslint: true,
-      oxlint: true,
-      vueTsc: true,
-    },
-    development: {
-      turboConsole: true,
-      terminal: true,
-      inspect: true,
-    },
-    build: {
-      analyzer: false,
-      unused: true,
-    },
-  }),
-});
+```bash
+bun run dev
 ```
 
-### Use by Category
+## Development
 
-```ts
-import { defineConfig } from 'vite';
-import { basePlugins, checkerPlugins, developmentPlugins, buildPlugins } from '@wpackages/vite-plugins';
-
-export default defineConfig({
-  plugins: [
-    ...basePlugins({ framework: 'vue' }),
-    ...developmentPlugins(),
-    ...buildPlugins(),
-    ...checkerPlugins({ vueTsc: true }),
-  ],
-});
+```bash
+bun run build
+bun run test
 ```
 
-### Use Specific Plugins
+## Available Scripts
 
-```ts
-import { defineConfig } from 'vite';
-import { basePlugins } from '@wpackages/vite-plugins/base';
+- `build`: tsc
+- `dev`: tsc --watch
+- `watch`: bun --watch src/index.ts
+- `format`: dprint fmt
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `test`: vitest run
 
-export default defineConfig({
-  plugins: basePlugins({ framework: 'vue' }),
-});
-```
+## License
 
-## Included Plugins
-
-### Base Plugins
-- `nitro` - Nitro integration
-- `@unocss/vite` - UnoCSS
-- `unplugin-auto-import` - Auto import APIs
-- `unplugin-ast` - AST transformations
-- `unplugin-icons` - Icon components
-- `unplugin-isolated-decl` - Isolated declarations
-- `unplugin-macros` - Macros
-- `unplugin-replace` - Replace strings
-- `vite-tsconfig-paths` - TypeScript paths
-
-### Checker Plugins
-- `vite-plugin-checker` - TypeScript, ESLint, Oxlint, VueTSC
-
-### Development Plugins
-- `unplugin-turbo-console` - Turbo console
-- `vite-plugin-terminal` - Terminal in browser
-- `vite-plugin-inspect` - Inspect plugins
-
-### Build Plugins
-- `vite-bundle-analyzer` - Bundle analyzer
-- `unplugin-unused` - Unused code detection
+MIT

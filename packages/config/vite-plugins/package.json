@@ -15,7 +15,7 @@
 		"dev": "tsc --watch",
 		"watch": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"test": "vitest run"
 	},
 	"dependencies": {
