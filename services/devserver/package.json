@@ -22,7 +22,7 @@
 	},
 	"files": ["dist", "README.md"],
 	"scripts": {
-		"build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --sourcemap inline --minify --external @wpackages/webserver",
+		"build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --external @wpackages/webserver && tsc --emitDeclarationOnly",
 		"dev": "tsc --noEmit --watch",
 		"test": "bun test",
 		"test:watch": "bun test --watch",
