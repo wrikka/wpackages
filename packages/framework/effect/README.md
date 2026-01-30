@@ -1,61 +1,38 @@
-# @wpackages/effect
+# effect
 
-A lightweight, type-safe functional effect system better than Effect-TS.
+Package for effect
 
-## Features
-
-- **Type-safe**: Full TypeScript type inference with no compromises
-- **Lightweight**: Minimal bundle size, optimized for Bun
-- **Simple API**: Easy to learn and use, no complex abstractions
-- **Powerful**: Supports async, error handling, dependency injection, and resilience patterns
-- **Composable**: Functional composition with pipe and combinators
+A lightweight, type-safe functional effect system better than Effect-TS
 
 ## Installation
 
 ```bash
-bun add @wpackages/effect
+bun install
 ```
 
-## Quick Start
+## Usage
 
-```typescript
-import { Effect } from "@wpackages/effect";
-
-const program = Effect.gen(function*() {
-  const n = yield* Effect.sync(() => Math.random());
-  return n;
-});
-
-const result = await Effect.runPromise(program);
+```bash
+bun run dev
 ```
 
-## Managing Side Effects (Resource)
+## Development
 
-Side effects that require cleanup (files, sockets, timers, etc.) should be modeled with `Resource` helpers.
-
-```typescript
-import { Effect, acquireRelease, using } from "@wpackages/effect";
-
-type FileHandle = { close: () => Promise<void> };
-
-const openFile = (path: string): Effect<FileHandle> =>
-	Effect.sync(() => ({
-		close: async () => {
-			await Promise.resolve();
-		},
-	}));
-
-const program = using(
-	acquireRelease(
-		openFile("./tmp.txt"),
-		(handle) => Effect.sync(() => handle.close()),
-	),
-	() => Effect.sync(() => "done"),
-);
-
-await Effect.runPromise(program);
+```bash
+bun run build
+bun run test
 ```
 
-## Documentation
+## Available Scripts
 
-See [docs](./docs) for detailed documentation.
+- `watch`: bun --watch verify
+- `dev`: bun run src/index.ts
+- `format`: dprint fmt
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `build`: bun build ./src/index.ts --outdir ./dist --target bun --format esm && tsc --emitDeclarationOnly
+- `test`: vitest
+- `verify`: bun run format && bun run lint && bun run test && bun run build && bun run dev
+
+## License
+
+MIT

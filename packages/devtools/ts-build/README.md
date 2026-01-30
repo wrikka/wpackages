@@ -1,81 +1,40 @@
-# @wpackages/ts-build
+# ts-build
 
-A modern, fast, and opinionated build tool for TypeScript and Rust (N-API) projects, powered by Bun.
+Package for ts-build
 
-## Features
+A powerful and extensible build tool for TypeScript, Node.js, and native addons.
 
-- **Fast Bundling**: Leverages `Bun.build` for high-speed TypeScript bundling.
-- **N-API Integration**: Seamlessly builds and bundles Rust-based N-API addons.
-- **Zero-Config for N-API**: Automatically detects your Rust crate if `Cargo.toml` is present in the root, `native/`, or `rust/` directory.
-- **Declarative Config**: Simple and powerful configuration file (`bunpack.config.ts`) for when you need to override the defaults.
-- **Multi-format Output**: Supports ESM and CJS formats.
-- **DTS Generation**: Automatically generates TypeScript declaration files.
-- **Opinionated Presets**: Quick setup for libraries, apps, and CLIs.
+## Installation
 
-## Comparison
-
-`@wpackages/ts-build` offers a unique combination of TypeScript bundling and native N-API addon compilation. See a detailed feature comparison with other tools like `esbuild`, `swc`, and `tsup` in our [Comparison Document](./docs/comparison.md).
+```bash
+bun install
+```
 
 ## Usage
 
-1. **Install**
+```bash
+bun run dev
+```
 
-   ```bash
-   bun add -d @wpackages/ts-build
-   ```
+## Development
 
-2. **Configure**
+```bash
+bun run build
+bun run test
+```
 
-   Create a `bunpack.config.ts` file in your project root for basic configuration:
+## Available Scripts
 
-   ```ts
-   // bunpack.config.ts
-   import { defineConfig } from "@wpackages/ts-build";
+- `dev`: bun run src/index.ts --watch
+- `build`: bun run src/cli.ts build
+- `test`: bun ../test/bin/wtest.mjs
+- `test:coverage`: bun ../test/bin/wtest.mjs --coverage
+- `verify`: bun run lint && bun run test && bun run build
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `prepublishOnly`: bun run build
+- `watch`: bun --watch src/index.ts
+- `format`: dprint fmt
 
-   export default defineConfig({
-   	entry: ["src/index.ts"],
-   	outDir: "dist",
-   	// ... other options
-   });
-   ```
+## License
 
-   **For Rust N-API Projects:**
-
-   If your project has a `Cargo.toml` file in the root, `native/`, or `rust/` directory, `@wpackages/ts-build` will **automatically detect and build it**—no extra configuration needed!
-
-   If you need to customize the native build, you can add a `native` section to your config:
-
-   ```ts
-   // bunpack.config.ts
-   export default defineConfig({
-   	entry: ["src/index.ts"],
-   	outDir: "dist",
-   	native: {
-   		napi: {
-   			// Overrides the auto-detected crate directory
-   			crateDir: "my-rust-app",
-   			// Overrides the auto-detected output file name
-   			outFile: "my_custom_name",
-   			release: true,
-   		},
-   	},
-   });
-   ```
-
-3. **Build**
-
-   Add a build script to your `package.json`:
-
-   ```json
-   {
-   	"scripts": {
-   		"build": "bunpack"
-   	}
-   }
-   ```
-
-   And run it:
-
-   ```bash
-   bun run build
-   ```
+MIT

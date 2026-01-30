@@ -1,19 +1,19 @@
 {
-  "name": "@wpackages/design-pattern",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "exports": "./src/index.ts",
-  "scripts": {
-    "format": "dprint fmt",
-    "lint": "oxlint --fix",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "check": "oxlint && vitest run",
-    "watch": "bun --watch src/index.ts",
-    "dev": "bun run src/index.ts",
-    "build": "tsdown --exports --dts --minify"
-  },
-  "dependencies": {},
-  "devDependencies": {}
+	"name": "@wpackages/design-pattern",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"exports": "./src/index.ts",
+	"scripts": {
+		"format": "dprint fmt",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
+		"check": "oxlint && vitest run",
+		"watch": "bun --watch src/index.ts",
+		"dev": "bun run src/index.ts",
+		"build": "tsdown --exports --dts --minify"
+	},
+	"dependencies": {},
+	"devDependencies": {}
 }

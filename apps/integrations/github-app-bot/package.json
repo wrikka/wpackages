@@ -25,7 +25,7 @@
 		"watch": "bun --watch src/index.ts",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
 		"build": "tsdown --exports --dts --minify",

@@ -1,71 +1,71 @@
 {
-  "name": "@wpackages/resilience",
-  "version": "0.1.0",
-  "description": "Resilience patterns and fault tolerance utilities built with functional programming",
-  "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsdown --exports --dts --minify",
-    "dev": "bun --watch src/index.ts",
-    "format": "dprint fmt",
-    "lint": "oxlint --fix --type-aware",
-    "verify": "bun lint && bun test && bun build",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "test:ui": "vitest --ui",
-    "clean": "rm -rf dist .tsbuildinfo coverage",
-    "prepublishOnly": "bun run clean && bun run build",
-    "watch": "bun --watch src/index.ts"
-  },
-  "dependencies": {
-    "effect": "^3.19.15"
-  },
-  "devDependencies": {
-    "@effect/vitest": "^0.27.0",
-    "@types/bun": "1.3.5",
-    "@types/node": "^25.1.0",
-    "tsdown": "^0.18.4",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
-  },
-  "peerDependencies": {
-    "effect": "^3.19.13"
-  },
-  "keywords": [
-    "resilience",
-    "fault-tolerance",
-    "circuit-breaker",
-    "retry",
-    "timeout",
-    "bulkhead",
-    "rate-limiting",
-    "functional-programming",
-    "effect-ts",
-    "typescript"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wrikka/wts",
-    "directory": "packages/resilience"
-  },
-  "bugs": {
-    "url": "https://github.com/wrikka/wts/issues"
-  },
-  "homepage": "https://github.com/wrikka/wts/tree/main/packages/resilience#readme",
-  "author": "Wrikka Team",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  }
+	"name": "@wpackages/resilience",
+	"version": "0.1.0",
+	"description": "Resilience patterns and fault tolerance utilities built with functional programming",
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "bun --watch src/index.ts",
+		"format": "dprint fmt",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"verify": "bun lint && bun test && bun build",
+		"test": "vitest",
+		"test:coverage": "vitest --coverage",
+		"test:ui": "vitest --ui",
+		"clean": "rm -rf dist .tsbuildinfo coverage",
+		"prepublishOnly": "bun run clean && bun run build",
+		"watch": "bun --watch src/index.ts"
+	},
+	"dependencies": {
+		"effect": "^3.19.15"
+	},
+	"devDependencies": {
+		"@effect/vitest": "^0.27.0",
+		"@types/bun": "1.3.5",
+		"@types/node": "^25.1.0",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.18"
+	},
+	"peerDependencies": {
+		"effect": "^3.19.13"
+	},
+	"keywords": [
+		"resilience",
+		"fault-tolerance",
+		"circuit-breaker",
+		"retry",
+		"timeout",
+		"bulkhead",
+		"rate-limiting",
+		"functional-programming",
+		"effect-ts",
+		"typescript"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wrikka/wts",
+		"directory": "packages/resilience"
+	},
+	"bugs": {
+		"url": "https://github.com/wrikka/wts/issues"
+	},
+	"homepage": "https://github.com/wrikka/wts/tree/main/packages/resilience#readme",
+	"author": "Wrikka Team",
+	"license": "MIT",
+	"engines": {
+		"node": ">=18.0.0"
+	}
 }

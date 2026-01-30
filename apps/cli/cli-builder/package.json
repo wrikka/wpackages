@@ -19,7 +19,7 @@
 		"watch": "bun --watch verify",
 		"start": "bun --watch dev && vitest:ui",
 		"dev": "bun run src/app.ts",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "tsdown src/index.ts --entry-points bin/cli.ts",
 		"format": "dprint fmt",
 		"test": "vitest --run",

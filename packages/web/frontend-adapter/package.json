@@ -10,7 +10,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun run src/app.ts",
 		"format": "biome check --write src test examples README.md package.json tsconfig.json",
-		"lint": "oxlint . && tsc --noEmit",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "bun build src/index.ts --outdir dist --target bun",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",

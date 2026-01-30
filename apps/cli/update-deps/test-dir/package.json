@@ -1,9 +1,12 @@
 {
-  "name": "test-update-deps",
-  "version": "1.0.0",
-  "dependencies": {
-    "typescript": "^5.9.3",
-    "vitest": "^1.6.1",
-    "vue": "^3.5.27"
-  }
+	"name": "test-update-deps",
+	"version": "1.0.0",
+	"dependencies": {
+		"typescript": "^5.9.3",
+		"vitest": "^1.6.1",
+		"vue": "^3.5.27"
+	},
+	"scripts": {
+		"lint": "tsc --noEmit && oxlint --fix --type-aware"
+	}
 }

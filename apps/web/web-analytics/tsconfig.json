@@ -29,10 +29,19 @@
     "emitDeclarationOnly": false,
     "incremental": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
-    "lib": ["ES2022", "DOM"],
-    "types": ["@types/bun", "vitest/globals"]
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "@types/bun",
+      "vitest/globals"
+    ]
   },
-  "include": ["src/**/*", "src"],
+  "include": [
+    "src/**/*",
+    "src"
+  ],
   "exclude": [
     "node_modules",
     "dist",

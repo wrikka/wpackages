@@ -1,59 +1,59 @@
 {
-  "name": "@wpackages/ts-build",
-  "version": "0.1.0",
-  "description": "A powerful and extensible build tool for TypeScript, Node.js, and native addons.",
-  "keywords": [
-    "build",
-    "typescript",
-    "bun",
-    "node",
-    "native",
-    "napi",
-    "wasm"
-  ],
-  "private": true,
-  "bin": {
-    "bunpack": "./.output/bin/bunpack.js"
-  },
-  "main": "./.output/cjs/index.js",
-  "module": "./.output/esm/index.js",
-  "types": "./.output/types/src/index.d.ts",
-  "files": [
-    ".output"
-  ],
-  "scripts": {
-    "dev": "bun run src/index.ts --watch",
-    "build": "bun run src/cli.ts build",
-    "test": "bun ../test/bin/wtest.mjs",
-    "test:coverage": "bun ../test/bin/wtest.mjs --coverage",
-    "verify": "bun run lint && bun run test && bun run build",
-    "lint": "oxlint --fix",
-    "prepublishOnly": "bun run build",
-    "watch": "bun --watch src/index.ts",
-    "format": "dprint fmt"
-  },
-  "dependencies": {
-    "chokidar": "^3.6.0",
-    "commander": "^12.1.0",
-    "lilconfig": "^3.1.3",
-    "picocolors": "^1.1.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.30",
-    "@wpackages/test": "workspace:*",
-    "bun-plugin-svelte": "^0.0.6",
-    "bun-plugin-vue": "^1.0.0",
-    "bun-types": "latest",
-    "oxlint": "^1.42.0",
-    "oxlint-tsgolint": "^0.10.1",
-    "typescript": ">=5.9.3"
-  },
-  "exports": {
-    ".": {
-      "types": "./.output/types/src/index.d.ts",
-      "import": "./.output/esm/index.js",
-      "require": "./.output/cjs/index.js"
-    },
-    "./bin/bunpack": "./.output/bin/bunpack.js"
-  }
+	"name": "@wpackages/ts-build",
+	"version": "0.1.0",
+	"description": "A powerful and extensible build tool for TypeScript, Node.js, and native addons.",
+	"keywords": [
+		"build",
+		"typescript",
+		"bun",
+		"node",
+		"native",
+		"napi",
+		"wasm"
+	],
+	"private": true,
+	"bin": {
+		"bunpack": "./.output/bin/bunpack.js"
+	},
+	"main": "./.output/cjs/index.js",
+	"module": "./.output/esm/index.js",
+	"types": "./.output/types/src/index.d.ts",
+	"files": [
+		".output"
+	],
+	"scripts": {
+		"dev": "bun run src/index.ts --watch",
+		"build": "bun run src/cli.ts build",
+		"test": "bun ../test/bin/wtest.mjs",
+		"test:coverage": "bun ../test/bin/wtest.mjs --coverage",
+		"verify": "bun run lint && bun run test && bun run build",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"prepublishOnly": "bun run build",
+		"watch": "bun --watch src/index.ts",
+		"format": "dprint fmt"
+	},
+	"dependencies": {
+		"chokidar": "^3.6.0",
+		"commander": "^12.1.0",
+		"lilconfig": "^3.1.3",
+		"picocolors": "^1.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.30",
+		"@wpackages/test": "workspace:*",
+		"bun-plugin-svelte": "^0.0.6",
+		"bun-plugin-vue": "^1.0.0",
+		"bun-types": "latest",
+		"oxlint": "^1.42.0",
+		"oxlint-tsgolint": "^0.10.1",
+		"typescript": ">=5.9.3"
+	},
+	"exports": {
+		".": {
+			"types": "./.output/types/src/index.d.ts",
+			"import": "./.output/esm/index.js",
+			"require": "./.output/cjs/index.js"
+		},
+		"./bin/bunpack": "./.output/bin/bunpack.js"
+	}
 }

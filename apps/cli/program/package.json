@@ -7,7 +7,7 @@
 		"start": "bun run dev",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "tsdown",
 		"test": "vitest run",
 		"test:ui": "vitest --ui",

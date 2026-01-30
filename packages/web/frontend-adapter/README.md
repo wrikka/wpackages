@@ -1,34 +1,37 @@
-# Frontend Adapter
+# frontend-adapter
 
-A universal component adapter. Write once in TypeScript, and compile to Vue, React, and Svelte.
+Package for frontend-adapter
+
+## Installation
+
+```bash
+bun install
+```
 
 ## Usage
 
-```ts
-import { compile } from './src/compile';
-import { el, text } from './src/types/ir';
-
-const tree = el('div', { class: 'container' }, [
-  el('h1', {}, [text('Hello')]),
-  el('p', {}, [text('Write once')]),
-]);
-
-console.log(compile('react', tree));
-console.log(compile('vue', tree));
-console.log(compile('svelte', tree));
+```bash
+bun run dev
 ```
 
-## Scripts
+## Development
 
 ```bash
-bun run lint
-bun run test
 bun run build
-bun run verify
+bun run test
 ```
 
-## Example
+## Available Scripts
 
-```bash
-bun run examples/basic.ts
-```
+- `watch`: bun --watch verify
+- `dev`: bun run src/app.ts
+- `format`: biome check --write src test examples README.md package.json tsconfig.json
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `build`: bun build src/index.ts --outdir dist --target bun
+- `test`: vitest run
+- `test:coverage`: vitest run --coverage
+- `verify`: bun run format && bun audit && bun run lint && bun run test && bun run build && bun run dev
+
+## License
+
+MIT

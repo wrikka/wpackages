@@ -20,7 +20,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "bun build src/index.ts --outdir dist --target bun --minify",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",

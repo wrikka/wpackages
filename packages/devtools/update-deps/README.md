@@ -1,21 +1,37 @@
-# @wpackages/deps
+# update-deps
 
-To install dependencies:
+Package for update-deps
+
+## Installation
 
 ```bash
 bun install
 ```
 
-To run:
+## Usage
 
 ```bash
-bun run src/index.ts
+bun run dev
 ```
 
-This project was created using `bun init` in bun v1.3.5. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Development
 
-## Comparison with Other Tools
+```bash
+bun run build
+bun run test
+```
 
-This tool is an interactive CLI for updating dependencies, similar to `npm-check-updates`. For fully automated dependency updates via pull requests, consider using [Renovate](https://github.com/renovatebot/renovate) or [Dependabot](https://github.com/dependabot).
+## Available Scripts
 
-For a more detailed comparison, see the [Comparison Document](docs/comparison.md).
+- `watch`: bun --watch verify
+- `dev`: bun run src/index.ts
+- `format`: dprint fmt
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `build`: bun build src/index.ts --outdir dist --target node
+- `test`: bun test
+- `verify`: bun run format && bun audit && bun run lint && bun run build
+- `start`: bun dist/index.js
+
+## License
+
+MIT

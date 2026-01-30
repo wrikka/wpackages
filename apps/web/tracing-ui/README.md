@@ -1,75 +1,37 @@
-# Nuxt Minimal Starter
+# tracing-ui
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Application for tracing-ui
 
-## Setup
-
-Make sure to install dependencies:
+## Installation
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
 bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Usage
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
 bun run dev
 ```
 
-## Production
-
-Build the application for production:
+## Development
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
 bun run build
+bun run test
 ```
 
-Locally preview production build:
+## Available Scripts
 
-```bash
-# npm
-npm run preview
+- `dev`: nuxt dev
+- `build`: nuxt build
+- `preview`: nuxt preview
+- `format`: dprint fmt
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `test`: vitest
+- `postinstall`: nuxt prepare
+- `watch`: bun --watch src/index.ts
 
-# pnpm
-pnpm preview
+## License
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+MIT

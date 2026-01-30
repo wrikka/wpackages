@@ -1,86 +1,42 @@
 # monorepo
 
-![npm version](https://img.shields.io/npm/v/monorepo.svg) ![license](https://img.shields.io/npm/l/monorepo.svg)
+Package for monorepo
 
-A fast monorepo task runner written in Rust, inspired by Turborepo.
-
-## Features
-
-- High-performance task running with dependency graph
-- Local and remote caching with integrity checks
-- Watch mode with polling
-- Prune/subset repo for CI
-- Affected/changed detection
-- Concurrency control and clean outputs
-- Config validation and workspace discovery
-
-## Getting Started
-
-### Prerequisites
-
-- Bun
-- Rust toolchain
-
-### Config
-
-Create `wmo.config.json` in repo root:
-
-```json
-{
-	"$schema": "https://wmo.vercel.app/schema.json",
-	"workspaces": ["packages/*"],
-	"pipeline": {
-		"build": {
-			"outputs": ["dist/**"],
-			"depends_on": ["^build"]
-		}
-	}
-}
-```
-
-### Commands
+## Installation
 
 ```bash
-wmorepo run build
-wmorepo watch build --interval-ms 1000
-wmorepo prune ./out --scope @scope/pkg
-wmorepo changed --since main
-wmorepo affected --filter "tag:frontend"
-wmorepo init
-wmorepo doctor
+bun install
 ```
 
-### Flags
+## Usage
 
 ```bash
-wmorepo run build --concurrency 4 --dry-run --print-graph --strict --no-cache --force --clean
-```
-
-### Remote Cache
-
-Set env vars:
-
-- `WMO_REMOTE_CACHE_TOKEN`
-- `WMO_REMOTE_CACHE_HEADERS_JSON`
-- `WMO_REMOTE_CACHE_TIMEOUT_MS`
-- `WMO_REMOTE_CACHE_RETRY`
-- `WMO_REMOTE_CACHE_INTEGRITY_HEADER`
-
-### CI
-
-```yaml
-- uses: actions/checkout@v4
-- run: bun run verify # runs fmt/lint/test/audit/build
+bun run dev
 ```
 
 ## Development
 
 ```bash
-bun install
-bun run dev
-bun run verify
+bun run build
+bun run test
 ```
 
-## Contributing
+## Available Scripts
 
-See `packages/wmonorepo/README.md` for CLI details.
+- `dev`: cargo run --manifest-path ./packages/wmonorepo/Cargo.toml --
+- `dev:watch`: cargo watch -x run --manifest-path ./packages/wmonorepo/Cargo.toml
+- `start`: bun run dev
+- `build`: cargo build --release --manifest-path ./packages/wmonorepo/Cargo.toml
+- `build:debug`: cargo build --manifest-path ./packages/wmonorepo/Cargo.toml
+- `format`: cargo fmt --manifest-path ./packages/wmonorepo/Cargo.toml
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `test`: cargo test --all-features --manifest-path ./packages/wmonorepo/Cargo.toml
+- `test:coverage`: cargo llvm-cov --manifest-path ./packages/wmonorepo/Cargo.toml --all-features
+- `test:nextest`: cargo nextest run --all-features --manifest-path ./packages/wmonorepo/Cargo.toml
+- `audit`: cd packages/wmonorepo && cargo audit
+- `verify`: bun run format && bun run lint && bun run test && bun run audit && bun run build
+- `watch`: bun --watch src/index.ts
+
+## License
+
+MIT

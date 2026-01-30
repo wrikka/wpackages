@@ -1,53 +1,53 @@
 {
-  "name": "@wpackages/tui",
-  "version": "0.0.1",
-  "private": true,
-  "description": "A blazing fast library for building interactive command-line apps, inspired by React and Ink.",
-  "keywords": [
-    "cli",
-    "ui",
-    "bun",
-    "react",
-    "ink"
-  ],
-  "author": "",
-  "license": "MIT",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "exports": {
-    ".": "./dist/index.mjs",
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "dev": "bun run src/app.ts",
-    "lint": "tsc --noEmit && biome lint --write src",
-    "format": "biome format --write src",
-    "test": "vitest --run",
-    "verify": "bun format && bun lint && bun test && bun build",
-    "watch": "bun --watch src/index.ts"
-  },
-  "dependencies": {
-    "@effect/schema": "^",
-    "effect": "^3.19.15",
-    "ink": "^6.6.0",
-    "picocolors": "^1.1.1",
-    "react": "^19.2.4",
-    "react-reconciler": "^0.33.0",
-    "yoga-layout-prebuilt": "^1.10.0"
-  },
-  "devDependencies": {
-    "@types/bun": "1.3.7",
-    "@types/node": "^25.1.0",
-    "@types/react": "^19.2.10",
-    "@types/react-reconciler": "^0.33.0",
-    "@vitejs/plugin-react": "^5.1.2",
-    "tsdown": "^0.20.1",
-    "vitest": "^4.0.18",
-    "vitest-tsconfig-paths": "^3.4.1"
-  },
-  "peerDependencies": {
-    "typescript": "^5.9.3"
-  }
+	"name": "@wpackages/tui",
+	"version": "0.0.1",
+	"private": true,
+	"description": "A blazing fast library for building interactive command-line apps, inspired by React and Ink.",
+	"keywords": [
+		"cli",
+		"ui",
+		"bun",
+		"react",
+		"ink"
+	],
+	"author": "",
+	"license": "MIT",
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "bun run src/app.ts",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"format": "biome format --write src",
+		"test": "vitest --run",
+		"verify": "bun format && bun lint && bun test && bun build",
+		"watch": "bun --watch src/index.ts"
+	},
+	"dependencies": {
+		"@effect/schema": "^",
+		"effect": "^3.19.15",
+		"ink": "^6.6.0",
+		"picocolors": "^1.1.1",
+		"react": "^19.2.4",
+		"react-reconciler": "^0.33.0",
+		"yoga-layout-prebuilt": "^1.10.0"
+	},
+	"devDependencies": {
+		"@types/bun": "1.3.7",
+		"@types/node": "^25.1.0",
+		"@types/react": "^19.2.10",
+		"@types/react-reconciler": "^0.33.0",
+		"@vitejs/plugin-react": "^5.1.2",
+		"tsdown": "^0.20.1",
+		"vitest": "^4.0.18",
+		"vitest-tsconfig-paths": "^3.4.1"
+	},
+	"peerDependencies": {
+		"typescript": "^5.9.3"
+	}
 }

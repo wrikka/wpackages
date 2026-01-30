@@ -1,21 +1,21 @@
 {
-  "name": "webcontainer-example",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "watch": "bun --watch src/index.ts",
-    "format": "dprint fmt",
-    "lint": "oxlint --fix",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "@wpackages/sandbox-runtime": "file:../pkg"
-  },
-  "devDependencies": {
-    "nuxt": "^4.3.0"
-  }
+	"name": "webcontainer-example",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt dev",
+		"build": "nuxt build",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"watch": "bun --watch src/index.ts",
+		"format": "dprint fmt",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@wpackages/sandbox-runtime": "file:../pkg"
+	},
+	"devDependencies": {
+		"nuxt": "^4.3.0"
+	}
 }

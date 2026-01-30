@@ -13,7 +13,7 @@
 		"watch": "bun lint && bun watch && bun test",
 		"start": "bun --watch dev && vitest:ui",
 		"dev": "bun run src/index.ts",
-		"lint": "oxlint --fix",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "tsdown",
 		"format": "dprint fmt",
 		"test": "vitest --run --passWithNoTests",

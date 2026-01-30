@@ -11,7 +11,7 @@
 		"start": "bun --watch dev && vitest:ui",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "tsdown src/bin/cli.ts --out-dir dist",
 		"test": "vitest --run --config ./vitest.config.ts",
 		"verify": "bun format && bun lint && bun test && bun run build"

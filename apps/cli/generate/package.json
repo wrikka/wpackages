@@ -1,36 +1,36 @@
 {
-  "name": "@wpackages/generate",
-  "version": "0.1.0",
-  "description": "Powerful code generation library with template engine for scaffolding, components, modules, tests, and documentation",
-  "type": "module",
-  "keywords": [
-    "generator",
-    "code-generation",
-    "scaffold",
-    "template",
-    "cli",
-    "boilerplate",
-    "typescript",
-    "component-generator"
-  ],
-  "scripts": {
-    "build": "tsdown --exports --dts --minify",
-    "dev": "tsdown --watch",
-    "lint": "oxlint --fix --type-aware",
-    "format": "dprint fmt",
-    "verify": "bun format && bun lint && bun test",
-    "test": "vitest",
-    "watch": "bun --watch src/index.ts"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/node": "^24.10.9",
-    "tsdown": "^0.15.12",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@wpackages/generate",
+	"version": "0.1.0",
+	"description": "Powerful code generation library with template engine for scaffolding, components, modules, tests, and documentation",
+	"type": "module",
+	"keywords": [
+		"generator",
+		"code-generation",
+		"scaffold",
+		"template",
+		"cli",
+		"boilerplate",
+		"typescript",
+		"component-generator"
+	],
+	"scripts": {
+		"build": "tsdown --exports --dts --minify",
+		"dev": "tsdown --watch",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"format": "dprint fmt",
+		"verify": "bun format && bun lint && bun test",
+		"test": "vitest",
+		"watch": "bun --watch src/index.ts"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/node": "^24.10.9",
+		"tsdown": "^0.15.12",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.18"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }

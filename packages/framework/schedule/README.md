@@ -1,58 +1,37 @@
 # schedule
 
-A functional scheduling library with cron-like capabilities and advanced scheduling features.
+Package for schedule
 
-## Features
-
-- Functional programming approach with pure functions
-- Cron expression parsing and validation
-- Flexible scheduling configurations
-- Type-safe APIs with Effect Schema
-- Dependency injection with Effect TS
+Functional scheduling utilities for cron expressions and task scheduling
 
 ## Installation
 
 ```bash
-bun add schedule
+bun install
 ```
 
 ## Usage
 
-```typescript
-import { createScheduleDisplay, formatCronExpression } from 'schedule'
-
-// Create a schedule display
-const display = createScheduleDisplay({
-  name: 'daily-backup',
-  enabled: true,
-  timezone: 'UTC'
-})
-
-console.log(display) // Schedule: daily-backup | Status: Enabled | Timezone: UTC
-
-// Format a cron expression
-const formatted = formatCronExpression('0 0 * * *')
-console.log(formatted) // Runs at minute 0, at hour 0, every day, every month, every weekday
+```bash
+bun run dev
 ```
 
-## API
+## Development
 
-### Components
+```bash
+bun run build
+bun run test
+```
 
-- `createScheduleDisplay(config)`: Creates a display string for a schedule configuration
-- `formatCronExpression(cron)`: Formats a cron expression into a human-readable string
+## Available Scripts
 
-### Types
+- `format`: biome format --write src
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `build`: bun build src/index.ts --outdir dist --target bun
+- `test`: bun test
+- `watch`: bun --watch src/index.ts
+- `dev`: bun run src/index.ts
 
-- `CronExpression`: Type for cron expressions
-- `Interval`: Type for schedule intervals
-- `ScheduleConfig`: Type for schedule configurations
+## License
 
-### Utilities
-
-- `parseCronExpression(cron)`: Parses a cron expression into an interval
-- `validateCronExpression(cron)`: Validates a cron expression
-
-### Services
-
-- `SchedulerService`: Service for managing scheduled tasks
+MIT

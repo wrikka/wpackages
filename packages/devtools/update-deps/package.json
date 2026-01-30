@@ -10,7 +10,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit",
+		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"build": "bun build src/index.ts --outdir dist --target node",
 		"test": "bun test",
 		"verify": "bun run format && bun audit && bun run lint && bun run build",

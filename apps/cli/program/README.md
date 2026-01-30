@@ -1,68 +1,38 @@
-# @wpackages/program
+# program
 
-## Introduction
-
-`@wpackages/program` is a small example application that demonstrates how to build a type-safe, testable, and composable program using `effect` with dependency injection via `Context` and `Layer`. It showcases the integration of `@wpackages/config-manager` (configuration) and `@wpackages/logger` (effectful structured logging).
-
-## Features
-
-- ✨ **Effect Runtime (Real)**: Uses `effect` (`Effect`, `Layer`, `Context`) for typed effects and orchestration.
-- 💉 **Dependency Injection**: Leverages `Context` + `Layer` to provide services like logging and configuration.
-- 🔧 **Configuration Management**: Uses `@wpackages/config-manager` to load and access configuration variables.
-- 📜 **Structured Logging**: Integrates with `@wpackages/logger` for effectful, structured logging.
-- 🧪 **Testable by Design**: The separation of concerns makes the core logic easy to test in isolation.
-
-## Goal
-
-- 🎯 **Demonstrate Best Practices**: Serve as a clear example of how to structure an application within the `wpackages` monorepo.
-- 🧩 **Showcase Package Integration**: Illustrate how different packages (`config-manager`, `logger`) can be composed together.
-- ✅ **Promote Testability**: Encourage writing code that is inherently testable by decoupling side effects.
-
-## Design Principles
-
-- **Type Safety First**: All services, effects, and configurations are fully typed to catch errors at compile time.
-- **Separation of Concerns**: Side effects (like console output) are managed through dedicated services, keeping the core logic pure.
-- **Explicit Dependencies**: Services are explicitly provided to the program, making the dependency graph clear and manageable.
-- **Mockability**: Production services can be easily swapped with mock implementations for deterministic testing.
+Application for program
 
 ## Installation
 
-Dependencies are managed at the root of the monorepo. Ensure you have run `bun install` in the root directory.
+```bash
+bun install
+```
 
 ## Usage
 
-To run the program, execute the `dev` script from this workspace using Turborepo:
-
 ```bash
-turbo dev --filter=@wpackages/program
+bun run dev
 ```
 
-## Examples
-
-### Running the Program
-
-This command will execute the main entry point of the application.
+## Development
 
 ```bash
-# Run from the monorepo root
-turbo dev --filter=@wpackages/program
-```
-
-### Running Tests
-
-To run the test suite for this package:
-
-```bash
-# Run from the monorepo root
-turbo test --filter=@wpackages/program
-```
-
-Or from the workspace directory:
-
-```bash
+bun run build
 bun run test
 ```
 
+## Available Scripts
+
+- `watch`: bun run dev
+- `start`: bun run dev
+- `dev`: bun run src/index.ts
+- `format`: dprint fmt
+- `lint`: tsc --noEmit && oxlint --fix --type-aware
+- `build`: tsdown
+- `test`: vitest run
+- `test:ui`: vitest --ui
+- `verify`: bun format && bun lint && bun run test && (bun audit || true) && bun run build
+
 ## License
 
-This is an internal package and is not intended for separate distribution. It is licensed under the MIT License.
+MIT
