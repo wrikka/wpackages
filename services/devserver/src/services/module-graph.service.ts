@@ -11,9 +11,9 @@ export interface ModuleNode {
 	readonly id: string;
 	readonly url: string;
 	readonly type: "js" | "ts" | "css" | "json" | "html" | "asset";
-	content?: string;
-	transformed?: string;
-	map?: string;
+	content: string | undefined;
+	transformed: string | undefined;
+	map: string | undefined;
 	readonly dependencies: Set<string>;
 	readonly dependents: Set<string>;
 	lastModified: number;
@@ -100,6 +100,8 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			url,
 			type,
 			content: content ?? "",
+			transformed: undefined,
+			map: undefined,
 			lastModified,
 			hash,
 			dependencies: new Set(),
@@ -143,8 +145,8 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			if (!moduleNode) return;
 
 			moduleNode.content = content;
-			moduleNode.transformed = transformed ?? undefined;
-			moduleNode.map = map ?? undefined;
+			if (transformed !== undefined) moduleNode.transformed = transformed;
+			if (map !== undefined) moduleNode.map = map;
 			moduleNode.lastModified = Date.now();
 			moduleNode.hash = createHash("md5").update(content).digest("hex");
 
@@ -167,8 +169,8 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			for (const dependentId of moduleNode.dependents) {
 				const dependent = modules.get(dependentId);
 				if (dependent) {
-					dependent.transformed = undefined;
-					dependent.map = undefined;
+					if (dependent.transformed !== undefined) dependent.transformed = undefined;
+					if (dependent.map !== undefined) dependent.map = undefined;
 				}
 			}
 

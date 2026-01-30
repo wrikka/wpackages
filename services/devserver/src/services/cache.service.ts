@@ -9,7 +9,7 @@ import { join } from "node:path";
 
 export interface CacheEntry {
 	readonly content: string;
-	readonly map?: string;
+	readonly map: string | undefined;
 	readonly timestamp: number;
 	readonly hash: string;
 }

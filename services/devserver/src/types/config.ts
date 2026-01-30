@@ -1,4 +1,4 @@
-import type { WatchOptions as ChokidarWatchOptions } from "chokidar";
+import type { FSWatcher } from "chokidar";
 
 export type CacheConfig = {
 	readonly ttl?: number | undefined;
@@ -23,7 +23,7 @@ export type DevServerConfig = {
 	readonly alias?: Record<string, string>;
 	readonly extensions?: readonly string[];
 	readonly cache?: Partial<CacheConfig>;
-	readonly watch?: Partial<ChokidarWatchOptions>;
+	readonly watch?: Partial<Parameters<FSWatcher["watch"]>[1]>;
 	readonly server?: {
 		readonly middleware?: Array<(req: Request, res: Response, next: () => Promise<void>) => Promise<void>>;
 		readonly proxy?: readonly ProxyConfig[];

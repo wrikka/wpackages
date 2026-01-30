@@ -18,7 +18,7 @@ export function createWatcherService(): WatcherService {
 			return;
 		}
 		logger.info(`Watching for file changes in: ${Array.isArray(paths) ? paths.join(", ") : String(paths)}`);
-		watcher = chokidar.watch(paths, {
+		watcher = chokidar.watch(paths as string | string[], {
 			ignored: /(^|[\\/])\../, // ignore dotfiles
 			persistent: true,
 		});
