@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "oxlint:recommended",
+    "oxlint:pedantic"
+  ],
+  "rules": {
+    "no-console": "allow"
+  }
+}
