@@ -4,6 +4,7 @@ type ReloadCallback = () => void | Promise<void>;
 export interface HmrPlugin {
 	readonly name: string;
 	onReload: (callback: ReloadCallback) => void;
+	readonly trigger: () => void;
 	dispose?: () => void;
 }
 
