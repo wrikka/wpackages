@@ -1,1 +1,0 @@
-export { detectFormat } from "./detectFormat";
