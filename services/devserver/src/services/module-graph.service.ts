@@ -48,32 +48,31 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 	const parseDependencies = (content: string, type: ModuleNode["type"]): string[] => {
 		const deps: string[] = [];
 
-		if (type === "js" || type === "ts") {
-			// Simple regex-based dependency extraction
+		if (content) {
 			// Import statements
 			const importRegex = /import\s+.*?\s+from\s+['"]([^'"]+)['"]/g;
 			let match;
 			while ((match = importRegex.exec(content)) !== null) {
-				deps.push(match[1]);
+				deps.push(match[1]!);
 			}
 
 			// Dynamic imports
 			const dynamicImportRegex = /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 			while ((match = dynamicImportRegex.exec(content)) !== null) {
-				deps.push(match[1]);
+				deps.push(match[1]!);
 			}
 
 			// Require calls (for CommonJS)
 			const requireRegex = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 			while ((match = requireRegex.exec(content)) !== null) {
-				deps.push(match[1]);
+				deps.push(match[1]!);
 			}
 		} else if (type === "css") {
 			// @import statements
 			const importRegex = /@import\s+['"]([^'"]+)['"]/g;
 			let match;
 			while ((match = importRegex.exec(content)) !== null) {
-				deps.push(match[1]);
+				deps.push(match[1]!);
 			}
 		}
 
@@ -100,7 +99,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			id,
 			url,
 			type,
-			content,
+			content: content ?? "",
 			lastModified,
 			hash,
 			dependencies: new Set(),
@@ -144,8 +143,8 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			if (!moduleNode) return;
 
 			moduleNode.content = content;
-			moduleNode.transformed = transformed;
-			moduleNode.map = map;
+			moduleNode.transformed = transformed ?? undefined;
+			moduleNode.map = map ?? undefined;
 			moduleNode.lastModified = Date.now();
 			moduleNode.hash = createHash("md5").update(content).digest("hex");
 
@@ -153,7 +152,7 @@ export function createModuleGraph(transformCache: TransformCache): ModuleGraph {
 			if (transformed) {
 				void transformCache.set(id, {
 					content: transformed,
-					map,
+					map: map ?? undefined,
 					timestamp: moduleNode.lastModified,
 					hash: moduleNode.hash,
 				});
