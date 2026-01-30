@@ -10,7 +10,11 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md", "LICENSE"],
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",

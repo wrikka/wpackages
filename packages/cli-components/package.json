@@ -35,7 +35,7 @@
 	},
 	"description": "Terminal UI toolkit - Unified interface for CLI command, display, and prompts",
 	"devDependencies": {
-		"@types/bun": "^1.3.7",
+		"@types/bun": "^1.3.8",
 		"@types/node": "25.0.3",
 		"@vitest/coverage-v8": "4.0.16",
 		"execa": "^9.6.1",

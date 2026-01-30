@@ -3,7 +3,15 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "High-performance web server using Bun.serve with Effect integration",
-	"keywords": ["web", "server", "bun", "http", "api", "rest", "effect"],
+	"keywords": [
+		"web",
+		"server",
+		"bun",
+		"http",
+		"api",
+		"rest",
+		"effect"
+	],
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -21,7 +29,10 @@
 			"import": "./src/services/index.ts"
 		}
 	},
-	"files": ["dist", "src"],
+	"files": [
+		"dist",
+		"src"
+	],
 	"scripts": {
 		"watch": "bun --watch verify",
 		"prepare": "lefthook install",

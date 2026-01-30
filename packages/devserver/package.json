@@ -20,7 +20,10 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md"],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --external @wpackages/webserver && tsc --emitDeclarationOnly",
 		"dev": "tsc --noEmit --watch",
@@ -46,7 +49,7 @@
 		"ws": "^8.19.0"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.3.7",
+		"@types/bun": "^1.3.8",
 		"@types/chokidar": "^1.7.5",
 		"@types/node": "^25.1.0",
 		"@types/ws": "^8.18.1",
