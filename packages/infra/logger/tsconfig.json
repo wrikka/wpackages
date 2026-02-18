@@ -1,8 +1,16 @@
 {
-	"extends": "./../../tsconfig.json",
+	"extends": "../../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "dist"
 	},
-	"exclude": ["node_modules", "dist", "build", ".turbo", "coverage"],
-	"include": ["src"]
+	"exclude": [
+		"node_modules",
+		"dist",
+		"build",
+		".turbo",
+		"coverage"
+	],
+	"include": [
+		"src"
+	]
 }

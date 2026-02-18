@@ -13,6 +13,6 @@ export const createFileSink = (options: FileSinkOptions) => {
 				const fs = await import("node:fs/promises");
 				await fs.appendFile(options.filePath, `${line}\n`);
 			},
-			catch: (error) => Effect.logError("Failed to write to log file", { error }),
+			catch: (error) => new Error(`Failed to write to log file: ${error}`),
 		});
 };

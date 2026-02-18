@@ -23,19 +23,19 @@ export type LoggerConfig = Readonly<{
 	sinks?: ReadonlyArray<LogSink>;
 }>;
 
-export interface Console {
+export interface LogConsole {
 	readonly log: (line: string) => Effect.Effect<void>;
 	readonly warn: (line: string) => Effect.Effect<void>;
 	readonly error: (line: string) => Effect.Effect<void>;
 }
 
-export interface Logger {
+export interface ILogger {
 	readonly log: (entry: LogEntry) => Effect.Effect<void>;
 	readonly debug: (message: string, meta?: LogMeta) => Effect.Effect<void>;
 	readonly info: (message: string, meta?: LogMeta) => Effect.Effect<void>;
 	readonly warn: (message: string, meta?: LogMeta) => Effect.Effect<void>;
 	readonly error: (message: string, meta?: LogMeta) => Effect.Effect<void>;
-	readonly child: (meta: LogMeta) => Logger;
+	readonly child: (meta: LogMeta) => ILogger;
 }
 
 export interface LogSpan {

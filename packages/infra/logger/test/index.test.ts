@@ -7,6 +7,7 @@ import {
 	type LogEntry,
 	Logger,
 	LoggerConfigTag,
+	LoggerLive,
 	prettyFormatter,
 	redactMeta,
 } from "../src";
@@ -26,12 +27,12 @@ describe("Logger", () => {
 
 		const ConfigTest = Layer.succeed(LoggerConfigTag, {});
 
-		const program = Effect.gen(function*() {
+		const program = Effect.gen(function* () {
 			const logger = yield* Logger;
 			yield* logger.info("test message");
 		});
 
-		await Effect.runPromise(program.pipe(Effect.provide(Layer.merge(ConsoleTest, ConfigTest))));
+		await Effect.runPromise(program.pipe(Effect.provide(LoggerLive.pipe(Layer.provide(ConsoleTest), Layer.provide(ConfigTest)))));
 
 		expect(messages.length).toBe(1);
 		const entry = messages[0];
@@ -53,7 +54,7 @@ describe("Logger", () => {
 
 		const ConfigTest = Layer.succeed(LoggerConfigTag, { minLevel: "warn" });
 
-		const program = Effect.gen(function*() {
+		const program = Effect.gen(function* () {
 			const logger = yield* Logger;
 			yield* logger.debug("debug message");
 			yield* logger.info("info message");
@@ -61,7 +62,7 @@ describe("Logger", () => {
 			yield* logger.error("error message");
 		});
 
-		await Effect.runPromise(program.pipe(Effect.provide(Layer.merge(ConsoleTest, ConfigTest))));
+		await Effect.runPromise(program.pipe(Effect.provide(LoggerLive.pipe(Layer.provide(ConsoleTest), Layer.provide(ConfigTest)))));
 
 		expect(messages.length).toBe(2);
 		expect(messages[0].level).toBe("warn");
@@ -84,12 +85,12 @@ describe("Logger", () => {
 			redactKeys: ["password", "token"],
 		});
 
-		const program = Effect.gen(function*() {
+		const program = Effect.gen(function* () {
 			const logger = yield* Logger;
 			yield* logger.info("user login", { password: "secret123", token: "abc123", username: "john" });
 		});
 
-		await Effect.runPromise(program.pipe(Effect.provide(Layer.merge(ConsoleTest, ConfigTest))));
+		await Effect.runPromise(program.pipe(Effect.provide(LoggerLive.pipe(Layer.provide(ConsoleTest), Layer.provide(ConfigTest)))));
 
 		expect(messages.length).toBe(1);
 		const entry = messages[0];
@@ -112,13 +113,13 @@ describe("Logger", () => {
 
 		const ConfigTest = Layer.succeed(LoggerConfigTag, { baseMeta: { service: "api" } });
 
-		const program = Effect.gen(function*() {
+		const program = Effect.gen(function* () {
 			const logger = yield* Logger;
 			const childLogger = logger.child({ requestId: "req_123" });
 			yield* childLogger.info("request received", { path: "/users" });
 		});
 
-		await Effect.runPromise(program.pipe(Effect.provide(Layer.merge(ConsoleTest, ConfigTest))));
+		await Effect.runPromise(program.pipe(Effect.provide(LoggerLive.pipe(Layer.provide(ConsoleTest), Layer.provide(ConfigTest)))));
 
 		expect(messages.length).toBe(1);
 		const entry = messages[0];

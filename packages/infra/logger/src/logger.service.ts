@@ -3,9 +3,9 @@ import { createConfig, DEFAULT_CONFIG } from "./config";
 import { jsonFormatter } from "./formatters/json.formatter";
 import { redactMeta } from "./formatters/redact.formatter";
 import { createMultiSink } from "./sinks/multi.sink";
-import type { Console, LogEntry, Logger, LoggerConfig, LogLevel, LogMeta } from "./types";
+import type { ILogger, LogConsole, LogEntry, LoggerConfig, LogLevel, LogMeta } from "./types";
 
-export const Console = Context.GenericTag<Console>("@wpackages/logger/Console");
+export const Console = Context.GenericTag<LogConsole>("@wpackages/logger/Console");
 export const LoggerConfigTag = Context.GenericTag<LoggerConfig>("@wpackages/logger/LoggerConfig");
 
 const levelRank: Record<LogLevel, number> = {
@@ -24,7 +24,7 @@ const mergeMeta = (base: LogMeta | undefined, next: LogMeta | undefined): LogMet
 	return { ...base, ...next };
 };
 
-export const makeLogger = Effect.gen(function*() {
+export const makeLogger = Effect.gen(function* () {
 	const console = yield* Console;
 	const config = yield* LoggerConfigTag;
 
@@ -46,11 +46,11 @@ export const makeLogger = Effect.gen(function*() {
 		if (sinks.length === 0) {
 			switch (entry.level) {
 				case "error":
-					return console.error(line);
+					return console.error(String(line));
 				case "warn":
-					return console.warn(line);
+					return console.warn(String(line));
 				default:
-					return console.log(line);
+					return console.log(String(line));
 			}
 		}
 
@@ -58,16 +58,21 @@ export const makeLogger = Effect.gen(function*() {
 		return sink(payload);
 	};
 
-	const child = (meta: LogMeta): Logger => {
+	const child = (meta: LogMeta): ILogger => {
 		const mergedMeta = mergeMeta(mergedConfig.baseMeta, meta);
-		return Effect.succeed({
-			log,
-			debug: (message, m) => log({ level: "debug", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
-			info: (message, m) => log({ level: "info", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
-			warn: (message, m) => log({ level: "warn", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
-			error: (message, m) => log({ level: "error", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
-			child: (m) => child(mergeMeta(mergedMeta, m)),
-		});
+		const childLog = (entry: LogEntry): Effect.Effect<void> => {
+			const finalMeta = mergeMeta(mergedMeta, entry.meta);
+			return log(finalMeta ? { ...entry, meta: finalMeta } : entry);
+		};
+		const childLogger: ILogger = {
+			log: childLog,
+			debug: (message, m) => childLog({ level: "debug", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
+			info: (message, m) => childLog({ level: "info", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
+			warn: (message, m) => childLog({ level: "warn", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
+			error: (message, m) => childLog({ level: "error", message, timestamp: Date.now(), ...(m ? { meta: m } : {}) }),
+			child: (m: LogMeta) => child(mergeMeta(mergedMeta, m) ?? {}),
+		};
+		return childLogger;
 	};
 
 	return {
@@ -77,10 +82,10 @@ export const makeLogger = Effect.gen(function*() {
 		warn: (message, meta) => log({ level: "warn", message, timestamp: Date.now(), ...(meta ? { meta } : {}) }),
 		error: (message, meta) => log({ level: "error", message, timestamp: Date.now(), ...(meta ? { meta } : {}) }),
 		child,
-	} satisfies Logger;
+	} satisfies ILogger;
 });
 
-export const Logger = Context.GenericTag<Logger>("@wpackages/logger/Logger");
+export const Logger = Context.GenericTag<ILogger>("@wpackages/logger/Logger");
 
 export const ConsoleLive = Layer.succeed(
 	Console,

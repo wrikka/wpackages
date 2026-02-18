@@ -1,5 +1,5 @@
 export * from "./config";
-export * from "./logger.service";
+export { Console, Logger, LoggerConfigTag, makeLogger, ConsoleLive, LoggerLive, DefaultLoggerLayer } from "./logger.service";
 export * from "./types";
 
 export * from "./formatters/json.formatter";

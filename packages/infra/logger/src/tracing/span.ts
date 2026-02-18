@@ -5,10 +5,10 @@ const generateSpanId = (): string => `span_${Date.now()}_${Math.random().toStrin
 
 export const createSpan = (name: string, parentId?: string, meta?: LogMeta): LogSpan => ({
 	id: generateSpanId(),
-	parentId,
+	...(parentId !== undefined && { parentId }),
 	name,
 	startTime: Date.now(),
-	meta,
+	...(meta !== undefined && { meta }),
 });
 
 export const endSpan = (span: LogSpan): LogSpan => ({
