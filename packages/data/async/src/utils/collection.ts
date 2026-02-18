@@ -18,7 +18,6 @@ export const mapLimit = async <A, B>(
 	let currentIndex = 0;
 	let activeCount = 0;
 	let hasError = false;
-	let errorValue: unknown;
 
 	return new Promise((resolve, reject) => {
 		const runNext = async (): Promise<void> => {
@@ -37,7 +36,6 @@ export const mapLimit = async <A, B>(
 				results[index] = await fn(items[index]!, index);
 			} catch (error) {
 				hasError = true;
-				errorValue = error;
 				reject(error);
 				return;
 			}

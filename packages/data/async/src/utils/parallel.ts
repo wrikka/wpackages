@@ -35,7 +35,11 @@ export const parallel = async <const Tasks extends readonly Task<any>[]>(
 
 			activeCount++;
 			try {
-				results[index] = await tasks[index]();
+				const task = tasks[index];
+				if (task === undefined) {
+					throw new Error(`Task at index ${index} is undefined`);
+				}
+				results[index] = await task();
 			} catch (error) {
 				hasError = true;
 				reject(error);

@@ -8,7 +8,6 @@ export const debounce = <A extends unknown[], R>(
 
 	let timeoutId: ReturnType<typeof setTimeout> | undefined;
 	let lastArgs: A | undefined;
-	let lastCallTime = 0;
 	let maxTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
 	const invokeFn = async (): Promise<R> => {
@@ -20,8 +19,6 @@ export const debounce = <A extends unknown[], R>(
 
 	return async (...args: A): Promise<R> => {
 		lastArgs = args;
-		const now = Date.now();
-		lastCallTime = now;
 
 		if (leading && timeoutId === undefined) {
 			return await fn(...args);

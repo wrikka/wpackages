@@ -92,17 +92,6 @@
         "typescript": "^5.9.3",
       },
     },
-    "packages/core/async": {
-      "name": "@wpackages/async",
-      "version": "0.0.1",
-      "devDependencies": {
-        "@types/bun": "^1.3.9",
-        "oxlint": "^1.48.0",
-        "tsdown": "^0.18.4",
-        "typescript": "^5.9.3",
-        "vitest": "^4.0.18",
-      },
-    },
     "packages/core/concurrency": {
       "name": "@wpackages/concurrency",
       "version": "0.1.0",
@@ -139,6 +128,17 @@
         "typescript": "^5.9.3",
         "vitest": "^4.0.18",
         "zod": "^3.25.76",
+      },
+    },
+    "packages/data/async": {
+      "name": "@wpackages/async",
+      "version": "0.0.1",
+      "devDependencies": {
+        "@types/bun": "^1.3.9",
+        "oxlint": "^1.48.0",
+        "tsdown": "^0.18.4",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.18",
       },
     },
     "packages/data/cache": {
@@ -374,6 +374,7 @@
       "name": "@wpackages/effect",
       "version": "0.0.1",
       "dependencies": {
+        "@wpackages/async": "workspace:*",
         "@wpackages/error": "workspace:*",
         "@wpackages/queue": "workspace:*",
         "@wpackages/schema": "workspace:*",
@@ -1879,7 +1880,7 @@
 
     "@wpackages/api-integrations": ["@wpackages/api-integrations@workspace:packages/server/api-integrations"],
 
-    "@wpackages/async": ["@wpackages/async@workspace:packages/core/async"],
+    "@wpackages/async": ["@wpackages/async@workspace:packages/data/async"],
 
     "@wpackages/bun": ["@wpackages/bun@workspace:packages/devtools/macros/bun"],
 
