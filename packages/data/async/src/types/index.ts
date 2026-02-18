@@ -25,7 +25,7 @@ export type ParallelOptions = {
 export type QueueOptions<A> = {
 	readonly concurrency?: number;
 	readonly priority?: (task: A) => number;
-	readonly signal?: AbortSignal;
+	readonly signal?: AbortSignal | undefined;
 };
 
 export type AsyncTask<A, E = unknown> = {

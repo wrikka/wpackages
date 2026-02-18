@@ -10,7 +10,7 @@ export class AsyncQueue<A> {
 	private readonly concurrency: number;
 	private readonly items: QueueItem<A>[] = [];
 	private active = 0;
-	private readonly signal?: AbortSignal;
+	private readonly signal: AbortSignal | undefined;
 
 	constructor(options: QueueOptions<A> = {}) {
 		this.concurrency = options.concurrency ?? Number.POSITIVE_INFINITY;

@@ -17,7 +17,7 @@ export const parallel = async <const Tasks extends readonly Task<any>[]>(
 	}
 
 	return new Promise((resolve, reject) => {
-		const results: unknown[] = new Array(tasks.length);
+		const results: unknown[] = Array.from({ length: tasks.length });
 		let currentIndex = 0;
 		let activeCount = 0;
 		let hasError = false;
@@ -46,7 +46,7 @@ export const parallel = async <const Tasks extends readonly Task<any>[]>(
 		};
 
 		for (let i = 0; i < Math.min(concurrency, tasks.length); i++) {
-			runNext();
+			void runNext();
 		}
 	});
 };
