@@ -1,27 +1,109 @@
-import type { EffectCleanup } from "../types/index";
+import type { EffectCleanup, EffectOptions, Subscriber, Unsubscriber } from "../types/index";
 
-type Subscriber = () => void;
+/** Effect scheduling modes */
+type EffectMode = "sync" | "microtask" | "macrotask";
 
-let currentSubscriber: Subscriber | null = null;
-let currentUnsubscribers: Array<() => void> | null = null;
+// Global state for effect scheduling
+let isScheduling = false;
+const pendingEffects = new Set<Subscriber>();
 
-const effectQueue = new Set<() => void>();
-let isBatching = false;
+// Track currently running effects to prevent infinite loops
+const runningEffects = new Set<Subscriber>();
 
-export const queueEffect = (effect: () => void) => {
-	if (isBatching) {
-		effectQueue.add(effect);
+// Error handling
+let errorHandler: ((error: Error, effect: () => void) => void) | null = null;
+
+export const setErrorHandler = (
+	handler: (error: Error, effect: () => void) => void,
+): void => {
+	errorHandler = handler;
+};
+
+const runWithErrorHandling = (fn: () => void, effect: () => void): void => {
+	try {
+		fn();
+	} catch (err) {
+		if (errorHandler) {
+			errorHandler(err instanceof Error ? err : new Error(String(err)), effect);
+		} else {
+			throw err;
+		}
+	}
+};
+
+// Execute all pending effects
+const flushEffects = (): void => {
+	if (isScheduling) return;
+	isScheduling = true;
+
+	const effects = Array.from(pendingEffects);
+	pendingEffects.clear();
+
+	for (const effect of effects) {
+		if (!runningEffects.has(effect)) {
+			runWithErrorHandling(effect, effect);
+		}
+	}
+
+	isScheduling = false;
+
+	if (pendingEffects.size > 0) {
+		queueMicrotask(flushEffects);
+	}
+};
+
+/**
+ * Queues an effect to run.
+ */
+export const queueEffect = (effect: Subscriber, mode: EffectMode = "sync"): void => {
+	if (runningEffects.has(effect)) return;
+
+	if (mode === "sync") {
+		runningEffects.add(effect);
+		try {
+			runWithErrorHandling(effect, effect);
+		} finally {
+			runningEffects.delete(effect);
+		}
 	} else {
-		effect();
+		pendingEffects.add(effect);
+		queueMicrotask(flushEffects);
 	}
 };
 
-const flushQueue = () => {
-	for (const effect of effectQueue) {
-		effect();
-	}
-	effectQueue.clear();
+// Context for dependency tracking
+let activeEffect: Subscriber | null = null;
+let activeCleanups: (() => void)[] | null = null;
+
+export const __internal = {
+	getCurrentSubscriber: (): Subscriber | null => activeEffect,
+	registerUnsubscriber: (unsub: Unsubscriber): void => {
+		activeCleanups?.push(unsub);
+	},
+	queueEffect,
 };
+
+/**
+ * Runs a function without tracking its dependencies.
+ */
+export const untrack = <T>(run: () => T): T => {
+	const prevEffect = activeEffect;
+	const prevCleanups = activeCleanups;
+	activeEffect = null;
+	activeCleanups = null;
+	try {
+		return run();
+	} finally {
+		activeEffect = prevEffect;
+		activeCleanups = prevCleanups;
+	}
+};
+
+/**
+ * Batches multiple state updates.
+ */
+let isBatching = false;
+const batchedEffects = new Set<Subscriber>();
 
 export const batch = <T>(run: () => T): T => {
 	const wasBatching = isBatching;
@@ -30,61 +112,71 @@ export const batch = <T>(run: () => T): T => {
 		return run();
 	} finally {
 		if (!wasBatching) {
-			flushQueue();
 			isBatching = false;
+			const effects = Array.from(batchedEffects);
+			batchedEffects.clear();
+			for (const effect of effects) {
+				queueEffect(effect, "sync");
+			}
 		}
 	}
 };
 
-export const __internal = {
-	getCurrentSubscriber: () => currentSubscriber,
-	registerUnsubscriber: (unsub: () => void) => {
-		currentUnsubscribers?.push(unsub);
-	},
-};
-
-export const untrack = <T>(run: () => T): T => {
-	const prevSubscriber = currentSubscriber;
-	currentSubscriber = null;
-	try {
-		return run();
-	} finally {
-		currentSubscriber = prevSubscriber;
-	}
-};
-
-export const effect = (run: () => EffectCleanup): () => void => {
+/**
+ * Creates a reactive effect that runs when its dependencies change.
+ */
+export const effect = (run: () => EffectCleanup, options: EffectOptions = {}): () => void => {
+	const mode = options.mode ?? "sync";
 	let cleanup: EffectCleanup;
-	let stopped = false;
-	let unsubscribers: Array<() => void> = [];
+	let isStopped = false;
+	const cleanups: (() => void)[] = [];
 
-	const runner = () => {
-		if (stopped) return;
+	const execute = (): void => {
+		if (isStopped) return;
 
-		if (typeof cleanup === "function") cleanup();
-		for (const unsub of unsubscribers) unsub();
-		unsubscribers = [];
+		if (typeof cleanup === "function") {
+			cleanup();
+		}
 
-		const prevSubscriber = currentSubscriber;
-		const prevUnsubscribers = currentUnsubscribers;
-		currentSubscriber = runner;
-		currentUnsubscribers = unsubscribers;
+		for (const cleanupFn of cleanups) {
+			cleanupFn();
+		}
+		cleanups.length = 0;
+
+		const prevEffect = activeEffect;
+		const prevCleanups = activeCleanups;
+		activeEffect = execute;
+		activeCleanups = cleanups;
 
 		try {
 			cleanup = run();
+		} catch (err) {
+			if (errorHandler) {
+				errorHandler(err instanceof Error ? err : new Error(String(err)), execute);
+			} else {
+				throw err;
+			}
 		} finally {
-			currentSubscriber = prevSubscriber;
-			currentUnsubscribers = prevUnsubscribers;
+			activeEffect = prevEffect;
+			activeCleanups = prevCleanups;
 		}
 	};
 
-	runner();
+	if (mode === "sync") {
+		execute();
+	} else {
+		queueEffect(execute, mode);
+	}
 
-	return () => {
-		if (stopped) return;
-		stopped = true;
-		for (const unsub of unsubscribers) unsub();
-		unsubscribers = [];
-		if (typeof cleanup === "function") cleanup();
+	return (): void => {
+		if (isStopped) return;
+		isStopped = true;
+		for (const cleanupFn of cleanups) {
+			cleanupFn();
+		}
+		cleanups.length = 0;
+		if (typeof cleanup === "function") {
+			cleanup();
+		}
 	};
 };

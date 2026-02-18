@@ -1,39 +1,35 @@
+import { createDepSystem } from "../services/dep-system";
 import { __internal } from "../services/effect";
 
-type Subscriber = () => void;
-
-const targetMap = new WeakMap<object, Map<PropertyKey, Set<Subscriber>>>();
+const { track } = createDepSystem();
 const readonlyCache = new WeakMap<object, unknown>();
 
-const track = (target: object, key: PropertyKey) => {
-	const sub = __internal.getCurrentSubscriber();
-	if (!sub) return;
-
-	let depsMap = targetMap.get(target);
-	if (!depsMap) {
-		depsMap = new Map();
-		targetMap.set(target, depsMap);
-	}
-
-	let deps = depsMap.get(key);
-	if (!deps) {
-		deps = new Set();
-		depsMap.set(key, deps);
-	}
-
-	deps.add(sub);
-	__internal.registerUnsubscriber(() => {
-		deps.delete(sub);
-	});
+const trackWithEffect = (target: object, key: PropertyKey) => {
+	track(target, key, __internal.getCurrentSubscriber, __internal.registerUnsubscriber);
 };
 
+/**
+ * Creates a read-only reactive proxy of an object.
+ * The object can be read (triggering effects) but cannot be modified.
+ * Throws TypeError on any set or delete operations.
+ *
+ * @param target - The object to make readonly
+ * @returns A readonly reactive proxy
+ *
+ * @example
+ * ```ts
+ * const state = readonly({ count: 0 });
+ * effect(() => console.log(state.count)); // Can read
+ * state.count = 1; // Throws TypeError
+ * ```
+ */
 export const readonly = <T extends object>(target: T): T => {
 	const cached = readonlyCache.get(target) as T | undefined;
 	if (cached) return cached;
 
 	const proxy = new Proxy(target, {
 		get(t, key, receiver) {
-			track(t, key);
+			trackWithEffect(t, key);
 			const res = Reflect.get(t, key, receiver);
 			if (typeof res === "object" && res !== null) {
 				return readonly(res as object);

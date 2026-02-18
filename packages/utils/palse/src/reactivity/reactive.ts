@@ -1,46 +1,39 @@
+import { createDepSystem } from "../services/dep-system";
 import { __internal } from "../services/effect";
 
-type Subscriber = () => void;
-
-const targetMap = new WeakMap<object, Map<PropertyKey, Set<Subscriber>>>();
+const { track, trigger } = createDepSystem();
 const reactiveCache = new WeakMap<object, unknown>();
 
-const track = (target: object, key: PropertyKey) => {
-	const sub = __internal.getCurrentSubscriber();
-	if (!sub) return;
-
-	let depsMap = targetMap.get(target);
-	if (!depsMap) {
-		depsMap = new Map();
-		targetMap.set(target, depsMap);
-	}
-
-	let deps = depsMap.get(key);
-	if (!deps) {
-		deps = new Set();
-		depsMap.set(key, deps);
-	}
-
-	deps.add(sub);
-	__internal.registerUnsubscriber(() => {
-		deps.delete(sub);
-	});
+const trackWithEffect = (target: object, key: PropertyKey) => {
+	track(target, key, __internal.getCurrentSubscriber, __internal.registerUnsubscriber);
 };
 
-const trigger = (target: object, key: PropertyKey) => {
-	const depsMap = targetMap.get(target);
-	const deps = depsMap?.get(key);
-	if (!deps) return;
-	for (const sub of deps) sub();
+const triggerWithQueue = (target: object, key: PropertyKey) => {
+	trigger(target, key, __internal.queueEffect);
 };
 
+/**
+ * Creates a deeply reactive proxy of an object.
+ * Changes to the object or nested objects trigger effects.
+ *
+ * @param target - The object to make reactive
+ * @returns A reactive proxy of the object
+ *
+ * @example
+ * ```ts
+ * const state = reactive({ count: 0, user: { name: "John" } });
+ * effect(() => console.log(state.count));
+ * state.count++; // Triggers effect
+ * state.user.name = "Jane"; // Also triggers effect (deep)
+ * ```
+ */
 export const reactive = <T extends object>(target: T): T => {
 	const cached = reactiveCache.get(target) as T | undefined;
 	if (cached) return cached;
 
 	const proxy = new Proxy(target, {
 		get(t, key, receiver) {
-			track(t, key);
+			trackWithEffect(t, key);
 			const res = Reflect.get(t, key, receiver);
 			if (typeof res === "object" && res !== null) {
 				return reactive(res as object);
@@ -51,7 +44,7 @@ export const reactive = <T extends object>(target: T): T => {
 			const prev = Reflect.get(t, key, receiver);
 			const ok = Reflect.set(t, key, value, receiver);
 			if (ok && !Object.is(prev, value)) {
-				trigger(t, key);
+				triggerWithQueue(t, key);
 			}
 			return ok;
 		},
@@ -59,7 +52,7 @@ export const reactive = <T extends object>(target: T): T => {
 			const had = Reflect.has(t, key);
 			const ok = Reflect.deleteProperty(t, key);
 			if (ok && had) {
-				trigger(t, key);
+				triggerWithQueue(t, key);
 			}
 			return ok;
 		},

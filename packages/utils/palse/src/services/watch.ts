@@ -1,5 +1,5 @@
 import type { OnCleanup, WatchEffectOptions, WatchHandle, WatchOptions } from "../types/index";
-import { effect } from "./effect";
+import { effect, untrack } from "./effect";
 
 const createScheduler = (flush: "sync" | "post") => {
 	const queue = new Set<() => void>();
@@ -42,6 +42,26 @@ const traverse = (value: unknown, depth: number, seen: Set<unknown>): void => {
 	}
 };
 
+/**
+ * Creates an effect that automatically tracks its dependencies and re-runs when they change.
+ * Supports pause, resume, and manual stop.
+ *
+ * @param run - Function that runs when dependencies change, receives onCleanup callback
+ * @param options - Options for flush timing ("sync" or "post")
+ * @returns WatchHandle with stop, pause, resume methods
+ *
+ * @example
+ * ```ts
+ * const count = ref(0);
+ * const handle = watchEffect(() => {
+ *   console.log(count.value);
+ * });
+ * count.value = 5; // Logs: 5
+ * handle.pause(); // Stop reacting
+ * handle.resume(); // Start reacting again
+ * handle.stop(); // Permanently stop
+ * ```
+ */
 export const watchEffect = (
 	run: (onCleanup: OnCleanup) => void,
 	options?: WatchEffectOptions,
@@ -50,9 +70,15 @@ export const watchEffect = (
 	let paused = false;
 	let stopped = false;
 	let cleanup: (() => void) | undefined;
+	let skipNextRun = false;
 
-	const job = () => {
-		if (stopped || paused) return;
+	const execute = () => {
+		if (stopped) return;
+		if (paused) return;
+		if (skipNextRun) {
+			skipNextRun = false;
+			return;
+		}
 		if (cleanup) cleanup();
 		run((fn) => {
 			cleanup = fn;
@@ -60,10 +86,14 @@ export const watchEffect = (
 	};
 
 	const stopEffect = effect(() => {
-		scheduler(job);
-		return () => {
-			cleanup?.();
-		};
+		// When paused, use untrack to access signals without subscribing
+		// This preserves existing subscriptions while paused
+		if (paused) {
+			untrack(() => scheduler(execute));
+		} else {
+			scheduler(execute);
+		}
+		return () => cleanup?.();
 	});
 
 	const stop = () => {
@@ -78,14 +108,37 @@ export const watchEffect = (
 		paused = true;
 	};
 	handle.resume = () => {
-		if (stopped) return;
+		if (stopped || !paused) return;
 		paused = false;
-		scheduler(job);
+		// Skip the first run after resume to avoid capturing current state
+		skipNextRun = true;
 	};
 
 	return handle;
 };
 
+/**
+ * Watches a reactive source and calls a callback when it changes.
+ * Supports deep watching, immediate execution, and one-time execution.
+ *
+ * @param source - The source to watch (function or reactive value)
+ * @param callback - Called when source changes with newValue, oldValue, and onCleanup
+ * @param options - Watch options: flush, immediate, deep, once
+ * @returns WatchHandle with stop, pause, resume methods
+ *
+ * @example
+ * ```ts
+ * const count = ref(0);
+ * watch(() => count.value, (newVal, oldVal) => {
+ *   console.log(`${oldVal} -> ${newVal}`);
+ * });
+ * count.value = 5; // Logs: "0 -> 5"
+ *
+ * // With immediate and once
+ * watch(() => count.value, console.log, { immediate: true, once: true });
+ * // Logs immediately, then stops after first change
+ * ```
+ */
 export const watch = <T>(
 	source: (() => T) | T,
 	callback: (value: T, oldValue: T, onCleanup: OnCleanup) => void,
