@@ -1,9 +1,10 @@
 {
-	"name": "@wpackages/async",
-	"version": "0.0.1",
-	"private": true,
+	"name": "@wpackages/queue",
+	"version": "0.1.0",
+	"description": "Functional queue system with bounded/unbounded queues for async operations",
 	"type": "module",
 	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
 	"exports": {
 		".": "./dist/index.mjs",
@@ -11,17 +12,16 @@
 	},
 	"files": [
 		"dist",
-		"src"
+		"README.md"
 	],
 	"scripts": {
-		"dev": "tsdown --watch",
 		"build": "tsdown --exports --dts --minify",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"typecheck": "tsc --noEmit",
+		"dev": "bun --watch src/index.ts",
+		"format": "dprint fmt",
 		"lint": "tsc --noEmit && oxlint --fix --type-aware",
-		"watch": "bun --watch src/index.ts",
-		"format": "dprint fmt"
+		"test": "vitest run",
+		"verify": "bun run format && bun run lint && bun run build",
+		"watch": "bun --watch src/index.ts"
 	},
 	"dependencies": {},
 	"devDependencies": {
@@ -31,5 +31,8 @@
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
 	},
-	"module": "./dist/index.mjs"
+	"packageManager": "bun@1.3.9",
+	"engines": {
+		"bun": ">=1.3.5"
+	}
 }
