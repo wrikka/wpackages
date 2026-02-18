@@ -1,13 +1,35 @@
 {
-  "name": "wshell",
+  "name": "@wpackages/wshell",
   "version": "0.0.1",
+  "description": "A modern shell with structured data pipelines - better than nushell",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "build": "tsdown",
+    "dev": "bun run src/index.ts",
+    "test": "vitest",
+    "lint": "oxlint && biome check .",
+    "typecheck": "tsc --noEmit"
+  },
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./repl": {
+      "import": "./dist/repl/index.js",
+      "types": "./dist/repl/index.d.ts"
     }
+  },
+  "dependencies": {
+    "effect": "^3.19.18"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsdown": "latest",
+    "vitest": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }
