@@ -6,8 +6,20 @@
 		"composite": true,
 		"declaration": true,
 		"declarationMap": true,
-		"incremental": true
+		"incremental": true,
+		"lib": [
+			"ES2020",
+			"DOM",
+			"DOM.Iterable",
+			"WebWorker"
+		]
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "examples"]
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"examples"
+	]
 }
