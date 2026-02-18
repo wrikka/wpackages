@@ -3,11 +3,11 @@
 	"version": "0.1.0",
 	"description": "Universal document transformer - Convert between MD, TS, TOML, JSON formats using OXC parser",
 	"type": "module",
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
 	"exports": {
-		".": "./dist/index.js",
+		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
 	"keywords": [
@@ -35,13 +35,13 @@
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",
 		"@wpackages/parser": "workspace:*",
-		"effect": "^3.19.15",
-		"markdown-it": "^14.1.0"
+		"effect": "^3.19.18",
+		"markdown-it": "^14.1.1"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
 		"@types/markdown-it": "^14.1.2",
-		"@types/node": "^24.10.9",
+		"@types/node": "^24.10.13",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"

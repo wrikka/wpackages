@@ -1,11 +1,39 @@
 {
-	"extends": "./../../tsconfig.json",
 	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"isolatedModules": true,
 		"outDir": "./dist",
 		"paths": {
-			"@w/design-pattern": ["../../utils/design-pattern/src"]
+			"@wpackages/*": [
+				"../*/src"
+			]
 		}
 	},
-	"include": ["src/**/*", "src"],
-	"exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.usage.ts"]
+	"include": [
+		"src/**/*",
+		"src"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"**/*.test.ts",
+		"**/*.usage.ts"
+	]
 }

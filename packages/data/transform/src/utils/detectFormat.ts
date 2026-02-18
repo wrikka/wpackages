@@ -1,39 +1,49 @@
-import { patterns } from "@w/design-pattern";
 import type { DocumentFormat } from "../types";
 
 /**
  * Detect document format from content or filename
  */
-const selectByFilename = patterns.behavioral.conditionalSelector.createSelector<string, DocumentFormat | null>(
-	[
-		{ condition: (f: string) => f.endsWith(".md") || f.endsWith(".markdown"), result: "markdown" },
-		{
-			condition: (f: string) => f.endsWith(".ts") || f.endsWith(".tsx") || f.endsWith(".js") || f.endsWith(".jsx"),
-			result: "typescript",
-		},
-		{ condition: (f: string) => f.endsWith(".toml"), result: "toml" },
-		{ condition: (f: string) => f.endsWith(".json"), result: "json" },
-	],
-	null,
-);
+const detectByFilename = (filename: string): DocumentFormat | null => {
+	if (filename.endsWith(".md") || filename.endsWith(".markdown")) {
+		return "markdown";
+	}
+	if (filename.endsWith(".ts") || filename.endsWith(".tsx") || filename.endsWith(".js") || filename.endsWith(".jsx")) {
+		return "typescript";
+	}
+	if (filename.endsWith(".toml")) {
+		return "toml";
+	}
+	if (filename.endsWith(".json")) {
+		return "json";
+	}
+	return null;
+};
 
-const selectByContent = patterns.behavioral.conditionalSelector.createSelector<string, DocumentFormat>(
-	[
-		{
-			condition: (c: string) => (c.startsWith("{") && c.endsWith("}")) || (c.startsWith("[") && c.endsWith("]")),
-			result: "json",
-		},
-		{
-			condition: (c: string) => (c.includes("[") && c.includes("]")) || /^\w+\s*=/.test(c),
-			result: "toml",
-		},
-		{
-			condition: (c: string) => /\b(function|const|let|var|class|interface|type|import|export)\b/.test(c),
-			result: "typescript",
-		},
-	],
-	"markdown", // Default format
-);
+const detectByContent = (content: string): DocumentFormat => {
+	const trimmed = content.trim();
+
+	// JSON detection with validation
+	if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
+		try {
+			JSON.parse(trimmed);
+			return "json";
+		} catch {
+			// Not valid JSON, continue to other checks
+		}
+	}
+
+	// TOML detection
+	if ((trimmed.includes("[") && trimmed.includes("]")) || /^\w+\s*=/.test(trimmed)) {
+		return "toml";
+	}
+
+	// TypeScript/JavaScript detection
+	if (/\b(function|const|let|var|class|interface|type|import|export)\b/.test(trimmed)) {
+		return "typescript";
+	}
+
+	return "markdown";
+};
 
 /**
  * Detect document format from content or filename
@@ -43,12 +53,12 @@ export const detectFormat = (
 	filename?: string,
 ): DocumentFormat => {
 	if (filename) {
-		const fromFilename = selectByFilename(filename);
+		const fromFilename = detectByFilename(filename);
 		if (fromFilename) {
 			return fromFilename;
 		}
 	}
 
 	const trimmed = input.trim();
-	return selectByContent(trimmed);
+	return detectByContent(trimmed);
 };
