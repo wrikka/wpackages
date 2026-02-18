@@ -39,12 +39,12 @@
 		"@wpackages/parser": "workspace:*",
 		"@wpackages/reporter": "workspace:*",
 		"commander": "^12.1.0",
-		"glob": "^13.0.0",
+		"glob": "^13.0.5",
 		"picomatch": "^4.0.3",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@types/node": "^20.19.30",
+		"@types/node": "^20.19.33",
 		"@types/picomatch": "^2.3.4",
 		"@wpackages/test": "workspace:*"
 	}

@@ -48,7 +48,7 @@
 		"@wpackages/prompt": "workspace:*",
 		"@wpackages/schema": "workspace:*",
 		"c12": "^3.3.3",
-		"effect": "^3.19.15",
+		"effect": "^3.19.18",
 		"fastest-levenshtein": "^1.0.16",
 		"find-up": "^8.0.0",
 		"picocolors": "^1.1.1"

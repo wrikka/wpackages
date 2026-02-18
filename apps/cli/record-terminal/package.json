@@ -36,7 +36,7 @@
 		"picocolors": "^1.1.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.19.30",
+		"@types/node": "^20.19.33",
 		"oxlint": "^0.3.5",
 		"tsup": "^8.5.1",
 		"typescript": "^5.9.3",

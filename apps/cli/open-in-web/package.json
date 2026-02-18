@@ -7,18 +7,18 @@
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.11.0",
-		"@shikijs/langs": "^3.21.0",
-		"@shikijs/themes": "^3.21.0",
+		"@shikijs/langs": "^3.22.0",
+		"@shikijs/themes": "^3.22.0",
 		"commander": "14.0.2",
 		"cosmiconfig": "^9.0.0",
-		"markdown-it": "^14.1.0",
+		"markdown-it": "^14.1.1",
 		"markdown-it-anchor": "^9.2.0",
 		"markdown-it-mathjax3": "^5.2.0",
 		"markdown-it-mermaid": "^0.2.5",
 		"markdown-it-toc-done-right": "^4.2.0",
 		"open": "^11.0.0",
-		"playwright-core": "^1.58.0",
-		"shiki": "^3.21.0"
+		"playwright-core": "^1.58.2",
+		"shiki": "^3.22.0"
 	},
 	"scripts": {
 		"start": "bun run --watch src/index.ts",
@@ -33,8 +33,8 @@
 		"format": "dprint fmt"
 	},
 	"devDependencies": {
-		"@shikijs/markdown-it": "^3.21.0",
-		"@types/bun": "^1.3.8",
+		"@shikijs/markdown-it": "^3.22.0",
+		"@types/bun": "^1.3.9",
 		"@types/markdown-it": "^14.1.2",
 		"release-it": "^19.2.4",
 		"tsdown": "^0.18.4",
