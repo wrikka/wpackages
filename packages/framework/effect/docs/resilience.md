@@ -9,19 +9,19 @@ Resilience patterns ช่วยให้ application ของคุณทน�
 Circuit breaker ช่วยป้องกัน cascading failures:
 
 ```typescript
-import { tryPromise, withCircuitBreaker, runPromise } from "@wpackages/effect";
+import { runPromise, tryPromise, withCircuitBreaker } from "@wpackages/effect";
 
 const fetchWithCircuitBreaker = withCircuitBreaker(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  {
-    failureThreshold: 5,
-    successThreshold: 2,
-    timeout: 60000,
-    resetTimeout: 10000,
-  },
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	{
+		failureThreshold: 5,
+		successThreshold: 2,
+		timeout: 60000,
+		resetTimeout: 10000,
+	},
 );
 
 const result = await runPromise(fetchWithCircuitBreaker);
@@ -33,24 +33,24 @@ Retry operations ด้วย exponential backoff และ jitter:
 
 ```typescript
 import {
-  tryPromise,
-  retryWithJitter,
-  exponential,
-  fullJitter,
-  runPromise,
+	exponential,
+	fullJitter,
+	retryWithJitter,
+	runPromise,
+	tryPromise,
 } from "@wpackages/effect";
 
 const retriedEffect = retryWithJitter(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  {
-    maxRetries: 3,
-    baseDelay: 1000,
-    maxDelay: 10000,
-    jitter: exponential(1000, 2),
-  },
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	{
+		maxRetries: 3,
+		baseDelay: 1000,
+		maxDelay: 10000,
+		jitter: exponential(1000, 2),
+	},
 );
 
 const result = await runPromise(retriedEffect);
@@ -59,7 +59,7 @@ const result = await runPromise(retriedEffect);
 ### Jitter Strategies
 
 ```typescript
-import { fullJitter, equalJitter, decorrelatedJitter } from "@wpackages/effect";
+import { decorrelatedJitter, equalJitter, fullJitter } from "@wpackages/effect";
 
 // Full jitter: random delay between 0 and baseDelay
 const fullJitterStrategy = fullJitter;
@@ -76,17 +76,17 @@ const decorrelatedJitterStrategy = decorrelatedJitter;
 Limit concurrent operations:
 
 ```typescript
-import { tryPromise, withBulkhead, runPromise } from "@wpackages/effect";
+import { runPromise, tryPromise, withBulkhead } from "@wpackages/effect";
 
 const bulkheadEffect = withBulkhead(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  {
-    maxConcurrent: 10,
-    maxQueueSize: 100,
-  },
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	{
+		maxConcurrent: 10,
+		maxQueueSize: 100,
+	},
 );
 
 const result = await runPromise(bulkheadEffect);
@@ -97,17 +97,17 @@ const result = await runPromise(bulkheadEffect);
 Limit request rate:
 
 ```typescript
-import { tryPromise, withRateLimiter, runPromise } from "@wpackages/effect";
+import { runPromise, tryPromise, withRateLimiter } from "@wpackages/effect";
 
 const rateLimitedEffect = withRateLimiter(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  {
-    maxRequests: 100,
-    windowMs: 60000,
-  },
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	{
+		maxRequests: 100,
+		windowMs: 60000,
+	},
 );
 
 const result = await runPromise(rateLimitedEffect);
@@ -118,15 +118,20 @@ const result = await runPromise(rateLimitedEffect);
 Set timeout for operations:
 
 ```typescript
-import { tryPromise, timeout, TimeoutError, runPromise } from "@wpackages/effect";
+import {
+	runPromise,
+	timeout,
+	TimeoutError,
+	tryPromise,
+} from "@wpackages/effect";
 
 const timeoutEffect = timeout(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  5000,
-  () => new TimeoutError("Operation timed out"),
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	5000,
+	() => new TimeoutError("Operation timed out"),
 );
 
 const result = await runPromise(timeoutEffect);
@@ -136,46 +141,46 @@ const result = await runPromise(timeoutEffect);
 
 ```typescript
 import {
-  tryPromise,
-  retryWithJitter,
-  exponential,
-  withCircuitBreaker,
-  withBulkhead,
-  timeout,
-  TimeoutError,
-  pipe,
-  runPromise,
+	exponential,
+	pipe,
+	retryWithJitter,
+	runPromise,
+	timeout,
+	TimeoutError,
+	tryPromise,
+	withBulkhead,
+	withCircuitBreaker,
 } from "@wpackages/effect";
 
 const resilientEffect = pipe(
-  tryPromise(
-    () => fetch("https://api.example.com/data"),
-    (error) => ({ message: "Fetch failed", error }),
-  ),
-  // Retry with exponential backoff
-  retryWithJitter({
-    maxRetries: 3,
-    baseDelay: 1000,
-    maxDelay: 10000,
-    jitter: exponential(1000, 2),
-  }),
-  // Circuit breaker
-  withCircuitBreaker({
-    failureThreshold: 5,
-    successThreshold: 2,
-    timeout: 60000,
-    resetTimeout: 10000,
-  }),
-  // Bulkhead
-  withBulkhead({
-    maxConcurrent: 10,
-    maxQueueSize: 100,
-  }),
-  // Timeout
-  timeout(
-    5000,
-    () => new TimeoutError("Operation timed out"),
-  ),
+	tryPromise(
+		() => fetch("https://api.example.com/data"),
+		(error) => ({ message: "Fetch failed", error }),
+	),
+	// Retry with exponential backoff
+	retryWithJitter({
+		maxRetries: 3,
+		baseDelay: 1000,
+		maxDelay: 10000,
+		jitter: exponential(1000, 2),
+	}),
+	// Circuit breaker
+	withCircuitBreaker({
+		failureThreshold: 5,
+		successThreshold: 2,
+		timeout: 60000,
+		resetTimeout: 10000,
+	}),
+	// Bulkhead
+	withBulkhead({
+		maxConcurrent: 10,
+		maxQueueSize: 100,
+	}),
+	// Timeout
+	timeout(
+		5000,
+		() => new TimeoutError("Operation timed out"),
+	),
 );
 
 const result = await runPromise(resilientEffect);
@@ -189,29 +194,29 @@ const result = await runPromise(resilientEffect);
 import { CircuitBreaker } from "@wpackages/effect";
 
 const breaker = new CircuitBreaker({
-  failureThreshold: 5,
-  successThreshold: 2,
-  timeout: 60000,
-  resetTimeout: 10000,
+	failureThreshold: 5,
+	successThreshold: 2,
+	timeout: 60000,
+	resetTimeout: 10000,
 });
 
 // Get metrics
 const metrics = breaker.getMetrics();
 console.log({
-  totalRequests: metrics.totalRequests,
-  totalFailures: metrics.totalFailures,
-  totalSuccesses: metrics.totalSuccesses,
-  failureRate: metrics.failureRate,
-  successRate: metrics.successRate,
-  state: metrics.state,
+	totalRequests: metrics.totalRequests,
+	totalFailures: metrics.totalFailures,
+	totalSuccesses: metrics.totalSuccesses,
+	failureRate: metrics.failureRate,
+	successRate: metrics.successRate,
+	state: metrics.state,
 });
 
 // Get state
 const state = breaker.getState();
 console.log({
-  state: state.state,
-  failureCount: state.failureCount,
-  successCount: state.successCount,
+	state: state.state,
+	failureCount: state.failureCount,
+	successCount: state.successCount,
 });
 ```
 
@@ -221,16 +226,16 @@ console.log({
 import { Bulkhead } from "@wpackages/effect";
 
 const bulkhead = new Bulkhead({
-  maxConcurrent: 10,
-  maxQueueSize: 100,
+	maxConcurrent: 10,
+	maxQueueSize: 100,
 });
 
 // Get metrics
 const metrics = bulkhead.getMetrics();
 console.log({
-  activeRequests: metrics.activeRequests,
-  queuedRequests: metrics.queuedRequests,
-  rejectedRequests: metrics.rejectedRequests,
+	activeRequests: metrics.activeRequests,
+	queuedRequests: metrics.queuedRequests,
+	rejectedRequests: metrics.rejectedRequests,
 });
 ```
 

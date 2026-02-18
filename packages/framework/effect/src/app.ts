@@ -4,7 +4,9 @@ const fetchUser = (id: number): Promise<{ id: number; name: string }> => {
 	return Promise.resolve({ id, name: `User ${id}` });
 };
 
-const fetchPosts = (_userId: number): Promise<Array<{ id: number; title: string }>> => {
+const fetchPosts = (
+	_userId: number,
+): Promise<Array<{ id: number; title: string }>> => {
 	return Promise.resolve([
 		{ id: 1, title: "Post 1" },
 		{ id: 2, title: "Post 2" },
@@ -12,8 +14,14 @@ const fetchPosts = (_userId: number): Promise<Array<{ id: number; title: string 
 };
 
 const main = gen(function*() {
-	const user = yield* tryPromise(() => fetchUser(1), (e) => ({ _tag: "Error" as const, message: String(e) }));
-	const posts = yield* tryPromise(() => fetchPosts(user.id), (e) => ({ _tag: "Error" as const, message: String(e) }));
+	const user = yield* tryPromise(
+		() => fetchUser(1),
+		(e) => ({ _tag: "Error" as const, message: String(e) }),
+	);
+	const posts = yield* tryPromise(
+		() => fetchPosts(user.id),
+		(e) => ({ _tag: "Error" as const, message: String(e) }),
+	);
 	return succeed({ user, posts });
 });
 

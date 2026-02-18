@@ -9,16 +9,16 @@ Resource management ช่วยให้คุณ manage resources อย่า
 ### Basic Usage
 
 ```typescript
-import { acquireRelease, using, runPromise } from "@wpackages/effect";
+import { acquireRelease, runPromise, using } from "@wpackages/effect";
 
 const withFile = using(
-  acquireRelease(
-    async () => await Bun.file("data.txt").open(),
-    (file) => async () => await file.close(),
-  ),
-  (file) => async () => {
-    return await file.text();
-  },
+	acquireRelease(
+		async () => await Bun.file("data.txt").open(),
+		(file) => async () => await file.close(),
+	),
+	(file) => async () => {
+		return await file.text();
+	},
 );
 
 const result = await runPromise(withFile);
@@ -28,20 +28,20 @@ console.log(result.value);
 ### Chaining Resources
 
 ```typescript
-import { gen, acquireRelease, using, runPromise } from "@wpackages/effect";
+import { acquireRelease, gen, runPromise, using } from "@wpackages/effect";
 
 const withMultipleResources = gen(function*() {
-  const file = yield* acquireRelease(
-    async () => await Bun.file("data.txt").open(),
-    (file) => async () => await file.close(),
-  );
+	const file = yield* acquireRelease(
+		async () => await Bun.file("data.txt").open(),
+		(file) => async () => await file.close(),
+	);
 
-  const db = yield* acquireRelease(
-    async () => await connectToDatabase(),
-    (db) => async () => await db.close(),
-  );
+	const db = yield* acquireRelease(
+		async () => await connectToDatabase(),
+		(db) => async () => await db.close(),
+	);
 
-  return succeed({ file, db });
+	return succeed({ file, db });
 });
 ```
 
@@ -50,23 +50,23 @@ const withMultipleResources = gen(function*() {
 ### Creating a Pool
 
 ```typescript
-import { pool, using, runPromise } from "@wpackages/effect";
+import { pool, runPromise, using } from "@wpackages/effect";
 
 const connectionPool = pool(
-  () => createConnection(),
-  10, // max size
+	() => createConnection(),
+	10, // max size
 );
 
 const withConnection = using(
-  connectionPool,
-  (pool) => async () => {
-    const connection = await pool.acquire();
-    try {
-      return await connection.query("SELECT * FROM users");
-    } finally {
-      await pool.release(connection);
-    }
-  },
+	connectionPool,
+	(pool) => async () => {
+		const connection = await pool.acquire();
+		try {
+			return await connection.query("SELECT * FROM users");
+		} finally {
+			await pool.release(connection);
+		}
+	},
 );
 
 const result = await runPromise(withConnection);
@@ -78,8 +78,8 @@ const result = await runPromise(withConnection);
 import { ResourcePool } from "@wpackages/effect";
 
 const pool = new ResourcePool(
-  () => createConnection(),
-  10, // max size
+	() => createConnection(),
+	10, // max size
 );
 
 // Initialize pool with some connections
@@ -88,10 +88,10 @@ await pool.initialize();
 // Use pool
 const connection = await pool.acquire();
 try {
-  const result = await connection.query("SELECT * FROM users");
-  console.log(result);
+	const result = await connection.query("SELECT * FROM users");
+	console.log(result);
 } finally {
-  await pool.release(connection);
+	await pool.release(connection);
 }
 
 // Dispose pool
@@ -103,23 +103,23 @@ await pool.dispose();
 ### Database Connections
 
 ```typescript
-import { pool, using, runPromise } from "@wpackages/effect";
+import { pool, runPromise, using } from "@wpackages/effect";
 
 const dbPool = pool(
-  () => connectToDatabase(),
-  5,
+	() => connectToDatabase(),
+	5,
 );
 
 const queryUsers = using(
-  dbPool,
-  (pool) => async () => {
-    const connection = await pool.acquire();
-    try {
-      return await connection.query("SELECT * FROM users");
-    } finally {
-      await pool.release(connection);
-    }
-  },
+	dbPool,
+	(pool) => async () => {
+		const connection = await pool.acquire();
+		try {
+			return await connection.query("SELECT * FROM users");
+		} finally {
+			await pool.release(connection);
+		}
+	},
 );
 
 const result = await runPromise(queryUsers);
@@ -128,20 +128,20 @@ const result = await runPromise(queryUsers);
 ### HTTP Clients
 
 ```typescript
-import { acquireRelease, using, runPromise } from "@wpackages/effect";
+import { acquireRelease, runPromise, using } from "@wpackages/effect";
 
 const withHttpClient = using(
-  acquireRelease(
-    async () => {
-      const client = new HttpClient();
-      await client.connect();
-      return client;
-    },
-    (client) => async () => await client.disconnect(),
-  ),
-  (client) => async () => {
-    return await client.get("/api/users");
-  },
+	acquireRelease(
+		async () => {
+			const client = new HttpClient();
+			await client.connect();
+			return client;
+		},
+		(client) => async () => await client.disconnect(),
+	),
+	(client) => async () => {
+		return await client.get("/api/users");
+	},
 );
 
 const result = await runPromise(withHttpClient);
@@ -150,29 +150,29 @@ const result = await runPromise(withHttpClient);
 ### File Operations
 
 ```typescript
-import { acquireRelease, using, runPromise } from "@wpackages/effect";
+import { acquireRelease, runPromise, using } from "@wpackages/effect";
 
 const readFile = (path: string) =>
-  using(
-    acquireRelease(
-      async () => await Bun.file(path).open(),
-      (file) => async () => await file.close(),
-    ),
-    (file) => async () => {
-      return await file.text();
-    },
-  );
+	using(
+		acquireRelease(
+			async () => await Bun.file(path).open(),
+			(file) => async () => await file.close(),
+		),
+		(file) => async () => {
+			return await file.text();
+		},
+	);
 
 const writeFile = (path: string, content: string) =>
-  using(
-    acquireRelease(
-      async () => await Bun.file(path).open("w"),
-      (file) => async () => await file.close(),
-    ),
-    (file) => async () => {
-      await file.write(content);
-    },
-  );
+	using(
+		acquireRelease(
+			async () => await Bun.file(path).open("w"),
+			(file) => async () => await file.close(),
+		),
+		(file) => async () => {
+			await file.write(content);
+		},
+	);
 
 const result = await runPromise(readFile("data.txt"));
 const writeResult = await runPromise(writeFile("output.txt", "Hello"));
@@ -181,22 +181,22 @@ const writeResult = await runPromise(writeFile("output.txt", "Hello"));
 ### Temporary Resources
 
 ```typescript
-import { acquireRelease, using, runPromise } from "@wpackages/effect";
+import { acquireRelease, runPromise, using } from "@wpackages/effect";
 
 const withTempFile = using(
-  acquireRelease(
-    async () => {
-      const path = `/tmp/${Date.now()}.tmp`;
-      await Bun.write(path, "temp content");
-      return path;
-    },
-    (path) => async () => {
-      await Bun.remove(path);
-    },
-  ),
-  (path) => async () => {
-    return await Bun.read(path);
-  },
+	acquireRelease(
+		async () => {
+			const path = `/tmp/${Date.now()}.tmp`;
+			await Bun.write(path, "temp content");
+			return path;
+		},
+		(path) => async () => {
+			await Bun.remove(path);
+		},
+	),
+	(path) => async () => {
+		return await Bun.read(path);
+	},
 );
 
 const result = await runPromise(withTempFile);

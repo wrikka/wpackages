@@ -1,5 +1,5 @@
 import type { Effect } from "../types";
-import type { Serializer, Deserializer, SerializationError } from "../types/serialization";
+import type { Deserializer, SerializationError, Serializer } from "../types/serialization";
 
 export const jsonSerializer = <A>(): Serializer<A> => ({
 	_tag: "Serializer",
@@ -51,6 +51,8 @@ export const fromJSON = <A>(data: string): Effect<A, SerializationError> => {
 	return deserialize(succeed(data), jsonDeserializer<A>());
 };
 
-export const toJSON = <A, E>(effect: Effect<A, E>): Effect<string, E | SerializationError> => {
+export const toJSON = <A, E>(
+	effect: Effect<A, E>,
+): Effect<string, E | SerializationError> => {
 	return serialize(effect, jsonSerializer<A>());
 };

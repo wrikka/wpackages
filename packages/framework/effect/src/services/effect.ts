@@ -1,7 +1,9 @@
 import type { Effect, EffectExit } from "../types";
 
 export class EffectRuntime {
-	static async runPromise<A, E>(effect: Effect<A, E>): Promise<EffectExit<A, E>> {
+	static async runPromise<A, E>(
+		effect: Effect<A, E>,
+	): Promise<EffectExit<A, E>> {
 		try {
 			const result = await effect();
 			return { _tag: "Success", value: result as A };
@@ -34,7 +36,10 @@ export const sync = <A>(f: () => A): Effect<A> => {
 	return f as Effect<A>;
 };
 
-export const tryCatch = <A, E>(f: () => A, onError: (error: unknown) => E): Effect<A, E> => {
+export const tryCatch = <A, E>(
+	f: () => A,
+	onError: (error: unknown) => E,
+): Effect<A, E> => {
 	return (() => {
 		try {
 			return f();

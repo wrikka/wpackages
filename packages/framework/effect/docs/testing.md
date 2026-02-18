@@ -14,7 +14,7 @@ import { createMock, runPromise } from "@wpackages/effect/testing";
 const mockEffect = createMock<number, Error>();
 
 mockEffect.mockImplementation((...args) => {
-  return args[0] * 2;
+	return args[0] * 2;
 });
 
 const result = await runPromise(mockEffect());
@@ -24,15 +24,15 @@ console.log(result.value); // 42 (if called with 21)
 ### Mocking Effects
 
 ```typescript
-import { createMock, succeed, runPromise } from "@wpackages/effect/testing";
+import { createMock, runPromise, succeed } from "@wpackages/effect/testing";
 
 const mockFetch = createMock<string, Error>();
 
 mockFetch.mockImplementation((url) => {
-  if (url === "/api/users") {
-    return succeed(JSON.stringify([{ id: 1, name: "John" }]));
-  }
-  return succeed(JSON.stringify({}));
+	if (url === "/api/users") {
+		return succeed(JSON.stringify([{ id: 1, name: "John" }]));
+	}
+	return succeed(JSON.stringify({}));
 });
 
 const result = await runPromise(mockFetch("/api/users"));
@@ -72,7 +72,7 @@ console.log(result); // { _tag: "Failure", error: { message: "Error" } }
 ### Creating Spies
 
 ```typescript
-import { createSpy, succeed, runPromise } from "@wpackages/effect/testing";
+import { createSpy, runPromise, succeed } from "@wpackages/effect/testing";
 
 const effect = succeed(42);
 const spy = createSpy(effect);
@@ -87,12 +87,12 @@ console.log(spy.wasCalled()); // true
 
 ```typescript
 import {
-  assertCalled,
-  assertCalledWith,
-  assertCalledTimes,
-  createSpy,
-  succeed,
-  runPromise,
+	assertCalled,
+	assertCalledTimes,
+	assertCalledWith,
+	createSpy,
+	runPromise,
+	succeed,
 } from "@wpackages/effect/testing";
 
 const effect = succeed(42);
@@ -115,13 +115,13 @@ assertCalledTimes(spy, 1);
 ### Testing Success
 
 ```typescript
-import { succeed, runPromise } from "@wpackages/effect";
+import { runPromise, succeed } from "@wpackages/effect";
 
 const effect = succeed(42);
 const result = await runPromise(effect);
 
 if (result._tag === "Success") {
-  console.log(result.value); // 42
+	console.log(result.value); // 42
 }
 ```
 
@@ -134,19 +134,19 @@ const effect = fail({ message: "Error" });
 const result = await runPromise(effect);
 
 if (result._tag === "Failure") {
-  console.log(result.error); // { message: "Error" }
+	console.log(result.error); // { message: "Error" }
 }
 ```
 
 ### Testing Combinators
 
 ```typescript
-import { succeed, map, flatMap, pipe, runPromise } from "@wpackages/effect";
+import { flatMap, map, pipe, runPromise, succeed } from "@wpackages/effect";
 
 const effect = pipe(
-  succeed(1),
-  map((x) => x * 2),
-  flatMap((x) => succeed(x + 10)),
+	succeed(1),
+	map((x) => x * 2),
+	flatMap((x) => succeed(x + 10)),
 );
 
 const result = await runPromise(effect);
@@ -157,31 +157,31 @@ console.log(result.value); // 12
 
 ```typescript
 import {
-  tryPromise,
-  retryWithJitter,
-  exponential,
-  runPromise,
+	exponential,
+	retryWithJitter,
+	runPromise,
+	tryPromise,
 } from "@wpackages/effect";
 
 let attemptCount = 0;
 
 const effect = retryWithJitter(
-  tryPromise(
-    () => {
-      attemptCount++;
-      if (attemptCount < 3) {
-        throw new Error("Failed");
-      }
-      return Promise.resolve(42);
-    },
-    (error) => ({ message: "Error", error }),
-  ),
-  {
-    maxRetries: 5,
-    baseDelay: 100,
-    maxDelay: 1000,
-    jitter: exponential(100, 2),
-  },
+	tryPromise(
+		() => {
+			attemptCount++;
+			if (attemptCount < 3) {
+				throw new Error("Failed");
+			}
+			return Promise.resolve(42);
+		},
+		(error) => ({ message: "Error", error }),
+	),
+	{
+		maxRetries: 5,
+		baseDelay: 100,
+		maxDelay: 1000,
+		jitter: exponential(100, 2),
+	},
 );
 
 const result = await runPromise(effect);
@@ -192,14 +192,20 @@ console.log(attemptCount); // 3
 ## Testing Streams
 
 ```typescript
-import { fromArray, map, filter, toArray, runPromise } from "@wpackages/effect/stream";
+import {
+	filter,
+	fromArray,
+	map,
+	runPromise,
+	toArray,
+} from "@wpackages/effect/stream";
 
 const stream = fromArray([1, 2, 3, 4, 5]);
 const processed = pipe(
-  stream,
-  map((x) => x * 2),
-  filter((x) => x > 5),
-  toArray,
+	stream,
+	map((x) => x * 2),
+	filter((x) => x > 5),
+	toArray,
 );
 
 const result = await runPromise(processed);
@@ -209,22 +215,22 @@ console.log(result.value); // [6, 8, 10]
 ## Testing Observables
 
 ```typescript
-import { createObservable, map, filter } from "@wpackages/effect/observable";
+import { createObservable, filter, map } from "@wpackages/effect/observable";
 
 const values: number[] = [];
 const observable = createObservable((observer) => {
-  [1, 2, 3, 4, 5].forEach((value) => observer.next(value));
-  observer.complete();
+	[1, 2, 3, 4, 5].forEach((value) => observer.next(value));
+	observer.complete();
 });
 
 const subscription = pipe(
-  observable,
-  map((x) => x * 2),
-  filter((x) => x > 5),
+	observable,
+	map((x) => x * 2),
+	filter((x) => x > 5),
 ).subscribe({
-  next: (value) => values.push(value),
-  error: (error) => console.error(error),
-  complete: () => console.log("Completed"),
+	next: (value) => values.push(value),
+	error: (error) => console.error(error),
+	complete: () => console.log("Completed"),
 });
 
 console.log(values); // [6, 8, 10]

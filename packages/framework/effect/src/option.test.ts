@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { some, none, isSome, isNone, mapOption, foldOption, fromNullable } from "./utils/option";
+import { foldOption, fromNullable, isNone, isSome, mapOption, none, some } from "./utils/option";
 
 describe("Option", () => {
 	it("should create some", () => {
@@ -24,10 +24,16 @@ describe("Option", () => {
 		const someOption = some(42);
 		const noneOption = none;
 
-		const someFolded = foldOption(() => "None", (x: number) => `Some: ${x}`)(someOption);
+		const someFolded = foldOption(
+			() => "None",
+			(x: number) => `Some: ${x}`,
+		)(someOption);
 		expect(someFolded).toBe("Some: 42");
 
-		const noneFolded = foldOption(() => "None", (x: number) => `Some: ${x}`)(noneOption);
+		const noneFolded = foldOption(
+			() => "None",
+			(x: number) => `Some: ${x}`,
+		)(noneOption);
 		expect(noneFolded).toBe("None");
 	});
 

@@ -28,7 +28,10 @@ export const retry = <A, E>(
 	};
 };
 
-export const compose = (schedule1: ScheduleType, schedule2: ScheduleType): ScheduleType => {
+export const compose = (
+	schedule1: ScheduleType,
+	schedule2: ScheduleType,
+): ScheduleType => {
 	return {
 		_tag: "Composed",
 		schedule1,
@@ -36,7 +39,10 @@ export const compose = (schedule1: ScheduleType, schedule2: ScheduleType): Sched
 	};
 };
 
-const shouldRetryAgain = async (attempt: number, schedule: ScheduleType): Promise<boolean> => {
+const shouldRetryAgain = async (
+	attempt: number,
+	schedule: ScheduleType,
+): Promise<boolean> => {
 	if (schedule._tag === "Recurs") {
 		return attempt <= schedule.n;
 	}
@@ -53,7 +59,7 @@ const getDelay = (attempt: number, schedule: ScheduleType): number => {
 		return schedule.duration;
 	}
 	if (schedule._tag === "Exponential") {
-		return schedule.baseDelay * Math.pow(schedule.factor, attempt - 1);
+		return schedule.baseDelay * schedule.factor ** (attempt - 1);
 	}
 	if (schedule._tag === "Composed") {
 		const delay1 = getDelay(attempt, schedule.schedule1);
@@ -73,7 +79,10 @@ export const spaced = (duration: number): ScheduleType => ({
 	duration,
 });
 
-export const exponential = (baseDelay: number, factor: number = 2): ScheduleType => ({
+export const exponential = (
+	baseDelay: number,
+	factor: number = 2,
+): ScheduleType => ({
 	_tag: "Exponential",
 	baseDelay,
 	factor,

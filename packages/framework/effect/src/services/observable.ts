@@ -1,4 +1,4 @@
-import type { Observable, Observer, Subject, BehaviorSubject, ReplaySubject, Unsubscribe } from "../types/observable";
+import type { BehaviorSubject, Observable, Observer, ReplaySubject, Subject, Unsubscribe } from "../types/observable";
 
 export const createObservable = <A>(
 	subscribe: (observer: Observer<A>) => Unsubscribe,
@@ -40,9 +40,7 @@ export const map = <A, B>(f: (a: A) => B) => (observable: Observable<A>): Observ
 	});
 };
 
-export const filter = <A>(predicate: (a: A) => boolean) => (
-	observable: Observable<A>,
-): Observable<A> => {
+export const filter = <A>(predicate: (a: A) => boolean) => (observable: Observable<A>): Observable<A> => {
 	return createObservable((observer) => {
 		return observable.subscribe({
 			next: (value) => {
@@ -131,7 +129,9 @@ export const createSubject = <A>(): Subject<A> => {
 	};
 };
 
-export const createBehaviorSubject = <A>(initialValue: A): BehaviorSubject<A> => {
+export const createBehaviorSubject = <A>(
+	initialValue: A,
+): BehaviorSubject<A> => {
 	const subject = createSubject<A>() as BehaviorSubject<A>;
 	let currentValue = initialValue;
 
@@ -146,7 +146,9 @@ export const createBehaviorSubject = <A>(initialValue: A): BehaviorSubject<A> =>
 	};
 };
 
-export const createReplaySubject = <A>(bufferSize = Infinity): ReplaySubject<A> => {
+export const createReplaySubject = <A>(
+	bufferSize = Infinity,
+): ReplaySubject<A> => {
 	const subject = createSubject<A>() as ReplaySubject<A>;
 	const buffer: A[] = [];
 
@@ -167,14 +169,16 @@ export const createReplaySubject = <A>(bufferSize = Infinity): ReplaySubject<A> 
 	};
 };
 
-export const merge = <const Observables extends readonly Observable<any>[]>(...observables: Observables): Observable<Observables[number][number]> => {
+export const merge = <const Observables extends readonly Observable<any>[]>(
+	...observables: Observables
+): Observable<Observables[number][number]> => {
 	return createObservable((observer) => {
 		const unsubscribes = observables.map((obs) =>
 			obs.subscribe({
 				next: (value) => observer.next(value),
 				error: (error) => observer.error(error),
 				complete: () => {},
-			}),
+			})
 		);
 		return () => unsubscribes.forEach((unsub) => unsub());
 	});

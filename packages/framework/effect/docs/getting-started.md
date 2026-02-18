@@ -11,7 +11,7 @@ bun add @wpackages/effect
 ### Creating Effects
 
 ```typescript
-import { Effect, succeed, fail, sync, tryPromise } from "@wpackages/effect";
+import { Effect, fail, succeed, sync, tryPromise } from "@wpackages/effect";
 
 // Success effect
 const successEffect = succeed(42);
@@ -21,13 +21,13 @@ const failureEffect = fail({ message: "Something went wrong" });
 
 // Sync effect
 const syncEffect = sync(() => {
-  return Math.random();
+	return Math.random();
 });
 
 // Async effect
 const asyncEffect = tryPromise(
-  () => fetch("https://api.example.com/data"),
-  (error) => ({ message: "Failed to fetch", error }),
+	() => fetch("https://api.example.com/data"),
+	(error) => ({ message: "Failed to fetch", error }),
 );
 ```
 
@@ -39,7 +39,7 @@ import { runPromise, runSync } from "@wpackages/effect";
 // Run async effect
 const result = await runPromise(successEffect);
 if (result._tag === "Success") {
-  console.log(result.value); // 42
+	console.log(result.value); // 42
 }
 
 // Run sync effect
@@ -52,10 +52,10 @@ const syncResult = runSync(syncEffect);
 import { gen } from "@wpackages/effect";
 
 const program = gen(function*() {
-  const a = yield* succeed(1);
-  const b = yield* succeed(2);
-  const c = yield* succeed(3);
-  return succeed(a + b + c);
+	const a = yield* succeed(1);
+	const b = yield* succeed(2);
+	const c = yield* succeed(3);
+	return succeed(a + b + c);
 });
 
 const result = await runPromise(program);
@@ -65,20 +65,20 @@ console.log(result.value); // 6
 ### Using Combinators
 
 ```typescript
-import { map, flatMap, pipe, all } from "@wpackages/effect";
+import { all, flatMap, map, pipe } from "@wpackages/effect";
 
 const effect = succeed(1);
 
 // Map
 const doubled = pipe(
-  effect,
-  map((x) => x * 2),
+	effect,
+	map((x) => x * 2),
 );
 
 // FlatMap
 const added = pipe(
-  effect,
-  flatMap((x) => succeed(x + 10)),
+	effect,
+	flatMap((x) => succeed(x + 10)),
 );
 
 // All
@@ -93,98 +93,104 @@ import { tryCatch, tryPromise } from "@wpackages/effect";
 
 // Try-catch for sync operations
 const safeDivide = (a: number, b: number) =>
-  tryCatch(
-    () => a / b,
-    (error) => ({ message: "Division by zero", error }),
-  );
+	tryCatch(
+		() => a / b,
+		(error) => ({ message: "Division by zero", error }),
+	);
 
 // Try-promise for async operations
 const safeFetch = (url: string) =>
-  tryPromise(
-    () => fetch(url).then((r) => r.json()),
-    (error) => ({ message: "Fetch failed", error }),
-  );
+	tryPromise(
+		() => fetch(url).then((r) => r.json()),
+		(error) => ({ message: "Fetch failed", error }),
+	);
 ```
 
 ### Resilience Patterns
 
 ```typescript
 import {
-  retry,
-  recurs,
-  exponential,
-  withCircuitBreaker,
-  withBulkhead,
-  withRateLimiter,
+	exponential,
+	recurs,
+	retry,
+	withBulkhead,
+	withCircuitBreaker,
+	withRateLimiter,
 } from "@wpackages/effect";
 
 // Retry with exponential backoff
 const retriedEffect = retry(
-  asyncEffect,
-  exponential(1000, 2),
+	asyncEffect,
+	exponential(1000, 2),
 );
 
 // Circuit breaker
 const circuitBreakerEffect = withCircuitBreaker(
-  asyncEffect,
-  {
-    failureThreshold: 5,
-    successThreshold: 2,
-    timeout: 60000,
-    resetTimeout: 10000,
-  },
+	asyncEffect,
+	{
+		failureThreshold: 5,
+		successThreshold: 2,
+		timeout: 60000,
+		resetTimeout: 10000,
+	},
 );
 
 // Bulkhead
 const bulkheadEffect = withBulkhead(
-  asyncEffect,
-  { maxConcurrent: 10, maxQueueSize: 100 },
+	asyncEffect,
+	{ maxConcurrent: 10, maxQueueSize: 100 },
 );
 
 // Rate limiter
 const rateLimitedEffect = withRateLimiter(
-  asyncEffect,
-  { maxRequests: 100, windowMs: 60000 },
+	asyncEffect,
+	{ maxRequests: 100, windowMs: 60000 },
 );
 ```
 
 ### Resource Management
 
 ```typescript
-import { acquireRelease, using, pool } from "@wpackages/effect";
+import { acquireRelease, pool, using } from "@wpackages/effect";
 
 // Acquire and release
 const withConnection = using(
-  acquireRelease(
-    async () => await createConnection(),
-    (conn) => async () => await conn.close(),
-  ),
-  (conn) => async () => {
-    return await conn.query("SELECT * FROM users");
-  },
+	acquireRelease(
+		async () => await createConnection(),
+		(conn) => async () => await conn.close(),
+	),
+	(conn) => async () => {
+		return await conn.query("SELECT * FROM users");
+	},
 );
 
 // Resource pool
 const connectionPool = pool(
-  () => createConnection(),
-  10,
+	() => createConnection(),
+	10,
 );
 ```
 
 ### Stream Processing
 
 ```typescript
-import { fromArray, map, filter, reduce, toArray } from "@wpackages/effect/stream";
+import {
+	filter,
+	fromArray,
+	map,
+	reduce,
+	toArray,
+} from "@wpackages/effect/stream";
 
 const stream = fromArray([1, 2, 3, 4, 5]);
 
 const result = await runPromise(
-  pipe(
-    stream,
-    map((x) => x * 2),
-    filter((x) => x > 5),
-    reduce((acc, x) => acc + x, 0),
-  ),
+	pipe(
+		stream,
+		map((x) => x * 2),
+		filter((x) => x > 5),
+		reduce((acc, x) => acc + x, 0),
+	),
 );
 console.log(result.value); // 24 (8 + 10 + 12)
 ```
@@ -193,30 +199,30 @@ console.log(result.value); // 24 (8 + 10 + 12)
 
 ```typescript
 import {
-  createObservable,
-  map,
-  filter,
-  debounceTime,
-  createSubject,
+	createObservable,
+	createSubject,
+	debounceTime,
+	filter,
+	map,
 } from "@wpackages/effect/observable";
 
 const observable = createObservable((observer) => {
-  let count = 0;
-  const interval = setInterval(() => {
-    observer.next(count++);
-    if (count >= 10) {
-      observer.complete();
-      clearInterval(interval);
-    }
-  }, 100);
+	let count = 0;
+	const interval = setInterval(() => {
+		observer.next(count++);
+		if (count >= 10) {
+			observer.complete();
+			clearInterval(interval);
+		}
+	}, 100);
 
-  return () => clearInterval(interval);
+	return () => clearInterval(interval);
 });
 
 const subscription = observable.subscribe({
-  next: (value) => console.log("Received:", value),
-  error: (error) => console.error("Error:", error),
-  complete: () => console.log("Completed"),
+	next: (value) => console.log("Received:", value),
+	error: (error) => console.error("Error:", error),
+	complete: () => console.log("Completed"),
 });
 ```
 
@@ -224,10 +230,10 @@ const subscription = observable.subscribe({
 
 ```typescript
 import {
-  createMock,
-  createStub,
-  assertCalled,
-  assertCalledWith,
+	assertCalled,
+	assertCalledWith,
+	createMock,
+	createStub,
 } from "@wpackages/effect/testing";
 
 const mock = createMock<number, Error>();

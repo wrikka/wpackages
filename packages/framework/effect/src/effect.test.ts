@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { gen, succeed, fail, sync, tryPromise, runPromise } from "./";
+import { fail, gen, runPromise, succeed, sync, tryPromise } from "./";
 
 describe("Effect", () => {
 	it("should succeed with a value", async () => {
@@ -35,7 +35,10 @@ describe("Effect", () => {
 			(e) => ({ message: String(e) }),
 		);
 		const result = await runPromise(effect);
-		expect(result).toEqual({ _tag: "Failure", error: { message: "Error: Failed" } });
+		expect(result).toEqual({
+			_tag: "Failure",
+			error: { message: "Error: Failed" },
+		});
 	});
 
 	it("should work with gen", async () => {

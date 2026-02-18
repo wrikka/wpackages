@@ -1,9 +1,7 @@
 import type { Effect } from "../types";
 import type { Stream } from "../types/stream";
 
-export const fromAsyncIterable = <A>(
-	iterable: AsyncIterable<A>,
-): Stream<A> => {
+export const fromAsyncIterable = <A>(iterable: AsyncIterable<A>): Stream<A> => {
 	return {
 		_tag: "Stream",
 		async *[Symbol.asyncIterator]() {
@@ -27,9 +25,7 @@ export const fromEffect = <A, E>(effect: Effect<A, E>): Stream<A> => {
 	};
 };
 
-export const map = <A, B>(f: (a: A) => B | Promise<B>) => (
-	stream: Stream<A>,
-): Stream<B> => {
+export const map = <A, B>(f: (a: A) => B | Promise<B>) => (stream: Stream<A>): Stream<B> => {
 	return {
 		_tag: "Stream",
 		async *[Symbol.asyncIterator]() {
@@ -40,9 +36,7 @@ export const map = <A, B>(f: (a: A) => B | Promise<B>) => (
 	};
 };
 
-export const filter = <A>(predicate: (a: A) => boolean | Promise<boolean>) => (
-	stream: Stream<A>,
-): Stream<A> => {
+export const filter = <A>(predicate: (a: A) => boolean | Promise<boolean>) => (stream: Stream<A>): Stream<A> => {
 	return {
 		_tag: "Stream",
 		async *[Symbol.asyncIterator]() {
@@ -55,9 +49,7 @@ export const filter = <A>(predicate: (a: A) => boolean | Promise<boolean>) => (
 	};
 };
 
-export const flatMap = <A, B>(f: (a: A) => Stream<B>) => (
-	stream: Stream<A>,
-): Stream<B> => {
+export const flatMap = <A, B>(f: (a: A) => Stream<B>) => (stream: Stream<A>): Stream<B> => {
 	return {
 		_tag: "Stream",
 		async *[Symbol.asyncIterator]() {
@@ -70,9 +62,7 @@ export const flatMap = <A, B>(f: (a: A) => Stream<B>) => (
 	};
 };
 
-export const reduce = <A, B>(f: (acc: B, a: A) => B | Promise<B>, initial: B) => (
-	stream: Stream<A>,
-): Effect<B> => {
+export const reduce = <A, B>(f: (acc: B, a: A) => B | Promise<B>, initial: B) => (stream: Stream<A>): Effect<B> => {
 	return async () => {
 		let acc = initial;
 		for await (const item of stream) {
@@ -111,7 +101,9 @@ export const batch = <A>(size: number) => (stream: Stream<A>): Stream<A[]> => {
 	};
 };
 
-export const merge = <const Streams extends readonly Stream<any>[]>(...streams: Streams): Stream<Streams[number][number]> => {
+export const merge = <const Streams extends readonly Stream<any>[]>(
+	...streams: Streams
+): Stream<Streams[number][number]> => {
 	return {
 		_tag: "Stream",
 		async *[Symbol.asyncIterator]() {

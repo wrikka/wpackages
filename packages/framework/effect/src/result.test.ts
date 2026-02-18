@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { success, failure, isSuccess, isFailure, mapResult, foldResult } from "./utils/result";
+import { failure, foldResult, isFailure, isSuccess, mapResult, success } from "./utils/result";
 
 describe("Result", () => {
 	it("should create success", () => {

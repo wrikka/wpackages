@@ -2,7 +2,7 @@ import type { Effect } from "../types";
 import type { Fiber, FiberId, FiberMetrics, FiberOptions, FiberPool } from "../types/fiber";
 
 let fiberIdCounter = 0;
-let fiberPool: FiberPool = {
+const fiberPool: FiberPool = {
 	maxConcurrent: 100,
 	running: new Set(),
 	queued: [],
@@ -14,7 +14,7 @@ export const createFiberId = (): FiberId => ({
 });
 
 export const createFiber = <A, E>(
-	effect: Effect<A, E>,
+	_effect: Effect<A, E>,
 	options: FiberOptions = {},
 ): Fiber<A, E> => {
 	const id = createFiberId();
@@ -80,9 +80,11 @@ export const fork = <A, E>(
 export const forkAll = <const Effects extends readonly Effect<any, any>[]>(
 	effects: Effects,
 	options?: FiberOptions,
-): Effect<{
-	[K in keyof Effects]: Effects[K] extends Effect<infer A, any> ? A : never;
-}> => {
+): Effect<
+	{
+		[K in keyof Effects]: Effects[K] extends Effect<infer A, any> ? A : never;
+	}
+> => {
 	return async () => {
 		const results = await Promise.all(
 			effects.map((effect) => fork(effect, options)()),
@@ -96,7 +98,10 @@ export const setFiberPoolMaxConcurrent = (max: number): void => {
 };
 
 export const getFiberMetrics = (): FiberMetrics => {
-	const allFibers = [...fiberPool.running, ...fiberPool.queued.map((q) => q.fiber)];
+	const allFibers = [
+		...fiberPool.running,
+		...fiberPool.queued.map((q) => q.fiber),
+	];
 	const completedFibers = allFibers.filter((f) => f.status === "completed");
 	const failedFibers = allFibers.filter((f) => f.status === "failed");
 	const cancelledFibers = allFibers.filter((f) => f.status === "cancelled");
@@ -105,10 +110,9 @@ export const getFiberMetrics = (): FiberMetrics => {
 		.map((f) => (f.completedAt || 0) - (f.startedAt || f.createdAt))
 		.filter((t) => t > 0);
 
-	const averageExecutionTime =
-		executionTimes.length > 0
-			? executionTimes.reduce((a, b) => a + b, 0) / executionTimes.length
-			: 0;
+	const averageExecutionTime = executionTimes.length > 0
+		? executionTimes.reduce((a, b) => a + b, 0) / executionTimes.length
+		: 0;
 
 	return {
 		totalFibers: allFibers.length,

@@ -29,14 +29,12 @@ export class CircuitBreaker {
 	}
 
 	getMetrics(): CircuitBreakerMetrics {
-		const failureRate =
-			this.metrics.totalRequests > 0
-				? this.metrics.totalFailures / this.metrics.totalRequests
-				: 0;
-		const successRate =
-			this.metrics.totalRequests > 0
-				? this.metrics.totalSuccesses / this.metrics.totalRequests
-				: 0;
+		const failureRate = this.metrics.totalRequests > 0
+			? this.metrics.totalFailures / this.metrics.totalRequests
+			: 0;
+		const successRate = this.metrics.totalRequests > 0
+			? this.metrics.totalSuccesses / this.metrics.totalRequests
+			: 0;
 
 		return {
 			totalRequests: this.metrics.totalRequests,
@@ -51,8 +49,8 @@ export class CircuitBreaker {
 	async execute<A, E>(effect: Effect<A, E>): Promise<A> {
 		if (this.state.state === "open") {
 			if (
-				this.state.lastFailureTime &&
-				Date.now() - this.state.lastFailureTime > this.config.resetTimeout
+				this.state.lastFailureTime
+				&& Date.now() - this.state.lastFailureTime > this.config.resetTimeout
 			) {
 				this.state.state = "half-open";
 				this.state.successCount = 0;

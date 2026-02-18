@@ -30,4 +30,9 @@ export interface Composed {
 	readonly schedule2: ScheduleType;
 }
 
-export type ScheduleType = Recurs | Spaced | Exponential | Composed;
+export interface Cron {
+	readonly _tag: "Cron";
+	readonly pattern: string;
+}
+
+export type ScheduleType = Recurs | Spaced | Exponential | Composed | Cron;

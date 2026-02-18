@@ -1,6 +1,4 @@
-export interface Effect<out A, out _E = never, out _R = never> {
-	(): Promise<A>;
-}
+export type Effect<out A, out _E = never, out _R = never> = () => Promise<A>;
 
 export interface EffectSuccess<out A> {
 	readonly _tag: "Success";

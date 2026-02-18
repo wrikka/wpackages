@@ -14,9 +14,9 @@ import { fromPromise } from "@wpackages/effect/observable";
 const observable = fromPromise(Promise.resolve(42));
 
 observable.subscribe({
-  next: (value) => console.log("Received:", value),
-  error: (error) => console.error("Error:", error),
-  complete: () => console.log("Completed"),
+	next: (value) => console.log("Received:", value),
+	error: (error) => console.error("Error:", error),
+	complete: () => console.log("Completed"),
 });
 ```
 
@@ -29,9 +29,9 @@ const button = document.querySelector("button");
 const clickObservable = fromEvent(button, "click");
 
 clickObservable.subscribe({
-  next: (event) => console.log("Clicked:", event),
-  error: (error) => console.error("Error:", error),
-  complete: () => console.log("Completed"),
+	next: (event) => console.log("Clicked:", event),
+	error: (error) => console.error("Error:", error),
+	complete: () => console.log("Completed"),
 });
 ```
 
@@ -41,25 +41,25 @@ clickObservable.subscribe({
 import { createObservable } from "@wpackages/effect/observable";
 
 const observable = createObservable((observer) => {
-  let count = 0;
-  const interval = setInterval(() => {
-    observer.next(count++);
-    if (count >= 10) {
-      observer.complete();
-      clearInterval(interval);
-    }
-  }, 100);
+	let count = 0;
+	const interval = setInterval(() => {
+		observer.next(count++);
+		if (count >= 10) {
+			observer.complete();
+			clearInterval(interval);
+		}
+	}, 100);
 
-  return () => {
-    clearInterval(interval);
-    console.log("Cleaned up");
-  };
+	return () => {
+		clearInterval(interval);
+		console.log("Cleaned up");
+	};
 });
 
 observable.subscribe({
-  next: (value) => console.log("Received:", value),
-  error: (error) => console.error("Error:", error),
-  complete: () => console.log("Completed"),
+	next: (value) => console.log("Received:", value),
+	error: (error) => console.error("Error:", error),
+	complete: () => console.log("Completed"),
 });
 ```
 
@@ -81,7 +81,7 @@ const doubled = map((x) => x * 2)(observable);
 Filter values:
 
 ```typescript
-import { fromPromise, filter } from "@wpackages/effect/observable";
+import { filter, fromPromise } from "@wpackages/effect/observable";
 
 const observable = fromPromise(Promise.resolve(1));
 const filtered = filter((x) => x > 0)(observable);
@@ -106,11 +106,11 @@ Take first n values:
 import { createObservable, take } from "@wpackages/effect/observable";
 
 const observable = createObservable((observer) => {
-  let count = 0;
-  const interval = setInterval(() => {
-    observer.next(count++);
-  }, 100);
-  return () => clearInterval(interval);
+	let count = 0;
+	const interval = setInterval(() => {
+		observer.next(count++);
+	}, 100);
+	return () => clearInterval(interval);
 });
 
 const firstFive = take(5)(observable);
@@ -121,7 +121,7 @@ const firstFive = take(5)(observable);
 Debounce emissions:
 
 ```typescript
-import { fromEvent, debounceTime } from "@wpackages/effect/observable";
+import { debounceTime, fromEvent } from "@wpackages/effect/observable";
 
 const input = document.querySelector("input");
 const inputObservable = fromEvent(input, "input");
@@ -140,11 +140,11 @@ import { createSubject } from "@wpackages/effect/observable";
 const subject = createSubject<number>();
 
 const subscription1 = subject.subscribe({
-  next: (value) => console.log("Observer 1:", value),
+	next: (value) => console.log("Observer 1:", value),
 });
 
 const subscription2 = subject.subscribe({
-  next: (value) => console.log("Observer 2:", value),
+	next: (value) => console.log("Observer 2:", value),
 });
 
 subject.next(1);
@@ -161,7 +161,7 @@ import { createBehaviorSubject } from "@wpackages/effect/observable";
 const subject = createBehaviorSubject(0);
 
 subject.subscribe({
-  next: (value) => console.log("Received:", value),
+	next: (value) => console.log("Received:", value),
 });
 
 console.log("Current:", subject.getValue()); // 0
@@ -185,7 +185,7 @@ subject.next(3);
 
 // Late subscriber receives past values
 subject.subscribe({
-  next: (value) => console.log("Received:", value),
+	next: (value) => console.log("Received:", value),
 });
 // Logs: 1, 2, 3
 ```
@@ -211,74 +211,85 @@ const merged = merge(obs1, obs2, obs3);
 ### Real-time Updates
 
 ```typescript
-import { createObservable, map, filter, debounceTime } from "@wpackages/effect/observable";
+import {
+	createObservable,
+	debounceTime,
+	filter,
+	map,
+} from "@wpackages/effect/observable";
 
 const searchObservable = createObservable((observer) => {
-  const input = document.querySelector("input");
-  input?.addEventListener("input", (event) => {
-    observer.next((event.target as HTMLInputElement).value);
-  });
-  return () => input?.removeEventListener("input", () => {});
+	const input = document.querySelector("input");
+	input?.addEventListener("input", (event) => {
+		observer.next((event.target as HTMLInputElement).value);
+	});
+	return () => input?.removeEventListener("input", () => {});
 });
 
 const searchResults = pipe(
-  searchObservable,
-  debounceTime(300),
-  map((query) => fetch(`/api/search?q=${query}`).then((r) => r.json())),
-  filter((results) => results.length > 0),
+	searchObservable,
+	debounceTime(300),
+	map((query) => fetch(`/api/search?q=${query}`).then((r) => r.json())),
+	filter((results) => results.length > 0),
 );
 ```
 
 ### WebSocket Streams
 
 ```typescript
-import { createObservable, map, filter } from "@wpackages/effect/observable";
+import { createObservable, filter, map } from "@wpackages/effect/observable";
 
 const wsObservable = createObservable((observer) => {
-  const ws = new WebSocket("ws://localhost:8080");
+	const ws = new WebSocket("ws://localhost:8080");
 
-  ws.onmessage = (event) => {
-    observer.next(JSON.parse(event.data));
-  };
+	ws.onmessage = (event) => {
+		observer.next(JSON.parse(event.data));
+	};
 
-  ws.onerror = (error) => {
-    observer.error(error);
-  };
+	ws.onerror = (error) => {
+		observer.error(error);
+	};
 
-  ws.onclose = () => {
-    observer.complete();
-  };
+	ws.onclose = () => {
+		observer.complete();
+	};
 
-  return () => {
-    ws.close();
-  };
+	return () => {
+		ws.close();
+	};
 });
 
 const messages = pipe(
-  wsObservable,
-  filter((msg) => msg.type === "message"),
-  map((msg) => msg.data),
+	wsObservable,
+	filter((msg) => msg.type === "message"),
+	map((msg) => msg.data),
 );
 ```
 
 ### Form Validation
 
 ```typescript
-import { createObservable, map, debounceTime, filter } from "@wpackages/effect/observable";
+import {
+	createObservable,
+	debounceTime,
+	filter,
+	map,
+} from "@wpackages/effect/observable";
 
 const formObservable = createObservable((observer) => {
-  const form = document.querySelector("form");
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    observer.next(Object.fromEntries(formData));
-  });
-  return () => form?.removeEventListener("submit", () => {});
+	const form = document.querySelector("form");
+	form?.addEventListener("submit", (event) => {
+		event.preventDefault();
+		const formData = new FormData(form);
+		observer.next(Object.fromEntries(formData));
+	});
+	return () => form?.removeEventListener("submit", () => {});
 });
 
 const validatedForm = pipe(
-  formObservable,
-  debounceTime(300),
-  map(validateForm),
-  filter((result) => result.isValid),
+	formObservable,
+	debounceTime(300),
+	map(validateForm),
+	filter((result) => result.isValid),
 );
+```

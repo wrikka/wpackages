@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { succeed, map, flatMap, all, forEach, runPromise } from "./";
+import { all, flatMap, forEach, map, runPromise, succeed } from "./";
 
 describe("Combinators", () => {
 	it("should map over effect", async () => {

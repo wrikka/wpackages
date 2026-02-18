@@ -12,7 +12,10 @@ export class TagClass<I, S> implements Tag<I, S> {
 	}
 }
 
-export const createTag = <I, S>(key: symbol, of: (service: S) => I): Tag<I, S> => {
+export const createTag = <I, S>(
+	key: symbol,
+	of: (service: S) => I,
+): Tag<I, S> => {
 	return new TagClass(key, of);
 };
 
@@ -33,7 +36,10 @@ export const createLayer = <R, E>(build: () => Promise<R>): Layer<R, E> => {
 	return new LayerClass(build);
 };
 
-export const provide = <A, E, R>(effect: Effect<A, E, R>, layer: Layer<R, E>): Effect<A, E> => {
+export const provide = <A, E, R>(
+	effect: Effect<A, E, R>,
+	layer: Layer<R, E>,
+): Effect<A, E> => {
 	return async () => {
 		await layer.build();
 		return await effect();

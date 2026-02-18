@@ -3,28 +3,28 @@ import type { JitterStrategy, RetryWithJitterConfig } from "../types/retry-jitte
 
 export const fullJitter: JitterStrategy = {
 	_tag: "JitterStrategy",
-	calculate: (attempt, baseDelay) => {
+	calculate: (_attempt, baseDelay) => {
 		return Math.random() * baseDelay;
 	},
 };
 
 export const equalJitter: JitterStrategy = {
 	_tag: "JitterStrategy",
-	calculate: (attempt, baseDelay) => {
-		return baseDelay / 2 + Math.random() * baseDelay / 2;
+	calculate: (_attempt, baseDelay) => {
+		return baseDelay / 2 + (Math.random() * baseDelay) / 2;
 	},
 };
 
 export const decorrelatedJitter: JitterStrategy = {
 	_tag: "JitterStrategy",
-	calculate: (attempt, baseDelay) => {
+	calculate: (_attempt, baseDelay) => {
 		return baseDelay * (0.5 + Math.random());
 	},
 };
 
 export const noJitter: JitterStrategy = {
 	_tag: "JitterStrategy",
-	calculate: (attempt, baseDelay) => baseDelay,
+	calculate: (_attempt, baseDelay) => baseDelay,
 };
 
 export const retryWithJitter = <A, E>(

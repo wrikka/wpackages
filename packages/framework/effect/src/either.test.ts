@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { left, right, isLeft, isRight, mapEither, foldEither } from "./utils/either";
+import { foldEither, isLeft, isRight, left, mapEither, right } from "./utils/either";
 
 describe("Either", () => {
 	it("should create left", () => {
