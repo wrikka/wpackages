@@ -18,10 +18,10 @@
 		"verify": "bun run format && bun audit && bun run lint && bun run test && bun run build"
 	},
 	"devDependencies": {
-		"@types/node": "^25.1.0",
+		"@types/node": "^25.2.3",
 		"tsdown": "^0.18.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
 	},
-	"packageManager": "bun@1.3.8"
+	"packageManager": "bun@1.3.9"
 }

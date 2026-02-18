@@ -39,12 +39,12 @@
 		"picocolors": "^1.1.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.19.30",
+		"@types/node": "^20.19.33",
 		"@wpackages/test": "workspace:*",
 		"bun-plugin-svelte": "^0.0.6",
 		"bun-plugin-vue": "^1.0.0",
 		"bun-types": "latest",
-		"oxlint": "^1.42.0",
+		"oxlint": "^1.48.0",
 		"oxlint-tsgolint": "^0.10.1",
 		"typescript": ">=5.9.3"
 	},

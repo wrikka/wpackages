@@ -17,7 +17,7 @@
 	"devDependencies": {
 		"fast-glob": "^3.3.3",
 		"picocolors": "^1.1.1",
-		"puppeteer": "^24.36.1",
+		"puppeteer": "^24.37.4",
 		"typescript": "^5.9.3"
 	}
 }

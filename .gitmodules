@@ -1,9 +1,3 @@
-[submodule "rules"]
-	path = rules
-	url = https://github.com/newkub/rules
-[submodule "packages/webserver/ast-grep"]
-	path = packages/webserver/ast-grep
-	url = https://github.com/newkub/rules
 [submodule "plugins"]
 	path = plugins
 	url = https://github.com/wrikka/plugins

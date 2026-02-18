@@ -22,6 +22,7 @@
 		"verify": "bun run format && bun run lint && bun run test && bun run build && bun run dev"
 	},
 	"dependencies": {
+		"@wpackages/async": "workspace:*",
 		"@wpackages/error": "workspace:*",
 		"@wpackages/queue": "workspace:*",
 		"@wpackages/schema": "workspace:*"
