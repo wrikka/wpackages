@@ -10,14 +10,14 @@ export function isValidCommitMessage(message: string): boolean {
 
 export function isValidGitBranch(branch: string): boolean {
   if (!branch || branch.trim().length === 0) return false;
-  
+
   // Git branch name rules
   const invalidChars = /[~^:?*\\[\]]/;
   const startsWithDot = /^\./;
   const endsWithDot = /\.$/;
   const consecutiveDots = /\.\./;
   const endsWithLock = /\.lock$/;
-  
+
   return !(
     invalidChars.test(branch) ||
     startsWithDot.test(branch) ||
@@ -28,9 +28,10 @@ export function isValidGitBranch(branch: string): boolean {
 }
 
 export function isValidApiKey(key: string): boolean {
-  return key && key.trim().length > 0;
+  return Boolean(key && key.trim().length > 0);
 }
 
 export function sanitizeInput(input: string): string {
+  // eslint-disable-next-line no-control-regex
   return input.trim().replace(/[\x00-\x1F\x7F]/g, '');
 }

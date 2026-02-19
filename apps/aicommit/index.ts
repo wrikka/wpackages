@@ -87,7 +87,7 @@ export async function main() {
     GitService.commitWithMessage(editedCommitMessage);
     outro(pc.green('✔ Changes committed!'));
   } catch (error: any) {
-    s.stop('Failed to generate commit message.', 1);
+    s.stop('Failed to generate commit message.');
     handleError(error);
     process.exit(1);
   }

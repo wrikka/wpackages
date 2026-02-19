@@ -7,7 +7,7 @@
     "aicommit": "./index.ts"
   },
   "scripts": {
-    "start": "bun run index.ts",
+    "start": "bun run src/index.ts",
     "test": "vitest",
     "lint": "oxlint . && tsc --noEmit",
     "verify": "tsc --noEmit",

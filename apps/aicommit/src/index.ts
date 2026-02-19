@@ -23,5 +23,5 @@ export * from './services';
 // Legacy exports for compatibility
 export * from './utils/config';
 export * from './utils/git';
-export * from './utils/commit';
+// Note: formatCommitMessage is already exported from lib, so we skip utils/commit to avoid conflict
 export * from './llm/providers';
