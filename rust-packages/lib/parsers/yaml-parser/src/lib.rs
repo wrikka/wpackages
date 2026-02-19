@@ -1,11 +1,15 @@
-use wasm_bindgen::prelude::*;
+use napi::bindgen_prelude::*;
+use napi_derive::napi;
 use serde_yaml::Value;
 
-#[wasm_bindgen]
-pub fn parse(source: &str) -> Result<JsValue, JsValue> {
-    let result: Result<Value, _> = serde_yaml::from_str(source);
+#[napi]
+pub fn parse(source: String) -> Result<Value, Error> {
+    let result: Result<Value, serde_yaml::Error> = serde_yaml::from_str(&source);
     match result {
-        Ok(value) => Ok(serde_wasm_bindgen::to_value(&value).unwrap()),
-        Err(e) => Err(JsValue::from_str(&e.to_string())),
+        Ok(value) => Ok(value),
+        Err(e) => Err(Error::new(
+            Status::InvalidArg,
+            format!("YAML parse error: {}", e),
+        )),
     }
 }
