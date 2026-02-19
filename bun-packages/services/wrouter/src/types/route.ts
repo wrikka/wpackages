@@ -14,7 +14,7 @@ export interface RouteMatch<TRoute extends WRouteRecord<any, any> = WRouteRecord
 	readonly route: TRoute;
 	readonly params: Readonly<Record<string, string | number | boolean>>;
 	readonly query: Readonly<Record<string, string>>;
-	readonly hash: string;
+	readonly hash?: string;
 }
 
 export interface WRouteRecord<TParams = any, TMeta = any> {

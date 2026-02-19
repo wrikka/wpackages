@@ -2,31 +2,31 @@
  * Database integration implementation
  */
 
-import type { IntegrationAdapter } from './types';
+import type { IntegrationAdapter } from "./types";
 
 export const DatabaseIntegration = (): IntegrationAdapter => {
 	let connection: any = null;
 	let connected = false;
 
 	return {
-		name: 'database',
-		version: '1.0.0',
+		name: "database",
+		version: "1.0.0",
 		async connect() {
 			try {
 				// In a real implementation, you would use a database driver like 'pg', 'mysql2', or 'mongodb'
 				// For now, we'll simulate connection
-				console.log('Connecting to database...');
+				console.log("Connecting to database...");
 
 				// Simulate connection delay
 				await new Promise(resolve => setTimeout(resolve, 150));
 
 				// Simulate successful connection
-				connection = { connected: true, database: 'queue_db' };
+				connection = { connected: true, database: "queue_db" };
 				connected = true;
 
-				console.log('Database connected successfully');
+				console.log("Database connected successfully");
 			} catch (error) {
-				console.error('Failed to connect to database:', error);
+				console.error("Failed to connect to database:", error);
 				connected = false;
 				throw error;
 			}
@@ -34,7 +34,7 @@ export const DatabaseIntegration = (): IntegrationAdapter => {
 		async disconnect() {
 			try {
 				if (connection) {
-					console.log('Disconnecting from database...');
+					console.log("Disconnecting from database...");
 
 					// Simulate disconnection
 					await new Promise(resolve => setTimeout(resolve, 75));
@@ -42,10 +42,10 @@ export const DatabaseIntegration = (): IntegrationAdapter => {
 					connection = null;
 					connected = false;
 
-					console.log('Database disconnected successfully');
+					console.log("Database disconnected successfully");
 				}
 			} catch (error) {
-				console.error('Failed to disconnect from database:', error);
+				console.error("Failed to disconnect from database:", error);
 				throw error;
 			}
 		},

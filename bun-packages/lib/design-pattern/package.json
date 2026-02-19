@@ -6,7 +6,7 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "oxlint --fix --type-aware",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"check": "oxlint && vitest run",

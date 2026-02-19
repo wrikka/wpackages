@@ -2,7 +2,7 @@
  * Delayed queue types
  */
 
-import type { Queue } from './basic';
+import type { Queue } from "./basic";
 
 export interface DelayedQueueItem<A> {
 	readonly value: A;

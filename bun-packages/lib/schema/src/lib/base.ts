@@ -1,13 +1,16 @@
-import type { ParseContext, SafeParseResult, SchemaIssue, Transform, Validator } from "../types";
-import { createParseContext } from "../utils";
+import type { ParseContext, SafeParseResult, SchemaIssue, Transform, Validator } from "../../types";
+import { createParseContext } from "../../utils";
+import { SchemaError } from "../../error";
 
 /**
- * Schema Parse Error
+ * Schema Parse Error - Legacy class for backward compatibility
+ * @deprecated Use SchemaError from error layer instead
  */
-export class SchemaParseError extends Error {
+export class SchemaParseError extends SchemaError {
 	constructor(public readonly errors: SchemaIssue[]) {
-		super(errors.map((e) => `[${e.path.join(".")}] ${e.message}`).join("\n"));
-		this.name = "SchemaParseError";
+		const message = errors.map((e) => `[${e.path.join(".")}] ${e.message}`).join("\n");
+		super(message, errors);
+		Object.defineProperty(this, 'name', { value: 'SchemaParseError' });
 	}
 }
 
@@ -15,7 +18,7 @@ export class SchemaParseError extends Error {
  * Async Schema wrapper
  */
 export class AsyncSchema<T> {
-	constructor(private schema: Schema<T>) {}
+	constructor(private schema: Schema<T>) { }
 
 	async parse(value: unknown): Promise<T> {
 		const result = await this.safeParse(value);

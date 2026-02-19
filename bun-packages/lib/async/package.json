@@ -10,7 +10,10 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "src"],
+	"files": [
+		"dist",
+		"src"
+	],
 	"scripts": {
 		"dev": "tsdown --watch",
 		"build": "tsdown --exports --dts --minify",

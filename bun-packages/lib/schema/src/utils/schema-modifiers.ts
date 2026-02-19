@@ -1,4 +1,4 @@
-import type { ParseContext, SafeParseResult, SchemaIssue, Validator } from "../types";
+import type { SafeParseResult, SchemaIssue } from "../types";
 import { Schema } from '../lib/base';
 
 /**
@@ -18,7 +18,7 @@ export function withCustomErrors<T>(schema: Schema<T>, errorMap: ErrorMap): Sche
 		const result = originalSafeParse(value);
 
 		if (!result.success) {
-			const customErrors: SchemaIssue[] = result.errors.map((error) => {
+			const customErrors: SchemaIssue[] = result.errors.map((error: SchemaIssue) => {
 				const customMessage = errorMap[error.code];
 				if (customMessage) {
 					return {

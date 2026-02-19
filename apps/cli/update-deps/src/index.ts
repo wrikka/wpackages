@@ -2,7 +2,7 @@
 
 import { parseArgs } from 'util';
 import type { CheckOptions } from './types/index.js';
-import { checkCommand, updateCommand, recursiveCommand } from './commands/index.js';
+import { checkCommand, updateCommand, recursiveCommand, inspectCommand } from './commands/index.js';
 
 const { values, positionals } = parseArgs({
   args: Bun.argv.slice(2),
@@ -33,6 +33,7 @@ Commands:
   check       Check for outdated dependencies (default)
   update      Update outdated dependencies
   recursive   Check all packages recursively
+  inspect     Inspect project information and dependencies
 
 Options:
   -C, --cwd <path>              Specify the current working directory
@@ -51,6 +52,7 @@ Examples:
   update-deps check              Check for outdated dependencies
   update-deps update -w          Update and write to package.json
   update-deps recursive -r        Check all packages recursively
+  update-deps inspect            Inspect project information
   update-deps check -C ./apps    Check dependencies in specific directory
   update-deps check -x typescript  Exclude specific package
   update-deps check --concurrency 20  Increase concurrency
@@ -87,6 +89,9 @@ try {
       break;
     case 'recursive':
       await recursiveCommand(options);
+      break;
+    case 'inspect':
+      await inspectCommand(options);
       break;
     default:
       console.error(`Unknown command: ${command}`);

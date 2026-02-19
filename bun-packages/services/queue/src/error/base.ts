@@ -3,8 +3,8 @@
  */
 
 export class QueueError extends Error {
-  constructor(message: string, public readonly code: string) {
-    super(message);
-    this.name = 'QueueError';
-  }
+	constructor(message: string, public readonly code: string) {
+		super(message);
+		this.name = "QueueError";
+	}
 }

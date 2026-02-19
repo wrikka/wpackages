@@ -5,86 +5,69 @@
 // Features: Zero deps, <5KB bundle, fluent API, full type inference
 // ============================================================
 
-// Types
+// Core types
 export type {
 	Infer,
 	InferIn,
-	InferShape,
-	ParseContext,
-	SafeParseFailure,
 	SafeParseResult,
-	SafeParseSuccess,
 	SchemaIssue,
-	SchemaShape,
-	Transform,
-	Validator,
-} from "./types";
+} from './types';
 
-// Base classes
-export { AsyncSchema, Schema, SchemaParseError } from "./lib/base";
-
-// Utilities
-export { createParseContext, EMAIL_REGEX, URL_REGEX, UUID_REGEX } from "./utils";
+// Core schemas
 export {
-	assert,
-	custom,
-	type DeepPartial,
-	type DeepRequired,
-	type Infer,
-	type InferIn,
-	is,
-	parseWithFallback,
-} from "./utils/helpers";
+	StringSchema,
+	NumberSchema,
+	BooleanSchema,
+	UnknownSchema,
+} from './lib/core-schemas';
 
-// Primitive schemas
-export { BigIntSchema } from "./lib/schemas/bigint";
-export { BooleanSchema } from "./lib/schemas/boolean";
-export { DateSchema } from "./lib/schemas/date";
-export { NumberSchema } from "./lib/schemas/number";
-export { StringSchema } from "./lib/schemas/string";
-export { SymbolSchema } from "./lib/schemas/symbol";
+// Fluent API
+export { FluentSchema } from './lib/fluent-schema';
 
-// Complex schemas
-export { ArraySchema } from "./lib/schemas/array";
-export { ObjectSchema } from "./lib/schemas/object";
-export { RecordSchema } from "./lib/schemas/record";
-export { TupleSchema } from "./lib/schemas/tuple";
+// Typed schema builder
+export { s, Infer as InferType } from './lib/typed-schema';
 
-// Union/Intersection schemas
-export { DiscriminatedUnionSchema } from "./lib/schemas/discriminated-union";
-export { IntersectionSchema } from "./lib/schemas/intersection";
-export { UnionSchema } from "./lib/schemas/union";
-
-// Lazy/Recursive
-export { LazySchema } from "./lib/schemas/lazy";
-
-// Preprocess & Pipeline
-export { PipelineSchema } from "./lib/schemas/pipeline";
-export { PreprocessSchema } from "./lib/schemas/preprocess";
-
-// Schema modifiers
+// Schema composition
 export {
-	catch_ as catch,
-	type ErrorMap,
-	passthrough,
-	strict,
-	strip,
-	superRefine,
-	withCustomErrors,
-} from "./utils/schema-modifiers";
+	union,
+	intersection,
+	lazy,
+} from './lib/schema-composition';
 
-// Literal/Enum schemas
-export { EnumSchema } from "./lib/schemas/enum";
-export { LiteralSchema } from "./lib/schemas/literal";
+// Custom validation
+export {
+	ValidatedSchema,
+	validators,
+} from './lib/custom-validation';
 
-// Special schemas
-export { AnySchema, NeverSchema, UnknownSchema } from "./lib/schemas/special";
+// Transform pipeline
+export {
+	TransformSchema,
+	transforms,
+} from './lib/transform-pipeline';
 
-// Coerce schemas
-export { CoerceBooleanSchema, CoerceNumberSchema, CoerceStringSchema } from "./lib/schemas/coerce";
+// Async validation
+export {
+	AsyncSchema,
+	toAsync,
+	asyncValidators,
+} from './lib/async-validation';
 
-// Factory
-export { type S, s } from "./lib/factory";
+// Error handling
+export {
+	errorBuilder,
+	errorTemplates,
+	createError,
+} from './lib/detailed-errors';
+
+// Minimal factory for ultra-light bundles
+export {
+	string,
+	number,
+	boolean,
+	unknown,
+	schema,
+} from './lib/minimal-factory';
 
 // Default export
-export { s as default } from "./lib/factory";
+export { s as default } from './lib/typed-schema';

@@ -2,6 +2,6 @@
  * Integrations barrel export
  */
 
-export * from './types';
-export * from './redis';
-export * from './database';
+export * from "./database";
+export * from "./redis";
+export * from "./types";

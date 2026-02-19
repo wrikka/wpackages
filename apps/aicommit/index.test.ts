@@ -21,6 +21,16 @@ vi.mock('@clack/prompts', () => ({
   })),
 }));
 
+vi.mock('node:fs', () => ({
+  existsSync: vi.fn(() => false),
+  readFileSync: vi.fn(),
+  writeFileSync: vi.fn(),
+}));
+
+vi.mock('node:os', () => ({
+  homedir: vi.fn(() => '/home/user'),
+}));
+
 describe('aicommit', () => {
   let execSync: any;
   let ofetch: any;
@@ -44,21 +54,44 @@ describe('aicommit', () => {
     const mockDiff = 'diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-hello\n+hello world';
     const mockCommitMessage = 'feat: update file.txt';
 
-    execSync.mockReturnValue(mockDiff); // for git diff
+    // Mock git commands in correct order
+    execSync
+      .mockReturnValueOnce('main') // getCurrentBranch
+      .mockReturnValueOnce('file.txt\n') // hasStagedChanges (git diff --cached --name-only)
+      .mockReturnValueOnce(mockDiff) // getStagedDiff (git diff --cached)
+      .mockReturnValueOnce('file.txt\n'); // hasStagedChanges check again
+
+    // Mock fs operations for config
+    const { existsSync, readFileSync, writeFileSync } = await import('node:fs');
+    vi.mocked(existsSync).mockReturnValue(false);
+    vi.mocked(readFileSync).mockReturnValue(JSON.stringify({
+      llmProvider: 'mastra',
+      locale: 'en',
+      maxCommitLength: 50,
+      commitTypes: ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+      enableEmojis: true,
+      generateCount: 1,
+      enableGitHook: false,
+      enableHistory: true,
+      historyLimit: 100,
+    }));
+
     ofetch.mockResolvedValue({
       choices: [{ message: { content: mockCommitMessage } }],
     });
     prompts.text.mockResolvedValue(mockCommitMessage); // User confirms with edited message
 
-    // Act: Dynamically import and run the main function
+    // Act: Dynamically import and run main function
     const { main } = await import('./index');
     await main();
 
     // Assert: Check if functions were called correctly
-    expect(execSync).toHaveBeenCalledWith('git diff --staged', { stdio: 'pipe' });
+    expect(execSync).toHaveBeenCalledWith('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' });
+    expect(execSync).toHaveBeenCalledWith('git diff --cached --name-only', { encoding: 'utf-8' });
+    expect(execSync).toHaveBeenCalledWith('git diff --cached', { encoding: 'utf-8' });
     expect(ofetch).toHaveBeenCalled();
     expect(prompts.text).toHaveBeenCalled();
-    expect(execSync).toHaveBeenCalledWith(`git commit -m "${mockCommitMessage}"`, { stdio: 'pipe' });
+    expect(execSync).toHaveBeenCalledWith(`git commit -m "${mockCommitMessage}"`, { encoding: 'utf-8' });
     expect(prompts.outro).toHaveBeenCalledWith(expect.stringContaining('Changes committed!'));
   });
 
@@ -67,20 +100,53 @@ describe('aicommit', () => {
     const mockDiff = 'diff --git a/file.txt b/file.txt';
     const mockCommitMessage = 'feat: update file.txt';
 
-    execSync.mockReturnValue(mockDiff);
+    execSync
+      .mockReturnValueOnce('main') // getCurrentBranch
+      .mockReturnValueOnce('file.txt\n') // hasStagedChanges
+      .mockReturnValueOnce(mockDiff) // getStagedDiff
+      .mockReturnValueOnce('file.txt\n'); // hasStagedChanges check again
+
+    // Mock fs operations for config
+    const { existsSync, readFileSync, writeFileSync } = await import('node:fs');
+    vi.mocked(existsSync).mockReturnValue(false);
+    vi.mocked(readFileSync).mockReturnValue(JSON.stringify({
+      llmProvider: 'mastra',
+      locale: 'en',
+      maxCommitLength: 50,
+      commitTypes: ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+      enableEmojis: true,
+      generateCount: 1,
+      enableGitHook: false,
+      enableHistory: true,
+      historyLimit: 100,
+    }));
+
     ofetch.mockResolvedValue({
       choices: [{ message: { content: mockCommitMessage } }],
     });
     prompts.text.mockResolvedValue(null); // User cancels by returning null
 
-    // Act
-    const { main } = await import('./index');
-    await main();
+    // Mock process.exit to prevent actual exit
+    const mockExit = vi.fn();
+    const originalExit = process.exit;
+    process.exit = mockExit as any;
 
-    // Assert
-    expect(execSync).toHaveBeenCalledWith('git diff --staged', { stdio: 'pipe' });
-    expect(ofetch).toHaveBeenCalled();
-    expect(prompts.text).toHaveBeenCalled();
-    expect(prompts.outro).toHaveBeenCalledWith(expect.stringContaining('Commit cancelled.'));
+    try {
+      // Act
+      const { main } = await import('./index');
+      await main();
+
+      // Assert
+      expect(execSync).toHaveBeenCalledWith('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' });
+      expect(execSync).toHaveBeenCalledWith('git diff --cached --name-only', { encoding: 'utf-8' });
+      expect(execSync).toHaveBeenCalledWith('git diff --cached', { encoding: 'utf-8' });
+      expect(ofetch).toHaveBeenCalled();
+      expect(prompts.text).toHaveBeenCalled();
+      expect(prompts.outro).toHaveBeenCalledWith(expect.stringContaining('Commit cancelled.'));
+      expect(mockExit).toHaveBeenCalledWith(0);
+    } finally {
+      // Restore original process.exit
+      process.exit = originalExit;
+    }
   });
 });

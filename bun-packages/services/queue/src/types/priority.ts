@@ -2,8 +2,8 @@
  * Priority queue types
  */
 
-import type { Queue } from './basic';
-import type { OfferSuccess } from './operations';
+import type { Queue } from "./basic";
+import type { OfferSuccess } from "./operations";
 
 export type PriorityLevel = "critical" | "high" | "normal" | "low";
 

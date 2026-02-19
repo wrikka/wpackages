@@ -23,7 +23,10 @@
 		".": "./dist/index.mjs",
 		"./package.json": "./package.json"
 	},
-	"files": ["dist", "README.md"],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"lint": "tsc --noEmit && oxlint --fix --type-aware",
 		"test": "bun test",

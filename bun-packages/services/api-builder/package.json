@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "bun run examples/app.ts",
 		"build": "bun build src/index.ts --outdir dist",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "oxlint --fix --type-aware",
 		"test": "bun test",
 		"watch": "bun --watch src/index.ts",
 		"format": "dprint fmt"

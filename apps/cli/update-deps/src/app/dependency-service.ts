@@ -1,6 +1,6 @@
 import { findPackageJsons, readPackageJson, writePackageJson } from "../adapters/file-system.js";
 import { fetchMultiplePackageInfos } from "../adapters/npm-registry.js";
-import { filterDependencies, updateDependencyInfo } from "../core/dependency.js";
+import { filterDependencies, updateDependencyInfo } from "../utils/dependency.js";
 import type { CheckOptions, DependencyInfo, UpdateResult } from "../types/index.js";
 
 export async function checkDependencies(options: CheckOptions = {}): Promise<UpdateResult> {

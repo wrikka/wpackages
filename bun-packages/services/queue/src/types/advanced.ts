@@ -2,7 +2,7 @@
  * Advanced queue features types (Distributed, Dead Letter, etc.)
  */
 
-import type { Queue } from './basic';
+import type { Queue } from "./basic";
 
 export interface DistributedQueueConfig {
 	readonly nodeId: string;

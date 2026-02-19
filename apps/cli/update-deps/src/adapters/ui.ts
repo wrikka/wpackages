@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 import Table from 'cli-table3';
 import ora from 'ora';
-import type { DependencyInfo, UpdateResult } from '../types/index.js';
+import type { DependencyInfo, UpdateResult, ProjectInfo, InspectResult } from '../types/index.js';
 
 export function formatDuration(milliseconds: number): string {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
-  
+
   if (days > 0) return `~${days}d`;
   if (hours > 0) return `~${hours}h`;
   if (minutes > 0) return `~${minutes}m`;
@@ -23,7 +23,7 @@ export function formatTimeDiff(days: number): string {
 
 export function createDependencyTable(dependencies: DependencyInfo[]): string {
   if (dependencies.length === 0) return '';
-  
+
   const table = new Table({
     head: [
       chalk.cyan('Package'),
@@ -34,12 +34,12 @@ export function createDependencyTable(dependencies: DependencyInfo[]): string {
     ],
     colWidths: [30, 15, 15, 10, 15],
   });
-  
+
   for (const dep of dependencies) {
     const timeDiff = dep.timeDiff ? formatTimeDiff(dep.timeDiff) : '-';
     const breaking = dep.breaking ? chalk.red('⚠️ ') : '';
     const packageName = breaking + chalk.green(dep.name);
-    
+
     table.push([
       packageName,
       chalk.yellow(dep.currentVersion),
@@ -48,53 +48,53 @@ export function createDependencyTable(dependencies: DependencyInfo[]): string {
       chalk.blue(dep.type),
     ]);
   }
-  
+
   return table.toString();
 }
 
 export function displayCheckResult(result: UpdateResult, packageName?: string): void {
   const spinner = ora('Checking dependencies...').start();
-  
+
   setTimeout(() => {
     spinner.stop();
-    
+
     if (result.outdatedCount === 0) {
       console.log(chalk.green('✅ All dependencies are up to date!'));
       return;
     }
-    
+
     if (packageName) {
       console.log(chalk.bold.cyan(`${packageName} - ${result.outdatedCount} outdated`));
     }
-    
+
     console.log();
-    
+
     const grouped = result.dependencies.reduce((acc, dep) => {
       if (!dep.outdated) return acc;
       if (!acc[dep.type]) acc[dep.type] = [];
       acc[dep.type].push(dep);
       return acc;
     }, {} as Record<string, DependencyInfo[]>);
-    
+
     for (const [type, deps] of Object.entries(grouped)) {
       if (deps.length === 0) continue;
-      
+
       console.log(chalk.bold.blue(type));
       console.log(createDependencyTable(deps));
       console.log();
     }
-    
+
     if (result.hasBreakingChanges) {
       console.log(chalk.yellow('⚠️  Some updates have breaking changes!'));
     }
-    
+
     console.log(chalk.gray(`dependencies are already up-to-date in ${result.totalCount} packages`));
   }, 500);
 }
 
 export function displayUpdateResult(updatedCount: number): void {
   const spinner = ora('Updating dependencies...').start();
-  
+
   spinner.stop();
   console.log(chalk.green(`✓ Updated ${updatedCount} dependencies`));
   console.log(chalk.gray('ℹ changes written to package.json'));
@@ -103,29 +103,29 @@ export function displayUpdateResult(updatedCount: number): void {
 
 export function displayRecursiveResult(results: Map<string, UpdateResult>): void {
   const spinner = ora('Checking all packages...').start();
-  
+
   spinner.stop();
-  
+
   let totalOutdated = 0;
-  
+
   for (const [dir, result] of results.entries()) {
     if (result.outdatedCount === 0) continue;
-    
+
     const packageName = dir.split('\\').pop() || dir.split('/').pop() || dir;
     console.log(chalk.bold.cyan(`${packageName} - ${result.outdatedCount} outdated`));
-    
+
     const outdatedDeps = result.dependencies.filter((dep) => dep.outdated);
     console.log(createDependencyTable(outdatedDeps));
     console.log();
-    
+
     totalOutdated += result.outdatedCount;
   }
-  
+
   if (totalOutdated === 0) {
     console.log(chalk.green('✅ All dependencies are up to date!'));
     return;
   }
-  
+
   console.log(chalk.gray(`dependencies are already up-to-date in ${results.size} packages`));
 }
 
@@ -143,4 +143,79 @@ export function displaySuccess(message: string): void {
 
 export function displayWarning(message: string): void {
   console.log(chalk.yellow(`⚠ ${message}`));
+}
+
+export function createProjectInfoTable(project: ProjectInfo): string {
+  const table = new Table({
+    head: [chalk.cyan('Property'), chalk.cyan('Value')],
+    colWidths: [20, 50],
+  });
+
+  table.push(
+    [chalk.bold('Name'), chalk.green(project.name)],
+    [chalk.bold('Version'), chalk.yellow(project.version)],
+    [chalk.bold('Language'), chalk.blue(project.language)],
+    [chalk.bold('Module Format'), chalk.blue(project.moduleFormat)],
+    [chalk.bold('Bundler'), chalk.magenta(project.bundler)],
+    [chalk.bold('Package Manager'), chalk.magenta(project.packageManager)],
+    [chalk.bold('Dependencies'), `${project.dependenciesCount}`],
+    [chalk.bold('Dev Dependencies'), `${project.devDependenciesCount}`],
+    [chalk.bold('TypeScript'), project.hasTypeScript ? chalk.green('Yes') : chalk.red('No')],
+    [chalk.bold('Has Tests'), project.hasTests ? chalk.green('Yes') : chalk.red('No')],
+    [chalk.bold('Build Tools'), project.buildTools.join(', ') || chalk.gray('None')],
+    [chalk.bold('Frameworks'), project.frameworks.join(', ') || chalk.gray('None')],
+  );
+
+  if (project.lastUpdated) {
+    table.push([chalk.bold('Last Updated'), chalk.gray(new Date(project.lastUpdated).toLocaleDateString())]);
+  }
+
+  return table.toString();
+}
+
+export function displayInspectResult(result: InspectResult): void {
+  const spinner = ora('Analyzing project...').start();
+
+  setTimeout(() => {
+    spinner.stop();
+
+    console.log(chalk.bold.cyan('📦 Project Information'));
+    console.log();
+    console.log(createProjectInfoTable(result.project));
+    console.log();
+
+    if (result.dependencies.length > 0) {
+      console.log(chalk.bold.cyan('📋 Dependencies Status'));
+      console.log();
+
+      const summaryTable = new Table({
+        head: [chalk.cyan('Metric'), chalk.cyan('Value')],
+        colWidths: [25, 20],
+      });
+
+      summaryTable.push(
+        [chalk.bold('Total Packages'), `${result.summary.totalPackages}`],
+        [chalk.bold('Outdated Packages'), chalk.yellow(result.summary.outdatedPackages.toString())],
+        [chalk.bold('Outdated Percentage'),
+        result.summary.outdatedPercentage > 50
+          ? chalk.red(`${result.summary.outdatedPercentage}%`)
+          : result.summary.outdatedPercentage > 20
+            ? chalk.yellow(`${result.summary.outdatedPercentage}%`)
+            : chalk.green(`${result.summary.outdatedPercentage}%`)],
+        [chalk.bold('Last Checked'), chalk.gray(new Date(result.summary.lastChecked).toLocaleString())],
+      );
+
+      console.log(summaryTable.toString());
+      console.log();
+
+      if (result.summary.outdatedPackages > 0) {
+        const outdatedDeps = result.dependencies.filter(dep => dep.outdated);
+        console.log(chalk.bold.yellow('⚠️  Outdated Dependencies'));
+        console.log(createDependencyTable(outdatedDeps));
+        console.log();
+      }
+    }
+
+    console.log(chalk.gray(`✨ Analysis completed at ${new Date().toLocaleString()}`));
+  }, 500);
 }

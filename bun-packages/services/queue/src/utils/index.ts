@@ -2,6 +2,6 @@
  * Utils barrel export
  */
 
-export * from './validation';
-export * from './async';
-export * from './math';
+export * from "./async";
+export * from "./math";
+export * from "./validation";

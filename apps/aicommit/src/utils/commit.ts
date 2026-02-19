@@ -1,4 +1,12 @@
+/**
+ * Legacy commit utilities - use formatCommitMessage from '../lib/format.util' instead
+ * @deprecated Use formatCommitMessage from '../lib/format.util'
+ */
+
+import { formatCommitMessage as newFormatCommitMessage } from '../lib/format.util';
 import type { AicommitConfig } from '../types/config';
+
+export const formatCommitMessage = newFormatCommitMessage;
 
 const EMOJIS: Record<string, string> = {
   feat: '✨',
@@ -29,16 +37,4 @@ export function addEmoji(message: string, config: AicommitConfig): string {
 export function truncateMessage(message: string, maxLength: number): string {
   if (message.length <= maxLength) return message;
   return message.substring(0, maxLength - 3) + '...';
-}
-
-export function formatCommitMessage(message: string, config: AicommitConfig): string {
-  let formatted = message;
-
-  // Add emoji if enabled
-  formatted = addEmoji(formatted, config);
-
-  // Truncate if needed
-  formatted = truncateMessage(formatted, config.maxCommitLength);
-
-  return formatted;
 }

@@ -21,7 +21,7 @@
 		"effect": "^3.19.18"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.2",
+		"@biomejs/biome": "^2.4.3",
 		"@vitest/coverage-v8": "^4.0.18",
 		"oxlint": "^1.48.0",
 		"typescript": "^5.9.3",

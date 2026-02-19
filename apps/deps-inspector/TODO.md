@@ -1,1 +1,0 @@
-สร้างเหมือน  https://github.com/antfu/node-modules-inspector แต่ให้ report เป็น cli ให้แสดงว่า deps ที่ติดตั้ง ใช้ bundler อะไรมา ใช้ภาษาอะไร เป็น esm หรือcjs update ล่สาสุดวันไหนและอื่นๆ

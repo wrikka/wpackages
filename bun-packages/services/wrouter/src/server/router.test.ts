@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { ServerRouter } from "./router";
+import { createServerRouter } from "./server-router.service";
 import type { WRouteRecord, RouteHandler } from "../types";
 import { Effect } from "effect";
 
-describe("ServerRouter", () => {
+describe("createServerRouter", () => {
 	it("creates router with routes", () => {
 		const routes: WRouteRecord[] = [
 			{ path: "/", file: "/index.ts", name: "index", params: [], methods: ["GET"] },
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		expect(router).toBeDefined();
 	});
 
@@ -19,7 +19,7 @@ describe("ServerRouter", () => {
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const request = new Request("http://localhost/users");
 
 		const match = await Effect.runPromise(router.match(request));
@@ -31,7 +31,7 @@ describe("ServerRouter", () => {
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const handler: RouteHandler = () => Effect.succeed(new Response("Users", { status: 200 }));
 
 		await Effect.runPromise(router.addRoute("/users", { GET: handler }));
@@ -48,7 +48,7 @@ describe("ServerRouter", () => {
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["POST"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const handler: RouteHandler = () => Effect.succeed(new Response("Created", { status: 201 }));
 
 		await Effect.runPromise(router.addRoute("/users", { POST: handler }));
@@ -64,7 +64,7 @@ describe("ServerRouter", () => {
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const request = new Request("http://localhost/posts");
 
 		const response = await Effect.runPromise(router.handle(request));
@@ -76,7 +76,7 @@ describe("ServerRouter", () => {
 			{ path: "/users", file: "/users.ts", name: "users", params: [], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const handler: RouteHandler = () => Effect.succeed(new Response("OK", { status: 200 }));
 
 		await Effect.runPromise(router.addRoute("/users", { GET: handler }));
@@ -92,7 +92,7 @@ describe("ServerRouter", () => {
 			{ path: "/users/[id]", file: "/users/[id].ts", name: "users-id", params: [{ name: "id", type: "string", optional: false }], methods: ["GET"] },
 		];
 
-		const router = new ServerRouter(routes);
+		const router = createServerRouter(routes);
 		const handler: RouteHandler = (_request, params) =>
 			Effect.succeed(new Response(JSON.stringify(params), { status: 200 }));
 

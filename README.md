@@ -120,6 +120,7 @@ Framework kits are meta-packages that aggregate related tools for specific devel
 |---------|-------------|----------|----------|---------|--------|--------------|---------|-------|------|
 | `@wpackages/api-builder` | Build robust, type-safe APIs with Effect-TS | Bun, Node.js | API Development | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
 | `@wpackages/http-server` | Complete HTTP server stack with routing and response handling | Bun, Node.js | HTTP Server | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
+| `@wpackages/devserver` | Bun-native development server with Vite-like features | Bun | Development Server | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
 | `@wpackages/plugins-system` | Plugin system for building extensible applications | Bun, Node.js, Browser | Plugin Architecture | Custom | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | M |
 | `@wpackages/tracing` | Distributed tracing utilities for observability | Bun, Node.js | Observability | - | ✅ Stable | ✅ Full | ✅ Vitest | ❌ None | S |
 | `@wpackages/vitext-vite` | Nuxt-like plugin preset for Vite | Bun, Node.js | Vite Plugins | Vite | ✅ Stable | 📝 Partial | ✅ Vitest | ❌ None | M |

@@ -2,12 +2,7 @@
  * Distributed queue implementation
  */
 
-import type {
-	DistributedQueue,
-	DistributedQueueConfig,
-	DistributedMessage,
-	QueueOfferResult,
-} from '../types';
+import type { DistributedMessage, DistributedQueue, DistributedQueueConfig, QueueOfferResult } from "../types";
 
 class DistributedQueueImpl<A> implements DistributedQueue<A> {
 	readonly _tag = "Queue" as const;
@@ -27,9 +22,15 @@ class DistributedQueueImpl<A> implements DistributedQueue<A> {
 		}
 	}
 
-	get size(): number { return this.items.length; }
-	get isEmpty(): boolean { return this.items.length === 0; }
-	get isFull(): boolean { return false; }
+	get size(): number {
+		return this.items.length;
+	}
+	get isEmpty(): boolean {
+		return this.items.length === 0;
+	}
+	get isFull(): boolean {
+		return false;
+	}
 
 	private getPartitionKey(item: A): string {
 		return JSON.stringify(item);

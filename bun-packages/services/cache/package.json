@@ -1,5 +1,5 @@
 {
-	"name": "@wpackages/cache",
+	"name": "@wpackages/service-cache",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Functional caching library with memoization, TTL, and LRU eviction",

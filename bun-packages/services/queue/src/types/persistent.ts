@@ -2,7 +2,7 @@
  * Persistent queue types
  */
 
-import type { Queue } from './basic';
+import type { Queue } from "./basic";
 
 export interface PersistentQueueConfig {
 	readonly storageType: "file" | "sqlite" | "redis" | "memory";

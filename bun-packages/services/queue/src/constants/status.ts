@@ -4,18 +4,18 @@
 
 /** Queue status constants */
 export const QUEUE_STATUS = {
-  IDLE: 'idle',
-  PROCESSING: 'processing',
-  PAUSED: 'paused',
-  STOPPED: 'stopped'
+	IDLE: "idle",
+	PROCESSING: "processing",
+	PAUSED: "paused",
+	STOPPED: "stopped",
 } as const;
 
 /** Queue priority levels */
 export const QUEUE_PRIORITY = {
-  LOW: 1,
-  NORMAL: 2,
-  HIGH: 3,
-  URGENT: 4
+	LOW: 1,
+	NORMAL: 2,
+	HIGH: 3,
+	URGENT: 4,
 } as const;
 
 /** Default retry attempts for failed operations */

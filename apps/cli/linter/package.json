@@ -24,9 +24,9 @@
 		"picocolors": "^1.1.1"
 	},
 	"devDependencies": {
-		"@types/node": "^25.2.3",
-		"oxc-parser": "0.111.0",
-		"oxlint": "^1.48.0",
+		"@types/node": "^25.3.0",
+		"oxc-parser": "0.114.0",
+		"oxlint": "^1.49.0",
 		"tsdown": "^0.20.3",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",

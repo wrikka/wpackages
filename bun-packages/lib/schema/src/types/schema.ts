@@ -10,6 +10,7 @@ export interface SchemaIssue {
 	message: string;
 	code: string;
 	value?: unknown;
+	params?: Record<string, unknown>;
 }
 
 /**
@@ -75,5 +76,11 @@ export type Infer<T extends Schema<unknown>> = T extends Schema<infer U> ? U : n
 export type InferIn<T extends Schema<unknown>> = T extends Schema<infer U> ? U : never;
 
 // Forward declaration for Schema class
-import type { Schema } from "../lib/base";
+// This will be resolved after lib/base is processed
+export interface Schema<T> {
+	_type: T;
+	parse(value: unknown): T;
+	safeParse(value: unknown): SafeParseResult<T>;
+}
+
 export type { Schema };

@@ -2,7 +2,7 @@
  * Batch processing utilities
  */
 
-import type { Queue, BatchConfig, BatchResult, BatchMetadata } from '../types';
+import type { BatchConfig, BatchMetadata, BatchResult, Queue } from "../types";
 
 export const takeBatch = <A>(queue: Queue<A>, config: BatchConfig): Promise<BatchResult<A>> => {
 	return (async () => {

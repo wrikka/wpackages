@@ -1,0 +1,12 @@
+{
+  "extends": ["../../../biome.json"],
+  "linter": {
+    "rules": {
+      "recommended": true
+    }
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
+}

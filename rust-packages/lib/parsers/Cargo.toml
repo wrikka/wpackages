@@ -1,0 +1,87 @@
+[package]
+name = "parsers"
+version = "0.1.0"
+edition = "2021"
+authors = ["Parsers Team"]
+description = "A high-performance, extensible parsing library supporting JSON, TOML, XML, and YAML formats"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-org/parsers"
+documentation = "https://docs.rs/parsers"
+keywords = ["parser", "json", "toml", "xml", "yaml", "serialization", "napi"]
+categories = ["parsing", "text-processing", "web-programming"]
+readme = "README.md"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["std"]
+std = []
+full = ["std", "serde_json/raw_value", "tokio/full"]
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = { version = "1.0.149", features = ["preserve_order"] }
+toml = "0.9.8"
+quick-xml = { version = "0.39.1", features = ["serde"] }
+serde_yaml = "0.9.34-deprecated"
+
+# NAPI dependencies
+napi = { version = "3.8.3", default-features = false, features = ["full"] }
+napi-derive = "3.5.2"
+
+# Async runtime
+tokio = { version = "1.49.0", features = ["rt-multi-thread", "fs", "io-util"] }
+futures = "0.3.32"
+
+# Error handling
+thiserror = "2.0.18"
+
+# Utilities
+uuid = { version = "1.21.0", features = ["v4"] }
+ahash = "0.8.12"
+memchr = "2.8.0"
+
+# Validation
+jsonschema = "0.42.1"
+validator = { version = "0.20.0", features = ["derive"] }
+
+# Configuration
+figment = { version = "0.10.19", features = ["toml", "env"] }
+
+# Logging
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
+
+# Time handling
+chrono = { version = "0.4.43", features = ["serde"] }
+
+[dev-dependencies]
+# Testing
+mockall = "0.14.0"
+pretty_assertions = "1.4.1"
+
+# Benchmarking
+criterion = "0.8.2"
+
+# Documentation
+tokio-test = "0.4.5"
+
+[build-dependencies]
+napi-build = "2.3.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[[bench]]
+name = "parsing_bench"
+harness = false
+path = "benches/parsing_bench.rs"

@@ -26,7 +26,7 @@
 	"author": "wrikka",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/node": "^25.2.3",
+		"@types/node": "^25.3.0",
 		"picocolors": "^1.1.1"
 	},
 	"publishConfig": {

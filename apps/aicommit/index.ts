@@ -2,36 +2,43 @@
 
 import { intro, outro, text, spinner, isCancel, select } from '@clack/prompts';
 import pc from 'picocolors';
-import { getConfig } from './src/utils/config';
-import { getLLMProvider } from './src/llm/providers';
-import { getStagedDiff, getCurrentBranch, commitWithMessage } from './src/utils/git';
-import { formatCommitMessage } from './src/utils/commit';
+import { ConfigService } from './src/services/config.service';
+import { LLMService } from './src/services/llm.service';
+import { GitService } from './src/services/git.service';
+import { formatCommitMessage } from './src/lib/format.util';
+import { handleError } from './src/error';
 
 // Main function
 export async function main() {
   console.log(); // Newline
   intro(pc.inverse(' aicommit '));
 
-  const config = getConfig();
+  const config = ConfigService.getConfig();
 
   // Check if current branch is in branch ignore list
-  const currentBranch = getCurrentBranch();
+  const currentBranch = GitService.getCurrentBranch();
   if (config.branchIgnore && config.branchIgnore.includes(currentBranch)) {
     outro(pc.yellow(`Branch '${currentBranch}' is in ignore list. Skipping AI commit.`));
     process.exit(0);
   }
 
-  const diff = getStagedDiff();
+  // Check if we have staged changes
+  if (!GitService.hasStagedChanges()) {
+    outro(pc.yellow('No staged changes found. Stage your changes before running aicommit.'));
+    process.exit(0);
+  }
+
+  const diff = GitService.getStagedDiff();
   const s = spinner();
   s.start('Generating commit message(s)...');
 
   try {
-    const llmProvider = getLLMProvider(config.llmProvider);
+    const llmService = new LLMService(config);
     const messages: string[] = [];
 
     // Generate multiple suggestions
     for (let i = 0; i < config.generateCount; i++) {
-      const message = await llmProvider.generateCommitMessage(diff, config);
+      const message = await llmService.generateCommitMessage(diff);
       messages.push(message);
     }
 
@@ -77,16 +84,16 @@ export async function main() {
       process.exit(0);
     }
 
-    commitWithMessage(editedCommitMessage);
+    GitService.commitWithMessage(editedCommitMessage);
     outro(pc.green('✔ Changes committed!'));
   } catch (error: any) {
     s.stop('Failed to generate commit message.', 1);
-    outro(pc.red(`Error: ${error.message}`));
+    handleError(error);
     process.exit(1);
   }
 }
 
 main().catch(err => {
-  outro(pc.red(`An unexpected error occurred: ${err.message}`));
+  handleError(err);
   process.exit(1);
 });

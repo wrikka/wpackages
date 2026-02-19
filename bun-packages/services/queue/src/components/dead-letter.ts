@@ -2,12 +2,7 @@
  * Dead letter queue implementation
  */
 
-import type {
-	DeadLetterQueue,
-	DeadLetterConfig,
-	DeadLetterItem,
-	QueueOfferResult,
-} from '../types';
+import type { DeadLetterConfig, DeadLetterItem, DeadLetterQueue, QueueOfferResult } from "../types";
 
 class DeadLetterQueueImpl<A> implements DeadLetterQueue<A> {
 	readonly _tag = "Queue" as const;
@@ -25,9 +20,15 @@ class DeadLetterQueueImpl<A> implements DeadLetterQueue<A> {
 		this.deadLetterConfig = config;
 	}
 
-	get size(): number { return this.items.length; }
-	get isEmpty(): boolean { return this.items.length === 0; }
-	get isFull(): boolean { return false; }
+	get size(): number {
+		return this.items.length;
+	}
+	get isEmpty(): boolean {
+		return this.items.length === 0;
+	}
+	get isFull(): boolean {
+		return false;
+	}
 
 	addDeadLetter(item: A, error: Error, retryCount: number): QueueOfferResult {
 		if (this.isShutdown) return { _tag: "OfferFailure", reason: "shutdown" };
