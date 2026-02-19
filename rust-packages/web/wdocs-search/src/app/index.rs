@@ -10,6 +10,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
 use serde::{Serialize, Deserialize};
+use std::borrow::Cow;
 
 pub struct Index {
     docs: FxHashMap<DocId, Document>,
@@ -19,7 +20,7 @@ pub struct Index {
     next_doc_id: DocId,
     is_built: bool,
     // New fields for enhanced features
-    field_weights: FxHashMap<String, f32>,
+    field_weights: FxHashMap<String, f64>,
     token_positions: FxHashMap<String, FxHashMap<DocId, Vec<u32>>>,
 }
 
@@ -171,7 +172,7 @@ impl Index {
         // Apply fuzzy search if enabled
         if options.fuzzy.unwrap_or(false) {
             let fuzzy_results = self.search_fuzzy(query, options.fuzzy_threshold.unwrap_or(2));
-            results.extend(fuzzy_results);
+            results.extend(fuzzy_results.into_iter().map(|doc| (doc, 0.0)));
         }
         
         // Sort by score and apply pagination
@@ -187,15 +188,15 @@ impl Index {
         }
     }
 
-    fn search_with_scoring(&self, query: &str, field_weights: &FxHashMap<String, f32>) -> Vec<(Document, f32)> {
+    fn search_with_scoring(&self, query: &str, field_weights: &HashMap<String, f64>) -> Vec<(Document, f64)> {
         let query_tokens: Vec<_> = self.tokenizer.tokenize(query).collect();
         if query_tokens.is_empty() {
             return Vec::new();
         }
 
-        let mut results: Vec<(Document, f32)> = Vec::new();
+        let mut results: Vec<(Document, f64)> = Vec::new();
 
-        for (doc_id, doc) in &self.docs {
+        for (_doc_id, doc) in &self.docs {
             let mut score = 0.0;
             
             for (field_name, field_value) in &doc.fields {
@@ -204,8 +205,8 @@ impl Index {
                 
                 // Calculate TF-IDF-like score
                 for query_token in &query_tokens {
-                    if field_tokens.contains(query_token) {
-                        let tf = field_tokens.iter().filter(|&&t| t == query_token).count() as f32;
+                    if field_tokens.contains(&Cow::Borrowed(query_token)) {
+                        let tf = field_tokens.iter().filter(|&t| t == &Cow::Borrowed(query_token)).count() as f64;
                         score += tf * field_weight;
                     }
                 }
@@ -223,11 +224,11 @@ impl Index {
         let query_tokens: Vec<_> = self.tokenizer.tokenize(query).collect();
         let mut results: Vec<(Document, u32)> = Vec::new();
 
-        for (doc_id, doc) in &self.docs {
+        for (_doc_id, doc) in &self.docs {
             let mut total_distance = 0;
             let mut found_tokens = 0;
 
-            for (field_name, field_value) in &doc.fields {
+            for (_field_name, field_value) in &doc.fields {
                 let field_tokens: Vec<_> = self.tokenizer.tokenize(field_value).collect();
                 
                 for query_token in &query_tokens {
@@ -256,12 +257,14 @@ impl Index {
         let query_tokens: Vec<_> = self.tokenizer.tokenize(query).collect();
         let mut suggestions: Vec<(String, u32)> = Vec::new();
 
-        for term in self.inverted_index.term_dictionary.keys() {
-            for query_token in &query_tokens {
-                if term.starts_with(query_token) {
-                    let distance = levenshtein_distance(query_token, term);
-                    if distance <= 2 {
-                        suggestions.push((term.clone(), distance));
+        for term_result in self.inverted_index.term_dictionary.iter() {
+            if let Ok(term) = term_result {
+                for query_token in &query_tokens {
+                    if term.starts_with(query_token) {
+                        let distance = levenshtein_distance(query_token, term);
+                        if distance <= 2 {
+                            suggestions.push((term.clone(), distance));
+                        }
                     }
                 }
             }
@@ -283,13 +286,13 @@ impl Index {
         }
     }
 
-    fn estimate_memory_usage(&self) -> u64 {
+    fn estimate_memory_usage(&self) -> u32 {
         // Rough estimation
         let docs_size = self.docs.len() * std::mem::size_of::<Document>();
         let index_size = self.inverted_index.term_dictionary.len() * std::mem::size_of::<String>();
         let postings_size = self.inverted_index.postings_lists.len() * std::mem::size_of::<RoaringBitmap>();
         
-        (docs_size + index_size + postings_size) as u64
+        (docs_size + index_size + postings_size) as u32
     }
 
     pub fn save_to_file(&self, path: &str) -> Result<(), String> {
