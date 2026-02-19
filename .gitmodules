@@ -1,6 +1,3 @@
-[submodule "plugins"]
-	path = plugins
-	url = https://github.com/wrikka/plugins
 [submodule "apps"]
 	path = apps
 	url = https://github.com/wrikka/apps
@@ -10,3 +7,12 @@
 [submodule "bun-packages"]
 	path = bun-packages
 	url = https://github.com/wrikka/bun-packages
+[submodule "nuxt-modules"]
+	path = nuxt-modules
+	url = https://github.com/wrikka/nuxt-modules
+[submodule "vite-plugins"]
+	path = vite-plugins
+	url = https://github.com/wrikka/vite-plugins
+[submodule "tsdown-plugins"]
+	path = tsdown-plugins
+	url = https://github.com/wrikka/tsdown-plugins

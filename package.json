@@ -4,6 +4,9 @@
 	"workspaces": [
 		"bun-packages/**",
 		"rust-packages/**",
+		"nuxt-modules/**",
+		"vite-plugins/**",
+		"tsdown-plugins/**",
 		"plugins/**/*"
 	],
 	"packageManager": "bun@1.3.9",
