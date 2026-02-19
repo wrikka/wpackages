@@ -31,6 +31,28 @@ vi.mock('node:os', () => ({
   homedir: vi.fn(() => '/home/user'),
 }));
 
+vi.doMock('src/llm/providers', () => ({
+  getLLMProvider: vi.fn(() => ({
+    generateCommitMessage: vi.fn().mockResolvedValue('feat: update file.txt'),
+  })),
+}));
+
+vi.doMock('src/services/config.service', () => ({
+  ConfigService: {
+    getConfig: vi.fn(() => ({
+      llmProvider: 'mastra',
+      locale: 'en',
+      maxCommitLength: 50,
+      commitTypes: ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+      enableEmojis: true,
+      generateCount: 1,
+      enableGitHook: false,
+      enableHistory: true,
+      historyLimit: 100,
+    })),
+  },
+}));
+
 describe('aicommit', () => {
   let execSync: any;
   let ofetch: any;
@@ -62,7 +84,7 @@ describe('aicommit', () => {
       .mockReturnValueOnce('file.txt\n'); // hasStagedChanges check again
 
     // Mock fs operations for config
-    const { existsSync, readFileSync, writeFileSync } = await import('node:fs');
+    const { existsSync, readFileSync } = await import('node:fs');
     vi.mocked(existsSync).mockReturnValue(false);
     vi.mocked(readFileSync).mockReturnValue(JSON.stringify({
       llmProvider: 'mastra',
@@ -74,6 +96,29 @@ describe('aicommit', () => {
       enableGitHook: false,
       enableHistory: true,
       historyLimit: 100,
+    }));
+
+    // Mock LLM provider
+    vi.doMock('src/llm/providers', () => ({
+      getLLMProvider: vi.fn(() => ({
+        generateCommitMessage: vi.fn().mockResolvedValue(mockCommitMessage),
+      })),
+    }));
+
+    vi.doMock('src/services/config.service', () => ({
+      ConfigService: {
+        getConfig: vi.fn(() => ({
+          llmProvider: 'mastra',
+          locale: 'en',
+          maxCommitLength: 50,
+          commitTypes: ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+          enableEmojis: true,
+          generateCount: 1,
+          enableGitHook: false,
+          enableHistory: true,
+          historyLimit: 100,
+        })),
+      },
     }));
 
     ofetch.mockResolvedValue({
@@ -107,7 +152,7 @@ describe('aicommit', () => {
       .mockReturnValueOnce('file.txt\n'); // hasStagedChanges check again
 
     // Mock fs operations for config
-    const { existsSync, readFileSync, writeFileSync } = await import('node:fs');
+    const { existsSync, readFileSync } = await import('node:fs');
     vi.mocked(existsSync).mockReturnValue(false);
     vi.mocked(readFileSync).mockReturnValue(JSON.stringify({
       llmProvider: 'mastra',
