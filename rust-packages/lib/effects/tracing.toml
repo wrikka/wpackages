@@ -1,7 +1,0 @@
-[default]
-level = "info"
-
-[fmt]
-with_target = true
-with_thread_ids = false
-with_thread_names = false

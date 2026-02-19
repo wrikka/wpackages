@@ -1,3 +1,12 @@
 [submodule "plugins"]
 	path = plugins
 	url = https://github.com/wrikka/plugins
+[submodule "apps"]
+	path = apps
+	url = https://github.com/wrikka/apps
+[submodule "rust-packages"]
+	path = rust-packages
+	url = https://github.com/wrikka/rust-packages
+[submodule "bun-packages"]
+	path = bun-packages
+	url = https://github.com/wrikka/bun-packages

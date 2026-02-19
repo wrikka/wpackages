@@ -1,7 +1,0 @@
-[filter]
-default = "info"
-
-[format]
-with_target = true
-with_file = true
-with_line_number = true

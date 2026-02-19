@@ -1,5 +1,0 @@
-{
-  "extends": [
-    "oxlint:recommended"
-  ]
-}

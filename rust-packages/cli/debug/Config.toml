@@ -1,8 +1,0 @@
-[debugging]
-log_level = "info"
-timeout_seconds = 30
-
-[adapter]
-protocol = "dap"
-host = "localhost"
-port = 4711

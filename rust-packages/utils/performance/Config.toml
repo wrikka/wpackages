@@ -1,6 +1,0 @@
-[performance]
-log_level = "info"
-timeout_seconds = 30
-
-[monitoring]
-interval_ms = 1000

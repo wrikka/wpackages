@@ -1,6 +1,0 @@
-{
-	"identifier": "default",
-	"description": "Default capability set for the application",
-	"windows": ["main"],
-	"permissions": []
-}
