@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "vitest",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"watch": "bun --watch src/index.ts",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt"

@@ -11,7 +11,7 @@
 		"watch": "bun --watch src/index.ts",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"build": "tsdown --exports --dts --minify"
 	},
 	"devDependencies": {

@@ -1,13 +1,15 @@
 {
-  "name": "macros",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "scripts": {},
-  "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
-    }
-  }
+	"name": "macros",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware"
+	},
+	"exports": {
+		".": {
+			"import": "./src/index.ts",
+			"types": "./src/index.ts"
+		}
+	}
 }

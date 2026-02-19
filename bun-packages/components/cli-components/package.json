@@ -4,7 +4,7 @@
 	"scripts": {
 		"dev": "tsdown --watch",
 		"build": "tsdown --exports --dts --minify",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",

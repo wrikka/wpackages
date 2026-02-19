@@ -27,7 +27,7 @@
 		"test": "bun ../test/bin/wtest.mjs",
 		"test:coverage": "bun ../test/bin/wtest.mjs --coverage",
 		"verify": "bun run lint && bun run test && bun run build",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"prepublishOnly": "bun run build",
 		"watch": "bun --watch src/index.ts",
 		"format": "dprint fmt"

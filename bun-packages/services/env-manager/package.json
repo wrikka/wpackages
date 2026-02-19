@@ -28,7 +28,7 @@
 		"build": "tsdown",
 		"postbuild": "bun run src/scripts/add-shebang.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
 		"audit": "bun audit",

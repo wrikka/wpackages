@@ -21,7 +21,7 @@
 		"build": "tsdown --exports --dts --minify",
 		"test": "bun test",
 		"typecheck": "tsc --noEmit",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"format": "dprint fmt",
 		"scan": "bunx sg scan",
 		"update:deps": "bunx taze -r -w && ni",

@@ -28,7 +28,7 @@
 		"README.md"
 	],
 	"scripts": {
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "bun test",
 		"test:coverage": "bun test --coverage",
 		"build": "bun build src/index.ts --outdir dist --target bun",

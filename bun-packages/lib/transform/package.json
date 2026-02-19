@@ -25,7 +25,7 @@
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"verify": "bun run format && bun run lint && bun run build && bun run test",

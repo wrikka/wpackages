@@ -22,7 +22,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"verify": "bun run format && bun run lint && bun run test:coverage && bun run build",
 		"watch": "bun --watch src/index.ts"
 	},

@@ -6,7 +6,7 @@
 		"watch": "bun --watch src/index.ts",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "vitest run",
 		"build": "tsdown --exports --dts --minify"
 	}

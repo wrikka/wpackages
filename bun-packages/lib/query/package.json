@@ -11,7 +11,7 @@
 		"build": "bun build src/index.ts --outdir dist",
 		"start": "bun src/index.ts",
 		"test": "bun test",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"format": "bunx @biomejs/biome format . --write",
 		"watch": "bun --watch src/index.ts"
 	},

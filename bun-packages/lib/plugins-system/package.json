@@ -29,7 +29,7 @@
 	"scripts": {
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"verify": "bun format && bun lint && bun test",
 		"test": "vitest",
 		"watch": "bun --watch src/index.ts",

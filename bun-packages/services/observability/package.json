@@ -38,7 +38,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"build": "tsdown",
 		"test": "vitest run",
 		"verify": "bun run format && bun audit && bun run lint && bun run test && bun run build && bun run dev"

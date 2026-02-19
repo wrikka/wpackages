@@ -22,7 +22,7 @@
 		"build": "tsdown --exports --dts --minify",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"verify": "bun run lint && bun run test && bun run build",
 		"test": "bun ./bin/wtest.mjs",
 		"test:watch": "bun ./bin/wtest.mjs --watch",

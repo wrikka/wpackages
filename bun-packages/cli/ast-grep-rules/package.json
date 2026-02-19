@@ -17,7 +17,7 @@
 		"build": "tsdown",
 		"dev": "tsdown --watch",
 		"test": "vitest",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"typecheck": "tsc --noEmit",
 		"watch": "bun --watch src/index.ts",
 		"format": "dprint fmt"

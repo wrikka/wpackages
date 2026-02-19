@@ -10,7 +10,7 @@
 		".": "./dist/index.js"
 	},
 	"scripts": {
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"build": "tsdown src/index.ts --out-dir dist",
 		"test": "vitest run",
 		"watch": "bun --watch src/index.ts",

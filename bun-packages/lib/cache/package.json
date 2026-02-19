@@ -1,52 +1,52 @@
 {
-  "name": "@wpackages/cache",
-  "version": "0.1.0",
-  "description": "Universal caching library with multiple storage strategies",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./memory": {
-      "import": "./dist/memory/index.js",
-      "require": "./dist/memory/index.cjs",
-      "types": "./dist/memory/index.d.ts"
-    },
-    "./storage": {
-      "import": "./dist/storage/index.js",
-      "require": "./dist/storage/index.cjs",
-      "types": "./dist/storage/index.d.ts"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target node --format esm --splitting --minify",
-    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-    "test": "bun test",
-    "lint": "oxlint && tsc --noEmit",
-    "lint:fix": "oxlint --fix && tsc --noEmit",
-    "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@types/node": "^20.19.33",
-    "oxlint": "^0.1.2",
-    "typescript": "^5.9.3"
-  },
-  "keywords": [
-    "cache",
-    "memory",
-    "storage",
-    "typescript",
-    "universal"
-  ],
-  "author": "wpackages",
-  "license": "MIT"
+	"name": "@wpackages/cache",
+	"version": "0.1.0",
+	"description": "Universal caching library with multiple storage strategies",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs",
+			"types": "./dist/index.d.ts"
+		},
+		"./memory": {
+			"import": "./dist/memory/index.js",
+			"require": "./dist/memory/index.cjs",
+			"types": "./dist/memory/index.d.ts"
+		},
+		"./storage": {
+			"import": "./dist/storage/index.js",
+			"require": "./dist/storage/index.cjs",
+			"types": "./dist/storage/index.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "bun build src/index.ts --outdir dist --target node --format esm --splitting --minify",
+		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+		"test": "bun test",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
+		"lint:fix": "oxlint --fix && tsc --noEmit",
+		"typecheck": "tsc --noEmit",
+		"clean": "rm -rf dist"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/node": "^20.19.33",
+		"oxlint": "^0.1.2",
+		"typescript": "^5.9.3"
+	},
+	"keywords": [
+		"cache",
+		"memory",
+		"storage",
+		"typescript",
+		"universal"
+	],
+	"author": "wpackages",
+	"license": "MIT"
 }

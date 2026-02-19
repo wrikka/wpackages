@@ -19,7 +19,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun run src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"build": "bun build ./src/index.ts --outdir ./dist --target bun --format esm && tsc --emitDeclarationOnly",
 		"test": "vitest",
 		"verify": "bun run format && bun run lint && bun run test && bun run build && bun run dev"

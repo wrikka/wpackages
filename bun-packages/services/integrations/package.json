@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "bun --watch src/index.ts",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"format": "dprint fmt",
 		"build": "bun build src/index.ts --outdir dist --target bun"
 	},

@@ -14,7 +14,7 @@
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"format": "dprint fmt",
-		"lint": "oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"verify": "bun run format && bun run lint && bun run build && bun run test",
 		"watch": "bun --watch src/index.ts"
 	},

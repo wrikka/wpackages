@@ -1,43 +1,43 @@
 {
-  "name": "@wpackages/number",
-  "version": "1.0.0",
-  "description": "Comprehensive number utilities for TypeScript projects",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target node --format esm && bun build src/index.ts --outdir dist --target node --format cjs --outfile index.js",
-    "dev": "bun --watch src/index.ts",
-    "test": "bun test",
-    "lint": "oxlint",
-    "type-check": "tsc --noEmit"
-  },
-  "keywords": [
-    "number",
-    "utilities",
-    "math",
-    "validation",
-    "formatting",
-    "typescript"
-  ],
-  "author": "Wpackages Team",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "oxlint": "latest",
-    "typescript": "latest"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@wpackages/number",
+	"version": "1.0.0",
+	"description": "Comprehensive number utilities for TypeScript projects",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "bun build src/index.ts --outdir dist --target node --format esm && bun build src/index.ts --outdir dist --target node --format cjs --outfile index.js",
+		"dev": "bun --watch src/index.ts",
+		"test": "bun test",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
+		"type-check": "tsc --noEmit"
+	},
+	"keywords": [
+		"number",
+		"utilities",
+		"math",
+		"validation",
+		"formatting",
+		"typescript"
+	],
+	"author": "Wpackages Team",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/bun": "latest",
+		"oxlint": "latest",
+		"typescript": "latest"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }

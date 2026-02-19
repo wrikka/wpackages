@@ -8,7 +8,7 @@
 		"build": "tsdown --exports --dts --minify",
 		"server": "bun src/server.ts",
 		"test": "vitest",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"clean": "rm -rf dist",
 		"watch": "bun --watch src/index.ts",
 		"format": "dprint fmt"

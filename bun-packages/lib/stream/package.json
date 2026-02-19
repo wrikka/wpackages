@@ -19,7 +19,7 @@
 		"build": "bun build src/index.ts --outdir dist",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"lint:fix": "oxlint . --fix",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest",

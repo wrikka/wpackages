@@ -12,7 +12,7 @@
 		"watch": "bun --watch verify",
 		"dev": "bun --watch src/index.ts",
 		"format": "dprint fmt",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"test": "vitest run --passWithNoTests",
 		"build": "tsdown",
 		"verify": "bun run format && bun audit && bun run lint && bun run test && bun run build"

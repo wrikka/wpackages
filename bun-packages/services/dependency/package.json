@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "bun --watch src/index.ts",
 		"build": "bun build ./src/index.ts --outdir ./dist",
-		"lint": "tsc --noEmit && oxlint --fix --type-aware",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
 		"lint:fix": "oxlint . --fix",
 		"test": "bun test",
 		"watch": "bun --watch src/index.ts",

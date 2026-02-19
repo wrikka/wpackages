@@ -1,53 +1,53 @@
 {
-  "name": "@wpackages/data-fetching",
-  "version": "0.1.0",
-  "description": "Universal data fetching service with smart caching and type safety",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./adapters": {
-      "import": "./dist/adapters/index.js",
-      "require": "./dist/adapters/index.cjs",
-      "types": "./dist/adapters/index.d.ts"
-    },
-    "./cache": {
-      "import": "./dist/cache/index.js",
-      "require": "./dist/cache/index.cjs",
-      "types": "./dist/cache/index.d.ts"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target node --format esm --splitting --minify",
-    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-    "test": "bun test",
-    "lint": "oxlint && tsc --noEmit",
-    "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
-  },
-  "dependencies": {
-    "@wpackages/cache": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.33",
-    "oxlint": "^0.1.2",
-    "typescript": "^5.9.3"
-  },
-  "keywords": [
-    "data-fetching",
-    "cache",
-    "http",
-    "typescript",
-    "universal"
-  ],
-  "author": "wpackages",
-  "license": "MIT"
+	"name": "@wpackages/data-fetching",
+	"version": "0.1.0",
+	"description": "Universal data fetching service with smart caching and type safety",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs",
+			"types": "./dist/index.d.ts"
+		},
+		"./adapters": {
+			"import": "./dist/adapters/index.js",
+			"require": "./dist/adapters/index.cjs",
+			"types": "./dist/adapters/index.d.ts"
+		},
+		"./cache": {
+			"import": "./dist/cache/index.js",
+			"require": "./dist/cache/index.cjs",
+			"types": "./dist/cache/index.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "bun build src/index.ts --outdir dist --target node --format esm --splitting --minify",
+		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+		"test": "bun test",
+		"lint": "tsc --noEmit && biome lint --write && oxlint --fix --type-aware",
+		"typecheck": "tsc --noEmit",
+		"clean": "rm -rf dist"
+	},
+	"dependencies": {
+		"@wpackages/cache": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.33",
+		"oxlint": "^0.1.2",
+		"typescript": "^5.9.3"
+	},
+	"keywords": [
+		"data-fetching",
+		"cache",
+		"http",
+		"typescript",
+		"universal"
+	],
+	"author": "wpackages",
+	"license": "MIT"
 }
