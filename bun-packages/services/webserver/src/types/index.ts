@@ -38,7 +38,7 @@ export interface Route {
   handler: RouteHandler
   middleware?: MiddlewareFunction[]
   priority?: number
-  cache?: CacheOptions
+  cache?: CacheOptions | undefined
 }
 
 export interface ServerConfig {
@@ -450,7 +450,7 @@ export interface RouteMatch {
   handler: RouteHandler
   params: Record<string, string>
   middleware: MiddlewareFunction[]
-  cache?: CacheOptions
+  cache?: CacheOptions | undefined
   priority: number
 }
 

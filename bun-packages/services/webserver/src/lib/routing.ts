@@ -2,7 +2,7 @@
  * Routing utilities - Pure functional approach
  */
 
-import type { Route, RouteHandler, MiddlewareFunction, RouteMatch, MiddlewareChain } from '../types'
+import type { Route, RouteHandler, MiddlewareFunction, RouteMatch, MiddlewareChain, CacheOptions } from '../types'
 
 // Pure function for route creation
 export const createRoute = (
@@ -18,7 +18,7 @@ export const createRoute = (
   handler,
   middleware,
   priority,
-  cache
+  cache: cache || undefined
 })
 
 // Path matching utilities
