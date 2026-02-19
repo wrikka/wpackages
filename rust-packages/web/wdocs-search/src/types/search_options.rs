@@ -1,12 +1,11 @@
 use serde::{Deserialize, Serialize};
-use rustc_hash::FxHashMap;
 
 #[napi(object)]
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SearchOptions {
     pub limit: Option<u32>,
     pub offset: Option<u32>,
-    pub field_weights: Option<HashMap<String, f64>>,
+    pub field_weights: Option<std::collections::HashMap<String, f64>>,
     pub fuzzy: Option<bool>,
     pub fuzzy_threshold: Option<u32>,
     pub highlight: Option<bool>,

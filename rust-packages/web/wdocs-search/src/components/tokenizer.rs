@@ -1,6 +1,7 @@
 use rust_stemmers::{Algorithm, Stemmer};
 use std::borrow::Cow;
 use std::collections::HashSet;
+use fst::Streamer;
 
 pub struct Tokenizer {
     stemmer: Stemmer,
@@ -25,8 +26,8 @@ impl Tokenizer {
     /// Tokenizes a given text into a sequence of normalized terms.
     ///
     /// The process involves:
-    /// 1. Splitting the text by whitespace.
-    /// 2. Trimming non-alphanumeric characters from the start and end of each token.
+    /// 1. Splitting text by whitespace.
+    /// 2. Trimming non-alphanumeric characters from start and end of each token.
     /// 3. Converting tokens to lowercase.
     /// 4. Filtering out stop words.
     /// 5. Applying stemming to each token.
@@ -35,7 +36,10 @@ impl Tokenizer {
         text.split_whitespace()
             .filter_map(Self::normalize_token)
             .filter(move |token| !self.stop_words.contains(token.as_ref()))
-            .map(move |token| self.stemmer.stem(token))
+            .map(|token| {
+                let token_str = token.as_ref();
+                self.stemmer.stem(token_str)
+            })
     }
 
     /// Normalizes a single token by trimming, lowercasing, and checking for emptiness.

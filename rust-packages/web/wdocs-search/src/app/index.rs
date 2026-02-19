@@ -9,8 +9,8 @@ use rustc_hash::FxHashMap;
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
-use serde::{Serialize, Deserialize};
 use std::borrow::Cow;
+use fst::Streamer;
 
 pub struct Index {
     docs: FxHashMap<DocId, Document>,
@@ -182,7 +182,7 @@ impl Index {
         let paginated_results = results.into_iter().skip(offset).take(limit);
         
         SearchResult {
-            documents: paginated_results.map(|(doc, _score)| doc).collect(),
+            documents: paginated_results.clone().map(|(doc, _score)| doc).collect(),
             scores: paginated_results.map(|(_doc, score)| score).collect(),
             total_hits,
         }
@@ -257,13 +257,16 @@ impl Index {
         let query_tokens: Vec<_> = self.tokenizer.tokenize(query).collect();
         let mut suggestions: Vec<(String, u32)> = Vec::new();
 
-        for term_result in self.inverted_index.term_dictionary.iter() {
-            if let Ok(term) = term_result {
+        // Use FST stream to iterate through terms
+        let mut stream = self.inverted_index.term_dictionary.stream();
+        while let Some((term_bytes, _value)) = stream.next() {
+            if let Ok(term) = std::str::from_utf8(term_bytes) {
+                let term_str = term.to_string();
                 for query_token in &query_tokens {
-                    if term.starts_with(query_token) {
-                        let distance = levenshtein_distance(query_token, term);
+                    if term_str.starts_with(&query_token.to_string()) {
+                        let distance = levenshtein_distance(query_token, &term_str);
                         if distance <= 2 {
-                            suggestions.push((term.clone(), distance));
+                            suggestions.push((term_str.clone(), distance));
                         }
                     }
                 }
