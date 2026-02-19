@@ -3,6 +3,7 @@
 	"version": "0.0.2",
 	"workspaces": [
 		"packages/**",
+		"bun-packages/**",
 		"apps/*",
 		"plugins/**/*"
 	],
