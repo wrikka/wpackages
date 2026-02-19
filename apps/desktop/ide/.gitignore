@@ -1,0 +1,13 @@
+# Node dependencies
+node_modules
+
+# Build output
+dist
+
+# Turborepo
+.turbo
+
+# Rust/Cargo
+/target
+
+gen

@@ -1,0 +1,46 @@
+# wpty Configuration File
+
+# Example: Log level ('trace', 'debug', 'info', 'warn', 'error')
+log_level = "info"
+
+# Font Ligatures
+enable_ligatures = true
+
+# Copy on Select
+copy_on_select = false
+
+# Keybindings
+[[keybindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keybindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[theme]
+name = "Default Dark"
+
+[theme.colors]
+primary = "#ff0000"
+background = "#000000"
+foreground = "#ffffff"
+
+# Command Palette
+[[commands]]
+id = "terminal.copy"
+title = "Copy"
+description = "Copy selection to clipboard"
+
+[[commands]]
+id = "terminal.paste"
+title = "Paste"
+description = "Paste from clipboard"
+
+# Triggers/Notifications
+[[triggers]]
+pattern = "(?i)error"
+action = "Notify"
+message = "พบคำว่า error ใน output"

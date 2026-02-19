@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package embeddings;
+
+// The request message containing the text to be embedded.
+message EmbedTextRequest {
+    repeated string texts = 1;
+}
+
+// A single embedding vector.
+message Embedding {
+    repeated float values = 1;
+}
+
+// The response message containing the embeddings.
+message EmbedTextResponse {
+    repeated Embedding embeddings = 1;
+}
+
+// The embeddings service definition.
+service EmbeddingsService {
+    // Generates embeddings for a batch of texts.
+    rpc EmbedText(EmbedTextRequest) returns (EmbedTextResponse);
+}

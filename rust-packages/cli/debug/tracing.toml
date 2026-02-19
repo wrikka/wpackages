@@ -1,0 +1,11 @@
+[default]
+level = "info"
+
+[debugging]
+level = "debug"
+
+[adapter]
+level = "debug"
+
+[client]
+level = "debug"

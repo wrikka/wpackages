@@ -1,0 +1,33 @@
+{
+  "name": "@wai/plugins",
+  "version": "1.0.0",
+  "description": "Plugin system module for extensible functionality",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./components": "./components/index.ts",
+    "./composables": "./composables/index.ts",
+    "./stores": "./stores/index.ts",
+    "./types": "./types/index.ts"
+  },
+  "dependencies": {
+    "@vueuse/core": "^12.8.2",
+    "pinia": "^2.3.1",
+    "vue": "^3.5.28"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.28",
+    "nuxt": "^4.3.1",
+    "pinia": "^2.3.0"
+  },
+  "keywords": [
+    "vue",
+    "nuxt",
+    "plugins",
+    "extensions",
+    "modular"
+  ],
+  "author": "WAI Team",
+  "license": "MIT"
+}

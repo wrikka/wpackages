@@ -1,0 +1,59 @@
+[package]
+name = "prompt"
+version = "0.1.0"
+edition = "2021"
+description = "A powerful CLI prompt library for Rust - better than clack"
+authors = ["Wai Team"]
+license = "MIT"
+repository = "https://github.com/newkub/wai"
+keywords = ["cli", "prompt", "interactive", "terminal", "ui"]
+categories = ["command-line-interface", "command-line-utilities"]
+
+[dependencies]
+# Core async runtime
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+
+# Terminal handling
+crossterm = "0.28"
+ratatui = "0.29"
+
+# Serialization
+dyn-clone = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "2.0"
+
+# Fuzzy matching
+nucleo = "0.5"
+
+# Clipboard
+arboard = "3.4"
+
+# Unicode
+unicode-width = "0.2"
+unicode-segmentation = "1.12"
+
+# Template
+tinytemplate = "1.2"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[[example]]
+name = "basic"
+path = "examples/basic.rs"
+
+[[example]]
+name = "wizard"
+path = "examples/wizard.rs"
+
+[[example]]
+name = "spinner"
+path = "examples/spinner.rs"
+
+[[example]]
+name = "autocomplete"
+path = "examples/autocomplete.rs"

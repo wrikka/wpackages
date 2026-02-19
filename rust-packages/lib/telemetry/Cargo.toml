@@ -1,0 +1,26 @@
+[package]
+name = "telemetry"
+version = "0.1.0"
+edition = "2021"
+description = "Shared telemetry and monitoring utilities for WAI ecosystem"
+authors = ["wterminal contributors"]
+
+[dependencies]
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.22", features = ["env-filter", "json"] }
+tracing-appender = "0.2.3"
+sentry = { version = "0.34.0", optional = true, features = ["tracing"] }
+sentry-tracing = { version = "0.34.0", optional = true }
+thiserror = "2.0.17"
+anyhow = "1.0.100"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.49.0", features = ["sync", "rt-multi-thread"] }
+
+[features]
+default = []
+sentry = ["dep:sentry", "dep:sentry-tracing"]
+full = ["sentry"]
+
+[dev-dependencies]
+tokio = { version = "1.49.0", features = ["macros", "rt-multi-thread"] }

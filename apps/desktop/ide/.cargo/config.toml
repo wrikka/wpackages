@@ -1,0 +1,14 @@
+# For more information, see https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+incremental = false
+# Treat all warnings as errors
+rustflags = ["-D", "warnings"]
+
+# Speed up git dependency fetching
+[net]
+git-fetch-with-cli = true
+
+# Ensure terminal output is always colored
+[term]
+color = 'always'

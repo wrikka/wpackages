@@ -1,0 +1,25 @@
+{
+	"extends": "./.wxt/tsconfig.json",
+	"compilerOptions": {
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"./*"
+			]
+		},
+		"types": [
+			"vue"
+		]
+	},
+	"include": [
+		"components/**/*.ts",
+		"components/**/*.vue",
+		"entrypoints/**/*.ts",
+		"entrypoints/**/*.vue",
+		"vue-shim.d.ts",
+		"wxt.config.ts",
+		"uno.config.ts",
+		".wxt/wxt.d.ts"
+	]
+}

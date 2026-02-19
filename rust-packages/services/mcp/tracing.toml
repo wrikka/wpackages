@@ -1,0 +1,11 @@
+[default]
+level = "info"
+
+[server]
+level = "debug"
+
+[client]
+level = "debug"
+
+[transports]
+level = "debug"

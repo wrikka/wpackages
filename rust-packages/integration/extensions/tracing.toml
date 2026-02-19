@@ -1,0 +1,56 @@
+# Tracing configuration for the extension system
+
+# Default log level
+# Options: trace, debug, info, warn, error
+default_level = "info"
+
+# Module-specific log levels
+[modules]
+# Extension system core
+"extensions" = "info"
+"extensions::app" = "debug"
+"extensions::services" = "info"
+"extensions::adapters" = "info"
+
+# Specific services
+"extensions::services::loader" = "debug"
+"extensions::services::registry" = "debug"
+"extensions::services::webview" = "info"
+"extensions::services::lsp" = "debug"
+"extensions::services::marketplace" = "info"
+
+# External dependencies
+"wasmtime" = "warn"
+"tokio" = "warn"
+"reqwest" = "warn"
+
+# Output configuration
+[output]
+# Output format: "pretty" for human-readable, "json" for structured logs
+format = "pretty"
+
+# Whether to include timestamps
+timestamps = true
+
+# Whether to include module paths
+module_paths = true
+
+# Whether to include thread IDs
+thread_ids = false
+
+# Whether to include thread names
+thread_names = false
+
+# File output (optional)
+[output.file]
+# Enable file logging
+enabled = false
+
+# Log file path
+path = "./logs/extensions.log"
+
+# Rotate logs when they reach this size (in MB)
+max_size_mb = 100
+
+# Keep this many rotated log files
+max_files = 5

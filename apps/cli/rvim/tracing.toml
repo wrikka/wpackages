@@ -1,0 +1,6 @@
+[sinks.console]
+type = "stdout"
+encoding = "json"
+
+[filters]
+level = "info"

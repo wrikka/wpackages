@@ -1,0 +1,12 @@
+# Main application configuration file
+
+[app]
+name = "AI TUI"
+version = "0.1.0"
+
+[logging]
+level = "info"
+
+[ai]
+provider = "openai" # Can be 'openai', 'anthropic', 'google', etc.
+# api_key = "your_api_key_here" # Uncomment and set if needed, or use APP_AI__API_KEY env var

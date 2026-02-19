@@ -19,7 +19,7 @@
 		"format": "biome format --write",
 		"scan": "bunx sg scan -r",
 		"check:modules": "bunx node-modules-inspector",
-		"lint": "biome lint --write",
+		"lint": "biome lint --write && oxlint --fix --type-aware",
 		"test": "turbo test",
 		"build": "turbo build",
 		"verify": "biome lint --write && biome format --write && turbo test && turbo build",

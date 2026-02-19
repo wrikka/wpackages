@@ -1,0 +1,56 @@
+[package]
+name = "rags"
+version = "0.1.0"
+edition = "2021"
+description = "Retrieval-Augmented Generation service"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+# Error Handling
+anyhow = "1.0"
+thiserror = "2.0.17"
+
+# Async traits
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging & Tracing
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Caching
+cache = { path = "../../lib/cache" }
+
+# Configuration
+figment = { version = "0.10", features = ["env", "toml"] }
+
+# Async
+tokio = { version = "1.49.0", features = ["rt-multi-thread", "macros", "sync"] }
+
+# HTTP
+reqwest = { version = "0.12", features = ["json"] }
+
+# Data processing
+ndarray = "0.17.1"
+pdf-extract = "0.7.12"
+blake3 = "1.5"
+docx-rs = "0.4.2"
+scraper = "0.19.0"
+punkt = "0.1.0"
+qdrant-client = "1.8.0"
+stop-words = "0.2.0"
+rust-bert = "0.21.0"
+axum = "0.7.5"
+tower-http = { version = "0.5.2", features = ["cors"] }
+uuid = { version = "1.8.0", features = ["v4"] }
+whatlang = "0.11.0"
+rustyline = "14.0.0"
+
+[dev-dependencies]
+pretty_assertions = "1.4.1"
+mockall = "0.13"

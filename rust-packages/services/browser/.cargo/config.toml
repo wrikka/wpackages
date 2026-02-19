@@ -1,0 +1,25 @@
+# Cargo configuration for browser-use
+
+[build]
+# Use all available CPU cores
+jobs = -1
+
+[alias]
+# Convenient aliases
+lint = "clippy --all-targets --all-features -- -D warnings"
+test-all = "test --all-features"
+check-all = "check --all-targets --all-features"
+
+[term]
+# Enable colors in terminal output
+quiet = false
+verbose = false
+color = "auto"
+
+[net]
+# Use git CLI for faster fetches
+git-fetch-with-cli = true
+
+[env]
+# Set timeout for tests (in seconds)
+CARGO_TEST_TIMEOUT = "60"

@@ -1,0 +1,14 @@
+package w-terminal:extensions
+
+world extension {
+    import types
+
+    import log: func(msg: string)
+    import register-command: func(cmd: types.command)
+    import register-status-bar-item: func(location: types.ui-contribution-point, item: types.status-bar-item)
+    import register-setting: func(spec: types.setting-spec)
+
+    export on-activate: func()
+    export on-deactivate: func()
+    export execute-command: func(id: string)
+}

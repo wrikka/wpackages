@@ -1,0 +1,8 @@
+[server]
+host = "127.0.0.1"
+port = 8080
+max_connections = 100
+
+[client]
+timeout_ms = 5000
+retry_attempts = 3

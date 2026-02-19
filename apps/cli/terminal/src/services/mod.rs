@@ -1,0 +1,34 @@
+pub mod clipboard_service;
+pub mod config_service;
+pub mod hotkey_service;
+pub mod pane_service;
+pub mod plugin_marketplace;
+pub mod profile_service;
+pub mod pty_service;
+pub mod remote_multiplexer;
+pub mod search_service;
+pub mod session_service;
+pub mod shell_enhancements;
+pub mod shell_integration_service;
+pub mod ssh;
+pub mod tab_service;
+pub mod telemetry_service;
+pub mod theme_service;
+
+// Re-export commonly used service types
+pub use clipboard_service::ClipboardService;
+pub use config_service::ConfigService;
+pub use hotkey_service::HotkeyService;
+pub use pane_service::PaneService;
+pub use plugin_marketplace::*;
+pub use profile_service::ProfileService;
+pub use pty_service::PtyService;
+pub use remote_multiplexer::*;
+pub use search_service::SearchService;
+pub use session_service::SessionService;
+pub use shell_enhancements::*;
+pub use shell_integration_service::ShellIntegrationService;
+pub use ssh::{SSHConnection, SSHManager};
+pub use tab_service::TabService;
+pub use telemetry_service::TelemetryService;
+pub use theme_service::ThemeService;

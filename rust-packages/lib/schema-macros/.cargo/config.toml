@@ -1,0 +1,18 @@
+[build]
+# Use sccache for faster builds if available
+# Uncomment the following line if you have sccache installed
+# rustflags = ["-C", "link-arg=-fuse-ld=mold"]
+
+[profile.dev]
+# Optimize for faster compilation
+opt-level = 0
+
+[profile.release]
+# Optimize for performance
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+
+[profile.test]
+# Optimize tests for better performance
+opt-level = 1

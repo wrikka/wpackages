@@ -1,0 +1,54 @@
+# Cargo build configuration
+
+[build]
+# Enable parallel compilation
+jobs = 8
+
+# Use sccache for faster builds if available
+[target.'cfg(unix)']
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[target.'cfg(windows)']
+rustflags = ["-C", "link-arg=/SUBSYSTEM:CONSOLE"]
+
+# Profile optimizations
+[profile.dev]
+# Enable debug info for better debugging experience
+debug = true
+# Enable some optimizations for faster development
+opt-level = 1
+# Keep overflow checks enabled
+overflow-checks = true
+
+[profile.release]
+# Enable Link Time Optimization for better performance
+lto = true
+# Optimize for size
+opt-level = "z"
+# Strip debug symbols
+strip = true
+# Enable all optimizations
+codegen-units = 1
+# Panic optimization
+panic = "abort"
+
+[profile.test]
+# Enable debug info for tests
+debug = true
+# Enable some optimizations for faster tests
+opt-level = 1
+# Keep overflow checks enabled
+overflow-checks = true
+
+# Environment variables
+[env]
+# Enable sccache if available
+SCCACHE_CACHE_SIZE = "2G"
+SCCACHE_DIR = "${HOME}/.cache/sccache"
+
+# Use rustc's own cache for faster builds
+CARGO_TARGET_DIR = "${CARGO_HOME}/target"
+
+# Enable backtrace for better error messages
+RUST_BACKTRACE = "1"
+RUST_LIB_BACKTRACE = "1"

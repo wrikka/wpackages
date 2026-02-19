@@ -1,0 +1,11 @@
+[default]
+level = "info"
+
+[filesystem]
+level = "debug"
+
+[operations]
+level = "debug"
+
+[search]
+level = "debug"

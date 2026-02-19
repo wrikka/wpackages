@@ -1,0 +1,30 @@
+[build]
+# Enable sccache for remote caching
+# Uncomment if you have sccache installed
+# rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
+
+[profile.release]
+# Optimize for binary size
+opt-level = "z"
+# Enable link-time optimization
+lto = true
+# Strip debug symbols
+strip = true
+# Use fewer code generation units to increase optimization
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+# Faster compile times with some optimization
+opt-level = 0
+# Enable debug info
+debug = true
+
+[profile.bench]
+# Benchmark optimization
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

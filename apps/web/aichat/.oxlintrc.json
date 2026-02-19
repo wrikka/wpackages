@@ -1,0 +1,28 @@
+{
+  "categories": {
+    "correctness": "deny",
+    "suspicious": "deny",
+    "perf": "warn",
+    "style": "off",
+    "restriction": "warn"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-undefined": "off",
+    "no-alert": "off",
+    "no-plusplus": "off",
+    "no-useless-concat": "off",
+    "no-empty-function": "off",
+    "no-void": "off",
+    "no-unused-vars": "off",
+    "no-await-in-loop": "off",
+    "no-shadow": "off"
+  },
+  "plugins": [],
+  "ignorePatterns": [
+    "node_modules/**",
+    ".nuxt/**",
+    "dist/**",
+    "output/**"
+  ]
+}

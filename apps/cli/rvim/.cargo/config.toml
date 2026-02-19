@@ -1,0 +1,25 @@
+[build]
+target-dir = "target"
+
+# Enable sccache for faster builds if available
+# [build.rustc]
+# wrapper = "sccache"
+
+[profile.dev]
+opt-level = 0
+debug = true
+incremental = true
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
+
+[profile.bench]
+debug = true
+
+[env]
+# Enable backtrace for better error reporting
+RUST_BACKTRACE = "1"

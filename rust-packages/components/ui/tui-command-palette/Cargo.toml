@@ -1,0 +1,28 @@
+[package]
+name = "tui-command-palette"
+version = "0.1.0"
+edition = "2021"
+description = "Command palette component for TUI applications"
+
+[lib]
+name = "tui_command_palette"
+path = "src/lib.rs"
+
+[[bin]]
+name = "tui-command-palette"
+path = "src/main.rs"
+
+[dependencies]
+# Error Handling
+thiserror = "2.0"
+anyhow = "1.0"
+
+# TUI Framework
+ratatui = "0.29"
+crossterm = "0.29"
+
+# Internal dependencies
+ui-theme = { path = "../theme" }
+
+[dev-dependencies]
+pretty_assertions = "1.4"

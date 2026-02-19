@@ -1,0 +1,23 @@
+[editor]
+theme = "dark"
+font_size = 14
+line_numbers = true
+syntax_highlighting = true
+vim_mode = false
+
+[lsp]
+enabled = true
+
+[ai]
+api_key = "YOUR_API_KEY_HERE"
+endpoint = "https://api.example.com/completion"
+syntax_highlighting = true
+
+[terminal]
+default_shell = "powershell"
+
+[keybindings]
+save = "Ctrl+S"
+quit = "Ctrl+Q"
+open_file = "Ctrl+O"
+new_file = "Ctrl+N"

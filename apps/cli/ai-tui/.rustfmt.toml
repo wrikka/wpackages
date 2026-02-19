@@ -1,0 +1,14 @@
+# .rustfmt.toml
+
+# See https://rust-lang.github.io/rustfmt/
+
+# Basics
+max_width = 100
+hard_tabs = false
+tab_spaces = 4
+newline_style = "Auto"
+
+# Imports
+reorder_imports = true
+
+# Use defaults for everything else

@@ -1,0 +1,41 @@
+{
+  "name": "code-editor",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "nuxt typecheck",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@vueuse/core": "^11.3.0",
+    "drizzle-orm": "^0.45.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.11",
+    "@unocss/nuxt": "^66.6.0",
+    "@unocss/preset-icons": "^66.6.0",
+    "@unocss/preset-wind4": "^66.6.0",
+    "@unocss/transformer-compile-class": "^66.6.0",
+    "@unocss/transformer-directives": "^66.6.0",
+    "@unocss/transformer-variant-group": "^66.6.0",
+    "better-sqlite3": "^12.6.2",
+    "drizzle-kit": "^0.31.9",
+    "monaco-editor": "^0.55.1",
+    "node-pty": "^1.1.0",
+    "nuxt": "^4.3.1",
+    "typescript": "^5.9.3",
+    "unocss": "^66.6.0",
+    "vue-tsc": "^2.2.12",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0"
+  }
+}

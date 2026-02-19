@@ -1,0 +1,53 @@
+name: CI
+
+on:
+	push:
+		branches: [main, develop]
+	pull_request:
+		branches: [main, develop]
+
+jobs:
+	lint:
+		runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v4
+			- uses: oven-sh/setup-bun@v1
+				with:
+					bun-version: latest
+			- run: bun install
+			- run: bun run lint
+
+	type-check:
+		runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v4
+			- uses: oven-sh/setup-bun@v1
+				with:
+					bun-version: latest
+			- run: bun install
+			- run: bun run compile
+
+	test:
+		runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v4
+			- uses: oven-sh/setup-bun@v1
+				with:
+					bun-version: latest
+			- run: bun install
+			- run: bun run test:unit
+
+	build:
+		runs-on: ubuntu-latest
+		needs: [lint, type-check, test]
+		steps:
+			- uses: actions/checkout@v4
+			- uses: oven-sh/setup-bun@v1
+				with:
+					bun-version: latest
+			- run: bun install
+			- run: bun run build
+			- uses: actions/upload-artifact@v4
+				with:
+					name: extension-build
+					path: .output/

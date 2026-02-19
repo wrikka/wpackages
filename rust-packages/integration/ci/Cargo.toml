@@ -1,0 +1,50 @@
+[package]
+name = "ci-cd"
+version = "0.1.0"
+edition = "2021"
+description = "CI/CD integration library for wterminal IDE (GitHub Actions, GitLab CI, Jenkins)"
+
+[dependencies]
+# Error Handling
+anyhow = "1.0"
+thiserror = "2.0.17"
+
+# Serialization
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+
+# Async
+tokio = { version = "1.49.0", features = ["full"] }
+async-trait = "0.1.89"
+
+# HTTP
+reqwest = { version = "0.12", features = ["json"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Logging
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Configuration
+figment = { version = "0.10", features = ["toml", "env"] }
+
+# Utilities
+uuid = { version = "1.0", features = ["v4", "serde"] }
+
+# Validation
+validator = { version = "0.20", features = ["derive"] }
+
+[features]
+default = ["github"]
+github = []
+gitlab = []
+jenkins = []
+full = ["github", "gitlab", "jenkins"]
+
+[dev-dependencies]
+mockall = "0.14.0"
+pretty_assertions = "1.4.1"
+wiremock = "0.6"
+criterion = "0.5"

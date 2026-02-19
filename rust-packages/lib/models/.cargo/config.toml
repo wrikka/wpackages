@@ -1,0 +1,28 @@
+# Cargo Build Configuration
+
+[build]
+# Use sccache for faster builds if available
+# Uncomment if you have sccache installed
+# target-dir = "target"
+
+[target.x86_64-pc-windows-msvc]
+rustflags = []
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = []
+
+[target.x86_64-apple-darwin]
+rustflags = []
+
+[env]
+# Set default RUST_LOG for development
+RUST_LOG = { value = "info", relative = true }
+
+[profile.dev]
+incremental = true
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+strip = true

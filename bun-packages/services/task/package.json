@@ -1,0 +1,28 @@
+{
+  "name": "@wai/services/task",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist --target bun",
+    "lint": "oxlint --type-aware && tsc --noEmit",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "verify": "bun run lint && bun run typecheck && bun run test && bun run build"
+  },
+  "dependencies": {
+    "@effect/schema": "^0.75.5",
+    "effect": "^3.19.18"
+  },
+  "devDependencies": {
+    "oxlint": "^1.48.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

@@ -1,0 +1,31 @@
+[build]
+# Enable incremental compilation for faster builds
+incremental = true
+
+# Enable sccache for distributed compilation caching
+# Install sccache: cargo install sccache
+# Set environment variable: RUSTC_WRAPPER=sccache
+# Requires: sccache >= 0.3.0
+[build.rustflags]
+# Enable link-time optimization for release builds
+# -C link-arg=-Wl,-O2  # Linux/macOS
+# -C link-arg=/OPT:REF  # Windows
+
+[profile.release]
+# Optimize for size
+opt-level = "z"
+# Enable link-time optimization
+lto = true
+# Strip symbols from binary
+strip = true
+# Enable panic abort for smaller binary
+panic = "abort"
+
+[profile.dev]
+# Enable some optimizations in dev for better performance
+opt-level = 0
+
+[profile.bench]
+# Benchmark profile inherits from release but with debug info
+inherits = "release"
+debug = true

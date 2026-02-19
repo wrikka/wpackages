@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedding Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Embedding Visualization</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="text-vis" class="block text-sm font-medium text-gray-700">Text</label>
+                <textarea id="text-vis" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
+            </div>
+            <button id="visualize-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md">Visualize</button>
+            <div id="plot" class="mt-4"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('visualize-btn').addEventListener('click', async () => {
+            const text = document.getElementById('text-vis').value;
+            const response = await fetch('/embeddings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-KEY': 'dev-key',
+                },
+                body: JSON.stringify({ texts: [text] }),
+            });
+            const data = await response.json();
+            const embedding = data.embeddings[0];
+
+            const trace = {
+                x: embedding.map((_, i) => i),
+                y: embedding,
+                type: 'scatter',
+                mode: 'lines+markers',
+            };
+
+            Plotly.newPlot('plot', [trace], { title: 'Embedding Visualization' });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+[effect]
+max_retries = 3
+timeout_ms = 5000
+
+[logging]
+level = "info"
+format = "json"

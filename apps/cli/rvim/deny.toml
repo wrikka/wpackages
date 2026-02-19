@@ -1,0 +1,19 @@
+[advisories]
+vulnerability = "deny"
+unmaintained = "warn"
+yanked = "warn"
+notice = "warn"
+
+[licenses]
+unlicensed = "deny"
+allow-osi-fsf-free = "both"
+default = "deny"
+
+[[licenses.clarify]]
+name = "ring"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"

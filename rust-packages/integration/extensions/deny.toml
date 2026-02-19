@@ -1,0 +1,28 @@
+# See https://embarkstudios.github.io/cargo-deny/checks/licenses/cfg.html for details
+
+# The licenses check is used to verify that every crate you use has license
+# terms you are comfortable with.
+[licenses]
+# A list of SPDX 3.11 license identifiers separated by `OR` or `AND`.
+# See https://spdx.org/licenses/ for the full list.
+# All licenses in a crate's license expression must be in this list for the
+# crate to be allowed.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Unicode-3.0",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "BSD-2-Clause",
+    "CC0-1.0",
+]
+
+# If a crate is not explicitly allowed, it will be denied.
+
+# If you want to allow a specific crate that has a license you would normally
+# deny, you can add an exception here.
+# exceptions = [
+#     { allow = ["GPL-3.0-or-later"], crate = "your-crate" },
+# ]
+

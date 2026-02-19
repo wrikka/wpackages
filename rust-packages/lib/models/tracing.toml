@@ -1,0 +1,16 @@
+# Tracing Configuration
+
+[default]
+level = "info"
+
+[tokio]
+level = "warn"
+
+[hyper]
+level = "warn"
+
+[reqwest]
+level = "warn"
+
+[ai_models]
+level = "debug"

@@ -1,0 +1,14 @@
+[default]
+level = "info"
+
+[embeddings]
+level = "debug"
+
+[hyper]
+level = "warn"
+
+[tokio]
+level = "warn"
+
+[axum]
+level = "info"

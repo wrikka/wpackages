@@ -1,0 +1,17 @@
+[editor]
+tab_size = 4
+insert_spaces = true
+word_wrap = false
+auto_save = true
+auto_save_delay_ms = 1000
+
+[ui]
+show_line_numbers = true
+show_minimap = true
+font_family = "Consolas"
+font_size = 14
+
+[features]
+code_folding = true
+multi_cursor = true
+syntax_highlighting = true

@@ -1,0 +1,8 @@
+# Directories to scan for extensions. Paths are relative to the wterminal root.
+extension_dirs = ["./extensions"]
+
+# A list of extension IDs to disable by default.
+disabled_extensions = []
+
+# Directory for storing persistent extension data (e.g., settings.json)
+storage_dir = "./data/extensions"

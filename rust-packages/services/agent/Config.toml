@@ -1,0 +1,43 @@
+[app]
+name = "ai-agent"
+version = "0.1.0"
+environment = "development"
+
+[logging]
+level = "info"
+format = "json"
+
+[agent]
+max_concurrent_tasks = 10
+task_timeout_seconds = 300
+retry_attempts = 3
+retry_delay_ms = 1000
+
+[models]
+default_provider = "openai"
+default_model = "gpt-4"
+temperature = 0.7
+max_tokens = 4096
+timeout_seconds = 60
+max_retries = 3
+
+[cache]
+enabled = true
+ttl_seconds = 3600
+max_size_mb = 100
+
+[memory]
+enabled = true
+max_context_length = 10000
+retention_days = 30
+
+[tools]
+browser_enabled = true
+browser_timeout_seconds = 60
+file_access_enabled = true
+api_access_enabled = true
+
+[security]
+max_api_calls_per_minute = 100
+allowed_domains = []
+blocked_domains = []

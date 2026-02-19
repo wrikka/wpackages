@@ -1,0 +1,77 @@
+# Context Suite Configuration
+
+[analysis]
+# Maximum file size to analyze (in bytes)
+max_file_size = 10485760  # 10MB
+
+# File patterns to ignore
+ignore_patterns = [
+    "*.tmp",
+    "*.log",
+    "*.swp",
+    "*.swo",
+    "*~",
+    ".DS_Store",
+    "Thumbs.db",
+    "node_modules",
+    "target",
+    ".git",
+    ".svn",
+    ".hg",
+    ".bzr",
+    "__pycache__",
+    "*.pyc",
+    "*.pyo",
+    "*.pyd",
+    ".pytest_cache",
+    ".coverage",
+    "coverage.xml",
+    "*.cover",
+    ".tox",
+    ".venv",
+    "venv",
+    "ENV",
+    "env",
+    ".env",
+    ".env.local",
+    ".env.development.local",
+    ".env.test.local",
+    ".env.production.local",
+    "dist",
+    "build",
+    "out",
+    "public",
+    ".next",
+    ".nuxt",
+    ".cache",
+    "bower_components",
+]
+
+# Enable incremental parsing
+incremental_parsing = true
+
+# Cache directory for analysis results (optional)
+# cache_dir = "/path/to/cache"
+
+[watcher]
+# Enable file watching
+enabled = true
+
+# Poll interval in milliseconds
+poll_interval_ms = 100
+
+# Debounce delay in milliseconds
+debounce_delay_ms = 500
+
+[logging]
+# Log level (trace, debug, info, warn, error)
+level = "info"
+
+# Enable file logging
+file_logging = false
+
+# Log file path (optional, used when file_logging = true)
+# file_path = "/path/to/logfile.log"
+
+# Enable ANSI colors
+ansi_colors = true

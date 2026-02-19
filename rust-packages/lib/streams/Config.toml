@@ -1,0 +1,12 @@
+[stream]
+buffer_size = 1024
+timeout_ms = 30000
+
+[producer]
+max_retries = 3
+
+[consumer]
+batch_size = 10
+
+[logging]
+level = "info"

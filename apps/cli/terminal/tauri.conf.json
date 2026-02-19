@@ -1,0 +1,47 @@
+{
+	"productName": "Terminal",
+	"version": "0.1.0",
+	"identifier": "com.wterminal.terminal",
+	"build": {
+		"beforeDevCommand": "",
+		"beforeBuildCommand": "bun run build:nuxt",
+		"devUrl": "http://localhost:3000",
+		"frontendDist": "../.output/public"
+	},
+	"bundle": {
+		"icon": ["icons/icon.ico"],
+		"active": true,
+		"targets": "all",
+		"copyright": "",
+		"category": "Developer Tool",
+		"shortDescription": "A modern, feature-rich terminal emulator",
+		"longDescription": "A high-performance terminal emulator with advanced features like multi-tab support, split panes, themes, profiles, and more."
+	},
+	"app": {
+		"windows": [
+			{
+				"title": "Terminal",
+				"width": 1200,
+				"height": 800,
+				"minWidth": 800,
+				"minHeight": 600,
+				"resizable": true,
+				"fullscreen": false,
+				"decorations": true,
+				"transparent": false,
+				"alwaysOnTop": false,
+				"skipTaskbar": false
+			}
+		],
+		"security": {
+			"csp": null,
+			"dangerousDisableAssetCspModification": false
+		},
+		"withGlobalTauri": false
+	},
+	"plugins": {
+		"shell": {
+			"open": true
+		}
+	}
+}

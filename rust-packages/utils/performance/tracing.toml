@@ -1,0 +1,8 @@
+[default]
+level = "info"
+
+[performance]
+level = "debug"
+
+[monitoring]
+level = "debug"

@@ -1,0 +1,60 @@
+[package]
+name = "wpty"
+version = "0.1.0"
+edition = "2021"
+description = "PTY management for wterminal"
+authors = ["wterminal contributors"]
+
+[lib]
+name = "wpty"
+path = "src/lib.rs"
+
+[[bin]]
+name = "wpty"
+path = "src/main.rs"
+
+[dependencies]
+# --- Core Async
+ tokio = { version = "1.48.0", features = ["full"] }
+async-trait = "0.1.89"
+
+# --- Error Handling (Mandatory)
+thiserror = "2"
+anyhow = "1"
+
+# --- Configuration (Mandatory)
+figment = { version = "0.10", features = ["toml", "env"] }
+
+# --- Serialization (Mandatory)
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# --- Logging & Tracing (Mandatory)
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# --- Date & Time (Mandatory)
+chrono = { version = "0.4", features = ["serde"] }
+
+# --- Validation (Mandatory)
+validator = { version = "0.20", features = ["derive"] }
+
+# --- PTY & Terminal
+portable-pty = "0.9.0"
+vte = "0.15.0"
+
+# --- File Watching
+notify = "6.0.0"
+
+# --- N-API
+napi = { version = "3.8.1", default-features = false, features = ["napi4", "tokio_rt"] }
+napi-derive = "3.5.0"
+
+[build-dependencies]
+napi-build = "2.3.1"
+
+[dev-dependencies]
+cargo-nextest = "0.9"
+mockall = "0.14"
+pretty_assertions = "1"
+criterion = { version = "0.5", features = ["html_reports"] }

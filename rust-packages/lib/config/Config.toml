@@ -1,0 +1,51 @@
+# Config Suite Configuration
+
+[config]
+# Default config file name
+default_file = "Config.toml"
+
+# Enable automatic config reloading
+auto_reload = true
+
+# Config file search paths (relative to project root)
+search_paths = [".", "config", ".config"]
+
+[profiles]
+# Enable profile switching
+enabled = true
+
+# Default profile name
+default = "default"
+
+# Profile directory
+directory = "profiles"
+
+[migration]
+# Enable automatic config migration
+enabled = true
+
+# Backup old configs before migration
+backup = true
+
+# Backup directory
+backup_dir = "config_backups"
+
+[validation]
+# Enable config validation
+enabled = true
+
+# Fail on validation errors
+fail_on_error = true
+
+# Warn about deprecated fields
+warn_deprecated = true
+
+[logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+
+# Enable structured logging
+structured = true
+
+# Log file path (empty for stdout)
+file = ""

@@ -1,0 +1,36 @@
+# Cache Library Configuration
+
+[cache]
+# Default cache capacity
+default_capacity = 10000
+
+# Default TTL in seconds
+default_ttl = 3600
+
+# Default idle TTL in seconds
+default_ttl_idle = 300
+
+# Enable metrics by default
+enable_metrics = true
+
+[cache.in_memory]
+# In-memory cache specific settings
+max_capacity = 10000
+ttl = 3600
+ttl_idle = 300
+enable_metrics = true
+
+[cache.disk]
+# Disk cache specific settings
+path = "./cache.db"
+max_capacity = 100000
+enable_metrics = true
+
+[telemetry]
+# Logging configuration
+log_level = "info"
+log_format = "pretty"  # "pretty" or "json"
+
+# Tracing configuration
+enable_tracing = true
+tracing_level = "info"

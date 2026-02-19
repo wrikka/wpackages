@@ -1,0 +1,50 @@
+[package]
+name = "semantic-search"
+version = "0.1.0"
+edition = "2021"
+description = "Vector similarity search with multiple distance metrics"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+# Tree-sitter
+tree-sitter = "0.24"
+tree-sitter-rust = "0.24"
+tree-sitter-javascript = "0.23"
+tree-sitter-typescript = "0.23"
+tree-sitter-python = "0.23"
+tree-sitter-go = "0.23"
+tree-sitter-json = "0.23"
+
+# Error Handling
+anyhow = "1.0"
+thiserror = "2.0.17"
+
+# Serialization
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging & Tracing
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# Configuration
+figment = { version = "0.10.19", features = ["env", "toml"] }
+reqwest = { version = "0.12", features = ["json"] }
+
+# Caching
+cache = { path = "../../foundation/cache" }
+
+# Parallel processing
+rayon = "1.10.0"
+
+# Hashing
+blake3 = "1.5.5"
+
+# Async Runtime
+tokio = { version = "1.42.0", features = ["full"] }
+
+[dev-dependencies]
+pretty_assertions = "1.4.1"
+cargo-nextest = "0.9"

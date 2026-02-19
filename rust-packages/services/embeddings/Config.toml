@@ -1,0 +1,19 @@
+[embeddings]
+model_id = "sentence-transformers/all-MiniLM-L6-v2"
+max_length = 512
+normalize = true
+batch_size = 32
+
+[cache]
+enabled = true
+max_capacity = 10000
+ttl_seconds = 3600
+
+[vector_db]
+type = "qdrant"
+url = "http://localhost:6333"
+collection_name = "embeddings"
+
+[metrics]
+enabled = true
+export_interval_seconds = 60

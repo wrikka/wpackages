@@ -1,0 +1,34 @@
+package w-terminal:extensions
+
+interface types {
+    record command {
+        id: string,
+        title: string,
+        category: option<string>,
+    }
+
+    enum ui-contribution-point {
+        status-bar-left,
+        status-bar-right,
+    }
+
+    record status-bar-item {
+        icon: option<string>,
+        text: string,
+        tooltip: option<string>,
+        command: option<string>,
+    }
+
+    variant setting-value {
+        string(string),
+        number(float64),
+        boolean(bool),
+        null,
+    }
+
+    record setting-spec {
+        key: string,
+        default: setting-value,
+        description: string,
+    }
+}

@@ -1,0 +1,16 @@
+[package]
+name = "ui-theme"
+version = "0.1.0"
+edition = "2021"
+description = "Shared UI theme tokens for WAI (framework-agnostic)"
+
+[lib]
+name = "ui_theme"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"], optional = true }
+
+[features]
+default = []
+serde = ["dep:serde"]

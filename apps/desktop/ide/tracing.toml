@@ -1,0 +1,5 @@
+# Tracing Configuration
+default = "info"
+ide = "debug"
+editor = "debug"
+services = "warn"

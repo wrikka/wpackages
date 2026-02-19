@@ -1,0 +1,20 @@
+[package]
+name = "debugging"
+version = "0.1.0"
+edition = "2021"
+description = "Debugging tools and utilities for development"
+
+[dependencies]
+anyhow = "1.0"
+thiserror = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+figment = { version = "0.10", features = ["toml", "env"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+toml = "0.8"
+
+[dev-dependencies]
+cargo-nextest = "0.9"
+mockall = "0.12"
+tokio = { version = "1", features = ["full"] }

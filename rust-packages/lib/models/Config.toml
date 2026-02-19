@@ -1,0 +1,21 @@
+# AI Models Configuration
+
+[app]
+name = "ai-models"
+version = "0.1.0"
+environment = "development"
+
+[logging]
+level = "info"
+format = "pretty"
+
+[models]
+# Default model settings
+default_provider = "openai"
+timeout_seconds = 30
+max_retries = 3
+
+[cache]
+enabled = true
+ttl_seconds = 3600
+max_size_mb = 100

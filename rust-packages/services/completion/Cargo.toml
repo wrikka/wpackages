@@ -1,0 +1,56 @@
+[package]
+name = "completion"
+version = "0.1.0"
+edition = "2021"
+description = "AI completion service for wterminal IDE"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+# Error Handling
+anyhow = "1.0"
+thiserror = "2.0.17"
+
+# Serialization
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging & Tracing
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Async
+tokio = { version = "1.49.0", features = ["full"] }
+async-trait = "0.1.89"
+
+# Config
+figment = { version = "0.10", features = ["toml", "env"] }
+
+# Date & Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Validation
+validator = { version = "0.20", features = ["derive"] }
+
+# Caching
+cache = { path = "../../lib/cache" }
+
+# Streaming
+tokio-stream = "0.1"
+futures = "0.3"
+async-stream = "0.3"
+reqwest = { version = "0.12", features = ["json"] }
+
+[dev-dependencies]
+# Test runner
+cargo-nextest = "0.9"
+
+# Mocking
+mockall = "0.14"
+
+# Assertions
+pretty_assertions = "1.4.1"
+
+# Benchmarking
+criterion = "0.5"

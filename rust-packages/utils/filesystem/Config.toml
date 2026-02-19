@@ -1,0 +1,50 @@
+# Filesystem Configuration File
+
+[app]
+# Application settings
+name = "filesystem"
+version = "0.1.0"
+description = "Filesystem utilities for wai"
+debug = false
+
+[logging]
+# Logging configuration
+level = "info"
+format = "pretty"
+targets = ["filesystem"]
+
+[performance]
+# Performance settings
+workers = 0  # 0 = auto-detect CPU count
+buffer_size = 8192
+
+[navigation]
+# Navigation configuration
+max_depth = 100
+show_hidden = false
+follow_symlinks = true
+ignore_patterns = [".git", "node_modules", "target"]
+
+[search]
+# Search configuration
+enabled = true
+ignore_hidden = true
+follow_symlinks = false
+max_results = 1000
+case_sensitive = false
+file_types = ["*"]
+
+[operations]
+# File operations configuration
+max_parallel_ops = 10
+retry_attempts = 3
+atomic_writes = true
+preserve_permissions = true
+preserve_timestamps = true
+max_file_size = "100MB"
+
+[watcher]
+# File watcher configuration
+enabled = true
+debounce_ms = 100
+ignore_patterns = ["*.tmp", "*.swp", ".#*"]

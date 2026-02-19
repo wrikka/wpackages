@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.tauri.app/config/2",
+	"productName": "ide",
+	"version": "0.1.0",
+	"identifier": "com.wterminal.ide",
+	"build": {
+		"frontendDist": "../website/public",
+		"devUrl": "http://localhost:3001",
+		"beforeBuildCommand": "cd ../website && bun run build"
+	},
+	"app": {
+		"windows": [
+			{
+				"title": "ide",
+				"label": "main",
+				"maximized": true,
+				"width": 1200,
+				"height": 800,
+				"resizable": true,
+				"fullscreen": false
+			}
+		],
+		"security": {
+			"csp": null
+		},
+		"trayIcon": {
+			"iconPath": "../desktop/icons/icon.png",
+			"iconAsTemplate": true
+		}
+	},
+	"bundle": {
+		"active": true,
+		"targets": "all",
+		"icon": [
+			"../desktop/icons/32x32.png",
+			"../desktop/icons/128x128.png",
+			"../desktop/icons/128x128@2x.png",
+			"../desktop/icons/icon.icns",
+			"../desktop/icons/icon.ico"
+		]
+	}
+}

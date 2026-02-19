@@ -1,6 +1,3 @@
 [submodule "plugins"]
 	path = plugins
 	url = https://github.com/wrikka/plugins
-[submodule "wai"]
-	path = wai
-	url = https://github.com/newkub/wai

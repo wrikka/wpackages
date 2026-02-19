@@ -1,0 +1,12 @@
+[vector_search]
+dimension = 768
+default_metric = "Cosine"
+parallel = true
+
+[cache]
+enabled = true
+max_capacity = 1000
+ttl_secs = 3600
+
+[logging]
+level = "info"

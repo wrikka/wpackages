@@ -1,0 +1,11 @@
+[profile.release]
+# Optimize for binary size
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.dev]
+# Faster builds in development
+opt-level = 0
+incremental = true

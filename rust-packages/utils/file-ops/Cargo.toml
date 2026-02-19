@@ -1,0 +1,84 @@
+[package]
+name = "file-ops"
+version = "0.1.0"
+edition = "2021"
+authors = ["wai contributors"]
+description = "A comprehensive, safe, and fast file operations library for Rust"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/wai/file-ops"
+keywords = ["file", "filesystem", "async", "atomic", "operations"]
+categories = ["filesystem", "asynchronous"]
+rust-version = "1.75"
+
+[features]
+default = ["cloud", "serde"]
+cloud = ["object_store"]
+serde = ["dep:serde", "dep:serde_json", "chrono/serde"]
+
+[dependencies]
+# Core Dependencies
+tokio = { version = "1", features = ["full"] }
+thiserror = "2"
+anyhow = "1"
+figment = { version = "0.10", features = ["toml", "env"] }
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+chrono = { version = "0.4", features = ["serde"] }
+validator = { version = "0.20", features = ["derive"] }
+
+# Path handling
+camino = "1"
+
+# File system utilities
+walkdir = "2"
+glob = "0.3"
+fs2 = "0.4"
+tempfile = "3"
+
+# File watching
+notify = "6"
+
+# Parallel processing
+rayon = "1"
+num_cpus = "1"
+
+# Cryptography
+sha2 = "0.10"
+blake3 = "1"
+aes-gcm = "0.10"
+rand = "0.8"
+
+# Compression
+flate2 = "1"
+zstd = "0.13"
+bzip2 = "0.4"
+
+# Cloud storage (optional)
+object_store = { version = "0.10", features = ["gcp", "azure"], optional = true }
+
+# Networking
+bytes = "1"
+url = "2"
+
+# Patching
+diff = "0.1"
+
+# MIME type detection
+mime_guess = "2"
+
+# Configuration
+toml = "0.8"
+
+[dev-dependencies]
+cargo-nextest = "0.9"
+mockall = "0.14"
+pretty_assertions = "1"
+criterion = { version = "0.5", features = ["html_reports"] }
+tokio-test = "0.4"
+
+[[bin]]
+name = "file-ops"
+path = "src/main.rs"
+

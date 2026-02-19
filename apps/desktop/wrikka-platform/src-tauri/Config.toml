@@ -1,0 +1,9 @@
+[terminal]
+default_shell = "cmd.exe"
+font_size = 14
+theme = "dark"
+
+[window]
+width = 1200
+height = 800
+resizable = true
