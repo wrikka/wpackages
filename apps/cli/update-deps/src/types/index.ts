@@ -1,5 +1,5 @@
 // Barrel exports for all types
-export * from './dependency.js';
-export * from './project.js';
-export * from './config.js';
-export * from './api.js';
+export * from './dependency';
+export * from './project';
+export * from './config';
+export * from './api';

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "bun run index.ts",
     "test": "vitest",
-    "lint": "oxlint .",
+    "lint": "oxlint . && tsc --noEmit",
+    "verify": "tsc --noEmit",
     "hook:install": "bun run src/hooks/install.ts install",
     "hook:uninstall": "bun run src/hooks/install.ts uninstall"
   },
