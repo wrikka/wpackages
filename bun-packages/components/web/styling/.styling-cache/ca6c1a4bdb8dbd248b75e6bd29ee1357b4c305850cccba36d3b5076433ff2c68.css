@@ -1,0 +1,20 @@
+/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
+.flex {
+  display: flex;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.italic {
+  font-style: italic;
+}
+.icon-\[mdi--home\]{display:inline-block;width:1em;height:1em;background-color:currentColor;-webkit-mask:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M10%2020v-6h4v6h5v-8h3L12%203L2%2012h3v8z%22%2F%3E%3C%2Fsvg%3E') no-repeat 50% 50%/contain;mask:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M10%2020v-6h4v6h5v-8h3L12%203L2%2012h3v8z%22%2F%3E%3C%2Fsvg%3E') no-repeat 50% 50%/contain;}

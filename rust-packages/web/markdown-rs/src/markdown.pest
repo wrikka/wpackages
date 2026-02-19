@@ -1,0 +1,19 @@
+// Define whitespace and newline characters
+WHITESPACE = _{ " " | "\t" }
+NEWLINE = _{ "\r\n" | "\n" | "\r" }
+
+// An inline block is a sequence of text and star delimiters
+inline = _{ (text | stars)+ }
+
+// A run of one or more star characters
+stars = @{ "*"+ }
+
+// A run of text that does not contain stars
+text = @{ (!"*" ~ ANY)+ }
+
+// Block elements
+heading = { "#" ~ WHITESPACE* ~ inline ~ NEWLINE* }
+paragraph = { inline ~ NEWLINE* }
+
+// A document is a sequence of elements
+document = { SOI ~ (heading | paragraph)* ~ EOI }
