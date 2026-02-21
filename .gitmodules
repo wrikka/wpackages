@@ -1,6 +1,3 @@
-[submodule "apps"]
-	path = apps
-	url = https://github.com/wrikka/apps
 [submodule "rust-packages"]
 	path = rust-packages
 	url = https://github.com/wrikka/rust-packages
